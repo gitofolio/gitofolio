@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 src/main/resources/application.properties
+/workspace/api_server_gitofolio/goorm.manifest
 
 ### STS ###
 .apt_generated
