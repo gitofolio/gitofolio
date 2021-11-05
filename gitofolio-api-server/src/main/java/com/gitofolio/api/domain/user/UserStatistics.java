@@ -81,6 +81,7 @@ public class UserStatistics{
 		if(userInfo == null) this.userInfo = null;
 		if(this.userInfo != null) this.userInfo.setUserStatistics(null);
 		this.userInfo = userInfo;
+		if(userInfo.getUserStatistics() != this) userInfo.setUserStatistics(this);
 	}
 	
 }

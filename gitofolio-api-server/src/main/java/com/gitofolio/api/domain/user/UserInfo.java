@@ -74,26 +74,24 @@ public class UserInfo{
 		this.profileUrl = profileUrl;
 	}
 	
-	public void setPortfolioCard(PortfolioCard portfolioCard){
-		if(this.portfolioCards.contains(portfolioCard)) {
-			PortfolioCard deallocate = this.portfolioCards.get(this.portfolioCards.indexOf(portfolioCard));
-			deallocate.setUserInfo(null); 
-			this.portfolioCards.remove(deallocate);
-		}
+	public void setPortfolioCards(PortfolioCard portfolioCard){
+		if(this.portfolioCards.contains(portfolioCard)) return;
 		this.portfolioCards.add(portfolioCard);
-		portfolioCard.setUserInfo(this);
+		if(portfolioCard != null && portfolioCard.getUserInfo() != this) portfolioCard.setUserInfo(this);
 	}
 	
 	public void setUserStat(UserStat userStat){
 		if(userStat == null) this.userStat = null;
 		if(this.userStat != null) this.userStat.setUserInfo(null);
 		this.userStat = userStat;
+		if(userStat != null && userStat.getUserInfo() != this) userStat.setUserInfo(this);
 	}
 	
 	public void setUserStatistics(UserStatistics userStatistics){
 		if(userStatistics == null) this.userStatistics = null;
 		if(this.userStatistics != null) this.userStatistics.setUserInfo(null);
 		this.userStatistics = userStatistics;
+		if(userStatistics != null && userStatistics.getUserInfo() != this) userStatistics.setUserInfo(this);
 	}
 	
 }
