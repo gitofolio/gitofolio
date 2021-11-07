@@ -1,11 +1,13 @@
 package com.gitofolio.api.domain.user;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
 
 import java.time.LocalDate;
 
@@ -14,6 +16,10 @@ import java.time.LocalDate;
 public class RefferingSite{
 	
 	@Id
+	@GeneratedValue
+	@Column(name="REFFERING_SITE_ID")
+	private Long id;
+	
 	@Column(name="REFFERING_SITE_NAME")
 	private String refferingSiteName;
 	
@@ -21,19 +27,20 @@ public class RefferingSite{
 	private LocalDate refferingDate;
 	
 	@ManyToOne
-	@JoinColumn(name="REFFERING_SITE")
+	@JoinColumn(name="USER_STATISTICS_ID")
 	private UserStatistics userStatistics;
 	
-	{
-		refferingDate = LocalDate.now();
-	}
-	
-	protected RefferingSite(){}
+	public RefferingSite(){}
 	
 	public RefferingSite(String refferingSiteName){
+		this.refferingDate = LocalDate.now();
 		this.refferingSiteName = refferingSiteName;
 	}
 	
+	public RefferingSite(String refferingSiteName, LocalDate refferingDate){
+		this.refferingDate = refferingDate;
+		this.refferingSiteName = refferingSiteName;
+	}
 	
 	//getter
 	public LocalDate getRefferingDate(){

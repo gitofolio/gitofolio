@@ -5,12 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
+import com.gitofolio.api.domain.user.RefferingSite;
 import com.gitofolio.api.domain.user.UserStatistics;
 
 @Repository
-public interface UserStatisticsRepository extends JpaRepository<UserStatistics, Long>{
-
-	@Query("select u from UserStatistics as u inner join u.userInfo as i where i.name = :name")
-	UserStatistics findByName(@Param("name") String name);
+public interface RefferingSiteRepository extends JpaRepository<RefferingSite, Long>{
+	
+	@Query("select r from RefferingSite r inner join r.userStatistics u where u.id = :id")
+	List<RefferingSite> findByUserStatistics(@Param("id") Long id);
 	
 }

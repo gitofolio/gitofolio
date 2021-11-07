@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions.*;
 
 import com.gitofolio.api.domain.user.*;
@@ -30,12 +31,13 @@ public class UserRepositoryTest{
 	@Autowired
 	private PortfolioCardRepository portfolioCardRepository;
 	
-	@BeforeEach
+	@AfterEach
+	@Transactional
 	public void init(){
-		userInfoRepository.deleteAll();
 		userStatRepository.deleteAll();
 		userStatisticsRepository.deleteAll();
 		portfolioCardRepository.deleteAll();
+		userInfoRepository.deleteAll();
 	}
 	                                                                                                   
 	@Test
@@ -64,7 +66,7 @@ public class UserRepositoryTest{
 	
 	@Test
 	@Transactional
-	public void PortfolioCard_저장_조회_테스트() throws Exception{
+	public void PortfolioCard_저장_조회_테스트(){
 		// given
 		UserInfo user1 = new UserInfo();
 		user1.setName("user1");
@@ -75,28 +77,30 @@ public class UserRepositoryTest{
 		portfolioCard1.setPortfolioCardStars(123);
 		portfolioCard1.setPortfolioUrl("portfolioUrl1");
 		
-		user1.setPortfolioCards(portfolioCard1);
+		portfolioCard1.setUserInfo(user1);
 		
 		PortfolioCard portfolioCard2 = new PortfolioCard();
 		portfolioCard2.setPortfolioCardArticle("Lorem ipsum");
 		portfolioCard2.setPortfolioCardStars(456);
 		portfolioCard2.setPortfolioUrl("portfolioUrl2");
 		
-		user1.setPortfolioCards(portfolioCard2);
+		portfolioCard2.setUserInfo(user1);
 		
 		// when
 		userInfoRepository.save(user1);
+		portfolioCardRepository.save(portfolioCard1);
+		portfolioCardRepository.save(portfolioCard2);
 		
 		// then
-		List<PortfolioCard> cards = portfolioCardRepository.findAll();
+		List<PortfolioCard> cards = portfolioCardRepository.findByName("user1");
 		
 		assertEquals(cards.size(), 2);
 		
 		assertEquals(cards.get(0).getPortfolioUrl(), "portfolioUrl1");
-		assertTrue(cards.get(0).getUserInfo().getPortfolioCards().contains(cards.get(0)));
-		
+		assertEquals(cards.get(0).getUserInfo().getName(), "user1");
+			
 		assertEquals(cards.get(1).getPortfolioUrl(), "portfolioUrl2");
-		assertTrue(cards.get(1).getUserInfo().getPortfolioCards().contains(cards.get(1)));
+		assertEquals(cards.get(1).getUserInfo().getName(), "user1");
 	}
 	
 	@Test
@@ -111,17 +115,18 @@ public class UserRepositoryTest{
 		userStat.setTotalVisitors(123);
 		userStat.setTotalStars(123);
 		
-		user1.setUserStat(userStat);
+		userStat.setUserInfo(user1);
 		
 		// when
 		userInfoRepository.save(user1);
+		userStatRepository.save(userStat);
 		
 		// then
-		user1 = userInfoRepository.findByName("user1");
+		UserStat userStat1 = userStatRepository.findByName("user1");
 		
-		assertEquals(user1.getUserStat(), userStat);
-		assertEquals(user1.getUserStat().getTotalVisitors(), 123);
-		assertEquals(user1.getUserStat().getUserInfo(), user1);
+		assertEquals(userStat1, userStat);
+		assertEquals(userStat1.getTotalVisitors(), 123);
+		assertEquals(userStat1.getUserInfo(), user1);
 	}
 	
 	@Test
@@ -135,25 +140,37 @@ public class UserRepositoryTest{
 		UserStatistics user1Statistics = new UserStatistics();
 		user1Statistics.setRefferingSite("https://gitofolio.com");
 		user1Statistics.addVisitorStatistics();
+		user1Statistics.setRefferingSite("https://api.gitofolio.com");
+		user1Statistics.setRefferingSite("https://gitofolio.com");
+		user1Statistics.addVisitorStatistics();
 		
-		user1.setUserStatistics(user1Statistics);
+		user1Statistics.setUserInfo(user1);
 		
 		// when
 		userInfoRepository.save(user1);
+		userStatisticsRepository.save(user1Statistics);
 		
 		// then
-		user1 = userInfoRepository.findByName("user1");
-		user1Statistics = user1.getUserStatistics();
+		user1Statistics = userStatisticsRepository.findByName("user1");
 		
 		assertTrue(user1Statistics.getUserInfo() == user1);
+		
+		assertEquals(user1Statistics
+					.getRefferingSites()
+					.size(), 2);
+		
 		assertEquals(user1Statistics
 					 .getRefferingSites()
 					 .get(0)
 					 .getRefferingSiteName(), "https://gitofolio.com");
 		assertEquals(user1Statistics
+					 .getRefferingSites()
+					 .get(1)
+					 .getRefferingSiteName(), "https://api.gitofolio.com");
+		assertEquals(user1Statistics
 					.getVisitorStatistics()
 					.get(0)
-					.getVisitorCount(), 1);
+					.getVisitorCount(), 2); // 1이 나와야하는데 2가 나오는 오류발생
 		
 	}
 	

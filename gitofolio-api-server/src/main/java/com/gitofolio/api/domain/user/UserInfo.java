@@ -28,15 +28,15 @@ public class UserInfo{
 	@Column(name="PROFILE_URL", nullable=false)
 	private String profileUrl;
 	
-	@Column(name="PORTFOLIOCARDS")
-	@OneToMany(mappedBy="userInfo", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<PortfolioCard> portfolioCards = new ArrayList<PortfolioCard>();
+	// @Column(name="PORTFOLIOCARDS")
+	// @OneToMany(mappedBy="userInfo", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	// private List<PortfolioCard> portfolioCards = new ArrayList<PortfolioCard>();
 	
-	@OneToOne(mappedBy="userInfo", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private UserStat userStat;
+	// @OneToOne(mappedBy="userInfo", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	// private UserStat userStat;
 	
-	@OneToOne(mappedBy="userInfo", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private UserStatistics userStatistics;
+	// @OneToOne(mappedBy="userInfo", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	// private UserStatistics userStatistics;
 	
 	
 	// getter
@@ -52,17 +52,17 @@ public class UserInfo{
 		return this.profileUrl;
 	}
 	
-	public List<PortfolioCard> getPortfolioCards(){
-		return this.portfolioCards;
-	}
+	// public List<PortfolioCard> getPortfolioCards(){
+	// 	return this.portfolioCards;
+	// }
 	
-	public UserStat getUserStat(){
-		return this.userStat;
-	}
+	// public UserStat getUserStat(){
+	// 	return this.userStat;
+	// }
 	
-	public UserStatistics getUserStatistics(){
-		return this.userStatistics;
-	}
+	// public UserStatistics getUserStatistics(){
+	// 	return this.userStatistics;
+	// }
 	
 	
 	//setter
@@ -74,24 +74,24 @@ public class UserInfo{
 		this.profileUrl = profileUrl;
 	}
 	
-	public void setPortfolioCards(PortfolioCard portfolioCard){
-		if(this.portfolioCards.contains(portfolioCard)) return;
-		this.portfolioCards.add(portfolioCard);
-		if(portfolioCard != null && portfolioCard.getUserInfo() != this) portfolioCard.setUserInfo(this);
-	}
+	// public void setPortfolioCards(PortfolioCard portfolioCard){
+	// 	if(this.portfolioCards.contains(portfolioCard)) return;
+	// 	this.portfolioCards.add(portfolioCard);
+	// 	if(portfolioCard != null && portfolioCard.getUserInfo() != this) portfolioCard.setUserInfo(this);
+	// }
 	
-	public void setUserStat(UserStat userStat){
-		if(userStat == null) this.userStat = null;
-		if(this.userStat != null) this.userStat.setUserInfo(null);
-		this.userStat = userStat;
-		if(userStat != null && userStat.getUserInfo() != this) userStat.setUserInfo(this);
-	}
+	// public void setUserStat(UserStat userStat){
+	// 	if(userStat == null) this.userStat = null;
+	// 	if(this.userStat != null) this.userStat.setUserInfo(null);
+	// 	this.userStat = userStat;
+	// 	if(userStat != null && userStat.getUserInfo() != this) userStat.setUserInfo(this);
+	// }
 	
-	public void setUserStatistics(UserStatistics userStatistics){
-		if(userStatistics == null) this.userStatistics = null;
-		if(this.userStatistics != null) this.userStatistics.setUserInfo(null);
-		this.userStatistics = userStatistics;
-		if(userStatistics != null && userStatistics.getUserInfo() != this) userStatistics.setUserInfo(this);
-	}
+	// public void setUserStatistics(UserStatistics userStatistics){
+	// 	if(userStatistics == null) this.userStatistics = null;
+	// 	if(this.userStatistics != null) this.userStatistics.setUserInfo(null);
+	// 	this.userStatistics = userStatistics;
+	// 	if(userStatistics != null && userStatistics.getUserInfo() != this) userStatistics.setUserInfo(this);
+	// }
 	
 }

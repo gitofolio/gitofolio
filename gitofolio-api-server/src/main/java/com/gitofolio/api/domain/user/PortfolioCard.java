@@ -30,7 +30,7 @@ public class PortfolioCard{
 	@Column(name="PORTFOLIO_URL", nullable=false)
 	private String portfolioUrl;
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="USER_INFO_ID")
 	private UserInfo userInfo;
 	
@@ -70,11 +70,11 @@ public class PortfolioCard{
 	}
 	
 	public void setUserInfo(UserInfo userInfo){
-		if(this.userInfo != null){
-			List<PortfolioCard> deallocate = this.userInfo.getPortfolioCards();
-			deallocate.remove(this);
-		}
+		// if(this.userInfo != null){
+		// 	List<PortfolioCard> deallocate = this.userInfo.getPortfolioCards();
+		// 	deallocate.remove(this);
+		// }
 		this.userInfo = userInfo;
-		userInfo.setPortfolioCards(this);
+		// userInfo.setPortfolioCards(this);
 	}
 }

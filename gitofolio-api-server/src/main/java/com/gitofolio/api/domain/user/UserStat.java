@@ -24,7 +24,7 @@ public class UserStat{
 	@Column(name="TOTAL_STARS", nullable=false)
 	private Integer totalStars;
 
-	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="USER_INFO_ID")
 	private UserInfo userInfo;
 	
@@ -56,9 +56,9 @@ public class UserStat{
 	
 	public void setUserInfo(UserInfo userInfo){
 		if(userInfo == null) this.userInfo = null;
-		if(this.userInfo != null) this.userInfo.setUserStat(null);
+		// if(this.userInfo != null) this.userInfo.setUserStat(null);
 		this.userInfo = userInfo;
-		if(userInfo.getUserStat() != this) userInfo.setUserStat(this);
+		// if(userInfo.getUserStat() != this) userInfo.setUserStat(this);
 	}
 	
 }
