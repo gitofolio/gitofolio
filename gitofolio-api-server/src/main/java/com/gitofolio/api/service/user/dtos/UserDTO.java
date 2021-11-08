@@ -7,11 +7,32 @@ import com.gitofolio.api.domain.user.UserInfo;
 
 public class UserDTO{
 	
-	private final String name;
-	private final String profileUrl;
-	private final List<PortfolioCardDTO> portfolioCards;
-	private final UserStatDTO userStat;
-	private final UserStatisticsDTO userStatistics;
+	private String name;
+	private String profileUrl;
+	private List<PortfolioCardDTO> portfolioCards;
+	private UserStatDTO userStat;
+	private UserStatisticsDTO userStatistics;
+	
+	// setter
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public void setProfileUrl(String profileUrl){
+		this.profileUrl = profileUrl;
+	}
+	
+	public void setPortfolioCards(List<PortfolioCardDTO> portfolioCards){
+		this.portfolioCards = portfolioCards;
+	}
+	
+	public void setUserStat(UserStatDTO userStat){
+		this.userStat = userStat;
+	}
+	
+	public void setUserStatistics(UserStatisticsDTO userStatistics){
+		this.userStatistics = userStatistics;
+	}
 	
 	// getter
 	public String getName(){
@@ -22,21 +43,21 @@ public class UserDTO{
 		return this.profileUrl;
 	}
 	
-	public List<PortfolioCardDTO> getPortfolioCardDTOs(){
+	public List<PortfolioCardDTO> getPortfolioCards(){
 		return this.portfolioCards;
 	}
 	
-	public UserStatDTO getUserStatDTO(){
+	public UserStatDTO getUserStat(){
 		return this.userStat;
 	}
 	
-	public UserStatisticsDTO getUserStatisticsDTO(){
+	public UserStatisticsDTO getUserStatistics(){
 		return this.userStatistics;
 	}
 	
 	// constructor
-	private UserDTO(){
-		throw new AssertionError("Call UserDTO()");
+	public UserDTO(){
+		
 	}
 	
 	public UserDTO(UserDTO.Builder builder){

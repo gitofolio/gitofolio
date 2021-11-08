@@ -17,6 +17,7 @@ import com.gitofolio.api.domain.user.UserInfo;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserStatisticsService implements UserMapper{
@@ -27,7 +28,7 @@ public class UserStatisticsService implements UserMapper{
 	@Override
 	@Transactional(readOnly=true)
 	public UserDTO doMap(String name){
-		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name);
+		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
 		UserStatisticsDTO userStatisticsDTO = new UserStatisticsDTO.Builder()
 			.userStatistics(userStatistics)
 			.build();
@@ -43,36 +44,43 @@ public class UserStatisticsService implements UserMapper{
 	@Override
 	@Transactional
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = new UserInfo();
-		userInfo.setName(userDTO.getName());
-		userInfo.setProfileUrl(userDTO.getProfileUrl());
-		userInfoRepository.save(userInfo);
-		
-		UserStatisticsDTO userStatisticsDTO = userDTO.getUserStatisticsDTO();
-		UserStatistics userStatistics = new UserStatistics();
-		List<RefferingSiteDTO> refferingSiteDTOs = userStatisticsDTO.getRefferingSiteDTOs();
-		List<VisitorStatisticsDTO> visitorStatisticsDTOs = userStatisticsDTO.getVisitorStatisticsDTOs();
-		
-		for(RefferingSiteDTO refferingSiteDTO : refferingSiteDTOs){
-			userStatistics.setRefferingSite(
-				refferingSiteDTO.getRefferingSiteName()
-				, refferingSiteDTO.getRefferingDate()
-			);
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseGet(()->new UserInfo());
+		if(userInfo.getName() == null){
+			userInfo.setName(userDTO.getName());
+			userInfo.setProfileUrl(userDTO.getProfileUrl());
+			userInfoRepository.save(userInfo);
 		}
 		
-		VisitorStatistics visitorStatistics = null;
-		for(VisitorStatisticsDTO visitorStatisticsDTO : visitorStatisticsDTOs){
-			if(visitorStatisticsDTO.getVisitDate().toString().equals(LocalDate.now().toString())){
-				visitorStatistics = new VisitorStatistics(visitorStatisticsDTO.getVisitDate(), visitorStatisticsDTO.getVisitorCount());
-				break;
+		UserStatistics userStatistics = this.userStatisticsRepository.findByName(userInfo.getName()).orElseGet(()->new UserStatistics());
+		if(userStatistics.getUserInfo() == null){
+			userStatistics.setUserInfo(userInfo);
+			userStatisticsRepository.save(userStatistics);	
+		}
+		
+		UserStatisticsDTO userStatisticsDTO = userDTO.getUserStatistics();
+			
+			List<RefferingSiteDTO> refferingSiteDTOs = userStatisticsDTO.getRefferingSites();
+			List<VisitorStatisticsDTO> visitorStatisticsDTOs = userStatisticsDTO.getVisitorStatistics();
+			
+			for(RefferingSiteDTO refferingSiteDTO : refferingSiteDTOs){
+				userStatistics.setRefferingSite(
+					refferingSiteDTO.getRefferingSiteName()
+					, refferingSiteDTO.getRefferingDate()
+				);
 			}
-		}
-		if(visitorStatistics == null) visitorStatistics = new VisitorStatistics(LocalDate.now(), 1);
+			
+			VisitorStatistics visitorStatistics = null;
+			for(VisitorStatisticsDTO visitorStatisticsDTO : visitorStatisticsDTOs){
+				if(visitorStatisticsDTO.getVisitDate().toString().equals(LocalDate.now().toString())){
+					visitorStatistics = new VisitorStatistics(visitorStatisticsDTO.getVisitDate(), visitorStatisticsDTO.getVisitorCount());
+					break;
+				}
+			}
+			if(visitorStatistics == null) visitorStatistics = new VisitorStatistics(LocalDate.now(), 1);
+		
+			userStatistics.setVisitorStatistics(visitorStatistics.getVisitorCount());
 		
 		userStatistics.setUserInfo(userInfo);
-		userStatistics.setVisitorStatistics(visitorStatistics.getVisitorCount());
-		
-		userStatisticsRepository.save(userStatistics);
 		
 		return this.doMap(userDTO.getName());
 	}

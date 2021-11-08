@@ -34,7 +34,7 @@ public class UserStatistics{
 	private List<RefferingSite> refferingSites = new ArrayList<RefferingSite>();
 	
 	@OneToOne
-	@JoinColumn(name="USER_INFO_ID")
+	@JoinColumn(name="USER_INFO_ID", unique=true)
 	private UserInfo userInfo;
 	
 	//getter

@@ -46,12 +46,14 @@ public class PortfolioCardService implements UserMapper{
 	@Override
 	@Transactional
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = new UserInfo();
-		userInfo.setName(userDTO.getName());
-		userInfo.setProfileUrl(userDTO.getProfileUrl());
-		userInfoRepository.save(userInfo);
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseGet(()->new UserInfo());
+		if(userInfo.getName() == null){
+			userInfo.setName(userDTO.getName());
+			userInfo.setProfileUrl(userDTO.getProfileUrl());
+			userInfoRepository.save(userInfo);
+		}
 		
-		List<PortfolioCardDTO> portfolioCardDTOs = userDTO.getPortfolioCardDTOs();
+		List<PortfolioCardDTO> portfolioCardDTOs = userDTO.getPortfolioCards();
 		for(PortfolioCardDTO portfolioCardDTO : portfolioCardDTOs){
 			PortfolioCard portfolioCard = new PortfolioCard();
 			portfolioCard.setPortfolioCardArticle(portfolioCardDTO.getPortfolioCardArticle());

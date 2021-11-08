@@ -25,7 +25,7 @@ public class UserStat{
 	private Integer totalStars;
 
 	@OneToOne
-	@JoinColumn(name="USER_INFO_ID")
+	@JoinColumn(name="USER_INFO_ID", unique=true)
 	private UserInfo userInfo;
 	
 	//getter

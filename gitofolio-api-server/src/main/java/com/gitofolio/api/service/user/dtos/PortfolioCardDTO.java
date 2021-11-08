@@ -4,11 +4,24 @@ import com.gitofolio.api.domain.user.PortfolioCard;
 
 public class PortfolioCardDTO{
 	
-	private final String portfolioCardArticle;
-	private final Integer portfolioCardStars;
-	private final String portfolioUrl;
+	private String portfolioCardArticle;
+	private Integer portfolioCardStars;
+	private String portfolioUrl;
 
-	//getter
+	// setter
+	public void setPortfolioCardArticle(String portfolioCardArticle){
+		this.portfolioCardArticle = portfolioCardArticle;
+	}
+	
+	public void setPortfolioCardStars(Integer portfolioCardStars){
+		this.portfolioCardStars = portfolioCardStars;
+	}
+	
+	public void setPortfolioUrl(String portfolioUrl){
+		this.portfolioUrl = portfolioUrl;
+	}
+	
+	// getter
 	public String getPortfolioCardArticle(){
 		return this.portfolioCardArticle;
 	}
@@ -23,7 +36,7 @@ public class PortfolioCardDTO{
 	
 	// constructor
 	private PortfolioCardDTO(){
-		throw new AssertionError("Call PortfolioCardDTO()");
+		
 	}
 	
 	public PortfolioCardDTO(PortfolioCardDTO.Builder builder){

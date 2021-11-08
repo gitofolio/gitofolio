@@ -11,8 +11,17 @@ import com.gitofolio.api.domain.user.RefferingSite;
 public class UserStatisticsDTO{
 	
 	public static class RefferingSiteDTO{
-		private final String refferingSiteName;
-		private final LocalDate refferingDate;
+		private String refferingSiteName;
+		private LocalDate refferingDate;
+		
+		// setter
+		public void setRefferingSiteName(String refferingSiteName){
+			this.refferingSiteName = refferingSiteName;
+		}
+		
+		public void setRefferingDate(LocalDate refferingDate){
+			this.refferingDate = refferingDate;
+		}
 		
 		// getter
 		public String getRefferingSiteName(){
@@ -23,7 +32,12 @@ public class UserStatisticsDTO{
 			return this.refferingDate;
 		}
 		
-		//constructor
+		// constructor
+		
+		public RefferingSiteDTO(){
+			
+		}
+		
 		private RefferingSiteDTO(String refferingSiteName, LocalDate refferingDate){
 			this.refferingSiteName = refferingSiteName;
 			this.refferingDate = refferingDate;
@@ -31,8 +45,17 @@ public class UserStatisticsDTO{
 	}
 	
 	public static class VisitorStatisticsDTO{
-		private final LocalDate visitDate;	
-		private final int visitorCount;
+		private LocalDate visitDate;	
+		private int visitorCount;
+		
+		// setter
+		public void setVisitDate(LocalDate visitDate){
+			this.visitDate = visitDate;
+		}
+		
+		public void setVisitorCount(int visitorCount){
+			this.visitorCount = visitorCount;
+		}
 		
 		// getter
 		public LocalDate getVisitDate(){
@@ -43,28 +66,42 @@ public class UserStatisticsDTO{
 			return this.visitorCount;
 		}
 		
-		//constructor
+		// constructor
+		
+		public VisitorStatisticsDTO(){
+			
+		}
+		
 		private VisitorStatisticsDTO(LocalDate visitDate, int visitorCount){
 			this.visitDate = visitDate;
 			this.visitorCount = visitorCount;
 		}
 	}
 	
-	private final List<VisitorStatisticsDTO> visitorStatistics;
-	private final List<RefferingSiteDTO> refferingSites;
+	private List<VisitorStatisticsDTO> visitorStatistics;
+	private List<RefferingSiteDTO> refferingSites;
+	
+	// setter
+	public void setVisitorStatistics(List<VisitorStatisticsDTO> visitorStatistics){
+		this.visitorStatistics = visitorStatistics;
+	}
+	
+	public void setRefferingSites(List<RefferingSiteDTO> refferingSites){
+		this.refferingSites = refferingSites;
+	}
 	
 	// getter
-	public List<VisitorStatisticsDTO> getVisitorStatisticsDTOs(){
+	public List<VisitorStatisticsDTO> getVisitorStatistics(){
 		return this.visitorStatistics;
 	}
 	
-	public List<RefferingSiteDTO> getRefferingSiteDTOs(){
+	public List<RefferingSiteDTO> getRefferingSites(){
 		return this.refferingSites;
 	}
 	
 	// constructor
-	private UserStatisticsDTO(){
-		throw new AssertionError("Call UserStatisticsDTO()");
+	public UserStatisticsDTO(){
+		
 	}
 	
 	public UserStatisticsDTO(UserStatisticsDTO.Builder builder){

@@ -92,7 +92,7 @@ public class UserDTOTest{
 	@Transactional
 	public void UserDTO_매핑테스트(){
 		// when
-		UserInfo user1 = userInfoRepository.findByName("user1");
+		UserInfo user1 = userInfoRepository.findByName("user1").orElseThrow(()->new RuntimeException("fail save"));
 		UserDTO user1DTO = new UserDTO
 			.Builder()
 			.userInfo(user1)
@@ -107,9 +107,9 @@ public class UserDTOTest{
 	@Transactional
 	public void UserDTO_종합_매핑테스트(){
 		// when
-		UserInfo user1 = userInfoRepository.findByName("user1");
-		UserStat user1Stat = userStatRepository.findByName("user1");
-		UserStatistics user1Statistics = userStatisticsRepository.findByName("user1");
+		UserInfo user1 = userInfoRepository.findByName("user1").orElseThrow(()->new RuntimeException("fail save"));
+		UserStat user1Stat = userStatRepository.findByName("user1").orElseThrow(()->new RuntimeException("fail save"));
+		UserStatistics user1Statistics = userStatisticsRepository.findByName("user1").orElseThrow(()->new RuntimeException("fail save"));
 		List<PortfolioCard> portfolioCards = portfolioCardRepository.findByName("user1");
 		
 		UserStatDTO user1StatDTO = new UserStatDTO
@@ -144,10 +144,10 @@ public class UserDTOTest{
 		// then
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
-		assertEquals(user1DTO.getUserStatDTO().getTotalVisitors(), 123);
-		assertEquals(user1DTO.getUserStatDTO().getTotalStars(), 123);
-		assertEquals(user1DTO.getUserStatisticsDTO().getRefferingSiteDTOs().get(0).getRefferingSiteName(), "https://gitofolio.com");
-		assertEquals(user1DTO.getPortfolioCardDTOs().get(0).getPortfolioUrl(), "portfolioUrl1");
-		assertEquals(user1DTO.getPortfolioCardDTOs().get(1).getPortfolioUrl(), "portfolioUrl2");
+		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalStars(), 123);
+		assertEquals(user1DTO.getUserStatistics().getRefferingSites().get(0).getRefferingSiteName(), "https://gitofolio.com");
+		assertEquals(user1DTO.getPortfolioCards().get(0).getPortfolioUrl(), "portfolioUrl1");
+		assertEquals(user1DTO.getPortfolioCards().get(1).getPortfolioUrl(), "portfolioUrl2");
 	}
 }

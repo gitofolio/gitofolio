@@ -57,8 +57,8 @@ public class UserRepositoryTest{
 		userInfoRepository.save(user2);
 		
 		// then
-		user1 = userInfoRepository.findByName("user1");
-		user2 = userInfoRepository.findByName("user2");
+		user1 = userInfoRepository.findByName("user1").orElseThrow(()->new RuntimeException("fail save"));
+		user2 = userInfoRepository.findByName("user2").orElseThrow(()->new RuntimeException("fail save"));
 		
 		assertEquals(user1.getName(), "user1");
 		assertEquals(user2.getName(), "user2");
@@ -122,7 +122,7 @@ public class UserRepositoryTest{
 		userStatRepository.save(userStat);
 		
 		// then
-		UserStat userStat1 = userStatRepository.findByName("user1");
+		UserStat userStat1 = userStatRepository.findByName("user1").orElseThrow(()->new RuntimeException("fail save"));
 		
 		assertEquals(userStat1, userStat);
 		assertEquals(userStat1.getTotalVisitors(), 123);
@@ -151,7 +151,7 @@ public class UserRepositoryTest{
 		userStatisticsRepository.save(user1Statistics);
 		
 		// then
-		user1Statistics = userStatisticsRepository.findByName("user1");
+		user1Statistics = userStatisticsRepository.findByName("user1").orElseThrow(()->new RuntimeException("fail save"));
 		
 		assertTrue(user1Statistics.getUserInfo() == user1);
 		

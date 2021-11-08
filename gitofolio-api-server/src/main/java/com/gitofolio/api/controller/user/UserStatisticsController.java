@@ -3,6 +3,7 @@ package com.gitofolio.api.controller.user;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +26,13 @@ public class UserStatisticsController{
 		UserDTO userDTO = userStatisticsFactory.getUser(name);
 		
 		return userDTO;
+	}
+	
+	@RequestMapping(path="/{name}", method=RequestMethod.POST)
+	public UserDTO saveUserStatistics(@RequestBody UserDTO userDTO){
+		
+		return this.userStatisticsFactory.saveUser(userDTO);
+		
 	}
 	
 }

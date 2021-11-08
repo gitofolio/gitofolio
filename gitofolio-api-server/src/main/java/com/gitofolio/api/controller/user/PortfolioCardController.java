@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -20,12 +21,20 @@ public class PortfolioCardController{
 	private UserFactory portfolioCardFactory;
 	
 	@RequestMapping(path="/{name}")
-	public UserDTO getPortfolioCard(@PathVariable("name") String name,
-								 @RequestParam(value="cards", required=false) String cards){
+	public UserDTO getPortfolioCard(
+		@PathVariable("name") String name,
+		@RequestParam(value="cards", required=false) String cards){
 		
 		UserDTO userDTO = portfolioCardFactory.getUser(name);
 		
 		return userDTO;
+	}
+	
+	@RequestMapping(path="/{name}", method=RequestMethod.POST)
+	public UserDTO savePortfolioCard(@RequestBody UserDTO userDTO){
+		
+		return this.portfolioCardFactory.saveUser(userDTO);
+		
 	}
 	
 }

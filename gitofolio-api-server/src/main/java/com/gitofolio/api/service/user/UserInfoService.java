@@ -16,7 +16,7 @@ public class UserInfoService implements UserMapper{
 	@Override
 	@Transactional(readOnly=true)
 	public UserDTO doMap(String name){
-		UserInfo user = userInfoRepository.findByName(name);
+		UserInfo user = this.userInfoRepository.findByName(name).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
 		return new UserDTO.Builder()
 			.userInfo(user)
 			.build();
@@ -25,10 +25,12 @@ public class UserInfoService implements UserMapper{
 	@Override
 	@Transactional
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = new UserInfo();
-		userInfo.setName(userDTO.getName());
-		userInfo.setProfileUrl(userDTO.getProfileUrl());
-		userInfoRepository.save(userInfo);
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseGet(()->new UserInfo());
+		if(userInfo.getName() == null){
+			userInfo.setName(userDTO.getName());
+			userInfo.setProfileUrl(userDTO.getProfileUrl());
+			userInfoRepository.save(userInfo);
+		}
 		
 		return this.doMap(userDTO.getName());
 	}

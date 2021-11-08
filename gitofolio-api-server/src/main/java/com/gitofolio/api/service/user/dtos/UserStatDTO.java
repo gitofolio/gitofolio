@@ -3,8 +3,17 @@ package com.gitofolio.api.service.user.dtos;
 import com.gitofolio.api.domain.user.UserStat;
 
 public class UserStatDTO{
-	private final Integer totalVisitors;
-	private final Integer totalStars;
+	private Integer totalVisitors;
+	private Integer totalStars;
+	
+	// setter
+	public void setTotalVisitors(Integer totalVisitors){
+		this.totalVisitors = totalVisitors;
+	}
+	
+	public void setTotalStars(Integer totalStars){
+		this.totalStars = totalStars;
+	}
 	
 	// getter
 	public Integer getTotalVisitors(){
@@ -16,8 +25,8 @@ public class UserStatDTO{
 	}
 	
 	// constructor
-	private UserStatDTO(){
-		throw new AssertionError("Call UserStatDTO()");
+	public UserStatDTO(){
+		
 	}
 	
 	public UserStatDTO(UserStatDTO.Builder builder){

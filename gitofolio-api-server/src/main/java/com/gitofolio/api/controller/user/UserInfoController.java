@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -21,9 +22,16 @@ public class UserInfoController {
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
 	public UserDTO getUser(@PathVariable("name") String name){
 		
-		UserDTO userDTO = userInfoFactory.getUser(name);
+		UserDTO userDTO = this.userInfoFactory.getUser(name);
 		
 		return userDTO;
+	}
+	
+	@RequestMapping(path="/{name}", method=RequestMethod.POST)
+	public UserDTO saveUser(@RequestBody UserDTO userDTO){
+
+		return this.userInfoFactory.saveUser(userDTO);
+		
 	}
 	
 }

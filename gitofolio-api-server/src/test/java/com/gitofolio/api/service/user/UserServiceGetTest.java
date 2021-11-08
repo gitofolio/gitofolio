@@ -118,9 +118,9 @@ public class UserServiceGetTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
-		assertNull(user1DTO.getUserStatDTO());
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getPortfolioCards());
+		assertNull(user1DTO.getUserStat());
+		assertNull(user1DTO.getUserStatistics());
 	}
 	
 	@Test
@@ -133,12 +133,12 @@ public class UserServiceGetTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
+		assertNull(user1DTO.getPortfolioCards());
 		
-		assertEquals(user1DTO.getUserStatDTO().getTotalVisitors(), 123);
-		assertEquals(user1DTO.getUserStatDTO().getTotalStars(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalStars(), 123);
 		
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getUserStatistics());
 	}
 	
 	@Test
@@ -151,11 +151,11 @@ public class UserServiceGetTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
-		assertNull(user1DTO.getUserStatDTO());
+		assertNull(user1DTO.getPortfolioCards());
+		assertNull(user1DTO.getUserStat());
 			
-		assertEquals(user1DTO.getUserStatisticsDTO().getVisitorStatisticsDTOs().get(0).getVisitorCount(), 1);
-		assertEquals(user1DTO.getUserStatisticsDTO().getRefferingSiteDTOs().get(0).getRefferingSiteName(), "https://gitofolio.com");
+		assertEquals(user1DTO.getUserStatistics().getVisitorStatistics().get(0).getVisitorCount(), 1);
+		assertEquals(user1DTO.getUserStatistics().getRefferingSites().get(0).getRefferingSiteName(), "https://gitofolio.com");
 	}
 	
 	@Test
@@ -167,12 +167,12 @@ public class UserServiceGetTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertEquals(user1DTO.getPortfolioCardDTOs().size(), 2);
-		assertEquals(user1DTO.getPortfolioCardDTOs().get(0).getPortfolioUrl(), "portfolioUrl1");
-		assertEquals(user1DTO.getPortfolioCardDTOs().get(1).getPortfolioUrl(), "portfolioUrl2");
+		assertEquals(user1DTO.getPortfolioCards().size(), 2);
+		assertEquals(user1DTO.getPortfolioCards().get(0).getPortfolioUrl(), "portfolioUrl1");
+		assertEquals(user1DTO.getPortfolioCards().get(1).getPortfolioUrl(), "portfolioUrl2");
 		
-		assertNull(user1DTO.getUserStatDTO());
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getUserStat());
+		assertNull(user1DTO.getUserStatistics());
 		
 	}
 	

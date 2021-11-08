@@ -59,9 +59,9 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
-		assertNull(user1DTO.getUserStatDTO());
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getPortfolioCards());
+		assertNull(user1DTO.getUserStat());
+		assertNull(user1DTO.getUserStatistics());
 	}
 	
 	@Test
@@ -73,12 +73,12 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
+		assertNull(user1DTO.getPortfolioCards());
 		
-		assertEquals(user1DTO.getUserStatDTO().getTotalVisitors(), 123);
-		assertEquals(user1DTO.getUserStatDTO().getTotalStars(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalStars(), 123);
 		
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getUserStatistics());
 	}
 	
 	@Test
@@ -91,11 +91,11 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
-		assertNull(user1DTO.getUserStatDTO());
+		assertNull(user1DTO.getPortfolioCards());
+		assertNull(user1DTO.getUserStat());
 		
-		assertEquals(user1DTO.getUserStatisticsDTO().getVisitorStatisticsDTOs().get(0).getVisitorCount(), 1);
-		assertEquals(user1DTO.getUserStatisticsDTO().getRefferingSiteDTOs().get(0).getRefferingSiteName(), "https://gitofolio.com");
+		assertEquals(user1DTO.getUserStatistics().getVisitorStatistics().get(0).getVisitorCount(), 1);
+		assertEquals(user1DTO.getUserStatistics().getRefferingSites().get(0).getRefferingSiteName(), "https://gitofolio.com");
 	}
 	
 	@Test
@@ -107,12 +107,12 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertEquals(user1DTO.getPortfolioCardDTOs().size(), 2);
-		assertEquals(user1DTO.getPortfolioCardDTOs().get(0).getPortfolioUrl(), "portfolioUrl1");
-		assertEquals(user1DTO.getPortfolioCardDTOs().get(1).getPortfolioUrl(), "portfolioUrl2");
+		assertEquals(user1DTO.getPortfolioCards().size(), 2);
+		assertEquals(user1DTO.getPortfolioCards().get(0).getPortfolioUrl(), "portfolioUrl1");
+		assertEquals(user1DTO.getPortfolioCards().get(1).getPortfolioUrl(), "portfolioUrl2");
 		
-		assertNull(user1DTO.getUserStatDTO());
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getUserStat());
+		assertNull(user1DTO.getUserStatistics());
 	}
 	
 	@Test
@@ -130,9 +130,9 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
-		assertNull(user1DTO.getUserStatDTO());
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getPortfolioCards());
+		assertNull(user1DTO.getUserStat());
+		assertNull(user1DTO.getUserStatistics());
 	}
 	
 	@Test
@@ -150,12 +150,12 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
+		assertNull(user1DTO.getPortfolioCards());
 		
-		assertEquals(user1DTO.getUserStatDTO().getTotalVisitors(), 123);
-		assertEquals(user1DTO.getUserStatDTO().getTotalStars(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalStars(), 123);
 		
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getUserStatistics());
 	}
 	
 	@Test
@@ -174,11 +174,11 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
-		assertNull(user1DTO.getUserStatDTO());
+		assertNull(user1DTO.getPortfolioCards());
+		assertNull(user1DTO.getUserStat());
 		
-		assertEquals(user1DTO.getUserStatisticsDTO().getVisitorStatisticsDTOs().get(0).getVisitorCount(), 1);
-		assertEquals(user1DTO.getUserStatisticsDTO().getRefferingSiteDTOs().get(0).getRefferingSiteName(), "https://gitofolio.com");
+		assertEquals(user1DTO.getUserStatistics().getVisitorStatistics().get(0).getVisitorCount(), 1);
+		assertEquals(user1DTO.getUserStatistics().getRefferingSites().get(0).getRefferingSiteName(), "https://gitofolio.com");
 	}
 	
 	@Test
@@ -196,15 +196,15 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertEquals(user1DTO.getPortfolioCardDTOs().size(), 2);
-		assertEquals(user1DTO.getPortfolioCardDTOs().get(0).getPortfolioUrl(), "portfolioUrl1");
-		assertEquals(user1DTO.getPortfolioCardDTOs().get(1).getPortfolioUrl(), "portfolioUrl2");
+		assertEquals(user1DTO.getPortfolioCards().size(), 2);
+		assertEquals(user1DTO.getPortfolioCards().get(0).getPortfolioUrl(), "portfolioUrl1");
+		assertEquals(user1DTO.getPortfolioCards().get(1).getPortfolioUrl(), "portfolioUrl2");
 		
-		assertNull(user1DTO.getUserStatDTO());
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getUserStat());
+		assertNull(user1DTO.getUserStatistics());
 	}
 	
-	// @Test
+	@Test
 	public void UserInfoFactory_중복_save_테스트(){
 		// given
 		UserDTO userDTO = this.userInfoFactory.getUser("user1");
@@ -228,9 +228,73 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertNull(user1DTO.getPortfolioCardDTOs());
-		assertNull(user1DTO.getUserStatDTO());
-		assertNull(user1DTO.getUserStatisticsDTO());
+		assertNull(user1DTO.getPortfolioCards());
+		assertNull(user1DTO.getUserStat());
+		assertNull(user1DTO.getUserStatistics());
+	}
+	
+	@Test
+	public void UserStatFactory_중복_save_테스트(){
+		// given
+		UserDTO userDTO = this.userStatFactory.getUser("user1");
+		
+		// when
+		this.delete();
+		this.userStatFactory.saveUser(userDTO);
+		this.userStatFactory.saveUser(userDTO);
+		this.userStatFactory.saveUser(userDTO);
+		this.userStatFactory.saveUser(userDTO);
+		this.userStatFactory.saveUser(userDTO);
+		this.userStatFactory.saveUser(userDTO);
+		this.userStatFactory.saveUser(userDTO);
+		this.userStatFactory.saveUser(userDTO);
+		this.userStatFactory.saveUser(userDTO);
+		this.userStatFactory.saveUser(userDTO);
+		
+		// then
+		UserDTO user1DTO = this.userStatFactory.getUser("user1");
+		
+		assertEquals(user1DTO.getName(), "user1");
+		assertEquals(user1DTO.getProfileUrl(), "url1");
+		
+		assertNull(user1DTO.getPortfolioCards());
+		
+		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalStars(), 123);
+		
+		assertNull(user1DTO.getUserStatistics());
+	}
+	
+	@Test
+	@Transactional
+	public void UserStatisticsFactory_중복_save_테스트(){
+		// given
+		UserDTO userDTO = this.userStatisticsFactory.getUser("user1");
+		
+		// when
+		this.delete();
+		this.userStatisticsFactory.saveUser(userDTO);
+		this.userStatisticsFactory.saveUser(userDTO);
+		this.userStatisticsFactory.saveUser(userDTO);
+		this.userStatisticsFactory.saveUser(userDTO);
+		this.userStatisticsFactory.saveUser(userDTO);
+		this.userStatisticsFactory.saveUser(userDTO);
+		this.userStatisticsFactory.saveUser(userDTO);
+		this.userStatisticsFactory.saveUser(userDTO);
+		this.userStatisticsFactory.saveUser(userDTO);
+		this.userStatisticsFactory.saveUser(userDTO);
+		
+		// then
+		UserDTO user1DTO = this.userStatisticsFactory.getUser("user1");
+		
+		assertEquals(user1DTO.getName(), "user1");
+		assertEquals(user1DTO.getProfileUrl(), "url1");
+		
+		assertNull(user1DTO.getPortfolioCards());
+		assertNull(user1DTO.getUserStat());
+		
+		assertEquals(user1DTO.getUserStatistics().getVisitorStatistics().get(0).getVisitorCount(), 1);
+		assertEquals(user1DTO.getUserStatistics().getRefferingSites().get(0).getRefferingSiteName(), "https://gitofolio.com");
 	}
 	
 	@BeforeEach

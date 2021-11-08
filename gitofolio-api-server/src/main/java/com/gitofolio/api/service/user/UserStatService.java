@@ -20,7 +20,7 @@ public class UserStatService implements UserMapper{
 	@Override
 	@Transactional(readOnly=true)
 	public UserDTO doMap(String name){
-		UserStat userStat = this.userStatRepository.findByName(name);
+		UserStat userStat = this.userStatRepository.findByName(name).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
 		
 		UserStatDTO userStatDTO = new UserStatDTO.Builder()
 			.userStat(userStat)
@@ -35,18 +35,24 @@ public class UserStatService implements UserMapper{
 	@Override
 	@Transactional
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = new UserInfo();
-		userInfo.setName(userDTO.getName());
-		userInfo.setProfileUrl(userDTO.getProfileUrl());
-		userInfoRepository.save(userInfo);
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseGet(()->new UserInfo());
+		if(userInfo.getName() == null){
+			userInfo.setName(userDTO.getName());
+			userInfo.setProfileUrl(userDTO.getProfileUrl());
+			userInfoRepository.save(userInfo);
+		}
 		
-		UserStatDTO userStatDTO = userDTO.getUserStatDTO();
-		UserStat userStat = new UserStat();
-		userStat.setTotalVisitors(userStatDTO.getTotalVisitors());
-		userStat.setTotalStars(userStatDTO.getTotalStars());
-		userStat.setUserInfo(userInfo);
+		UserStatDTO userStatDTO = userDTO.getUserStat();
 		
-		userStatRepository.save(userStat);
+		UserStat userStat = this.userStatRepository.findByName(userInfo.getName()).orElseGet(()->new UserStat());
+		if(userStat.getUserInfo() == null){
+			userStat.setTotalVisitors(userStatDTO.getTotalVisitors());
+			userStat.setTotalStars(userStatDTO.getTotalStars());
+			userStat.setUserInfo(userInfo);
+			
+			userStatRepository.save(userStat);
+		}
+		
 		return this.doMap(userDTO.getName());
 	}
 	
