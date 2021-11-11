@@ -3,15 +3,31 @@ package com.gitofolio.api.service.user.factory;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gitofolio.api.service.user.UserMapper;
+import com.gitofolio.api.service.user.dtos.UserDTO;
 
 @Service
-public class UserInfoFactory extends UserFactory{
+public class UserInfoFactory implements UserFactory{
+	
+	protected UserMapper userInfoService;
+	
+	@Override
+	@Transactional(readOnly = true)
+	public UserDTO getUser(String name){
+		return this.userInfoService.doMap(name);
+	}
+	
+	@Override
+	@Transactional
+	public UserDTO saveUser(UserDTO userDTO){
+		return this.userInfoService.resolveMap(userDTO);
+	}
 	
 	@Autowired
 	public UserInfoFactory(@Qualifier("userInfoService") UserMapper userInfoService){
-		this.userMapper = userInfoService;
+		this.userInfoService = userInfoService;
 	}
 	
 }

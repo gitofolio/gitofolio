@@ -26,7 +26,6 @@ public class UserStatisticsService implements UserMapper{
 	private UserInfoRepository userInfoRepository;
 	
 	@Override
-	@Transactional(readOnly=true)
 	public UserDTO doMap(String name){
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
 		UserStatisticsDTO userStatisticsDTO = new UserStatisticsDTO.Builder()
@@ -42,14 +41,8 @@ public class UserStatisticsService implements UserMapper{
 	}
 	
 	@Override
-	@Transactional
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseGet(()->new UserInfo());
-		if(userInfo.getName() == null){
-			userInfo.setName(userDTO.getName());
-			userInfo.setProfileUrl(userDTO.getProfileUrl());
-			userInfoRepository.save(userInfo);
-		}
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
 		
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(userInfo.getName()).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){
@@ -83,6 +76,11 @@ public class UserStatisticsService implements UserMapper{
 		userStatistics.setUserInfo(userInfo);
 		
 		return this.doMap(userDTO.getName());
+	}
+	
+	public void deleteUserStatistics(String name){
+		this.userStatisticsRepository.deleteByName(name);
+		return;
 	}
 	
 	// constructor

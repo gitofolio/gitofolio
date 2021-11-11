@@ -6,16 +6,10 @@ import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.UserMapper;
 
 @Service
-public abstract class UserFactory{
+public interface UserFactory{
 	
-	protected UserMapper userMapper;
+	UserDTO getUser(String name);
 	
-	public UserDTO getUser(String name){
-		return this.userMapper.doMap(name);
-	}
-	
-	public UserDTO saveUser(UserDTO userDTO){
-		return this.userMapper.resolveMap(userDTO);
-	}
+	UserDTO saveUser(UserDTO userDTO);
 	
 }

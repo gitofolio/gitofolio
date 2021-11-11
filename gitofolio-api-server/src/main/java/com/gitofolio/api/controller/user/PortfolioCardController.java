@@ -30,7 +30,7 @@ public class PortfolioCardController{
 		return userDTO;
 	}
 	
-	@RequestMapping(path="/{name}", method=RequestMethod.POST)
+	@RequestMapping(path="/", method=RequestMethod.POST)
 	public UserDTO savePortfolioCard(@RequestBody UserDTO userDTO){
 		
 		return this.portfolioCardFactory.saveUser(userDTO);

@@ -28,7 +28,7 @@ public class UserStatisticsController{
 		return userDTO;
 	}
 	
-	@RequestMapping(path="/{name}", method=RequestMethod.POST)
+	@RequestMapping(path="/", method=RequestMethod.POST)
 	public UserDTO saveUserStatistics(@RequestBody UserDTO userDTO){
 		
 		return this.userStatisticsFactory.saveUser(userDTO);

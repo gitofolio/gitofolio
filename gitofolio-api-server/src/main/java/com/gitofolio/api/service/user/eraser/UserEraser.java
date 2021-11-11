@@ -1,0 +1,10 @@
+package com.gitofolio.api.service.user.eraser;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public interface UserEraser{
+	
+	String deleteUser(String name);  
+	
+}

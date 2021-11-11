@@ -2,7 +2,6 @@ package com.gitofolio.api.service.user;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.dtos.UserStatDTO;
@@ -18,7 +17,6 @@ public class UserStatService implements UserMapper{
 	private UserInfoRepository userInfoRepository;
 	
 	@Override
-	@Transactional(readOnly=true)
 	public UserDTO doMap(String name){
 		UserStat userStat = this.userStatRepository.findByName(name).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
 		
@@ -33,14 +31,8 @@ public class UserStatService implements UserMapper{
 	}
 	
 	@Override
-	@Transactional
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseGet(()->new UserInfo());
-		if(userInfo.getName() == null){
-			userInfo.setName(userDTO.getName());
-			userInfo.setProfileUrl(userDTO.getProfileUrl());
-			userInfoRepository.save(userInfo);
-		}
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
 		
 		UserStatDTO userStatDTO = userDTO.getUserStat();
 		
@@ -54,6 +46,11 @@ public class UserStatService implements UserMapper{
 		}
 		
 		return this.doMap(userDTO.getName());
+	}
+	
+	public void deleteUserStat(String name){
+		this.userStatRepository.deleteByName(name);
+		return;
 	}
 	
 	@Autowired

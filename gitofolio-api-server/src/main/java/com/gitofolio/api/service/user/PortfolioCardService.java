@@ -22,7 +22,6 @@ public class PortfolioCardService implements UserMapper{
 	private UserInfoRepository userInfoRepository;
 	
 	@Override
-	@Transactional(readOnly=true)
 	public UserDTO doMap(String name){
 		List<PortfolioCard> portfolioCards = this.portfolioCardRepository.findByName(name);
 		
@@ -44,14 +43,8 @@ public class PortfolioCardService implements UserMapper{
 	}
 	
 	@Override
-	@Transactional
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseGet(()->new UserInfo());
-		if(userInfo.getName() == null){
-			userInfo.setName(userDTO.getName());
-			userInfo.setProfileUrl(userDTO.getProfileUrl());
-			userInfoRepository.save(userInfo);
-		}
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
 		
 		List<PortfolioCardDTO> portfolioCardDTOs = userDTO.getPortfolioCards();
 		for(PortfolioCardDTO portfolioCardDTO : portfolioCardDTOs){
@@ -65,6 +58,11 @@ public class PortfolioCardService implements UserMapper{
 		}
 		
 		return this.doMap(userDTO.getName());
+	}
+
+	public void deletePortfolioCard(String name){
+		this.portfolioCardRepository.deleteByName(name);
+		return;
 	}
 	
 	@Autowired
