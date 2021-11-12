@@ -14,7 +14,7 @@ public class UserStatisticsEraser implements UserEraser{
 	
 	@Override
 	@Transactional
-	public String deleteUser(String name){
+	public String delete(String name){
 		this.userStatisticsService.deleteUserStatistics(name);
 		return name;
 	}

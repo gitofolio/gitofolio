@@ -14,7 +14,7 @@ public class PortfolioCardEraser implements UserEraser{
 	
 	@Override
 	@Transactional
-	public String deleteUser(String name){
+	public String delete(String name){
 		this.portfolioCardService.deletePortfolioCard(name);
 		return name;
 	}

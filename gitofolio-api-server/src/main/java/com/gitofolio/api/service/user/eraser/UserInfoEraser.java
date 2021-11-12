@@ -17,11 +17,11 @@ public class UserInfoEraser implements UserEraser{
 	
 	@Override
 	@Transactional
-	public String deleteUser(String name){
+	public String delete(String name){
 		this.userInfoService.deleteUserInfo(
-			this.portfolioCardEraser.deleteUser(
-				this.userStatisticsEraser.deleteUser(
-					this.userStatEraser.deleteUser(name))));
+			this.portfolioCardEraser.delete(
+				this.userStatisticsEraser.delete(
+					this.userStatEraser.delete(name))));
 		return name;
 	}
 	

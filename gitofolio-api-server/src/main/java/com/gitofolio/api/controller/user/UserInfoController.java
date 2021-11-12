@@ -34,7 +34,7 @@ public class UserInfoController {
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path="/", method=RequestMethod.POST)
+	@RequestMapping(path="", method=RequestMethod.POST)
 	public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO){
 
 		UserDTO result = this.userInfoFactory.saveUser(userDTO);
@@ -46,7 +46,7 @@ public class UserInfoController {
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){
 		
-		this.userInfoEraser.deleteUser(name);
+		this.userInfoEraser.delete(name);
 		
 		return new ResponseEntity(HttpStatus.OK);
 	}

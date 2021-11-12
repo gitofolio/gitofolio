@@ -8,6 +8,7 @@ import com.gitofolio.api.service.user.dtos.UserStatisticsDTO;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.dtos.UserStatisticsDTO.RefferingSiteDTO;
 import com.gitofolio.api.service.user.dtos.UserStatisticsDTO.VisitorStatisticsDTO;
+import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.repository.user.UserStatisticsRepository;
 import com.gitofolio.api.repository.user.UserInfoRepository;
 import com.gitofolio.api.domain.user.UserStatistics;
@@ -27,7 +28,7 @@ public class UserStatisticsService implements UserMapper{
 	
 	@Override
 	public UserDTO doMap(String name){
-		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
+		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"+name));
 		UserStatisticsDTO userStatisticsDTO = new UserStatisticsDTO.Builder()
 			.userStatistics(userStatistics)
 			.build();
@@ -42,7 +43,7 @@ public class UserStatisticsService implements UserMapper{
 	
 	@Override
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"));
 		
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(userInfo.getName()).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){

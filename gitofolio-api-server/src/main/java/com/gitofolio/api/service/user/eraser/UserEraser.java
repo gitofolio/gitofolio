@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserEraser{
 	
-	String deleteUser(String name);  
+	String delete(String name);  
 	
 }

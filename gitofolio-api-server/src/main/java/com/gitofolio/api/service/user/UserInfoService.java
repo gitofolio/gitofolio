@@ -1,6 +1,7 @@
 package com.gitofolio.api.service.user;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
+import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.repository.user.UserInfoRepository;
 import com.gitofolio.api.domain.user.UserInfo;
 
@@ -15,7 +16,7 @@ public class UserInfoService implements UserMapper{
 	
 	@Override
 	public UserDTO doMap(String name){
-		UserInfo user = this.userInfoRepository.findByName(name).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
+		UserInfo user = this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/"+name));
 		return new UserDTO.Builder()
 			.userInfo(user)
 			.build();

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.dtos.UserStatDTO;
+import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.repository.user.UserStatRepository;
 import com.gitofolio.api.repository.user.UserInfoRepository;
 import com.gitofolio.api.domain.user.UserStat;
@@ -18,7 +19,7 @@ public class UserStatService implements UserMapper{
 	
 	@Override
 	public UserDTO doMap(String name){
-		UserStat userStat = this.userStatRepository.findByName(name).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
+		UserStat userStat = this.userStatRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"+name));
 		
 		UserStatDTO userStatDTO = new UserStatDTO.Builder()
 			.userStat(userStat)
@@ -32,7 +33,7 @@ public class UserStatService implements UserMapper{
 	
 	@Override
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
 		
 		UserStatDTO userStatDTO = userDTO.getUserStat();
 		

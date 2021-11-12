@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gitofolio.api.service.user.dtos.PortfolioCardDTO;
 import com.gitofolio.api.service.user.dtos.UserDTO;
+import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.repository.user.PortfolioCardRepository;
 import com.gitofolio.api.repository.user.UserInfoRepository;
 import com.gitofolio.api.domain.user.PortfolioCard;
@@ -25,7 +26,10 @@ public class PortfolioCardService implements UserMapper{
 	public UserDTO doMap(String name){
 		List<PortfolioCard> portfolioCards = this.portfolioCardRepository.findByName(name);
 		
-		if(portfolioCards.size() == 0) return new UserDTO.Builder().build();
+		if(portfolioCards.size() == 0) {
+			this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"+name));
+			return new UserDTO.Builder().build();
+		}
 		
 		List<PortfolioCardDTO> cards = new ArrayList<PortfolioCardDTO>(portfolioCards.size());
 		
@@ -44,7 +48,7 @@ public class PortfolioCardService implements UserMapper{
 	
 	@Override
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new RuntimeException("임시 오류 메시지"));
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"));
 		
 		List<PortfolioCardDTO> portfolioCardDTOs = userDTO.getPortfolioCards();
 		for(PortfolioCardDTO portfolioCardDTO : portfolioCardDTOs){

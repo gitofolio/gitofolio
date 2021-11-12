@@ -70,7 +70,7 @@ public class UserEraserTest{
 	@Test
 	public void UserStat_삭제_테스트(){
 		// when
-		String result = this.userStatEraser.deleteUser("user1");
+		String result = this.userStatEraser.delete("user1");
 		
 		// then
 		assertEquals(result, "user1");
@@ -80,7 +80,7 @@ public class UserEraserTest{
 	@Test
 	public void UserStatistics_삭제_테스트(){
 		// when
-		String result = this.userStatisticsEraser.deleteUser("user1");
+		String result = this.userStatisticsEraser.delete("user1");
 		
 		// then
 		assertEquals(result, "user1");
@@ -90,7 +90,7 @@ public class UserEraserTest{
 	@Test
 	public void PortfolioCard_삭제_테스트(){
 		// when
-		String result = this.portfolioCardEraser.deleteUser("user1");
+		String result = this.portfolioCardEraser.delete("user1");
 		
 		// then
 		assertEquals(result, "user1");
@@ -100,7 +100,7 @@ public class UserEraserTest{
 	@Test
 	public void UserInfo_삭제_테스트(){
 		// when
-		String result = this.userInfoEraser.deleteUser("user1");
+		String result = this.userInfoEraser.delete("user1");
 		
 		// then
 		assertEquals(result, "user1");
