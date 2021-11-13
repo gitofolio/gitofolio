@@ -75,7 +75,7 @@ public class UserFactoryTest{
 		
 		assertNull(user1DTO.getPortfolioCards());
 		
-		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 1);
 		assertEquals(user1DTO.getUserStat().getTotalStars(), 123);
 		
 		assertNull(user1DTO.getUserStatistics());
@@ -152,7 +152,7 @@ public class UserFactoryTest{
 		
 		assertNull(user1DTO.getPortfolioCards());
 		
-		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 123);
+		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 1);
 		assertEquals(user1DTO.getUserStat().getTotalStars(), 123);
 		
 		assertNull(user1DTO.getUserStatistics());
@@ -233,70 +233,6 @@ public class UserFactoryTest{
 		assertNull(user1DTO.getUserStatistics());
 	}
 	
-	@Test
-	public void UserStatFactory_중복_save_테스트(){
-		// given
-		UserDTO userDTO = this.userStatFactory.getUser("user1");
-		
-		// when
-		this.delete();
-		this.userStatFactory.saveUser(userDTO);
-		this.userStatFactory.saveUser(userDTO);
-		this.userStatFactory.saveUser(userDTO);
-		this.userStatFactory.saveUser(userDTO);
-		this.userStatFactory.saveUser(userDTO);
-		this.userStatFactory.saveUser(userDTO);
-		this.userStatFactory.saveUser(userDTO);
-		this.userStatFactory.saveUser(userDTO);
-		this.userStatFactory.saveUser(userDTO);
-		this.userStatFactory.saveUser(userDTO);
-		
-		// then
-		UserDTO user1DTO = this.userStatFactory.getUser("user1");
-		
-		assertEquals(user1DTO.getName(), "user1");
-		assertEquals(user1DTO.getProfileUrl(), "url1");
-		
-		assertNull(user1DTO.getPortfolioCards());
-		
-		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 123);
-		assertEquals(user1DTO.getUserStat().getTotalStars(), 123);
-		
-		assertNull(user1DTO.getUserStatistics());
-	}
-	
-	@Test
-	@Transactional
-	public void UserStatisticsFactory_중복_save_테스트(){
-		// given
-		UserDTO userDTO = this.userStatisticsFactory.getUser("user1");
-		
-		// when
-		this.delete();
-		this.userStatisticsFactory.saveUser(userDTO);
-		this.userStatisticsFactory.saveUser(userDTO);
-		this.userStatisticsFactory.saveUser(userDTO);
-		this.userStatisticsFactory.saveUser(userDTO);
-		this.userStatisticsFactory.saveUser(userDTO);
-		this.userStatisticsFactory.saveUser(userDTO);
-		this.userStatisticsFactory.saveUser(userDTO);
-		this.userStatisticsFactory.saveUser(userDTO);
-		this.userStatisticsFactory.saveUser(userDTO);
-		this.userStatisticsFactory.saveUser(userDTO);
-		
-		// then
-		UserDTO user1DTO = this.userStatisticsFactory.getUser("user1");
-		
-		assertEquals(user1DTO.getName(), "user1");
-		assertEquals(user1DTO.getProfileUrl(), "url1");
-		
-		assertNull(user1DTO.getPortfolioCards());
-		assertNull(user1DTO.getUserStat());
-		
-		assertEquals(user1DTO.getUserStatistics().getVisitorStatistics().get(0).getVisitorCount(), 1);
-		assertEquals(user1DTO.getUserStatistics().getRefferingSites().get(0).getRefferingSiteName(), "https://gitofolio.com");
-	}
-	
 	@BeforeEach
 	@Transactional
 	public void init(){
@@ -338,7 +274,7 @@ public class UserFactoryTest{
 		portfolioCardRepository.save(portfolioCard2);
 		
 		UserStat userStat = new UserStat();
-		userStat.setTotalVisitors(123);
+		userStat.addTotalVisitors();
 		userStat.setTotalStars(123);
 		
 		userStat.setUserInfo(user1);

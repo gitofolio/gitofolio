@@ -19,10 +19,10 @@ public class UserStat{
 	private Long id;
 	
 	@Column(name="TOTAL_VISITORS", nullable=false)
-	private Integer totalVisitors;
+	private Integer totalVisitors = 0;
 	
 	@Column(name="TOTAL_STARS", nullable=false)
-	private Integer totalStars;
+	private Integer totalStars = 0;
 
 	@OneToOne
 	@JoinColumn(name="USER_INFO_ID", unique=true)
@@ -45,13 +45,22 @@ public class UserStat{
 		return this.userInfo;
 	}
 	
-	//setter
+	// setter
 	public void setTotalVisitors(Integer totalVisitors){
 		this.totalVisitors = totalVisitors;
 	}
 	
 	public void setTotalStars(Integer totalStars){
 		this.totalStars = totalStars;
+	}
+	
+	// logic
+	public void addTotalVisitors(){
+		this.totalVisitors++;
+	}
+	
+	public void addTotalStars(){
+		this.totalStars++;
 	}
 	
 	public void setUserInfo(UserInfo userInfo){

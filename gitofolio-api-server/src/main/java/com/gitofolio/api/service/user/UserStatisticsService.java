@@ -28,7 +28,17 @@ public class UserStatisticsService implements UserMapper{
 	
 	@Override
 	public UserDTO doMap(String name){
-		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"+name));
+		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
+		
+		if(userStatistics.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findByName(name)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"));
+			
+			userStatistics.setUserInfo(userInfo);
+			
+			userStatisticsRepository.save(userStatistics);	
+		}
+		
 		UserStatisticsDTO userStatisticsDTO = new UserStatisticsDTO.Builder()
 			.userStatistics(userStatistics)
 			.build();
@@ -53,26 +63,23 @@ public class UserStatisticsService implements UserMapper{
 		
 		UserStatisticsDTO userStatisticsDTO = userDTO.getUserStatistics();
 			
-			List<RefferingSiteDTO> refferingSiteDTOs = userStatisticsDTO.getRefferingSites();
-			List<VisitorStatisticsDTO> visitorStatisticsDTOs = userStatisticsDTO.getVisitorStatistics();
+		List<RefferingSiteDTO> refferingSiteDTOs = userStatisticsDTO.getRefferingSites();
+		List<VisitorStatisticsDTO> visitorStatisticsDTOs = userStatisticsDTO.getVisitorStatistics();
 			
-			for(RefferingSiteDTO refferingSiteDTO : refferingSiteDTOs){
-				userStatistics.setRefferingSite(
-					refferingSiteDTO.getRefferingSiteName()
-					, refferingSiteDTO.getRefferingDate()
-				);
-			}
+		for(RefferingSiteDTO refferingSiteDTO : refferingSiteDTOs){
+			userStatistics.setRefferingSite(refferingSiteDTO.getRefferingSiteName());
+		}
 			
-			VisitorStatistics visitorStatistics = null;
-			for(VisitorStatisticsDTO visitorStatisticsDTO : visitorStatisticsDTOs){
-				if(visitorStatisticsDTO.getVisitDate().toString().equals(LocalDate.now().toString())){
-					visitorStatistics = new VisitorStatistics(visitorStatisticsDTO.getVisitDate(), visitorStatisticsDTO.getVisitorCount());
-					break;
-				}
+		VisitorStatistics visitorStatistics = null;
+		for(VisitorStatisticsDTO visitorStatisticsDTO : visitorStatisticsDTOs){
+			if(visitorStatisticsDTO.getVisitDate().toString().equals(LocalDate.now().toString())){
+				visitorStatistics = new VisitorStatistics(visitorStatisticsDTO.getVisitDate(), visitorStatisticsDTO.getVisitorCount());
+				break;
 			}
-			if(visitorStatistics == null) visitorStatistics = new VisitorStatistics(LocalDate.now(), 1);
+		}
+		if(visitorStatistics == null) visitorStatistics = new VisitorStatistics(LocalDate.now(), 1);
 		
-			userStatistics.setVisitorStatistics(visitorStatistics.getVisitorCount());
+		userStatistics.setVisitorStatistics(visitorStatistics.getVisitorCount());
 		
 		userStatistics.setUserInfo(userInfo);
 		
@@ -82,6 +89,34 @@ public class UserStatisticsService implements UserMapper{
 	public void deleteUserStatistics(String name){
 		this.userStatisticsRepository.deleteByName(name);
 		return;
+	}
+	
+	public void addVisitorStatistics(String name){
+		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
+		if(userStatistics.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findByName(name)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"));
+			
+			userStatistics.setUserInfo(userInfo);
+			
+			userStatisticsRepository.save(userStatistics);	
+		}
+		
+		userStatistics.addVisitorStatistics();
+	}
+	
+	public void setRefferingSite(String name, String refferingSiteName){
+		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
+		if(userStatistics.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findByName(name)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"));
+			
+			userStatistics.setUserInfo(userInfo);
+			
+			userStatisticsRepository.save(userStatistics);	
+		}
+		
+		userStatistics.setRefferingSite(refferingSiteName);
 	}
 	
 	// constructor

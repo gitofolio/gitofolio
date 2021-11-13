@@ -123,40 +123,6 @@ public class UserServiceGetTest{
 		assertNull(user1DTO.getUserStatistics());
 	}
 	
-	@Test
-	@Transactional
-	public void UserStatDTO_GET_테스트(){
-		// when
-		UserDTO user1DTO = userStatService.doMap("user1");
-		
-		// then
-		assertEquals(user1DTO.getName(), "user1");
-		assertEquals(user1DTO.getProfileUrl(), "url1");
-		
-		assertNull(user1DTO.getPortfolioCards());
-		
-		assertEquals(user1DTO.getUserStat().getTotalVisitors(), 123);
-		assertEquals(user1DTO.getUserStat().getTotalStars(), 123);
-		
-		assertNull(user1DTO.getUserStatistics());
-	}
-	
-	@Test
-	@Transactional
-	public void UserStatisticsDTO_GET_테스트(){
-		// when
-		UserDTO user1DTO = userStatisticsService.doMap("user1");
-		
-		// then
-		assertEquals(user1DTO.getName(), "user1");
-		assertEquals(user1DTO.getProfileUrl(), "url1");
-		
-		assertNull(user1DTO.getPortfolioCards());
-		assertNull(user1DTO.getUserStat());
-			
-		assertEquals(user1DTO.getUserStatistics().getVisitorStatistics().get(0).getVisitorCount(), 1);
-		assertEquals(user1DTO.getUserStatistics().getRefferingSites().get(0).getRefferingSiteName(), "https://gitofolio.com");
-	}
 	
 	@Test
 	public void PortfolioCardDTO_GET_테스트(){

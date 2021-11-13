@@ -84,17 +84,21 @@ public class UserStatistics{
 	}
 	
 	public void addVisitorStatistics(){
-		this.setVisitorStatistics();
+		if(visitorStatistics.size() > 7) visitorStatistics.remove(0);
+		VisitorStatistics newVs = null;
+		for(VisitorStatistics vs : visitorStatistics){
+			if(vs.getVisitDate().toString().equals(LocalDate.now().toString())) newVs = vs;
+		}
+		if(newVs == null) {
+			while(visitorStatistics.size() >= 7) visitorStatistics.remove(0);
+			newVs = new VisitorStatistics();
+			newVs.setVisitorCount(1);
+			this.visitorStatistics.add(newVs);
+		}
+		else newVs.setVisitorCount(newVs.getVisitorCount()+1);
 	}
 	
 	public void setRefferingSite(String refferingSite){
-		for(RefferingSite rfs : refferingSites){
-			if(rfs.getRefferingSiteName().equals(refferingSite)) return;
-		}
-		this.refferingSites.add(new RefferingSite(refferingSite));
-	}
-	
-	public void setRefferingSite(String refferingSite, LocalDate visitDate){
 		for(RefferingSite rfs : refferingSites){
 			if(rfs.getRefferingSiteName().equals(refferingSite)) return;
 		}

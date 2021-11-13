@@ -2,6 +2,7 @@ package com.gitofolio.api.service.user;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.dtos.UserStatDTO;
@@ -19,7 +20,17 @@ public class UserStatService implements UserMapper{
 	
 	@Override
 	public UserDTO doMap(String name){
-		UserStat userStat = this.userStatRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"+name));
+		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
+		
+		if(userStat.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findByName(name)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
+			userStat.setTotalStars(0);
+			userStat.setTotalVisitors(1);
+			userStat.setUserInfo(userInfo);
+			
+			userStatRepository.save(userStat);
+		}
 		
 		UserStatDTO userStatDTO = new UserStatDTO.Builder()
 			.userStat(userStat)
@@ -39,18 +50,49 @@ public class UserStatService implements UserMapper{
 		
 		UserStat userStat = this.userStatRepository.findByName(userInfo.getName()).orElseGet(()->new UserStat());
 		if(userStat.getUserInfo() == null){
-			userStat.setTotalVisitors(userStatDTO.getTotalVisitors());
+			userStat.setTotalVisitors(1);
 			userStat.setTotalStars(userStatDTO.getTotalStars());
 			userStat.setUserInfo(userInfo);
 			
 			userStatRepository.save(userStat);
 		}
+		else userStat.addTotalStars();
 		
 		return this.doMap(userDTO.getName());
 	}
 	
 	public void deleteUserStat(String name){
 		this.userStatRepository.deleteByName(name);
+		return;
+	}
+	
+	public void addTotalVisitors(String name){
+		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
+		if(userStat.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findByName(name)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
+			userStat.setTotalStars(0);
+			userStat.setTotalVisitors(0);
+			userStat.setUserInfo(userInfo);
+			
+			userStatRepository.save(userStat);
+		}
+		userStat.addTotalVisitors();
+		return;
+	}
+	
+	public void addTotalStars(String name){
+		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
+		if(userStat.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findByName(name)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
+			userStat.setTotalStars(0);
+			userStat.setTotalVisitors(1);
+			userStat.setUserInfo(userInfo);
+			
+			userStatRepository.save(userStat);
+		}
+		userStat.addTotalStars();
 		return;
 	}
 	

@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
+
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
@@ -28,6 +32,7 @@ public class PortfolioCardController{
 	private UserEraser portfolioCardEraser;
 	
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
+	@ApiOperation(value="유저 포트폴리오 카드 가져오기", notes="유저의 포트폴리오 카드들을 가져옴. 없다면, 빈 배열 반환")
 	public ResponseEntity<UserDTO> getPortfolioCard(
 		@PathVariable("name") String name,
 		@RequestParam(value="cards", required=false) String cards){
@@ -38,6 +43,7 @@ public class PortfolioCardController{
 	}
 	
 	@RequestMapping(path="", method=RequestMethod.POST)
+	@ApiOperation(value="유저 포트폴리오 카드 저장", notes="포트폴리오 카드 저장 타겟 User는 HttpBody에 name에 적음")
 	public ResponseEntity<UserDTO> savePortfolioCard(@RequestBody UserDTO userDTO){
 		
 		UserDTO result = this.portfolioCardFactory.saveUser(userDTO);
@@ -47,6 +53,7 @@ public class PortfolioCardController{
 	}
 	
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
+	@ApiOperation(value="유저 포트폴리오카드 삭제", notes="유저 포트폴리오카드 삭제 name에 해당하는 모든 포트폴리오 카드를 삭제함")
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name){
 		
 		this.portfolioCardEraser.delete(name);
