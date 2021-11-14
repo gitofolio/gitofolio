@@ -25,6 +25,7 @@ public class UserInterceptor implements HandlerInterceptor{
 	@Override
 	@Transactional
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception{
+		if(!request.getMethod().equals("GET")) return;
 		String name = this.getUserName(request);
 		this.increaseVisitCount(name);
 		this.setReffererSite(name, request);
