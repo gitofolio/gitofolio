@@ -74,7 +74,7 @@ public class UserEraserTest{
 		
 		// then
 		assertEquals(result, "user1");
-		assertThrows(RuntimeException.class, ()->this.userStatFactory.getUser("user1"));
+		assertThrows(RuntimeException.class, ()->this.userStatRepository.findByName("user1").orElseThrow(()->new RuntimeException()));
 	}
 	
 	@Test
@@ -84,7 +84,7 @@ public class UserEraserTest{
 		
 		// then
 		assertEquals(result, "user1");
-		assertThrows(RuntimeException.class, ()->this.userStatisticsFactory.getUser("user1"));
+		assertThrows(RuntimeException.class, ()->this.userStatisticsRepository.findByName("user1").orElseThrow(()->new RuntimeException()));
 	}
 	
 	@Test

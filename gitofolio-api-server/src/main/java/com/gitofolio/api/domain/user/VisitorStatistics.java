@@ -32,14 +32,18 @@ public class VisitorStatistics{
 	
 	//getter
 	
-	public VisitorStatistics(){
+	public VisitorStatistics(){}
+	
+	public VisitorStatistics(UserStatistics userStatistics){
 		this.visitDate = LocalDate.now();
 		this.visitorCount=0;
+		this.userStatistics = userStatistics;
 	}
 	
-	public VisitorStatistics(LocalDate visitDate, int visitorCount){
+	public VisitorStatistics(LocalDate visitDate, int visitorCount, UserStatistics userStatistics){
 		this.visitDate = visitDate;
 		this.visitorCount = visitorCount;
+		this.userStatistics = userStatistics;
 	}
 	
 	public LocalDate getVisitDate(){
@@ -53,6 +57,10 @@ public class VisitorStatistics{
 	//setter
 	public void setVisitorCount(int visitorCount){
 		this.visitorCount = visitorCount;
+	}
+	
+	public void setUserStatistics(UserStatistics userStatistics){
+		this.userStatistics = userStatistics;
 	}
 	
 }

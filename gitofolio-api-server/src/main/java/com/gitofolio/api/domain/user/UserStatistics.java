@@ -25,12 +25,14 @@ public class UserStatistics{
 	@Column(name="USER_STATISTICS_ID")
 	private Long id;
 	
-	@Column(name="VISITOR_STATISTICS")
-	@OneToMany(mappedBy="userStatistics", fetch=FetchType.LAZY, orphanRemoval=true, cascade=CascadeType.ALL)
+	// @Column(name="VISITOR_STATISTICS")
+	@OneToMany(mappedBy="userStatistics" ,fetch=FetchType.LAZY, orphanRemoval=true, cascade=CascadeType.ALL)
+	// @JoinColumn(name="USER_STATISTICS_ID")
 	private List<VisitorStatistics> visitorStatistics = new ArrayList<VisitorStatistics>();
 	
-	@Column(name="REFFERING_SITE")
+	// @Column(name="REFFERING_SITE")
 	@OneToMany(mappedBy="userStatistics", fetch=FetchType.LAZY, orphanRemoval=true, cascade=CascadeType.ALL)
+	// @JoinColumn(name="USER_STATISTICS_ID")
 	private List<RefferingSite> refferingSites = new ArrayList<RefferingSite>();
 	
 	@OneToOne
@@ -63,7 +65,7 @@ public class UserStatistics{
 		}
 		if(newVs == null) {
 			while(visitorStatistics.size() >= 7) visitorStatistics.remove(0);
-			newVs = new VisitorStatistics();
+			newVs = new VisitorStatistics(this);
 			this.visitorStatistics.add(newVs);
 		}
 		newVs.setVisitorCount(newVs.getVisitorCount()+1);
@@ -77,7 +79,7 @@ public class UserStatistics{
 		}
 		if(newVs == null) {
 			while(visitorStatistics.size() >= 7) visitorStatistics.remove(0);
-			newVs = new VisitorStatistics();
+			newVs = new VisitorStatistics(this);
 			this.visitorStatistics.add(newVs);
 		}
 		newVs.setVisitorCount(visitorCount);
@@ -91,7 +93,7 @@ public class UserStatistics{
 		}
 		if(newVs == null) {
 			while(visitorStatistics.size() >= 7) visitorStatistics.remove(0);
-			newVs = new VisitorStatistics();
+			newVs = new VisitorStatistics(this);
 			newVs.setVisitorCount(1);
 			this.visitorStatistics.add(newVs);
 		}
@@ -99,17 +101,16 @@ public class UserStatistics{
 	}
 	
 	public void setRefferingSite(String refferingSite){
+		while(refferingSites.size() > 30) refferingSites.remove(0);
 		for(RefferingSite rfs : refferingSites){
 			if(rfs.getRefferingSiteName().equals(refferingSite)) return;
 		}
-		this.refferingSites.add(new RefferingSite(refferingSite));
+		this.refferingSites.add(new RefferingSite(refferingSite, this));
 	}
 	
 	public void setUserInfo(UserInfo userInfo){
 		if(userInfo == null) this.userInfo = null;
-		// if(this.userInfo != null) this.userInfo.setUserStatistics(null);
 		this.userInfo = userInfo;
-		// if(userInfo.getUserStatistics() != this) userInfo.setUserStatistics(this);
 	}
 	
 }

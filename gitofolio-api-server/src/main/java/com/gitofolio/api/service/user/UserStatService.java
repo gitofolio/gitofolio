@@ -66,7 +66,7 @@ public class UserStatService implements UserMapper{
 		return;
 	}
 	
-	public void addTotalVisitors(String name){
+	public void increaseTotalVisitors(String name){
 		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
 		if(userStat.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
@@ -81,7 +81,7 @@ public class UserStatService implements UserMapper{
 		return;
 	}
 	
-	public void addTotalStars(String name){
+	public void increaseTotalStars(String name){
 		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
 		if(userStat.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)

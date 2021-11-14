@@ -32,17 +32,19 @@ public class RefferingSite{
 	
 	public RefferingSite(){}
 	
-	public RefferingSite(String refferingSiteName){
+	public RefferingSite(String refferingSiteName, UserStatistics userStatistics){
 		this.refferingDate = LocalDate.now();
 		this.refferingSiteName = refferingSiteName;
+		this.userStatistics = userStatistics;
 	}
 	
-	public RefferingSite(String refferingSiteName, LocalDate refferingDate){
+	public RefferingSite(String refferingSiteName, LocalDate refferingDate, UserStatistics userStatistics){
 		this.refferingDate = refferingDate;
 		this.refferingSiteName = refferingSiteName;
+		this.userStatistics = userStatistics;
 	}
 	
-	//getter
+	// getter
 	public LocalDate getRefferingDate(){
 		return this.refferingDate;
 	}
@@ -50,4 +52,5 @@ public class RefferingSite{
 	public String getRefferingSiteName(){
 		return this.refferingSiteName;
 	}
+	
 }

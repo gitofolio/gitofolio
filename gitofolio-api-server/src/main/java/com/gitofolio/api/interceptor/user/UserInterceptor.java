@@ -25,6 +25,12 @@ public class UserInterceptor implements HandlerInterceptor{
 	@Override
 	@Transactional
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception{
+		String name = this.getUserName(request);
+		this.increaseVisitCount(name);
+		this.setReffererSite(name, request);
+	}
+	
+	private String getUserName(HttpServletRequest request){
 		String[] URIs = request.getRequestURI().split("/");
 		String name = "";
 		for(String uri : URIs){
@@ -33,14 +39,25 @@ public class UserInterceptor implements HandlerInterceptor{
 				if(uri.equals(exceptUri)){
 					isExcept = true;
 					break;
-				} 
+				}
 			}
 			if(isExcept == true) continue;
 			name = uri;
 			break;
 		}
-		this.userStatService.addTotalVisitors(name);
-		this.userStatisticsService.addVisitorStatistics(name);
+		return name;
+	}
+	
+	private void increaseVisitCount(String name){
+		this.userStatService.increaseTotalVisitors(name);
+		this.userStatisticsService.increaseVisitorStatistics(name);
+	}
+	
+	private void setReffererSite(String name, HttpServletRequest request){
+		String refferingSiteName = request.getHeader("Referer");
+		if(refferingSiteName == null) return;
+		System.out.println(refferingSiteName);
+		this.userStatisticsService.setRefferingSite(name, refferingSiteName);
 	}
 	
 }

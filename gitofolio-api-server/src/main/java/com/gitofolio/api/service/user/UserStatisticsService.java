@@ -73,11 +73,11 @@ public class UserStatisticsService implements UserMapper{
 		VisitorStatistics visitorStatistics = null;
 		for(VisitorStatisticsDTO visitorStatisticsDTO : visitorStatisticsDTOs){
 			if(visitorStatisticsDTO.getVisitDate().toString().equals(LocalDate.now().toString())){
-				visitorStatistics = new VisitorStatistics(visitorStatisticsDTO.getVisitDate(), visitorStatisticsDTO.getVisitorCount());
+				visitorStatistics = new VisitorStatistics(visitorStatisticsDTO.getVisitDate(), visitorStatisticsDTO.getVisitorCount(), userStatistics);
 				break;
 			}
 		}
-		if(visitorStatistics == null) visitorStatistics = new VisitorStatistics(LocalDate.now(), 1);
+		if(visitorStatistics == null) visitorStatistics = new VisitorStatistics(LocalDate.now(), 1, userStatistics);
 		
 		userStatistics.setVisitorStatistics(visitorStatistics.getVisitorCount());
 		
@@ -87,17 +87,21 @@ public class UserStatisticsService implements UserMapper{
 	}
 	
 	public void deleteUserStatistics(String name){
+		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name)
+			.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저에 대한 삭제 요청입니다.", "유저 이름을 확인해주세요", "/user/statistics/"+name));
+		while(!userStatistics.getVisitorStatistics().isEmpty()) userStatistics.getVisitorStatistics().remove(0);
+		while(!userStatistics.getRefferingSites().isEmpty()) userStatistics.getRefferingSites().remove(0);
 		this.userStatisticsRepository.deleteByName(name);
 		return;
 	}
 	
-	public void addVisitorStatistics(String name){
+	public void increaseVisitorStatistics(String name){
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"));
 			
-			userStatistics.setUserInfo(userInfo);
+			userStatistics.setUserInfo(userInfo); 
 			
 			userStatisticsRepository.save(userStatistics);	
 		}
