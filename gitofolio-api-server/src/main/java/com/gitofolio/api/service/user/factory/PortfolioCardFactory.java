@@ -14,7 +14,6 @@ import com.gitofolio.api.service.user.parameter.ParameterHandler;
 public class PortfolioCardFactory implements UserFactory{
 	
 	private UserMapper portfolioCardService;
-	private UserFactory userInfoFactory;
 	private ParameterHandler<String> parameterHandler;
 	
 	@Override
@@ -35,16 +34,13 @@ public class PortfolioCardFactory implements UserFactory{
 	@Override
 	@Transactional
 	public UserDTO saveUser(UserDTO userDTO){
-		this.userInfoFactory.saveUser(userDTO);
 		return this.portfolioCardService.resolveMap(userDTO);
 	}
 	
 	@Autowired
 	public PortfolioCardFactory(@Qualifier("portfolioCardService") UserMapper portfolioCardService,
-							   @Qualifier("userInfoFactory") UserFactory userInfoFactory,
 							   @Qualifier("portfolioCardsGetParameterHandler") ParameterHandler<String> parameterHandler){
 		this.portfolioCardService = portfolioCardService;
-		this.userInfoFactory = userInfoFactory;
 		this.parameterHandler = parameterHandler;
 	}
 	

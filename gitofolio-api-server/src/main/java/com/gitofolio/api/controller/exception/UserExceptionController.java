@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 
 import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
+import com.gitofolio.api.service.user.exception.DuplicationUserException;
 import com.gitofolio.api.service.common.errordtos.ErrorDTO;
 
 @ControllerAdvice
@@ -26,6 +27,14 @@ public class UserExceptionController{
 										, illegalParameterException.getMessage()
 										, illegalParameterException.getRequest());
 		return new ResponseEntity(errorDTO, HttpStatus.NOT_ACCEPTABLE);
+	}
+	
+	@ExceptionHandler({DuplicationUserException.class})
+	public ResponseEntity<ErrorDTO> duplicateUserExceptionHandler(DuplicationUserException duplicateUserException){
+		ErrorDTO errorDTO = new ErrorDTO(duplicateUserException.getTitle()
+										, duplicateUserException.getMessage()
+										, duplicateUserException.getRequest());
+		return new ResponseEntity(errorDTO, HttpStatus.CONFLICT);
 	}
 	
 }
