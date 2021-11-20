@@ -10,6 +10,8 @@ public interface UserFactory{
 	
 	UserDTO getUser(String name);
 	
+	UserDTO getUser(String name, Object parameter);
+	
 	UserDTO saveUser(UserDTO userDTO);
 	
 }

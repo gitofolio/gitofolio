@@ -11,10 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ApiResponse;
-
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
@@ -32,11 +28,6 @@ public class UserStatisticsController{
 	private UserEraser userStatisticsEraser;
 	
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
-	@ApiOperation(value="유저 statistics정보 가져오기", notes="{name}에 해당하는 유저의 statistics정보 를 가져옴 statistics에는 날짜별 방문수와 방문사이트가 있음")
-	@ApiResponses({
-		@ApiResponse(code=200, message="유저 조회 성공"),   
-		@ApiResponse(code=404, message="유저 조회 실패 - 없는 유저 조회할 경우 발생")
-	})
 	public ResponseEntity<UserDTO> getUserStatistics(@PathVariable("name") String name){
 		
 		UserDTO userDTO = this.userStatisticsFactory.getUser(name);

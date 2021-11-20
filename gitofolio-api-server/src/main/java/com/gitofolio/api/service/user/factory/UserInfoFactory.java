@@ -20,6 +20,12 @@ public class UserInfoFactory implements UserFactory{
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
+	public UserDTO getUser(String name, Object parameter){
+		throw new IllegalStateException("/user/{name}의 parameter요청은 허용되지 않았습니다.");
+	}
+	
+	@Override
 	@Transactional
 	public UserDTO saveUser(UserDTO userDTO){
 		return this.userInfoService.resolveMap(userDTO);

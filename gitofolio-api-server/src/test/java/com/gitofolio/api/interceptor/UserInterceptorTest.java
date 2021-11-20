@@ -53,12 +53,12 @@ public class UserInterceptorTest{
 		this.userInfoFactory.saveUser(setting);
 		
 		// when
-		this.userStatService.addTotalVisitors("devxb");
-		this.userStatService.addTotalVisitors("devxb");
-		this.userStatService.addTotalVisitors("devxb");
+		this.userStatService.increaseTotalVisitors("devxb");
+		this.userStatService.increaseTotalVisitors("devxb");
+		this.userStatService.increaseTotalVisitors("devxb");
 		
-		this.userStatService.addTotalStars("devxb");
-		this.userStatService.addTotalStars("devxb");
+		this.userStatService.increaseTotalStars("devxb");
+		this.userStatService.increaseTotalStars("devxb");
 		
 		// then
 		UserDTO userDTO = this.userStatFactory.getUser("devxb");
@@ -75,9 +75,9 @@ public class UserInterceptorTest{
 		this.userInfoFactory.saveUser(setting);
 		
 		// when
-		this.userStatisticsService.addVisitorStatistics("devxb");
-		this.userStatisticsService.addVisitorStatistics("devxb");
-		this.userStatisticsService.addVisitorStatistics("devxb");
+		this.userStatisticsService.increaseVisitorStatistics("devxb");
+		this.userStatisticsService.increaseVisitorStatistics("devxb");
+		this.userStatisticsService.increaseVisitorStatistics("devxb");
 		
 		this.userStatisticsService.setRefferingSite("devxb", "https://naver.com");
 		this.userStatisticsService.setRefferingSite("devxb", "https://github.com");
