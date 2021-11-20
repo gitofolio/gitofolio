@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static java.lang.Math.min;
 
 @Service
-public class PortfolioCardsParameterHandler<T extends String> implements ParameterHandler<T>{
+public class PortfolioCardsGetParameterHandler<T extends String> implements ParameterHandler<T>{
 	
 	@Override
 	public UserDTO doHandle(UserDTO userDTO, T parameter){
@@ -23,7 +23,7 @@ public class PortfolioCardsParameterHandler<T extends String> implements Paramet
 			from = Integer.parseInt(params[0]);
 			to = Integer.parseInt(params[1]);
 		}catch(Exception e){
-			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/user/portfoliocards");
+			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/user/portfoliocards?cards="+parameter);
 		}
 		List<PortfolioCardDTO> portfolioCards = userDTO.getPortfolioCards();
 		List<PortfolioCardDTO> removedPortfolioCards = new ArrayList<PortfolioCardDTO>(portfolioCards.size());

@@ -49,9 +49,11 @@ public class PortfolioCardController{
 	}
 	
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
-	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name){
+	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
+													  @RequestParam(value="card", required=false) String card){
 		
-		this.portfolioCardEraser.delete(name);
+		if(card == null) this.portfolioCardEraser.delete(name);
+		else this.portfolioCardEraser.delete(name, card);
 		
 		return new ResponseEntity(HttpStatus.OK);
 	}

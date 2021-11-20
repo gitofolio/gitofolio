@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gitofolio.api.service.user.PortfolioCardService;
+import com.gitofolio.api.service.user.exception.IllegalParameterException;
 
 @Service
 public class PortfolioCardEraser implements UserEraser{
@@ -16,6 +17,15 @@ public class PortfolioCardEraser implements UserEraser{
 	@Transactional
 	public String delete(String name){
 		this.portfolioCardService.deletePortfolioCard(name);
+		return name;
+	}
+	
+	@Override
+	@Transactional
+	public String delete(String name, Object parameter){
+		if(!parameter.getClass().equals(String.class)) 
+			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드 삭제범위 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/user/portfoliocards");
+		this.portfolioCardService.deletePortfolioCard(name, (String)parameter);
 		return name;
 	}
 	

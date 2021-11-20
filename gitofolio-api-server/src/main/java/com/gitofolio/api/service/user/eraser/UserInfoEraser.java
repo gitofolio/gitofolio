@@ -25,6 +25,11 @@ public class UserInfoEraser implements UserEraser{
 		return name;
 	}
 	
+	@Override
+	public String delete(String name, Object parameter){
+		throw new IllegalStateException("DELETE : /user/의 parameter요청은 허용되지 않았습니다.");
+	}
+	
 	@Autowired
 	public UserInfoEraser(UserInfoService userInfoService,
 						 @Qualifier("userStatEraser") UserEraser userStatEraser,

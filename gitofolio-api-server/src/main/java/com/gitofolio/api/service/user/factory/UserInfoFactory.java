@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gitofolio.api.service.user.UserMapper;
 import com.gitofolio.api.service.user.dtos.UserDTO;
+import com.gitofolio.api.service.user.parameter.ParameterHandler;
 
 @Service
 public class UserInfoFactory implements UserFactory{
@@ -22,7 +23,7 @@ public class UserInfoFactory implements UserFactory{
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getUser(String name, Object parameter){
-		throw new IllegalStateException("/user/{name}의 parameter요청은 허용되지 않았습니다.");
+		throw new IllegalStateException("GET : /user/{name}의 parameter요청은 허용되지 않았습니다.");
 	}
 	
 	@Override

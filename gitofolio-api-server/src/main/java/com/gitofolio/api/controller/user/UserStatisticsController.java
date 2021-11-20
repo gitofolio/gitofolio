@@ -16,7 +16,7 @@ import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 
 @RestController
-@RequestMapping(path="/user/statistics")
+@RequestMapping(path="/user/dailystatistics")
 public class UserStatisticsController{
 	
 	@Autowired

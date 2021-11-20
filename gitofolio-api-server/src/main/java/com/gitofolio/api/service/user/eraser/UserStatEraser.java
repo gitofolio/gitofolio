@@ -19,6 +19,11 @@ public class UserStatEraser implements UserEraser{
 		return name;
 	}
 	
+	@Override
+	public String delete(String name, Object parameter){
+		throw new IllegalStateException("DELETE : /user/stat의 parameter요청은 허용되지 않았습니다.");
+	}
+	
 	@Autowired
 	public UserStatEraser(UserStatService userStatService){
 		this.userStatService = userStatService;

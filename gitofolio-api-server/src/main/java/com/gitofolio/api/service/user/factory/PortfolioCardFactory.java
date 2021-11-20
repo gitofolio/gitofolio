@@ -42,7 +42,7 @@ public class PortfolioCardFactory implements UserFactory{
 	@Autowired
 	public PortfolioCardFactory(@Qualifier("portfolioCardService") UserMapper portfolioCardService,
 							   @Qualifier("userInfoFactory") UserFactory userInfoFactory,
-							   @Qualifier("portfolioCardsParameterHandler") ParameterHandler<String> parameterHandler){
+							   @Qualifier("portfolioCardsGetParameterHandler") ParameterHandler<String> parameterHandler){
 		this.portfolioCardService = portfolioCardService;
 		this.userInfoFactory = userInfoFactory;
 		this.parameterHandler = parameterHandler;

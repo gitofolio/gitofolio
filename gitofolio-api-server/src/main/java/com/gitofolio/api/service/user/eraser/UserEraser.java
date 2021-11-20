@@ -7,4 +7,6 @@ public interface UserEraser{
 	
 	String delete(String name);  
 	
+	String delete(String name, Object parameter);
+	
 }
