@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
+import com.gitofolio.api.service.user.exception.InvalidHttpMethodException;
 
 @RestController
 @RequestMapping(path="/user/stat")
@@ -34,22 +35,19 @@ public class UserStatController{
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
-	// @RequestMapping(path="", method=RequestMethod.POST)
-	// public ResponseEntity<UserDTO> saveUserStat(@RequestBody UserDTO userDTO){
+	@RequestMapping(path={"", "*", "**"}, method=RequestMethod.POST)
+	public ResponseEntity<UserDTO> saveUserStat(){
 		
-	// 	UserDTO result = this.userStatFactory.saveUser(userDTO);
+		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user/stat URI에는 GET 메소드만 사용 가능합니다.", "POST : user/stat");
 		
-	// 	return new ResponseEntity(result, HttpStatus.CREATED);
+	}
 	
-	// }
-	
-	// @RequestMapping(path="/{name}", method=RequestMethod.DELETE)
-	// public ResponseEntity<UserDTO> deleteUserStat(@PathVariable("name") String name){
+	@RequestMapping(path={"", "*", "**"}, method=RequestMethod.DELETE)
+	public ResponseEntity<UserDTO> deleteUserStat(){
 		
-	// 	this.userStatEraser.delete(name);
+		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user/stat URI에는 GET 메소드만 사용 가능합니다.", "DELETE : user/stat");
 		
-	// 	return new ResponseEntity(HttpStatus.OK);
-	// }
+	}
 	
 	
 }
