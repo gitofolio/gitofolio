@@ -15,4 +15,6 @@ public interface UserFactory{
 	
 	UserDTO saveUser(UserDTO userDTO);
 	
+	UserDTO setHateoas(UserDTO userDTO);
+	
 }

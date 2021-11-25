@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.gitofolio.api.domain.user.UserInfo;
+import com.gitofolio.api.service.user.factory.hateoas.Hateoas.Link;
 
 public class UserDTO{
 	
@@ -12,6 +13,7 @@ public class UserDTO{
 	private List<PortfolioCardDTO> portfolioCards;
 	private UserStatDTO userStat;
 	private UserStatisticsDTO userStatistics;
+	private List<Link> links;
 	
 	// setter
 	public void setName(String name){
@@ -34,6 +36,10 @@ public class UserDTO{
 		this.userStatistics = userStatistics;
 	}
 	
+	public void setLinks(List<Link> links){
+		this.links = links;
+	}
+	
 	// getter
 	public String getName(){
 		return this.name;
@@ -53,6 +59,10 @@ public class UserDTO{
 	
 	public UserStatisticsDTO getUserStatistics(){
 		return this.userStatistics;
+	}
+	
+	public List<Link> getLinks(){
+		return this.links;
 	}
 	
 	// constructor

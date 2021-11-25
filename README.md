@@ -1,7 +1,7 @@
 # api_server_gitofolio
 gitofolio API server
 
-RequesBody JSON 형태 예시
+ResponseBody JSON 형태 예시
 ```JSON
 {
     "name": "name",

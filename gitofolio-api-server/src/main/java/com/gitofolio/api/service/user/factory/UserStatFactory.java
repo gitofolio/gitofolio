@@ -7,17 +7,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gitofolio.api.service.user.UserMapper;
 import com.gitofolio.api.service.user.dtos.UserDTO;
+import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
 
 @Service
 public class UserStatFactory implements UserFactory{
 	
 	private UserMapper userStatService;
 	private UserFactory userInfoFactory;
+	private Hateoas userStatHateoas;
 	
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getUser(String name){
-		return this.userStatService.doMap(name);
+		return setHateoas(this.userStatService.doMap(name));
 	}
 	
 	@Override
@@ -30,14 +32,22 @@ public class UserStatFactory implements UserFactory{
 	@Transactional
 	public UserDTO saveUser(UserDTO userDTO){
 		this.userInfoFactory.saveUser(userDTO);
-		return this.userStatService.resolveMap(userDTO);
+		return setHateoas(this.userStatService.resolveMap(userDTO));
+	}
+	
+	@Override
+	public UserDTO setHateoas(UserDTO userDTO){
+		userDTO.setLinks(this.userStatHateoas.getLinks());
+		return userDTO;
 	}
 	
 	@Autowired
 	public UserStatFactory(@Qualifier("userStatService") UserMapper userStatService,
-						  @Qualifier("userInfoFactory") UserFactory userInfoFactory){
+						  @Qualifier("userInfoFactory") UserFactory userInfoFactory,
+						  @Qualifier("userStatHateoas") Hateoas userStatHateoas){
 		this.userStatService = userStatService;
 		this.userInfoFactory = userInfoFactory;
+		this.userStatHateoas = userStatHateoas;
 	}
 	
 }
