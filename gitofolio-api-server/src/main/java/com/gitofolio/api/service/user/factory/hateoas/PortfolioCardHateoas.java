@@ -16,7 +16,7 @@ public class PortfolioCardHateoas extends Hateoas{
 		this.links = new ArrayList<Link>();
 		this.links.add(new Link("getThis", "GET", "http://api.gitofolio.com/portfoliocards/{name}", "cards={n1},{n2}"));
 		this.links.add(new Link("deleteThis", "DELETE", "http://api.gitofolio.com/portfoliocards/{name}", "card={n1}"));
-		this.links.add(new Link("generateThis", "POST", "http://api.gitofolio.com/portfoliocards/{name}"));
+		this.links.add(new Link("postThis", "POST", "http://api.gitofolio.com/portfoliocards/{name}"));
 	}
 	
 }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import com.gitofolio.api.domain.user.*;
 import com.gitofolio.api.repository.user.*;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.service.user.factory.*;
+import com.gitofolio.api.service.user.exception.*;
 
 @SpringBootTest
 public class UserFactoryTest{
@@ -187,7 +189,6 @@ public class UserFactoryTest{
 		UserDTO userDTO = this.portfolioCardFactory.getUser("user1");
 		
 		// when
-		this.delete();
 		this.portfolioCardFactory.saveUser(userDTO);
 		
 		// then
@@ -196,7 +197,7 @@ public class UserFactoryTest{
 		assertEquals(user1DTO.getName(), "user1");
 		assertEquals(user1DTO.getProfileUrl(), "url1");
 		
-		assertEquals(user1DTO.getPortfolioCards().size(), 2);
+		assertEquals(user1DTO.getPortfolioCards().size(), 4);
 		assertEquals(user1DTO.getPortfolioCards().get(0).getPortfolioUrl(), "portfolioUrl1");
 		assertEquals(user1DTO.getPortfolioCards().get(1).getPortfolioUrl(), "portfolioUrl2");
 		
@@ -212,15 +213,6 @@ public class UserFactoryTest{
 		// when
 		this.delete();
 		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.saveUser(userDTO);
 		
 		// then
 		UserDTO user1DTO = this.userInfoFactory.getUser("user1");
@@ -231,6 +223,7 @@ public class UserFactoryTest{
 		assertNull(user1DTO.getPortfolioCards());
 		assertNull(user1DTO.getUserStat());
 		assertNull(user1DTO.getUserStatistics());
+		assertThrows(DuplicationUserException.class, () -> userInfoFactory.saveUser(userDTO));
 	}
 	
 	@BeforeEach
