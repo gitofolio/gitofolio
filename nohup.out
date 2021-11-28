@@ -1,0 +1,35 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.6)
+
+2021-11-28 10:18:20.711  INFO 18746 --- [           main] com.gitofolio.api.ApiApplication         : Starting ApiApplication using Java 11.0.11 on goorm with PID 18746 (/workspace/api_server_gitofolio/api-0.1.0-SNAPSHOT.jar started by root in /workspace/api_server_gitofolio)
+2021-11-28 10:18:20.758  INFO 18746 --- [           main] com.gitofolio.api.ApiApplication         : No active profile set, falling back to default profiles: default
+2021-11-28 10:18:25.324  INFO 18746 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-11-28 10:18:25.516  INFO 18746 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 166 ms. Found 4 JPA repository interfaces.
+2021-11-28 10:18:29.066  INFO 18746 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 80 (http)
+2021-11-28 10:18:29.259  INFO 18746 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-11-28 10:18:29.260  INFO 18746 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-11-28 10:18:29.571  INFO 18746 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-11-28 10:18:29.572  INFO 18746 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8227 ms
+2021-11-28 10:18:30.607  INFO 18746 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-11-28 10:18:31.086  INFO 18746 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-11-28 10:18:31.807  INFO 18746 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-11-28 10:18:32.472  INFO 18746 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-11-28 10:18:33.659  INFO 18746 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-11-28 10:18:33.727  INFO 18746 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2021-11-28 10:18:37.370  INFO 18746 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-11-28 10:18:37.390  INFO 18746 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-11-28 10:18:41.172  WARN 18746 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-11-28 10:18:43.585  INFO 18746 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 80 (http) with context path ''
+2021-11-28 10:18:43.635  INFO 18746 --- [           main] com.gitofolio.api.ApiApplication         : Started ApiApplication in 27.517 seconds (JVM running for 31.956)
+2021-11-28 10:19:17.669  INFO 18746 --- [p-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-11-28 10:19:17.669  INFO 18746 --- [p-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-11-28 10:19:17.671  INFO 18746 --- [p-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2021-11-28 10:20:08.772  INFO 18746 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-11-28 10:20:08.785  INFO 18746 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-11-28 10:20:08.841  INFO 18746 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
