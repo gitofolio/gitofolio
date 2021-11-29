@@ -37,6 +37,8 @@ public class UserInfoService implements UserMapper{
 	}
 	
 	public void deleteUserInfo(String name){
+		UserInfo user = this.userInfoRepository.findByName(name)
+			.orElseThrow(() -> new NonExistUserException("존재 하지 않는 유저에 대한 삭제 요청입니다.", "유저 이름을 확인해주세요", "/user/"+name));
 		this.userInfoRepository.deleteByName(name);
 		return;
 	}

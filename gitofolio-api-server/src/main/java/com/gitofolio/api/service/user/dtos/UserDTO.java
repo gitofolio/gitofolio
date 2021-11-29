@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import com.gitofolio.api.domain.user.UserInfo;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas.Link;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserDTO{
 	
 	private String name;
@@ -57,6 +59,7 @@ public class UserDTO{
 		return this.userStat;
 	}
 	
+	// @JsonProperty("userDailyStat")
 	public UserStatisticsDTO getUserStatistics(){
 		return this.userStatistics;
 	}

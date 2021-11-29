@@ -87,8 +87,9 @@ public class UserStatisticsService implements UserMapper{
 	}
 	
 	public void deleteUserStatistics(String name){
-		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name)
-			.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저에 대한 삭제 요청입니다.", "유저 이름을 확인해주세요", "/user/statistics/"+name));
+		Optional<UserStatistics> optionalUserStatistics = this.userStatisticsRepository.findByName(name);
+		if(optionalUserStatistics.isEmpty()) return;
+		UserStatistics userStatistics = optionalUserStatistics.get();
 		while(!userStatistics.getVisitorStatistics().isEmpty()) userStatistics.getVisitorStatistics().remove(0);
 		while(!userStatistics.getRefferingSites().isEmpty()) userStatistics.getRefferingSites().remove(0);
 		this.userStatisticsRepository.deleteByName(name);

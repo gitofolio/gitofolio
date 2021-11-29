@@ -46,9 +46,9 @@ public class UserInfoController {
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){
 		
-		this.userInfoEraser.delete(name);
+		String result = this.userInfoEraser.delete(name);
 		
-		return new ResponseEntity(HttpStatus.OK);
+		return new ResponseEntity(result, HttpStatus.OK);
 	}
 	
 }
