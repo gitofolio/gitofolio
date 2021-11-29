@@ -3,7 +3,7 @@ ifndef::snippets[]
 endif::[]
 = Gitofolio RESTful API Docs
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectlinks:
 
 [[user]]
@@ -13,6 +13,8 @@ NOTE: user에 관련된 API 목차 입니다.
 [[user-get]]
 === 유저 가져오기
 api서버에 저장된 유저의 정보를 가져옵니다.
+
+이 섹터에는 유저의 이름, 프로필 URL이 포함됩니다.
 
 [[user-get-request]]
 ==== Request
@@ -35,7 +37,7 @@ include::{snippets}/user/get/response-fields.adoc[]
 
 [[user-get-error-handle1]]
 ==== NonExistUserException
-CAUTION: 서버는 존재하지않는 유저에 대해 NonExistUserException 핸들링을 합니다.
+CAUTION: 서버는 존재하지않는 유저에 대해 NonExistUserException 예외처리를 합니다.
 
 핸들링 결과는 아래처럼 표현됩니다.
 
@@ -76,7 +78,7 @@ include::{snippets}/user/post/response-fields.adoc[]
 
 [[user-post-errorhandle1]]
 ==== DuplicationUserException
-CAUTION: 서버는 중복되는 유저 POST 요청에 대해 DuplicationUserException 핸들링을 합니다.
+CAUTION: 서버는 중복되는 유저 POST 요청에 대해 DuplicationUserException 예외처리를 합니다.
 
 핸들링 결과는 아래와 같습니다.
 
@@ -85,3 +87,27 @@ include::{snippets}/user/post/fail/http-response.adoc[]
 json 표현의 각 key 의미는 다음과 같습니다.
 
 include::{snippets}/user/get/fail/response-fields.adoc[]
+
+[[user-delete]]
+=== 유저 삭제하기
+DB에 저장되어있는 유저를 삭제합니다.
+
+[[user-delete-request]]
+==== Request
+DB에 저장되어있는 유저를 삭제하려면, DELETE메소드로 요청하세요.
+
+NOTE: 이후, DELETE요청을 위해 인증하는 메소드가 추가될 예정입니다.
+
+성공적으로 삭제되었다면, 아래와 같은 표현이 응답됩니다.
+
+include::{snippets}/user/delete/http-response.adoc[]
+
+[[user-delete-errorhandle1]]
+==== NonExistUserException
+CAUTION: 서버는 존재하지 않는 유저에 대한 삭제 요청에 대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/user/delete/fail/http-response.adoc[]
+
+json 표현의 각 key 의미는 다음과 같습니다.
+
+include::{snippets}/user/delete/fail/response-fields.adoc[]

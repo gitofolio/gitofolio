@@ -134,7 +134,7 @@ public class UserInfoControllerTest{
 								fieldWithPath("profileUrl").description("유저의 프로필 사진 Url입니다.").optional(),
 								fieldWithPath("portfolioCards").description("유저가 갖고있는 포토폴리오 카드들입니다. 이 URL로 들어오는 portfolioCards 저장 요청은 무시됩니다.").optional(),
 								fieldWithPath("userStat").description("유저의 토탈 통계 자료입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.").optional(),
-								fieldWithPath("userStatistics").description("유저의 일일 통계 자료입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.").optional(),
+								fieldWithPath("userDailyStat").description("유저의 일일 통계 자료입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.").optional(),
 								fieldWithPath("links").description("HATEOAS 모음 입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.").optional()
 							),
 						   	responseFields(

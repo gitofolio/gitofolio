@@ -52,4 +52,6 @@ public class UserStatControllerTest{
 	@Qualifier("userInfoEraser")
 	private UserEraser userInfoEraser;
 	
+	
+	
 }

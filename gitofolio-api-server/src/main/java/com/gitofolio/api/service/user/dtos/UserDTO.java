@@ -59,7 +59,7 @@ public class UserDTO{
 		return this.userStat;
 	}
 	
-	// @JsonProperty("userDailyStat")
+	@JsonProperty("userDailyStat")
 	public UserStatisticsDTO getUserStatistics(){
 		return this.userStatistics;
 	}
