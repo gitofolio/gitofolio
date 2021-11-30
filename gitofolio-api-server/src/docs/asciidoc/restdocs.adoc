@@ -1,0 +1,223 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+= Gitofolio RESTful API Docs
+:toc: left
+:toclevels: 3
+:sectlinks:
+
+[[enterence]]
+== 들어가며
+gitofolio rest api를 사용하여, 유저데이터, 통계, 포토폴리오 정보 등을 가져올수있습니다.
+
+[[HATEOAS]]
+== gitofolio HATEOAS
+gitofolio는 HATEOAS단계를 지원합니다.
+
+HATEOAS를 사용하여, 서버와 클라이언트의 느슨한 연결관계를 유지하며 서버의 변화에 유연하게 대처하세요.
+
+TIP: HATEOAS에는 한 URL에서 선택가능한 모든 API가 기술되어있습니다.
+
+엔드포인트 '/'요청에 대한 응답은 아래와 같습니다.
+
+*http-response.adoc[]*
+
+[[HATEOAS-naming-convention]]
+=== HATEOAS 네이밍 규칙
+HATEOAS는 아래와 같은 네이밍 규칙이 있습니다.
+
+1. 기본적으로 camel표기법을 따릅니다.
+
+2. "href"키 값에는 다음으로 선택가능한 URL이 표시됩니다. 
+
+TIP: "href"가 갖고있는 값의 {     } 에는 응답으로 받은 표현의 같은 key값과 매칭됩니다. 예를들어, {name}이라면, JSON "name"키의 값과 매칭됩니다.
+
+3. "method"키 값에는 "href"와 상호작용하기 위해 선택해야하는 HTTP method가 정의되어있습니다.
+
+4. "rel"키 값은 "href"를 가리키는 포인터 입니다.
+
+NOTE: "rel"키 값의 명명 규칙은 변경되지 않습니다.
+
+4-1. "rel"키 값은 {http method}+{다음 URL의 일부}로 이루어져 있으며, 마찬가지로 camel표기법을 따릅니다.
+
+CAUTION: "rel" 네이밍 규칙에서, 자기자신을 호출할경우는 {http method}+This로 이루어집니다.
+
+[[user]]
+== 유저
+NOTE: user에 관련된 API 목차 입니다.
+
+이 섹터에는 유저의 이름, 프로필 URL이 포함되어있습니다.
+
+[[user-get]]
+=== 유저 가져오기
+api서버에 저장된 유저의 정보를 가져옵니다.
+
+[[user-get-request]]
+==== Request
+요청 시 생성되는 HTTP 헤더는 아래와 같습니다.
+
+include::{snippets}/user/get/http-request.adoc[]
+
+include::{snippets}/user/get/path-parameters.adoc[]
+
+[[user-get-response]]
+==== Representation
+요청에 대한 서버의 표현은 다음과 같습니다.
+
+include::{snippets}/user/get/http-response.adoc[]
+
+include::{snippets}/user/get/response-fields.adoc[]
+
+[[user-get-error-handle1]]
+==== NonExistUserException
+CAUTION: 서버는 존재하지않는 유저에 대해 NonExistUserException 예외처리를 합니다.
+
+핸들링 결과는 아래처럼 표현됩니다.
+
+include::{snippets}/user/get/fail/http-response.adoc[]
+
+include::{snippets}/user/get/fail/response-fields.adoc[]
+
+
+[[user-post]]
+=== 유저 저장 하기
+DB에 저장되어있지 않은 유저를 저장합니다.
+
+CAUTION: name이 중복되는 유저에 대해 post요청을 할 경우, 유저 정보가 업데이트 되는것이아닌, 에러메세지가 출력됩니다.
+
+[[user-post-request]]
+==== Request
+요청 시 생성되는 HTTP 헤더는 아래와 같습니다.
+
+NOTE: key값이 'null'이라면, 해당 필드는 이 URL로 생성할수 없거나 서버에 의해 생성되는부분 입니다.
+
+include::{snippets}/user/post/http-request.adoc[]
+
+include::{snippets}/user/post/request-fields.adoc[]
+
+[[user-post-response]]
+==== Representation
+요청에 대한 서버의 표현은 다음과 같습니다.
+
+include::{snippets}/user/post/http-response.adoc[]
+
+include::{snippets}/user/post/response-fields.adoc[]
+
+[[user-post-errorhandle1]]
+==== DuplicationUserException
+CAUTION: 서버는 중복되는 유저 POST 요청에 대해 DuplicationUserException 예외처리를 합니다.
+
+핸들링 결과는 아래와 같습니다.
+
+include::{snippets}/user/post/fail/http-response.adoc[]
+
+include::{snippets}/user/get/fail/response-fields.adoc[]
+
+[[user-delete]]
+=== 유저 삭제하기
+DB에 저장되어있는 유저를 삭제합니다.
+
+[[user-delete-request]]
+==== Request
+DB에 저장되어있는 유저를 삭제하려면, DELETE메소드로 요청하세요.
+
+NOTE: 이후, DELETE요청을 위해 인증하는 메소드가 추가될 예정입니다.
+
+요청 시 생성되는 HTTP 헤더는 아래와 같습니다.
+
+include::{snippets}/user/delete/http-request.adoc[]
+
+include::{snippets}/user/delete/path-parameters.adoc[]
+
+[[user-delete-response]]
+==== Representation
+성공적으로 삭제되었다면, 아래와 같은 표현이 응답됩니다.
+
+include::{snippets}/user/delete/http-response.adoc[]
+
+[[user-delete-errorhandle1]]
+==== NonExistUserException
+CAUTION: 서버는 존재하지 않는 유저에 대한 삭제 요청에 대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/user/delete/fail/http-response.adoc[]
+
+include::{snippets}/user/delete/fail/response-fields.adoc[]
+
+[[userstat]]
+== 유저 통계
+NOTE: 유저 통계정보에 관한 목차입니다. 
+
+이 섹터에는 유저 포토폴리오 총 방문자수, 총 스타수가 포함되어있습니다.
+
+[[userstat-request]]
+=== 유저 통계 가져오기
+요청된 유저에 대한 통계 정보를 가져옵니다.
+
+CAUTION: 유저 통계정보는 서버에 의해 생성되며, 클라이언트가 생성에 직접적으로 관여할 수 없습니다. 따라서, GET메소드만 허용되어있습니다.
+
+[[userstat-get-request]]
+==== Request
+유저 정보를 가져오기위해 GET메소드로 요청합니다.
+
+요청 시 생성되는 HTTP 헤더는 아래와 같습니다.
+
+include::{snippets}/userstat/get/http-request.adoc[]
+
+include::{snippets}/userstat/get/path-parameters.adoc[]
+
+[[userstat-get-response]]
+==== Representation
+요청에 대한 서버 응답의 표현은 아래와 같습니다.
+
+include::{snippets}/userstat/get/http-response.adoc[]
+
+include::{snippets}/userstat/get/response-fields.adoc[]
+
+[[userstat-get-errorhandle1]]
+==== NonExistUserException
+CAUTION: 서버는 존재하지 않는 유저에 대한 통계정보 요청에 대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/userstat/get/fail/http-response.adoc[]
+
+include::{snippets}/userstat/get/fail/response-fields.adoc[]
+
+[[userdailystat]]
+== 유저 날짜별 통계
+NOTE: 유저 날짜별 통계에 관한 목차 입니다.
+
+이 섹터에는 날짜별 방문자수, 날짜별 유입 경로가 저장되어 있습니다.
+
+[[userdailystat-request]]
+=== 유저 날짜별 통계 가져오기
+요청 된 유저에 대한 날짜별 통계 정보를 가져옵니다.
+
+CAUTION: 유저 날짜별 통계정보는 서버에 의해 생성되며, 클라이언트가 생성에 직접적으로 관여할 수 없습니다. 따라서, GET메소드만 허용되어있습니다.
+
+[[userdailystat-get-request]]
+==== Request
+유저 날짜별 통계정보를 가져오기위해 GET 요청을 합니다.
+
+요청시 생성되는 HTTP 헤더는 아래와 같습니다.
+
+include::{snippets}/userdailystat/get/http-request.adoc[]
+
+include::{snippets}/userdailystat/get/path-parameters.adoc[]
+
+[[userdailystat-get-response]]
+==== Representation
+트랜잭션이 성공적으로 완료되었다면, 200 OK 응답과 함께 아래 표현이 응답됩니다.
+
+include::{snippets}/userdailystat/get/http-response.adoc[]
+
+include::{snippets}/userdailystat/get/response-fields.adoc[]
+
+NOTE: 서버는 날짜별 방문자수 통계에 대해 최대 7개(날짜기준)를 저장하며, 초과시 오래된 순으로 자동 삭제합니다.
+
+[[userdailystat-get-errorhandle1]]
+==== NonExistUserException
+CAUTION: 서버는 존재하지 않는 유저에 대한 날짜별 통계정보 요청에 대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/userdailystat/get/fail/http-response.adoc[]
+
+include::{snippets}/userdailystat/get/fail/response-fields.adoc[]
+

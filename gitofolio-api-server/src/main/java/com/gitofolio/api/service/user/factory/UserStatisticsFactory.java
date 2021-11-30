@@ -25,7 +25,7 @@ public class UserStatisticsFactory implements UserFactory{
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getUser(String name, Object parameter){
-		throw new IllegalStateException("/user/statistics/{name}의 parameter요청은 허용되지 않았습니다.");
+		throw new IllegalStateException("/user/dailystat/{name}의 parameter요청은 허용되지 않았습니다.");
 	}
 	
 	@Override

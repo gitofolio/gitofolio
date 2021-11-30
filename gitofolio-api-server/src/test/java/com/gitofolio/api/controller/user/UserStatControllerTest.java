@@ -28,6 +28,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.UserMapper;
@@ -45,13 +47,95 @@ public class UserStatControllerTest{
 	private MockMvc mockMvc;
 	
 	@Autowired
+	@Qualifier("userInfoEraser")
+	private UserEraser userInfoEraser;
+	
+	@Autowired
 	@Qualifier("userStatFactory")
 	private UserFactory userStatFactory;
 	
 	@Autowired
-	@Qualifier("userInfoEraser")
-	private UserEraser userInfoEraser;
+	@Qualifier("userInfoFactory")
+	private UserFactory userInfoFactory;
 	
+	@BeforeEach
+	public void preInit(){
+		UserDTO user = this.getUser();
+		try{
+			this.userInfoEraser.delete(user.getName());
+		} catch(NonExistUserException NEUE){}
+		try{
+			this.userInfoFactory.saveUser(user);
+		}catch(DuplicationUserException DUE){}
+		UserDTO result = this.userInfoFactory.getUser(user.getName());
+		assertEquals(user.getName(), result.getName());
+	}
 	
+	@AfterEach
+	public void postInit(){
+		UserDTO user = this.getUser();
+		try{
+			this.userInfoEraser.delete(user.getName());
+		} catch(NonExistUserException NEUE){}
+		try{
+			this.userInfoFactory.saveUser(user);
+		}catch(DuplicationUserException DUE){DUE.printStackTrace();}
+	}
+	
+	@Test
+	public void userStat_GET_Test() throws Exception{
+		//given 
+		UserDTO user = this.getUser();
+		
+		// when
+		mockMvc.perform(get("/user/{name}", user.getName()).accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
+		
+		// then
+		mockMvc.perform(get("/user/stat/{name}", user.getName()).accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andDo(document("userstat/get",
+						pathParameters(
+							parameterWithName("name").description("유저 총 통계정보 요청 대상 이름입니다.")
+						),
+						responseFields(
+							fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
+							fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
+							fieldWithPath("userStat.totalVisitors").description("{name}에 해당하는 유저를 방문한 사람들의 수 입니다."),
+							fieldWithPath("userStat.totalStars").description("{name}에 해당하는 유저가 받은 star수 입니다."),
+							fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
+							fieldWithPath("links.[].method").description("HTTP METHOD"),
+							fieldWithPath("links.[].href").description("다음 선택지 요청 URL 입니다.")
+						)
+			));
+		
+	}
+	
+	@Test
+	public void userStat_GET_Fail_Test() throws Exception{
+		// given
+		String name = "nonExistUser";
+		
+		// then
+		mockMvc.perform(get("/user/stat/{name}", name).accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isNotFound())
+			.andDo(document("userstat/get/fail",
+						pathParameters(
+							parameterWithName("name").description("유저 총 통계정보 요청 대상 이름입니다.")
+						),
+						responseFields(
+							fieldWithPath("title").description("에러의 주요 원인입니다."),
+							fieldWithPath("message").description("에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다."),
+							fieldWithPath("request").description("에러가 발생한 request URL 입니다.")
+						)
+					));
+	}
+	
+	private UserDTO getUser(){
+		return new UserDTO.Builder()
+			.name("name")
+			.profileUrl("https://example.profileUrl.com?1123u8413478")
+			.build();
+	}
 	
 }

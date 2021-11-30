@@ -32,7 +32,7 @@ public class UserStatisticsService implements UserMapper{
 		
 		if(userStatistics.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
-				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"));
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"));
 			
 			userStatistics.setUserInfo(userInfo);
 			
@@ -53,7 +53,7 @@ public class UserStatisticsService implements UserMapper{
 	
 	@Override
 	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"));
+		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"));
 		
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(userInfo.getName()).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){
@@ -100,7 +100,7 @@ public class UserStatisticsService implements UserMapper{
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
-				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"));
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"));
 			
 			userStatistics.setUserInfo(userInfo); 
 			
@@ -114,7 +114,7 @@ public class UserStatisticsService implements UserMapper{
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
-				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/statistics/"));
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"));
 			
 			userStatistics.setUserInfo(userInfo);
 			

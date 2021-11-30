@@ -192,7 +192,7 @@ public class UserInfoControllerTest{
 	@Test
 	public void userInfo_DELETE_Fail_Test() throws Exception{
 		// when
-		String name = "invalidUser";
+		String name = "nonExistUser";
 		
 		// then
 		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.APPLICATION_JSON))
