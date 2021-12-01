@@ -109,7 +109,6 @@ public class UserStatisticsControllerTest{
 						));
 	}
 	
-	
 	@BeforeEach
 	public void preInit(){
 		UserDTO user = this.getUser();

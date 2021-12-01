@@ -211,7 +211,9 @@ include::{snippets}/userdailystat/get/http-response.adoc[]
 
 include::{snippets}/userdailystat/get/response-fields.adoc[]
 
-NOTE: 서버는 날짜별 방문자수 통계에 대해 최대 7개(날짜기준)를 저장하며, 초과시 오래된 순으로 자동 삭제합니다.
+NOTE: 날짜별 방문자수 통계에 대해 최대 7개(날짜기준)를 저장하며, 초과시 오래된 순으로 자동 삭제됩니다.
+
+NOTE: 유입 경로에 대해 최대 30개 까지 저장하며, 초과시 오래된 순으로 자동 삭제됩니다.
 
 [[userdailystat-get-errorhandle1]]
 ==== NonExistUserException

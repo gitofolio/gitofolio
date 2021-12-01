@@ -31,7 +31,7 @@ public class UserStatistics{
 	private List<VisitorStatistics> visitorStatistics = new ArrayList<VisitorStatistics>();
 	
 	// @Column(name="REFFERING_SITE")
-	@OneToMany(mappedBy="userStatistics", fetch=FetchType.LAZY, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="userStatistics", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
 	// @JoinColumn(name="USER_STATISTICS_ID")
 	private List<RefferingSite> refferingSites = new ArrayList<RefferingSite>();
 	
