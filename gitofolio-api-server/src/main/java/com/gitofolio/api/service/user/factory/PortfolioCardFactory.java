@@ -39,7 +39,6 @@ public class PortfolioCardFactory implements UserFactory{
 		return this.setHateoas(this.portfolioCardService.resolveMap(userDTO));
 	}
 	
-	@Override
 	public UserDTO setHateoas(UserDTO userDTO){
 		userDTO.setLinks(this.portfolioCardHateoas.getLinks());
 		return userDTO;

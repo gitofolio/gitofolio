@@ -35,7 +35,6 @@ public class UserStatisticsFactory implements UserFactory{
 		return this.setHateoas(this.userStatisticsService.resolveMap(userDTO));
 	}
 	
-	@Override
 	public UserDTO setHateoas(UserDTO userDTO){
 		userDTO.setLinks(this.userStatisticsHateoas.getLinks());
 		return userDTO;

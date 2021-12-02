@@ -517,7 +517,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>gitofolio는 HATEOAS단계를 지원합니다.</p>
 </div>
 <div class="paragraph">
-<p>HATEOAS를 사용하면, 서버와 클라이언트가 느슨한 연결관계를 갖게되어 서버의 변화에 유연하게 대처하세요.</p>
+<p>HATEOAS를 사용하여, 서버와 클라이언트의 느슨한 연결관계를 유지하며 서버의 변화에 유연하게 대처하세요.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -534,23 +534,61 @@ HATEOAS에는 한 URL에서 선택가능한 모든 API가 기술되어있습니�
 <div class="paragraph">
 <p>엔드포인트 '/'요청에 대한 응답은 아래와 같습니다.</p>
 </div>
-<div class="paragraph">
-<p><strong><strong>http-response.adoc[]</strong></strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 871
+
+{
+  "links" : [ {
+    "rel" : "getThis",
+    "method" : "GET",
+    "href" : "http://api.gitofolio.com"
+  }, {
+    "rel" : "getUser",
+    "method" : "GET",
+    "href" : "http://api.giotofolio.com/user/{name}"
+  }, {
+    "rel" : "postUser",
+    "method" : "POST",
+    "href" : "http://api.gitofolio.com/user"
+  }, {
+    "rel" : "deleteUser",
+    "method" : "DELETE",
+    "href" : "http://api.gitofolio.com/user/{name}"
+  }, {
+    "rel" : "getPortfoliocards",
+    "method" : "GET",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "cards={n1},{n2}"
+  }, {
+    "rel" : "deletePortfolicards",
+    "method" : "DELETE",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "card={n1}"
+  }, {
+    "rel" : "postPortfoliocards",
+    "method" : "POST",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}"
+  } ]
+}</code></pre>
+</div>
 </div>
 <div class="sect2">
 <h3 id="HATEOAS-naming-convention"><a class="link" href="#HATEOAS-naming-convention">HATEOAS 네이밍 규칙</a></h3>
 <div class="paragraph">
 <p>HATEOAS는 아래와 같은 네이밍 규칙이 있습니다.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
 <p>기본적으로 camel표기법을 따릅니다.</p>
 </li>
 <li>
 <p>"href"키 값에는 다음으로 선택가능한 URL이 표시됩니다.</p>
 </li>
-</ol>
+</ul>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -564,15 +602,15 @@ HATEOAS에는 한 URL에서 선택가능한 모든 API가 기술되어있습니�
 </tr>
 </table>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
 <p>"method"키 값에는 "href"와 상호작용하기 위해 선택해야하는 HTTP method가 정의되어있습니다.</p>
 </li>
 <li>
 <p>"rel"키 값은 "href"를 가리키는 포인터 입니다.</p>
 </li>
-</ol>
+</ul>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -586,8 +624,12 @@ HATEOAS에는 한 URL에서 선택가능한 모든 API가 기술되어있습니�
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>4-1. "rel"키 값은 {http method}+{다음 URL의 일부}로 이루어져 있으며, 마찬가지로 camel표기법을 따릅니다.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>"rel"키 값은 {http method}+{다음 URL의 일부}로 이루어져 있으며, 마찬가지로 camel표기법을 따릅니다.</p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock caution">
 <table>
@@ -696,9 +738,6 @@ Content-Length: 649
   } ]
 }</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>표현의 각 key들은 아래의 의미를 갖고있습니다.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1470,12 +1509,12 @@ Content-Length: 463
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2021-11-30",
+      "visitDate" : "2021-12-02",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2021-11-30"
+      "refferingDate" : "2021-12-02"
     } ]
   }
 }</code></pre>
@@ -1549,7 +1588,19 @@ Content-Length: 463
 <div class="title">Note</div>
 </td>
 <td class="content">
-서버는 날짜별 방문자수 통계에 대해 최대 7개(날짜기준)를 저장하며, 초과시 오래된 순으로 자동 삭제합니다.
+날짜별 방문자수 통계에 대해 최대 7개(날짜기준)를 저장하며, 초과시 오래된 순으로 자동 삭제됩니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+유입 경로에 대해 최대 30개 까지 저장하며, 초과시 오래된 순으로 자동 삭제됩니다.
 </td>
 </tr>
 </table>
@@ -1621,7 +1672,7 @@ Content-Length: 144
 <div id="footer">
 <div id="footer-text">
 Version 0.1.0-SNAPSHOT<br>
-Last updated 2021-11-30 14:36:00 UTC
+Last updated 2021-12-02 14:07:12 UTC
 </div>
 </div>
 </body>

@@ -20,25 +20,25 @@ TIP: HATEOAS에는 한 URL에서 선택가능한 모든 API가 기술되어있�
 
 엔드포인트 '/'요청에 대한 응답은 아래와 같습니다.
 
-*http-response.adoc[]*
+include::{snippets}/endpoint/get/http-response.adoc[]
 
 [[HATEOAS-naming-convention]]
 === HATEOAS 네이밍 규칙
 HATEOAS는 아래와 같은 네이밍 규칙이 있습니다.
 
-1. 기본적으로 camel표기법을 따릅니다.
+- 기본적으로 camel표기법을 따릅니다.
 
-2. "href"키 값에는 다음으로 선택가능한 URL이 표시됩니다. 
+- "href"키 값에는 다음으로 선택가능한 URL이 표시됩니다. 
 
 TIP: "href"가 갖고있는 값의 {     } 에는 응답으로 받은 표현의 같은 key값과 매칭됩니다. 예를들어, {name}이라면, JSON "name"키의 값과 매칭됩니다.
 
-3. "method"키 값에는 "href"와 상호작용하기 위해 선택해야하는 HTTP method가 정의되어있습니다.
+- "method"키 값에는 "href"와 상호작용하기 위해 선택해야하는 HTTP method가 정의되어있습니다.
 
-4. "rel"키 값은 "href"를 가리키는 포인터 입니다.
+- "rel"키 값은 "href"를 가리키는 포인터 입니다.
 
 NOTE: "rel"키 값의 명명 규칙은 변경되지 않습니다.
 
-4-1. "rel"키 값은 {http method}+{다음 URL의 일부}로 이루어져 있으며, 마찬가지로 camel표기법을 따릅니다.
+- "rel"키 값은 {http method}+{다음 URL의 일부}로 이루어져 있으며, 마찬가지로 camel표기법을 따릅니다.
 
 CAUTION: "rel" 네이밍 규칙에서, 자기자신을 호출할경우는 {http method}+This로 이루어집니다.
 
