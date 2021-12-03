@@ -16,7 +16,7 @@ gitofolio는 HATEOAS단계를 지원합니다.
 
 HATEOAS를 사용하여, 서버와 클라이언트의 느슨한 연결관계를 유지하며 서버의 변화에 유연하게 대처하세요.
 
-TIP: HATEOAS에는 한 URL에서 선택가능한 모든 API가 기술되어있습니다.
+TIP: HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 기술되어 있습니다.
 
 엔드포인트 '/'요청에 대한 응답은 아래와 같습니다.
 
@@ -149,7 +149,7 @@ NOTE: 유저 통계정보에 관한 목차입니다.
 
 이 섹터에는 유저 포토폴리오 총 방문자수, 총 스타수가 포함되어있습니다.
 
-[[userstat-request]]
+[[userstat-get]]
 === 유저 통계 가져오기
 요청된 유저에 대한 통계 정보를 가져옵니다.
 
@@ -222,4 +222,122 @@ CAUTION: 서버는 존재하지 않는 유저에 대한 날짜별 통계정보 �
 include::{snippets}/userdailystat/get/fail/http-response.adoc[]
 
 include::{snippets}/userdailystat/get/fail/response-fields.adoc[]
+
+[[portfoliocards]]
+== 포트폴리오 카드
+NOTE: 유저에 매칭되는 포트폴리오 카드 API가 기술되어있습니다.
+
+[[portfoliocards-get]]
+=== 포트폴리오 카드 가져오기
+유저에 저장된 포트폴리오 카드들을 가져옵니다.
+
+[[portfoliocards-get-request]]
+==== Request
+포트폴리오 카드들을 가져오기위해 GET 요청을 합니다.
+
+요청시 생성되는 HTTP 헤더는 아래와 같습니다.
+
+include::{snippets}/portfoliocards/get/http-request.adoc[]
+
+include::{snippets}/portfoliocards/get/path-parameters.adoc[]
+
+include::{snippets}/portfoliocards/get/request-parameters.adoc[]
+
+[[portfoliocards-get-response]]
+==== Representation
+트랜잭션이 성공적으로 완료되었다면, 200 OK 응답 코드와 함께 아래 표현이 응답됩니다.
+
+include::{snippets}/portfoliocards/get/http-response.adoc[]
+
+include::{snippets}/portfoliocards/get/response-fields.adoc[]
+
+[[portfoliocards-get-errorhandle1]]
+==== NonExistUserException
+CAUTION: 서버는 존재하지 않는 유저에 대한 포트폴리오 카드 요청에 대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/portfoliocards/get/fail/http-response.adoc[]
+
+include::{snippets}/portfoliocards/get/fail/response-fields.adoc[]
+
+[[portfoliocards-get-errorhandle2]]
+==== IllegalParameterException
+CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
+
+HTTP 요청 예시
+
+include::{snippets}/portfoliocards/get/parameterfail/http-request.adoc[]
+
+include::{snippets}/portfoliocards/get/parameterfail/http-response.adoc[]
+
+include::{snippets}/portfoliocards/get/parameterfail/response-fields.adoc[]
+
+[[portfoliocards-post]]
+=== 포트폴리오 카드 저장하기
+DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 저장합니다.
+
+[[portfoliocards-post-request]]
+==== Request
+포트폴리오 카드를 저장하기 위해 POST 요청을 합니다.
+
+요청시 생성되는 HTTP 헤더는 아래와 같습니다.
+
+include::{snippets}/portfoliocards/post/http-request.adoc[]
+
+include::{snippets}/portfoliocards/post/request-fields.adoc[]
+
+[[portfoliocards-post-response]]
+==== Representation
+트랜잭션이 성공적으로 완료되었다면, CREATED 응답코드와 함께 아래 표현이 응답됩니다.
+
+include::{snippets}/portfoliocards/post/http-response.adoc[]
+
+include::{snippets}/portfoliocards/post/response-fields.adoc[]
+
+[[portfoliocards-post-errorhandle1]]
+==== NonExistUserException
+CAUTION: 서버는 존재하지 않는 유저에 대한 포트폴리오 카드 저장 요청에 대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/portfoliocards/post/fail/http-response.adoc[]
+
+include::{snippets}/portfoliocards/post/fail/response-fields.adoc[]
+
+[[portfoliocards-delete]]
+=== 포트폴리오 카드 삭제하기
+DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 삭제합니다.
+
+[[portfoliocards-delete-request]]
+==== Request
+요청시 생성되는 HTTP 헤더는 아래와 같습니다.
+
+include::{snippets}/portfoliocards/delete/http-request.adoc[]
+
+include::{snippets}/portfoliocards/delete/path-parameters.adoc[]
+
+include::{snippets}/portfoliocards/delete/request-parameters.adoc[]
+
+[[portfoliocards-delete-response]]
+==== Representation
+트랜잭션이 성공적으로 완료되었다면, 200 OK응답코드와 함께 아래 표현이 응답됩니다.
+
+include::{snippets}/portfoliocards/delete/http-response.adoc[]
+
+[[portfoliocards-delete-errorhandle1]]
+==== NonExistUserException
+CAUTION: 서버는 존재하지 않는 유저에 대한 포트폴리오 카드 삭제 요청에 대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/portfoliocards/delete/fail/http-response.adoc[]
+
+include::{snippets}/portfoliocards/delete/fail/response-fields.adoc[]
+
+[[portfoliocards-delete-errorhandle2]]
+==== IllegalParameterException
+CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
+
+HTTP 요청 예시
+
+include::{snippets}/portfoliocards/delete/parameterfail/http-request.adoc[]
+
+include::{snippets}/portfoliocards/delete/fail/http-response.adoc[]
+
+include::{snippets}/portfoliocards/delete/fail/response-fields.adoc[]
 

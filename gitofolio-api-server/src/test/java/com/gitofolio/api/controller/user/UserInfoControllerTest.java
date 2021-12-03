@@ -39,7 +39,7 @@ import com.gitofolio.api.service.user.exception.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com")
 @AutoConfigureMockMvc
 public class UserInfoControllerTest{
 	
@@ -77,7 +77,9 @@ public class UserInfoControllerTest{
 		} catch(NonExistUserException NEUE){}
 		try{
 			this.userInfoFactory.saveUser(user);
-		}catch(DuplicationUserException DUE){DUE.printStackTrace();}
+		}catch(DuplicationUserException DUE){}
+		UserDTO result = this.userInfoFactory.getUser(user.getName());
+		assertEquals(user.getName(), result.getName());
 	}
 	
 	@Test
@@ -103,7 +105,7 @@ public class UserInfoControllerTest{
 	@Test
 	public void userInfo_GET_Fail_Test() throws Exception{
 		// then
-		mockMvc.perform(get("/user/{name}", "invalidUser").accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(get("/user/{name}", "nonExistUser").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
 			.andDo(document("user/get/fail",
 							responseFields(
@@ -123,19 +125,15 @@ public class UserInfoControllerTest{
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
 			.build();
 	 
-		String httpBody = objectMapper.writeValueAsString(user);
+		String content = objectMapper.writeValueAsString(user);
 	
 		// then
-		mockMvc.perform(post("/user").content(httpBody).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/user").content(content).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isCreated())
 			.andDo(document("user/post",
-							requestFields(
+							relaxedRequestFields(
 								fieldWithPath("name").description("저장될 유저의 이름입니다. 중복되면 안됩니다"),
-								fieldWithPath("profileUrl").description("유저의 프로필 사진 Url입니다.").optional(),
-								fieldWithPath("portfolioCards").description("유저가 갖고있는 포토폴리오 카드들입니다. 이 URL로 들어오는 portfolioCards 저장 요청은 무시됩니다.").optional(),
-								fieldWithPath("userStat").description("유저의 토탈 통계 자료입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.").optional(),
-								fieldWithPath("userDailyStat").description("유저의 일일 통계 자료입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.").optional(),
-								fieldWithPath("links").description("HATEOAS 모음 입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.").optional()
+								fieldWithPath("profileUrl").description("유저의 프로필 사진 Url입니다.").optional()
 							),
 						   	responseFields(
 								fieldWithPath("name").description("저장된 유저의 이름 입니다. 요청 HTTP 본문의 name과 동일해야합니다."),

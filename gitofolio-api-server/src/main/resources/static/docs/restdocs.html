@@ -478,7 +478,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#userstat">유저 통계</a>
 <ul class="sectlevel2">
-<li><a href="#userstat-request">유저 통계 가져오기</a>
+<li><a href="#userstat-get">유저 통계 가져오기</a>
 <ul class="sectlevel3">
 <li><a href="#userstat-get-request">Request</a></li>
 <li><a href="#userstat-get-response">Representation</a></li>
@@ -494,6 +494,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#userdailystat-get-request">Request</a></li>
 <li><a href="#userdailystat-get-response">Representation</a></li>
 <li><a href="#userdailystat-get-errorhandle1">NonExistUserException</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#portfoliocards">포트폴리오 카드</a>
+<ul class="sectlevel2">
+<li><a href="#portfoliocards-get">포트폴리오 카드 가져오기</a>
+<ul class="sectlevel3">
+<li><a href="#portfoliocards-get-request">Request</a></li>
+<li><a href="#portfoliocards-get-response">Representation</a></li>
+<li><a href="#portfoliocards-get-errorhandle1">NonExistUserException</a></li>
+<li><a href="#portfoliocards-get-errorhandle2">IllegalParameterException</a></li>
+</ul>
+</li>
+<li><a href="#portfoliocards-post">포트폴리오 카드 저장하기</a>
+<ul class="sectlevel3">
+<li><a href="#portfoliocards-post-request">Request</a></li>
+<li><a href="#portfoliocards-post-response">Representation</a></li>
+<li><a href="#portfoliocards-post-errorhandle1">NonExistUserException</a></li>
+</ul>
+</li>
+<li><a href="#portfoliocards-delete">포트폴리오 카드 삭제하기</a>
+<ul class="sectlevel3">
+<li><a href="#portfoliocards-delete-request">Request</a></li>
+<li><a href="#portfoliocards-delete-response">Representation</a></li>
+<li><a href="#portfoliocards-delete-errorhandle1">NonExistUserException</a></li>
+<li><a href="#portfoliocards-delete-errorhandle2">IllegalParameterException</a></li>
 </ul>
 </li>
 </ul>
@@ -526,7 +553,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Tip</div>
 </td>
 <td class="content">
-HATEOAS에는 한 URL에서 선택가능한 모든 API가 기술되어있습니다.
+HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 기술되어 있습니다.
 </td>
 </tr>
 </table>
@@ -678,7 +705,7 @@ user에 관련된 API 목차 입니다.
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /user/name HTTP/1.1
 Accept: application/json
-Host: localhost:8080</code></pre>
+Host: api.gitofolio.com:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -802,12 +829,12 @@ Content-Length: 649
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 145
+Content-Length: 146
 
 {
   "title" : "존재 하지 않는 유저 입니다.",
   "message" : "유저이름을 확인해 주세요.",
-  "request" : "/user/invalidUser"
+  "request" : "/user/nonExistUser"
 }</code></pre>
 </div>
 </div>
@@ -884,7 +911,7 @@ key값이 'null&#8217;이라면, 해당 필드는 이 URL로 생성할수 없거
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 151
-Host: localhost:8080
+Host: api.gitofolio.com:8080
 
 {"name":"savedUser","profileUrl":"https://example.profileUrl.com?1123u8413478","portfolioCards":null,"userStat":null,"links":null,"userDailyStat":null}</code></pre>
 </div>
@@ -912,26 +939,6 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">유저의 프로필 사진 Url입니다.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저가 갖고있는 포토폴리오 카드들입니다. 이 URL로 들어오는 portfolioCards 저장 요청은 무시됩니다.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userStat</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저의 토탈 통계 자료입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userDailyStat</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저의 일일 통계 자료입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">HATEOAS 모음 입니다. 서버에 의해 생성되며 입력 요청은 무시됩니다.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1108,7 +1115,7 @@ Content-Length: 151
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /user/name HTTP/1.1
 Accept: */*
-Host: localhost:8080</code></pre>
+Host: api.gitofolio.com:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1164,12 +1171,12 @@ name</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 168
+Content-Length: 156
 
 {
-  "title" : "존재 하지 않는 유저에 대한 삭제 요청입니다.",
-  "message" : "유저 이름을 확인해주세요",
-  "request" : "/user/nonExistUser"
+  "title" : "존재 하지 않는 유저 입니다.",
+  "message" : "유저이름을 확인해 주세요.",
+  "request" : "/portfoliocards/nonExistUser"
 }</code></pre>
 </div>
 </div>
@@ -1227,7 +1234,7 @@ Content-Length: 168
 <p>이 섹터에는 유저 포토폴리오 총 방문자수, 총 스타수가 포함되어있습니다.</p>
 </div>
 <div class="sect2">
-<h3 id="userstat-request"><a class="link" href="#userstat-request">유저 통계 가져오기</a></h3>
+<h3 id="userstat-get"><a class="link" href="#userstat-get">유저 통계 가져오기</a></h3>
 <div class="paragraph">
 <p>요청된 유저에 대한 통계 정보를 가져옵니다.</p>
 </div>
@@ -1509,12 +1516,12 @@ Content-Length: 463
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2021-12-02",
+      "visitDate" : "2021-12-03",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2021-12-02"
+      "refferingDate" : "2021-12-03"
     } ]
   }
 }</code></pre>
@@ -1668,11 +1675,739 @@ Content-Length: 144
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="portfoliocards"><a class="link" href="#portfoliocards">포트폴리오 카드</a></h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+유저에 매칭되는 포트폴리오 카드 API가 기술되어있습니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="portfoliocards-get"><a class="link" href="#portfoliocards-get">포트폴리오 카드 가져오기</a></h3>
+<div class="paragraph">
+<p>유저에 저장된 포트폴리오 카드들을 가져옵니다.</p>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-get-request"><a class="link" href="#portfoliocards-get-request">Request</a></h4>
+<div class="paragraph">
+<p>포트폴리오 카드들을 가져오기위해 GET 요청을 합니다.</p>
+</div>
+<div class="paragraph">
+<p>요청시 생성되는 HTTP 헤더는 아래와 같습니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /portfoliocards/name?cards=1,5 HTTP/1.1
+Accept: application/json
+Host: api.gitofolio.com:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. /portfoliocards/{name}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오 카드를 가져올 유저 이름입니다.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cards</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">={from},{to} 가져올 포트폴리오카드 범위입니다. from 에서 to까지의 포트폴리오 카드를 가져옵니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-get-response"><a class="link" href="#portfoliocards-get-response">Representation</a></h4>
+<div class="paragraph">
+<p>트랜잭션이 성공적으로 완료되었다면, 200 OK 응답 코드와 함께 아래 표현이 응답됩니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 1279
+
+{
+  "name" : "name",
+  "profileUrl" : "https://example.profileUrl.com?1123u8413478",
+  "portfolioCards" : [ {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
+  }, {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
+  }, {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
+  }, {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
+  }, {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
+  } ],
+  "links" : [ {
+    "rel" : "getThis",
+    "method" : "GET",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "cards={n1},{n2}"
+  }, {
+    "rel" : "deleteThis",
+    "method" : "DELETE",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "card={n1}"
+  }, {
+    "rel" : "postThis",
+    "method" : "POST",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}"
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저의 프로필 URL입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards.[].portfolioCardArticle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오 카드의 본문 내용입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards.[].portfolioCardStars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오가 받은 스타 갯수 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards.[].portfolioUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오 카드에 연결된 포트폴리오 링크입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links.[].rel</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">선택가능한 다음 선택지에 대한 key 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links.[].method</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP METHOD</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links.[].href</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다음 선택지 요청 URL 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links.[].parameter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 가능한 파라미터들 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-get-errorhandle1"><a class="link" href="#portfoliocards-get-errorhandle1">NonExistUserException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+서버는 존재하지 않는 유저에 대한 포트폴리오 카드 요청에 대해 NonExistUserException 예외처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 156
+
+{
+  "title" : "존재 하지 않는 유저 입니다.",
+  "message" : "유저이름을 확인해 주세요.",
+  "request" : "/portfoliocards/nonExistUser"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러의 주요 원인입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 request URL 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-get-errorhandle2"><a class="link" href="#portfoliocards-get-errorhandle2">IllegalParameterException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>HTTP 요청 예시</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /portfoliocards/name?cards=here,tohere HTTP/1.1
+Accept: application/json
+Host: api.gitofolio.com:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 406 Not Acceptable
+Content-Type: application/json
+Content-Length: 220
+
+{
+  "title" : "잘못된 파라미터 요청",
+  "message" : "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.",
+  "request" : "https://api.gitofolio.com/portfoliocards?cards/user=here,tohere"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러의 주요 원인입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 request URL 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="portfoliocards-post"><a class="link" href="#portfoliocards-post">포트폴리오 카드 저장하기</a></h3>
+<div class="paragraph">
+<p>DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 저장합니다.</p>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-post-request"><a class="link" href="#portfoliocards-post-request">Request</a></h4>
+<div class="paragraph">
+<p>포트폴리오 카드를 저장하기 위해 POST 요청을 합니다.</p>
+</div>
+<div class="paragraph">
+<p>요청시 생성되는 HTTP 헤더는 아래와 같습니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /portfoliocards HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 279
+Host: api.gitofolio.com:8080
+
+{"name":"name","profileUrl":"https://example.profileUrl.com?1123u8413478","portfolioCards":[{"portfolioCardArticle":"this is new portfoliocard","portfolioCardStars":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/6"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in restdocs.adoc - include::./build/generated-snippets/portfoliocards/post/request-parameters.adoc[]</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-post-response"><a class="link" href="#portfoliocards-post-response">Representation</a></h4>
+<div class="paragraph">
+<p>트랜잭션이 성공적으로 완료되었다면, CREATED 응답코드와 함께 아래 표현이 응답됩니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Content-Type: application/json
+Content-Length: 1440
+
+{
+  "name" : "name",
+  "profileUrl" : "https://example.profileUrl.com?1123u8413478",
+  "portfolioCards" : [ {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
+  }, {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
+  }, {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
+  }, {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
+  }, {
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
+  }, {
+    "portfolioCardArticle" : "this is new portfoliocard",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/6"
+  } ],
+  "links" : [ {
+    "rel" : "getThis",
+    "method" : "GET",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "cards={n1},{n2}"
+  }, {
+    "rel" : "deleteThis",
+    "method" : "DELETE",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "card={n1}"
+  }, {
+    "rel" : "postThis",
+    "method" : "POST",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}"
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저의 프로필 URL입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards.[].portfolioCardArticle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오 카드의 본문 내용입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards.[].portfolioCardStars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오가 받은 스타 갯수 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards.[].portfolioUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오 카드에 연결된 포트폴리오 링크입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links.[].rel</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">선택가능한 다음 선택지에 대한 key 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links.[].method</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP METHOD</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links.[].href</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다음 선택지 요청 URL 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links.[].parameter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 가능한 파라미터들 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-post-errorhandle1"><a class="link" href="#portfoliocards-post-errorhandle1">NonExistUserException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+서버는 존재하지 않는 유저에 대한 포트폴리오 카드 저장 요청에 대해 NonExistUserException 예외처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 144
+
+{
+  "title" : "존재 하지 않는 유저 입니다.",
+  "message" : "유저이름을 확인해 주세요.",
+  "request" : "/portfoliocards/"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러의 주요 원인입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 request URL 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="portfoliocards-delete"><a class="link" href="#portfoliocards-delete">포트폴리오 카드 삭제하기</a></h3>
+<div class="paragraph">
+<p>DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 삭제합니다.</p>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-delete-request"><a class="link" href="#portfoliocards-delete-request">Request</a></h4>
+<div class="paragraph">
+<p>요청시 생성되는 HTTP 헤더는 아래와 같습니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?card=1 HTTP/1.1
+Accept: */*
+Host: api.gitofolio.com:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. /portfoliocards/{name}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오 카드를 삭제할 유저 이름입니다.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>card</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">={a} 삭제할 포트폴리오 카드 번호를 파라미터로 넘기면 해당 포트폴리오카드를 삭제합니다. 아니라면, 모든 포트폴리오 카드를 삭제합니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-delete-response"><a class="link" href="#portfoliocards-delete-response">Representation</a></h4>
+<div class="paragraph">
+<p>트랜잭션이 성공적으로 완료되었다면, 200 OK응답코드와 함께 아래 표현이 응답됩니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 4
+
+name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in restdocs.adoc - include::./build/generated-snippets/portfoliocards/delete/response-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-delete-errorhandle1"><a class="link" href="#portfoliocards-delete-errorhandle1">NonExistUserException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+서버는 존재하지 않는 유저에 대한 포트폴리오 카드 삭제 요청에 대해 NonExistUserException 예외처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 156
+
+{
+  "title" : "존재 하지 않는 유저 입니다.",
+  "message" : "유저이름을 확인해 주세요.",
+  "request" : "/portfoliocards/nonExistUser"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러의 주요 원인입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 request URL 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-delete-errorhandle2"><a class="link" href="#portfoliocards-delete-errorhandle2">IllegalParameterException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>HTTP 요청 예시</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?card=iwantdeletethis HTTP/1.1
+Accept: application/json
+Host: api.gitofolio.com:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 156
+
+{
+  "title" : "존재 하지 않는 유저 입니다.",
+  "message" : "유저이름을 확인해 주세요.",
+  "request" : "/portfoliocards/nonExistUser"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러의 주요 원인입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 request URL 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.1.0-SNAPSHOT<br>
-Last updated 2021-12-02 14:07:12 UTC
+Last updated 2021-12-03 14:51:17 UTC
 </div>
 </div>
 </body>

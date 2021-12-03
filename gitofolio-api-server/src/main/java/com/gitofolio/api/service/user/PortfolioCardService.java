@@ -66,16 +66,18 @@ public class PortfolioCardService implements UserMapper{
 	}
 
 	public void deletePortfolioCard(String name){
+		this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"+name));
 		this.portfolioCardRepository.deleteByName(name);
 		return;
 	}
 	
 	public void deletePortfolioCard(String name, String parameter){
+		this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"+name));
 		int delIdx = 0;
 		try{
 			delIdx = Integer.parseInt(parameter);
 		}catch(Exception e){
-			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드 범위삭제 파라미터에 오류가 있습니다.", "https://api.gitofolio.com/user/portfoliocards?card="+parameter);
+			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드 범위삭제 파라미터에 오류가 있습니다.", "https://api.gitofolio.com/portfoliocards/user?card="+parameter);
 		}
 		
 		List<PortfolioCard> portfolioCards = this.portfolioCardRepository.findByName(name);

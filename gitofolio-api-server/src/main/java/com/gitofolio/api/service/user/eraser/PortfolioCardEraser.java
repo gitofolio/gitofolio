@@ -24,7 +24,12 @@ public class PortfolioCardEraser implements UserEraser{
 	@Transactional
 	public String delete(String name, Object parameter){
 		if(!parameter.getClass().equals(String.class)) 
-			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드 삭제범위 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/user/portfoliocards");
+			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드 삭제 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/user");
+		try{
+			int checkParameter = Integer.parseInt((String)parameter);
+		} catch(Exception e){
+			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/user?card="+parameter);
+		}
 		this.portfolioCardService.deletePortfolioCard(name, (String)parameter);
 		return name;
 	}

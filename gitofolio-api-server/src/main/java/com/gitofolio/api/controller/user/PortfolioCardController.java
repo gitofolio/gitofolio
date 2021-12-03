@@ -31,7 +31,7 @@ public class PortfolioCardController{
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getPortfolioCard(
 		@PathVariable("name") String name,
-		@RequestParam(value="cards", required=false) String cards){
+		@RequestParam(value="cards", defaultValue="1,5") String cards){
 		
 		UserDTO userDTO = null;
 		if(cards == null) userDTO = portfolioCardFactory.getUser(name);
@@ -52,10 +52,12 @@ public class PortfolioCardController{
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
 													  @RequestParam(value="card", required=false) String card){
 		
-		if(card == null) this.portfolioCardEraser.delete(name);
-		else this.portfolioCardEraser.delete(name, card);
+		String result;
 		
-		return new ResponseEntity(HttpStatus.OK);
+		if(card == null) result = this.portfolioCardEraser.delete(name);
+		else result = this.portfolioCardEraser.delete(name, card);
+		
+		return new ResponseEntity(result, HttpStatus.OK);
 	}
 	
 }
