@@ -25,14 +25,10 @@ public class UserStatistics{
 	@Column(name="USER_STATISTICS_ID")
 	private Long id;
 	
-	// @Column(name="VISITOR_STATISTICS")
 	@OneToMany(mappedBy="userStatistics" ,fetch=FetchType.LAZY, orphanRemoval=true, cascade=CascadeType.ALL)
-	// @JoinColumn(name="USER_STATISTICS_ID")
 	private List<VisitorStatistics> visitorStatistics = new ArrayList<VisitorStatistics>();
 	
-	// @Column(name="REFFERING_SITE")
 	@OneToMany(mappedBy="userStatistics", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
-	// @JoinColumn(name="USER_STATISTICS_ID")
 	private List<RefferingSite> refferingSites = new ArrayList<RefferingSite>();
 	
 	@OneToOne

@@ -32,12 +32,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
-import com.gitofolio.api.service.user.UserMapper;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.service.user.exception.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc

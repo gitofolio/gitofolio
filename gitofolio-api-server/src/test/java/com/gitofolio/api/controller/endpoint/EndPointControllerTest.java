@@ -32,7 +32,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
-import com.gitofolio.api.service.user.UserMapper;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.*;
 

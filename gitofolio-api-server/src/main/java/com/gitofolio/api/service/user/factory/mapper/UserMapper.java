@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user;
+package com.gitofolio.api.service.user.factory.mapper;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
 
@@ -6,9 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface UserMapper{
+public interface UserMapper<T extends Object>{
 	
-	UserDTO doMap(String name);
-	UserDTO resolveMap(UserDTO userDTO);
+	UserDTO doMap(T parameter);
+	
+	T resolveMap(UserDTO userDTO);
 	
 }

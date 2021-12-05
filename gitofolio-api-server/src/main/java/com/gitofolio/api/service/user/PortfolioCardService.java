@@ -17,61 +17,42 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Service
-public class PortfolioCardService implements UserMapper{
+public class PortfolioCardService{
 	
 	private PortfolioCardRepository portfolioCardRepository;
 	
 	private UserInfoRepository userInfoRepository;
 	
-	@Override
-	public UserDTO doMap(String name){
+	public List<PortfolioCard> get(String name){
 		List<PortfolioCard> portfolioCards = this.portfolioCardRepository.findByName(name);
 		
 		if(portfolioCards.size() == 0) {
 			this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"+name));
-			return new UserDTO.Builder().build();
+			throw new NonExistUserException("이 유저는 어떠한 포트폴리오 카드도 갖고있지 않습니다.", "요청 전 포트폴리오 카드를 생성해주세요", "/portfoliocards/"+name);
 		}
 		
-		List<PortfolioCardDTO> cards = new ArrayList<PortfolioCardDTO>(portfolioCards.size());
-		
-		for(PortfolioCard card : portfolioCards){
-			cards.add(new PortfolioCardDTO.Builder()
-					 .portfolioCard(card)
-					 .build());
-		}
-		
-		return new UserDTO.Builder()
-			.userInfo(portfolioCards.get(0).getUserInfo())
-			.portfolioCardDTOs(cards)
-			.build();
-		
+		return portfolioCards;
 	}
 	
-	@Override
-	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"));
+	public List<PortfolioCard> save(List<PortfolioCard> portfolioCards){
+		UserInfo userInfo = this.userInfoRepository.findByName(portfolioCards.get(0).getUserInfo().getName())
+			.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"));
 		
-		List<PortfolioCardDTO> portfolioCardDTOs = userDTO.getPortfolioCards();
-		for(PortfolioCardDTO portfolioCardDTO : portfolioCardDTOs){
-			PortfolioCard portfolioCard = new PortfolioCard();
-			portfolioCard.setPortfolioCardArticle(portfolioCardDTO.getPortfolioCardArticle());
-			portfolioCard.setPortfolioCardStars(portfolioCardDTO.getPortfolioCardStars());
-			portfolioCard.setPortfolioUrl(portfolioCardDTO.getPortfolioUrl());
+		for(PortfolioCard portfolioCard : portfolioCards){
 			portfolioCard.setUserInfo(userInfo);
-			
 			portfolioCardRepository.save(portfolioCard);
 		}
 		
-		return this.doMap(userDTO.getName());
+		return get(portfolioCards.get(0).getUserInfo().getName());
 	}
 
-	public void deletePortfolioCard(String name){
+	public void delete(String name){
 		this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"+name));
 		this.portfolioCardRepository.deleteByName(name);
 		return;
 	}
 	
-	public void deletePortfolioCard(String name, String parameter){
+	public void delete(String name, String parameter){
 		this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"+name));
 		int delIdx = 0;
 		try{

@@ -70,11 +70,6 @@ public class PortfolioCard{
 	}
 	
 	public void setUserInfo(UserInfo userInfo){
-		// if(this.userInfo != null){
-		// 	List<PortfolioCard> deallocate = this.userInfo.getPortfolioCards();
-		// 	deallocate.remove(this);
-		// }
 		this.userInfo = userInfo;
-		// userInfo.setPortfolioCards(this);
 	}
 }

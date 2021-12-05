@@ -1,6 +1,5 @@
 package com.gitofolio.api.service.user;
 
-import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.service.user.exception.DuplicationUserException;
 import com.gitofolio.api.repository.user.UserInfoRepository;
@@ -11,32 +10,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserInfoService implements UserMapper{
+public class UserInfoService{
 	
 	private UserInfoRepository userInfoRepository;
 	
-	@Override
-	public UserDTO doMap(String name){
+	public UserInfo get(String name){
 		UserInfo user = this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/"+name));
-		return new UserDTO.Builder()
-			.userInfo(user)
-			.build();
+		return user;
 	}
 	
-	@Override
-	public UserDTO resolveMap(UserDTO userDTO){
-		UserInfo userInfo = this.userInfoRepository.findByName(userDTO.getName()).orElseGet(()->new UserInfo());
-		if(userInfo.getName() == null){
-			userInfo.setName(userDTO.getName());
-			userInfo.setProfileUrl(userDTO.getProfileUrl());
-			userInfoRepository.save(userInfo);
-		}
-		else if(userInfo.getName() != null) throw new DuplicationUserException("유저 이름이 중복되었습니다.", "다른 유저이름을 사용해 저장하세요", "/user/"+userInfo.getName());
+	public UserInfo save(UserInfo user){
+		UserInfo exist = this.userInfoRepository.findByName(user.getName()).orElseGet(()->new UserInfo());
+		if(exist.getName() == null) userInfoRepository.save(user);
+		else if(exist.getName() != null) throw new DuplicationUserException("유저 이름이 중복되었습니다.", "다른 유저이름을 사용해 저장하세요", "/user/"+exist.getName());
 			
-		return this.doMap(userDTO.getName());
+		return this.get(user.getName());
 	}
 	
-	public void deleteUserInfo(String name){
+	public void delete(String name){
 		UserInfo user = this.userInfoRepository.findByName(name)
 			.orElseThrow(() -> new NonExistUserException("존재 하지 않는 유저에 대한 삭제 요청입니다.", "유저 이름을 확인해주세요", "/user/"+name));
 		this.userInfoRepository.deleteByName(name);

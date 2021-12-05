@@ -5,21 +5,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gitofolio.api.service.user.UserMapper;
+import com.gitofolio.api.service.user.factory.mapper.UserMapper;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.user.UserStatService;
+import com.gitofolio.api.domain.user.UserStat;
 
 @Service
 public class UserStatFactory implements UserFactory{
 	
-	private UserMapper userStatService;
+	private UserStatService userStatService;
 	private UserFactory userInfoFactory;
 	private Hateoas userStatHateoas;
+	private UserMapper<UserStat> userStatMapper;
 	
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getUser(String name){
-		return setHateoas(this.userStatService.doMap(name));
+		return setHateoas(
+			this.userStatMapper.doMap(
+				this.userStatService.get(name)
+			)
+		);
 	}
 	
 	@Override
@@ -31,22 +38,23 @@ public class UserStatFactory implements UserFactory{
 	@Override
 	@Transactional
 	public UserDTO saveUser(UserDTO userDTO){
-		this.userInfoFactory.saveUser(userDTO);
-		return setHateoas(this.userStatService.resolveMap(userDTO));
+		throw new IllegalStateException("userstat의 saveUser요청은 허용되지 않았습니다.");
 	}
 	
-	public UserDTO setHateoas(UserDTO userDTO){
+	private UserDTO setHateoas(UserDTO userDTO){
 		userDTO.setLinks(this.userStatHateoas.getLinks());
 		return userDTO;
 	}
 	
 	@Autowired
-	public UserStatFactory(@Qualifier("userStatService") UserMapper userStatService,
+	public UserStatFactory(UserStatService userStatService,
 						  @Qualifier("userInfoFactory") UserFactory userInfoFactory,
-						  @Qualifier("userStatHateoas") Hateoas userStatHateoas){
+						  @Qualifier("userStatHateoas") Hateoas userStatHateoas,
+						  @Qualifier("userStatMapper") UserMapper<UserStat> userStatMapper){
 		this.userStatService = userStatService;
 		this.userInfoFactory = userInfoFactory;
 		this.userStatHateoas = userStatHateoas;
+		this.userStatMapper = userStatMapper;
 	}
 	
 }

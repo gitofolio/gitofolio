@@ -5,21 +5,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gitofolio.api.service.user.UserMapper;
+import com.gitofolio.api.service.user.factory.mapper.UserMapper;
 import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.user.parameter.ParameterHandler;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.user.UserInfoService;
+import com.gitofolio.api.domain.user.UserInfo;
 
 @Service
 public class UserInfoFactory implements UserFactory{
 	
-	private UserMapper userInfoService;
+	private UserInfoService userInfoService;
+	private UserMapper<UserInfo> userInfoMapper;
 	private Hateoas userInfoHateoas;
 	
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getUser(String name){
-		return this.setHateoas(this.userInfoService.doMap(name));
+		return this.setHateoas(
+			this.userInfoMapper.doMap(
+				this.userInfoService.get(name)
+			)
+		);
 	}
 	
 	@Override
@@ -31,19 +37,28 @@ public class UserInfoFactory implements UserFactory{
 	@Override
 	@Transactional
 	public UserDTO saveUser(UserDTO userDTO){
-		return this.setHateoas(this.userInfoService.resolveMap(userDTO));
+		return this.setHateoas(
+			this.userInfoMapper.doMap(
+				this.userInfoService.save(
+					this.userInfoMapper.resolveMap(userDTO)
+				)
+			)
+		);
 	}
 	
-	public UserDTO setHateoas(UserDTO userDTO){
+	private UserDTO setHateoas(UserDTO userDTO){
 		userDTO.setLinks(this.userInfoHateoas.getLinks());
 		return userDTO;
 	}
 	
 	@Autowired
-	public UserInfoFactory(@Qualifier("userInfoService") UserMapper userInfoService,
-						  @Qualifier("userInfoHateoas") Hateoas hateoas){
+	public UserInfoFactory(@Qualifier("userInfoMapper") UserMapper<UserInfo> userInfoMapper,
+						  @Qualifier("userInfoHateoas") Hateoas hateoas,
+						   UserInfoService userInfoService
+						  ){
 		this.userInfoService = userInfoService;
 		this.userInfoHateoas = hateoas;
+		this.userInfoMapper = userInfoMapper;
 	}
 	
 }

@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Gitofolio RESTful API Docs</h1>
 <div class="details">
-<span id="revnumber">version 0.1.0-SNAPSHOT</span>
+<span id="revnumber">version 0.1.1-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1381,12 +1381,12 @@ Content-Length: 278
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 139
+Content-Length: 151
 
 {
   "title" : "존재 하지 않는 유저 입니다.",
   "message" : "유저이름을 확인해 주세요.",
-  "request" : "/user/stat/"
+  "request" : "/user/stat/nonExistUser"
 }</code></pre>
 </div>
 </div>
@@ -1516,12 +1516,12 @@ Content-Length: 463
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2021-12-03",
+      "visitDate" : "2021-12-05",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2021-12-03"
+      "refferingDate" : "2021-12-05"
     } ]
   }
 }</code></pre>
@@ -2016,9 +2016,47 @@ Host: api.gitofolio.com:8080
 {"name":"name","profileUrl":"https://example.profileUrl.com?1123u8413478","portfolioCards":[{"portfolioCardArticle":"this is new portfoliocard","portfolioCardStars":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/6"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in restdocs.adoc - include::./build/generated-snippets/portfoliocards/post/request-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">저장할 유저의 이름 입니다. 매칭되는 유저에 포토폴리오 카드가 저장됩니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저의 프로필 URL입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards.[].portfolioCardArticle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오 카드의 본문 내용입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards.[].portfolioCardStars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오가 받은 스타 갯수 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>portfolioCards.[].portfolioUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포트폴리오 카드에 연결된 포트폴리오 링크입니다.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="portfoliocards-post-response"><a class="link" href="#portfoliocards-post-response">Representation</a></h4>
@@ -2268,9 +2306,6 @@ Content-Length: 4
 name</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in restdocs.adoc - include::./build/generated-snippets/portfoliocards/delete/response-fields.adoc[]</p>
-</div>
 </div>
 <div class="sect3">
 <h4 id="portfoliocards-delete-errorhandle1"><a class="link" href="#portfoliocards-delete-errorhandle1">NonExistUserException</a></h4>
@@ -2406,8 +2441,8 @@ Content-Length: 156
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.0-SNAPSHOT<br>
-Last updated 2021-12-03 14:51:17 UTC
+Version 0.1.1-SNAPSHOT<br>
+Last updated 2021-12-03 14:55:18 UTC
 </div>
 </div>
 </body>
