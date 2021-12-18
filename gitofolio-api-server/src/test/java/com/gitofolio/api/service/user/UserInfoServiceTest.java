@@ -70,6 +70,28 @@ public class UserInfoServiceTest{
 		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(this.name+"1"));
 	}
 	
+	@Test
+	@Transactional
+	public void UserInfo_Put_Test(){
+		// given
+		UserInfo userInfo = new UserInfo();
+		userInfo.setName(name);
+		userInfo.setProfileUrl("url.helloworld.com");
+		
+		UserInfo editInfo = new UserInfo();
+		editInfo.setName(name);
+		editInfo.setProfileUrl("edit.com");
+		
+		// when
+		this.userInfoService.save(userInfo);
+		this.userInfoService.edit(editInfo);
+		
+		// then 
+		UserInfo result = this.userInfoService.get(userInfo.getName());
+		assertEquals(result.getName(), this.name);
+		assertEquals(result.getProfileUrl(), editInfo.getProfileUrl());
+	}
+	
 	@AfterEach
 	@Transactional
 	public void pre_UserInfoService_delete_Test(){

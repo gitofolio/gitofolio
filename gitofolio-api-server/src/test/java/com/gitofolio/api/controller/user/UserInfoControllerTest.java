@@ -38,7 +38,7 @@ import com.gitofolio.api.service.user.exception.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
-@AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com")
+@AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com", uriPort=80)
 @AutoConfigureMockMvc
 public class UserInfoControllerTest{
 	
@@ -118,7 +118,7 @@ public class UserInfoControllerTest{
 	
 	@Test
 	public void userInfo_POST_Test() throws Exception{
-		// when
+		// given
 		UserDTO user = new UserDTO.Builder()
 			.name("savedUser")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
@@ -147,12 +147,11 @@ public class UserInfoControllerTest{
 		try{
 			this.userInfoEraser.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
-		
 	}
 	
 	@Test
 	public void userInfo_POST_FAIL_Test() throws Exception{
-		// when
+		// given
 		UserDTO user = this.getUser();
 		
 		String httpBody = objectMapper.writeValueAsString(user);
@@ -172,7 +171,7 @@ public class UserInfoControllerTest{
 	
 	@Test
 	public void userInfo_DELETE_Test() throws Exception{
-		// when
+		// given
 		String name = this.getUser().getName();
 		
 		// then
@@ -188,7 +187,7 @@ public class UserInfoControllerTest{
 	
 	@Test
 	public void userInfo_DELETE_Fail_Test() throws Exception{
-		// when
+		// given
 		String name = "nonExistUser";
 		
 		// then
@@ -204,6 +203,51 @@ public class UserInfoControllerTest{
 								fieldWithPath("request").description("에러가 발생한 request URL 입니다.")
 							)
 					));
+	}
+	
+	@Test
+	public void userInfo_PUT_Test() throws Exception{
+		// given
+		UserDTO user = new UserDTO.Builder()
+			.name("savedUser")
+			.profileUrl("https://example.profileUrl.com?1123u8413478")
+			.build();
+	 
+		String content = objectMapper.writeValueAsString(user);
+		
+		UserDTO editUser = new UserDTO.Builder()
+			.name("savedUser")
+			.profileUrl("https://example.profileUrl.com?modified")
+			.build();
+		
+		String editContent = objectMapper.writeValueAsString(editUser);
+		
+		// when
+		mockMvc.perform(post("/user").content(content).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isCreated());
+		
+		// then
+		mockMvc.perform(put("/user").content(editContent).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andDo(document("user/put",
+						relaxedRequestFields(
+							fieldWithPath("name").description("수정 대상 유저 이름입니다."),
+							fieldWithPath("profileUrl").description("수정 대상 유저 프로필 URL입니다.")
+						),
+						responseFields(
+							fieldWithPath("name").description("수정된 유저의 이름 입니다. 요청 HTTP 본문의 name과 동일해야합니다."),
+							fieldWithPath("profileUrl").description("수정된 유저의 프로필 URL입니다."),
+							fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
+							fieldWithPath("links.[].method").description("HTTP METHOD"),
+							fieldWithPath("links.[].href").description("다음 선택지 요청 URL 입니다.")
+						)
+					)
+				);
+		
+		try{
+			this.userInfoEraser.delete(user.getName());
+		} catch(NonExistUserException NEUE){}
+
 	}
 	
 	private UserDTO getUser(){

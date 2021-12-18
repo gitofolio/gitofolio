@@ -39,7 +39,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com")
+@AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com", uriPort=80)
 public class PortfolioCardControllerTest {
 	
 	@Autowired
@@ -269,6 +269,47 @@ public class PortfolioCardControllerTest {
 								fieldWithPath("request").description("에러가 발생한 request URL 입니다.")
 							)
 						));
+	}
+	
+	@Test
+	public void PortfolioCard_PUT_Test() throws Exception{
+		// given
+		UserDTO editUser = new UserDTO.Builder()
+			.name("name")
+			.profileUrl("https://example.profileUrl.com?1123u8413478")
+			.portfolioCardDTO(this.getPortfolioCard("edited portfoliocard", 0, "https://api.gitofolio.com/portfolio/name/6"))
+			.build();
+		
+		// when
+		String content = objectMapper.writeValueAsString(editUser);
+		
+		// then
+		mockMvc.perform(put("/portfoliocards?card=1").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andDo(document("portfoliocards/put",
+				relaxedRequestFields(
+					fieldWithPath("name").description("수정할 유저의 이름 입니다. 매칭되는 유저에 포토폴리오 카드가 저장됩니다."),
+					fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
+					fieldWithPath("portfolioCards.[].portfolioCardArticle").description("수정할 포트폴리오 카드의 본문 내용입니다."),
+					fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다. 임의로 수정 불가능 합니다."),
+					fieldWithPath("portfolioCards.[].portfolioUrl").description("수정할 포트폴리오 카드에 연결된 포트폴리오 링크입니다.")
+				),
+				requestParameters(
+					parameterWithName("card").description("={a} 수정할 포트폴리오 카드 번호를 파라미터로 넘기면 해당 포트폴리오카드의 내용을 수정합니다.")
+				),
+				responseFields(
+					fieldWithPath("name").description("수정할 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
+					fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
+					fieldWithPath("portfolioCards.[].portfolioCardArticle").description("수정된 포트폴리오 카드의 본문 내용입니다."),
+					fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다."),
+					fieldWithPath("portfolioCards.[].portfolioUrl").description("수정된 포트폴리오 카드에 연결된 포트폴리오 링크입니다."),
+					fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
+					fieldWithPath("links.[].method").description("HTTP METHOD"),
+					fieldWithPath("links.[].href").description("다음 선택지 요청 URL 입니다."),
+					fieldWithPath("links.[].parameter").description("요청 가능한 파라미터들 입니다.").optional()
+				)
+			)
+		);
 	}
 	
 	@BeforeEach

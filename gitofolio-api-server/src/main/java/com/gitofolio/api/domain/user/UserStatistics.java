@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
+import javax.persistence.OrderBy;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -26,9 +27,11 @@ public class UserStatistics{
 	private Long id;
 	
 	@OneToMany(mappedBy="userStatistics" ,fetch=FetchType.LAZY, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy("visitDate asc")
 	private List<VisitorStatistics> visitorStatistics = new ArrayList<VisitorStatistics>();
 	
 	@OneToMany(mappedBy="userStatistics", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
+	@OrderBy("refferingDate asc")
 	private List<RefferingSite> refferingSites = new ArrayList<RefferingSite>();
 	
 	@OneToOne

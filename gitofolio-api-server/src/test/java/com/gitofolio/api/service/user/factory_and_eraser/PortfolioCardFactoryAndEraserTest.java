@@ -85,10 +85,68 @@ public class PortfolioCardFactoryAndEraserTest{
 		assertEquals(cardDTOs.get(2).getPortfolioCardArticle(), "p3");
 	}
 	
+	@Test
+	public void PortfolioCardFactory_Edit_Test(){
+		// given
+		PortfolioCardDTO portfolioCardDTO1 = new PortfolioCardDTO.Builder()
+			.portfolioCardArticle("p1")
+			.portfolioCardStars(1)
+			.portfolioUrl("pu1")
+			.build();
+		
+		PortfolioCardDTO portfolioCardDTO2 = new PortfolioCardDTO.Builder()
+			.portfolioCardArticle("p2")
+			.portfolioCardStars(2)
+			.portfolioUrl("pu2")
+			.build();
+		
+		PortfolioCardDTO portfolioCardDTO3 = new PortfolioCardDTO.Builder()
+			.portfolioCardArticle("p3")
+			.portfolioCardStars(1)
+			.portfolioUrl("pu3")
+			.build();
+		
+		UserDTO userDTO = new UserDTO.Builder()
+			.name(this.name)
+			.profileUrl(this.url)
+			.portfolioCardDTO(portfolioCardDTO1)
+			.portfolioCardDTO(portfolioCardDTO2)
+			.portfolioCardDTO(portfolioCardDTO3)
+			.build();
+		
+		PortfolioCardDTO editPortfolioCardDTO = new PortfolioCardDTO.Builder()
+			.portfolioCardArticle("edit")
+			.portfolioCardStars(2)
+			.portfolioUrl("edit")
+			.build();
+		
+		UserDTO editUserDTO = new UserDTO.Builder()
+			.name(this.name)
+			.profileUrl(this.url)
+			.portfolioCardDTO(editPortfolioCardDTO)
+			.build();
+		
+		// when 
+		userInfoFactory.saveUser(userDTO);
+		portfolioCardFactory.saveUser(userDTO);
+		portfolioCardFactory.editUser(editUserDTO, 3);
+		
+		// then
+		UserDTO ans = this.portfolioCardFactory.getUser(this.name);
+		List<PortfolioCardDTO> cardDTOs = ans.getPortfolioCards();
+		
+		assertEquals(ans.getName(), this.name);
+		assertEquals(ans.getProfileUrl(), this.url);
+		assertEquals(cardDTOs.get(2).getPortfolioCardArticle(), "edit");
+		assertEquals(cardDTOs.get(2).getPortfolioUrl(), "edit");
+		assertEquals(cardDTOs.get(2).getPortfolioCardStars(), 1);
+	}
+	
 	@AfterEach
 	public void pre_PortfolioCardEraser_Delete_Test(){
 		try{
 			this.portfolioCardEraser.delete(this.name);
+			this.userInfoEraser.delete(this.name);
 		}catch(NonExistUserException NUE){}
 		
 		assertThrows(NonExistUserException.class, ()->portfolioCardFactory.getUser(this.name));
@@ -98,6 +156,7 @@ public class PortfolioCardFactoryAndEraserTest{
 	public void post_PortfolioCardEraser_Delete_Test(){
 		try{
 			this.portfolioCardEraser.delete(this.name);
+			this.userInfoEraser.delete(this.name);
 		}catch(NonExistUserException NUE){}
 		
 		assertThrows(NonExistUserException.class, ()->portfolioCardFactory.getUser(this.name));

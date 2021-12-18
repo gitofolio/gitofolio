@@ -37,9 +37,6 @@ public class PortfolioCardServiceTest{
 		userInfo.setName(this.name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		
-		this.userInfoService.save(userInfo);
-		// when
-		
 		PortfolioCard portfolioCard1 = new PortfolioCard();
 		portfolioCard1.setPortfolioCardArticle("article1");
 		portfolioCard1.setPortfolioCardStars(1);
@@ -66,6 +63,8 @@ public class PortfolioCardServiceTest{
 		cards.add(portfolioCard2);
 		cards.add(portfolioCard3);
 		
+		// when
+		this.userInfoService.save(userInfo);
 		this.portfolioCardService.save(cards);
 		
 		// then
@@ -99,6 +98,65 @@ public class PortfolioCardServiceTest{
 		
 		// then
 		assertThrows(NonExistUserException.class, ()->this.portfolioCardService.get(this.name));
+	}
+	
+	@Test
+	@Transactional
+	public void portfolioCardService_Put_Test(){
+		// given
+		UserInfo userInfo = new UserInfo();
+		userInfo.setName(this.name);
+		userInfo.setProfileUrl("url.helloworld.com");
+		
+		PortfolioCard portfolioCard1 = new PortfolioCard();
+		portfolioCard1.setPortfolioCardArticle("article1");
+		portfolioCard1.setPortfolioCardStars(1);
+		portfolioCard1.setPortfolioUrl("portfolioUrl1");
+		
+		portfolioCard1.setUserInfo(userInfo);
+		
+		PortfolioCard portfolioCard2 = new PortfolioCard();
+		portfolioCard2.setPortfolioCardArticle("article2");
+		portfolioCard2.setPortfolioCardStars(2);
+		portfolioCard2.setPortfolioUrl("portfolioUrl2");
+		
+		portfolioCard2.setUserInfo(userInfo);
+		
+		PortfolioCard portfolioCard3 = new PortfolioCard();
+		portfolioCard3.setPortfolioCardArticle("article3");
+		portfolioCard3.setPortfolioCardStars(3);
+		portfolioCard3.setPortfolioUrl("portfolioUrl3");
+		
+		portfolioCard3.setUserInfo(userInfo);
+		
+		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
+		cards.add(portfolioCard1);
+		cards.add(portfolioCard2);
+		cards.add(portfolioCard3);
+		
+		PortfolioCard editCard = new PortfolioCard();
+		editCard.setPortfolioCardArticle("edit");
+		editCard.setPortfolioCardStars(0);
+		editCard.setPortfolioUrl("edit");
+		
+		editCard.setUserInfo(userInfo);
+		
+		List<PortfolioCard> editCards = new ArrayList<PortfolioCard>();
+		editCards.add(editCard);
+		
+		// when
+		this.userInfoService.save(userInfo);
+		this.portfolioCardService.save(cards);
+		this.portfolioCardService.edit(1, editCards);
+			
+		// then
+		List<PortfolioCard> results = this.portfolioCardService.get(this.name);
+		
+		assertEquals(results.get(0).getUserInfo().getName(), this.name);
+		assertEquals(results.size(), 3);
+		assertEquals(results.get(0).getPortfolioUrl(), "edit");
+		assertEquals(results.get(0).getPortfolioCardStars(), 1);
+		assertEquals(results.get(0).getPortfolioCardArticle(), "edit");
 	}
 	
 	@AfterEach

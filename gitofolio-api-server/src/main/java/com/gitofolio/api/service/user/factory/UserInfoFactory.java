@@ -9,6 +9,7 @@ import com.gitofolio.api.service.user.factory.mapper.UserMapper;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
 import com.gitofolio.api.service.user.UserInfoService;
+import com.gitofolio.api.service.user.exception.IllegalParameterException;
 import com.gitofolio.api.domain.user.UserInfo;
 
 @Service
@@ -31,7 +32,7 @@ public class UserInfoFactory implements UserFactory{
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO getUser(String name, Object parameter){
-		throw new IllegalStateException("GET : /user/{name}의 parameter요청은 허용되지 않았습니다.");
+		throw new IllegalParameterException("잘못된 파라미터 요청", "GET : /user/{name}의 parameter요청은 허용되지 않았습니다.", "https://api.gitofolio.com/user"+name);
 	}
 	
 	@Override
@@ -44,6 +45,24 @@ public class UserInfoFactory implements UserFactory{
 				)
 			)
 		);
+	}
+	
+	@Override
+	@Transactional
+	public UserDTO editUser(UserDTO userDTO){
+		return this.setHateoas(
+			this.userInfoMapper.doMap(
+				this.userInfoService.edit(
+					this.userInfoMapper.resolveMap(userDTO)
+				)
+			)
+		);
+	}
+	
+	@Override
+	@Transactional
+	public UserDTO editUser(UserDTO userDTO, Object parameter){
+		throw new IllegalParameterException("잘못된 파라미터 요청", "GET : /user/{name}의 parameter요청은 허용되지 않았습니다.", "https://api.gitofolio.com/user"+userDTO.getName());
 	}
 	
 	private UserDTO setHateoas(UserDTO userDTO){

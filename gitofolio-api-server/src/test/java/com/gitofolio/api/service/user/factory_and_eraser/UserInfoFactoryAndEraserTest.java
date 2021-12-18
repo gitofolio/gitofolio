@@ -51,6 +51,29 @@ public class UserInfoFactoryAndEraserTest{
 		assertEquals(ret.getProfileUrl(), this.url);
 	}
 	
+	@Test
+	public void UserInfoFactory_Edit_Test(){
+		// given
+		UserDTO userDTO = new UserDTO.Builder()
+			.name(name)
+			.profileUrl(url)
+			.build();
+		
+		UserDTO editUserDTO = new UserDTO.Builder()
+			.name(name)
+			.profileUrl(url+"edit")
+			.build();
+		
+		// when
+		this.userInfoFactory.saveUser(userDTO);
+		this.userInfoFactory.editUser(editUserDTO);
+		
+		// then
+		UserDTO result = this.userInfoFactory.getUser(this.name);
+		assertEquals(result.getName(), this.name);
+		assertEquals(result.getProfileUrl(), this.url+"edit");
+	}
+	
 	@AfterEach
 	public void pre_UserInfoEraser_Delete_Test(){
 		try{

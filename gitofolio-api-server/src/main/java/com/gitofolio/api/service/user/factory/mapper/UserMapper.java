@@ -2,7 +2,6 @@ package com.gitofolio.api.service.user.factory.mapper;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service

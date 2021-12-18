@@ -37,7 +37,7 @@ public class PortfolioCardFactory implements UserFactory{
 	@Transactional(readOnly = true)
 	public UserDTO getUser(String name, Object parameter){
 		if(!parameter.getClass().equals(String.class)) 
-			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/user/portfoliocards");
+			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards");
 		
 		UserDTO userDTO = this.getUser(name);
 		
@@ -51,6 +51,27 @@ public class PortfolioCardFactory implements UserFactory{
 			this.portfolioCardMapper.doMap(
 				this.portfolioCardService.save(
 					this.portfolioCardMapper.resolveMap(userDTO)
+				)
+			)
+		);
+	}
+	
+	@Override
+	@Transactional
+	public UserDTO editUser(UserDTO userDTO){
+		throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다. 수정할 카드 id값을 입력해주세요", "https://api.gitofolio.com/portfoliocards");
+	}
+	
+	@Override
+	@Transactional
+	public UserDTO editUser(UserDTO userDTO, Object parameter){
+		if(!parameter.getClass().equals(Integer.class)) 
+			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드 ID값을 잘못입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/"+userDTO.getName());
+		
+		return this.setHateoas(
+			this.portfolioCardMapper.doMap(
+				this.portfolioCardService.edit(
+					(Integer)parameter, this.portfolioCardMapper.resolveMap(userDTO)
 				)
 			)
 		);

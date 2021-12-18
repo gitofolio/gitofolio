@@ -15,4 +15,8 @@ public interface UserFactory{
 	
 	UserDTO saveUser(UserDTO userDTO);
 	
+	UserDTO editUser(UserDTO userDTO);
+	
+	UserDTO editUser(UserDTO userDTO, Object parameter);
+	
 }

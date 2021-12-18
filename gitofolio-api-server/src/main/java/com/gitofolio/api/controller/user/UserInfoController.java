@@ -40,7 +40,6 @@ public class UserInfoController {
 		UserDTO result = this.userInfoFactory.saveUser(userDTO);
 		
 		return new ResponseEntity(result, HttpStatus.CREATED);
-		
 	}
 	
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
@@ -51,4 +50,11 @@ public class UserInfoController {
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
 	
+	@RequestMapping(path="", method=RequestMethod.PUT)
+	public ResponseEntity<UserDTO> putUser(@RequestBody UserDTO userDTO){
+		
+		UserDTO result = this.userInfoFactory.editUser(userDTO);
+		
+		return new ResponseEntity(result, HttpStatus.OK);
+	}
 }
