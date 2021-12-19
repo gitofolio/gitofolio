@@ -79,8 +79,10 @@ public class PortfolioCardControllerTest {
 								parameterWithName("cards").description("={from},{to} 가져올 포트폴리오카드 범위입니다. from 에서 to까지의 포트폴리오 카드를 가져옵니다.")
 							),
 							responseFields(
+								fieldWithPath("id").description("요청한 유저의 id입니다. 깃허브 id와 동일합니다"),
 								fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
 								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
+								fieldWithPath("portfolioCards.[].id").description("포트폴리오 카드의 id 입니다"),
 								fieldWithPath("portfolioCards.[].portfolioCardArticle").description("포트폴리오 카드의 본문 내용입니다."),
 								fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다."),
 								fieldWithPath("portfolioCards.[].portfolioUrl").description("포트폴리오 카드에 연결된 포트폴리오 링크입니다."),
@@ -226,8 +228,10 @@ public class PortfolioCardControllerTest {
 								fieldWithPath("portfolioCards.[].portfolioUrl").description("포트폴리오 카드에 연결된 포트폴리오 링크입니다.")
 							),
 							responseFields(
+								fieldWithPath("id").description("요청한 유저의 id입니다. 깃허브 Id와 동일합니다"),
 								fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
 								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
+								fieldWithPath("portfolioCards.[].id").description("저장된 포트폴리오 카드의 id 입니다"),
 								fieldWithPath("portfolioCards.[].portfolioCardArticle").description("포트폴리오 카드의 본문 내용입니다."),
 								fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다."),
 								fieldWithPath("portfolioCards.[].portfolioUrl").description("포트폴리오 카드에 연결된 포트폴리오 링크입니다."),
@@ -244,6 +248,7 @@ public class PortfolioCardControllerTest {
 	public void PortfolioCard_POST_Fail_테스트() throws Exception{
 		// given
 		UserDTO user = new UserDTO.Builder()
+			.id(1L)
 			.name("nonExistUser")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
 			.portfolioCardDTO(this.getPortfolioCard("this is new portfoliocard", 0, "https://api.gitofolio.com/portfolio/name/6"))
@@ -275,31 +280,33 @@ public class PortfolioCardControllerTest {
 	public void PortfolioCard_PUT_Test() throws Exception{
 		// given
 		UserDTO editUser = new UserDTO.Builder()
+			.id(this.userInfoFactory.getUser("name").getId())
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
-			.portfolioCardDTO(this.getPortfolioCard("edited portfoliocard", 0, "https://api.gitofolio.com/portfolio/name/6"))
+			.portfolioCardDTO(this.portfolioCardFactory.getUser("name").getPortfolioCards().get(0))
 			.build();
 		
 		// when
 		String content = objectMapper.writeValueAsString(editUser);
 		
 		// then
-		mockMvc.perform(put("/portfoliocards?card=1").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(put("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andDo(document("portfoliocards/put",
 				relaxedRequestFields(
+					fieldWithPath("id").description("수정할 유저의 id입니다. 수정 요청은 유저의 이름이 아닌 id값을 기반으로 동작합니다"),
 					fieldWithPath("name").description("수정할 유저의 이름 입니다. 매칭되는 유저에 포토폴리오 카드가 저장됩니다."),
 					fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
+					fieldWithPath("portfolioCards.[].id").description("수정대상 포트폴리오 카드 id 입니다. id값에 해당하는 포트폴리오 카드가 수정됩니다."),
 					fieldWithPath("portfolioCards.[].portfolioCardArticle").description("수정할 포트폴리오 카드의 본문 내용입니다."),
 					fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다. 임의로 수정 불가능 합니다."),
 					fieldWithPath("portfolioCards.[].portfolioUrl").description("수정할 포트폴리오 카드에 연결된 포트폴리오 링크입니다.")
 				),
-				requestParameters(
-					parameterWithName("card").description("={a} 수정할 포트폴리오 카드 번호를 파라미터로 넘기면 해당 포트폴리오카드의 내용을 수정합니다.")
-				),
 				responseFields(
+					fieldWithPath("id").description("수정할 유저의 id입니다."),
 					fieldWithPath("name").description("수정할 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
 					fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
+					fieldWithPath("portfolioCards.[].id").description("포트폴리오 카드의 id 입니다"),
 					fieldWithPath("portfolioCards.[].portfolioCardArticle").description("수정된 포트폴리오 카드의 본문 내용입니다."),
 					fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다."),
 					fieldWithPath("portfolioCards.[].portfolioUrl").description("수정된 포트폴리오 카드에 연결된 포트폴리오 링크입니다."),
@@ -342,6 +349,7 @@ public class PortfolioCardControllerTest {
 	
 	private UserDTO getUser(){
 		return new UserDTO.Builder()
+			.id(0L)
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
 			.portfolioCardDTO(this.getPortfolioCard("Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/1"))

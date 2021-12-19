@@ -28,6 +28,7 @@ public class UserInfoServiceTest{
 	public void UserInfoService_Save_and_Get_Test(){
 		// given
 		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
 		userInfo.setName(name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		
@@ -45,6 +46,7 @@ public class UserInfoServiceTest{
 	public void UserInfoService_Save_DuplicationUser_Fail_Test(){
 		// given
 		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
 		userInfo.setName(name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		
@@ -60,6 +62,7 @@ public class UserInfoServiceTest{
 	public void UserInfoService_Get_NonExistUser_Fail_Test(){
 		// given
 		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
 		userInfo.setName(name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		
@@ -75,10 +78,12 @@ public class UserInfoServiceTest{
 	public void UserInfo_Put_Test(){
 		// given
 		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
 		userInfo.setName(name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		
 		UserInfo editInfo = new UserInfo();
+		editInfo.setId(0L);
 		editInfo.setName(name);
 		editInfo.setProfileUrl("edit.com");
 		

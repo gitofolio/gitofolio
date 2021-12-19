@@ -38,8 +38,8 @@ public class UserInfoService{
 	}
 	
 	public UserInfo edit(UserInfo user){
-		UserInfo exist = this.userInfoRepository.findByName(user.getName())
-			.orElseThrow(()->new NonExistUserException("존재하지 않는 유저에 대한 수정 요청입니다.", "유저 이름을 확인해주세요", "/user/"+user.getName()));
+		UserInfo exist = this.userInfoRepository.findById(user.getId())
+			.orElseThrow(()->new NonExistUserException("존재하지 않는 유저에 대한 수정 요청입니다.", "유저 아이디를 확인해주세요", "/user/"+user.getId()));
 		
 		Field[] oldFields = exist.getClass().getDeclaredFields();
 		Field[] newFields = user.getClass().getDeclaredFields();
@@ -61,10 +61,10 @@ public class UserInfoService{
 				}
 			}
 		}catch(IllegalAccessException IAE){
-			throw new EditException("유저 정보를 수정하는데 실패했습니다.", "요청 JSON을 확인해주세요", "/user/"+user.getName());
+			throw new EditException("유저 정보를 수정하는데 실패했습니다.", "요청 JSON을 확인해주세요", "/user/"+user.getId());
 		}
 		
-		return this.get(user.getName());
+		return this.get(exist.getName());
 	}
 	
 	// constructor

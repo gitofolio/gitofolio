@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class UserInfo{
 	
 	@Id
-	@GeneratedValue
 	@Column(name="USER_INFO_ID")
 	private Long id;
 	
@@ -42,6 +41,10 @@ public class UserInfo{
 	}
 
 	//setter
+	public void setId(Long id){
+		this.id = id;
+	}
+	
 	public void setName(String name){
 		this.name = name;
 	}

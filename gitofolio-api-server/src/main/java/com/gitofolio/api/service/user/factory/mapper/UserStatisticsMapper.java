@@ -29,6 +29,7 @@ public class UserStatisticsMapper implements UserMapper<UserStatistics>{
 		UserInfo userInfo = userStatistics.getUserInfo();
 		
 		UserDTO userDTO = new UserDTO.Builder()
+			.id(userInfo.getId())
 			.name(userInfo.getName())
 			.profileUrl(userInfo.getProfileUrl())
 			.build();

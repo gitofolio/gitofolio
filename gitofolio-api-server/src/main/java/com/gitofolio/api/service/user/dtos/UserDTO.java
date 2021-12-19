@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserDTO{
 	
+	private Long id;
 	private String name;
 	private String profileUrl;
 	private List<PortfolioCardDTO> portfolioCards;
@@ -18,6 +19,10 @@ public class UserDTO{
 	private List<Link> links;
 	
 	// setter
+	public void setId(Long id){
+		this.id = id;
+	}
+	
 	public void setName(String name){
 		this.name = name;
 	}
@@ -43,6 +48,10 @@ public class UserDTO{
 	}
 	
 	// getter
+	public Long getId(){
+		return this.id;
+	}
+	
 	public String getName(){
 		return this.name;
 	}
@@ -74,6 +83,7 @@ public class UserDTO{
 	}
 	
 	public UserDTO(UserDTO.Builder builder){
+		this.id = builder.id;
 		this.name = builder.name;
 		this.profileUrl = builder.profileUrl;
 		this.portfolioCards = builder.portfolioCards;
@@ -83,11 +93,17 @@ public class UserDTO{
 	
 	public static class Builder{
 		
+		private Long id;
 		private String name;
 		private String profileUrl;
 		private List<PortfolioCardDTO> portfolioCards;
 		private UserStatDTO userStat;
 		private UserStatisticsDTO userStatistics;
+		
+		public UserDTO.Builder id(Long id){
+			this.id = id;
+			return this;
+		}
 		
 		public UserDTO.Builder name(String name){
 			this.name = name;
@@ -121,6 +137,7 @@ public class UserDTO{
 		}
 		
 		public UserDTO.Builder userInfo(UserInfo userInfo){
+			this.id = userInfo.getId();
 			this.name = userInfo.getName();
 			this.profileUrl = userInfo.getProfileUrl();
 			return this;

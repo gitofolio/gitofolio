@@ -65,6 +65,7 @@ public class PortfolioCardFactoryAndEraserTest{
 		
 		UserDTO userDTO = new UserDTO.Builder()
 			.name(this.name)
+			.id(0L)
 			.profileUrl(this.url)
 			.portfolioCardDTO(portfolioCardDTO1)
 			.portfolioCardDTO(portfolioCardDTO2)
@@ -107,6 +108,7 @@ public class PortfolioCardFactoryAndEraserTest{
 			.build();
 		
 		UserDTO userDTO = new UserDTO.Builder()
+			.id(0L)
 			.name(this.name)
 			.profileUrl(this.url)
 			.portfolioCardDTO(portfolioCardDTO1)
@@ -114,22 +116,25 @@ public class PortfolioCardFactoryAndEraserTest{
 			.portfolioCardDTO(portfolioCardDTO3)
 			.build();
 		
+		// when 
+		userInfoFactory.saveUser(userDTO);
+		portfolioCardFactory.saveUser(userDTO);
+		
 		PortfolioCardDTO editPortfolioCardDTO = new PortfolioCardDTO.Builder()
+			.id(this.portfolioCardFactory.getUser(this.name).getPortfolioCards().get(0).getId())
 			.portfolioCardArticle("edit")
 			.portfolioCardStars(2)
 			.portfolioUrl("edit")
 			.build();
 		
 		UserDTO editUserDTO = new UserDTO.Builder()
+			.id(0L)
 			.name(this.name)
 			.profileUrl(this.url)
 			.portfolioCardDTO(editPortfolioCardDTO)
 			.build();
 		
-		// when 
-		userInfoFactory.saveUser(userDTO);
-		portfolioCardFactory.saveUser(userDTO);
-		portfolioCardFactory.editUser(editUserDTO, 3);
+		portfolioCardFactory.editUser(editUserDTO);
 		
 		// then
 		UserDTO ans = this.portfolioCardFactory.getUser(this.name);
@@ -137,9 +142,9 @@ public class PortfolioCardFactoryAndEraserTest{
 		
 		assertEquals(ans.getName(), this.name);
 		assertEquals(ans.getProfileUrl(), this.url);
-		assertEquals(cardDTOs.get(2).getPortfolioCardArticle(), "edit");
-		assertEquals(cardDTOs.get(2).getPortfolioUrl(), "edit");
-		assertEquals(cardDTOs.get(2).getPortfolioCardStars(), 1);
+		assertEquals(cardDTOs.get(0).getPortfolioCardArticle(), "edit");
+		assertEquals(cardDTOs.get(0).getPortfolioUrl(), "edit");
+		assertEquals(cardDTOs.get(0).getPortfolioCardStars(), 1);
 	}
 	
 	@AfterEach

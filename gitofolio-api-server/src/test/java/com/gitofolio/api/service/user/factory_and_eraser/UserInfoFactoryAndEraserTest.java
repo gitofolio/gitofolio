@@ -38,6 +38,7 @@ public class UserInfoFactoryAndEraserTest{
 	public void UserInfoFactory_Save_and_Get_Test(){
 		// given
 		UserDTO userDTO = new UserDTO.Builder()
+			.id(0L)
 			.name(name)
 			.profileUrl(url)
 			.build();
@@ -55,11 +56,13 @@ public class UserInfoFactoryAndEraserTest{
 	public void UserInfoFactory_Edit_Test(){
 		// given
 		UserDTO userDTO = new UserDTO.Builder()
+			.id(0L)
 			.name(name)
 			.profileUrl(url)
 			.build();
 		
 		UserDTO editUserDTO = new UserDTO.Builder()
+			.id(0L)
 			.name(name)
 			.profileUrl(url+"edit")
 			.build();

@@ -98,6 +98,7 @@ public class UserStatControllerTest{
 							parameterWithName("name").description("유저 총 통계정보 요청 대상 이름입니다.")
 						),
 						responseFields(
+							fieldWithPath("id").description("요청한 유저의 id 입니다."),
 							fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
 							fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 							fieldWithPath("userStat.totalVisitors").description("{name}에 해당하는 유저를 방문한 사람들의 수 입니다."),
@@ -132,6 +133,7 @@ public class UserStatControllerTest{
 	
 	private UserDTO getUser(){
 		return new UserDTO.Builder()
+			.id(0L)
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
 			.build();

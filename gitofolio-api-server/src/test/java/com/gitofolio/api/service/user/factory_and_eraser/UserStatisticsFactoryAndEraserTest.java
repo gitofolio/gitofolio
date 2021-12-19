@@ -42,6 +42,7 @@ public class UserStatisticsFactoryAndEraserTest{
 	public void UserStatisticsFactory_Save_and_Get_Test(){
 		// given
 		UserDTO userDTO = new UserDTO.Builder()
+			.id(0L)
 			.name(this.name)
 			.profileUrl(this.url)
 			.build();

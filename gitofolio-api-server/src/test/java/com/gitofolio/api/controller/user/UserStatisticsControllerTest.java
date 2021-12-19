@@ -74,6 +74,7 @@ public class UserStatisticsControllerTest{
 								parameterWithName("name").description("일일 통계 정보를 요청할 유저 이름입니다.")
 							),
 							responseFields(
+								fieldWithPath("id").description("요청한 유저의 id 입니다."),
 								fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
 								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 								fieldWithPath("userDailyStat.visitorStatistics.[].visitDate")
@@ -134,6 +135,7 @@ public class UserStatisticsControllerTest{
 	
 	private UserDTO getUser(){
 		return new UserDTO.Builder()
+			.id(0L)
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
 			.build();

@@ -91,6 +91,7 @@ public class UserInfoControllerTest{
 								parameterWithName("name").description("name에 해당하는 유저의 표현이 응답됩니다.")
 						   	),
 						   	responseFields(
+								fieldWithPath("id").description("요청한 유저의 id입니다."),
 								fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
 								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 								fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
@@ -120,6 +121,7 @@ public class UserInfoControllerTest{
 	public void userInfo_POST_Test() throws Exception{
 		// given
 		UserDTO user = new UserDTO.Builder()
+			.id(1L)
 			.name("savedUser")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
 			.build();
@@ -131,10 +133,12 @@ public class UserInfoControllerTest{
 			.andExpect(status().isCreated())
 			.andDo(document("user/post",
 							relaxedRequestFields(
+								fieldWithPath("id").description("저장할 유저의 이름입니다. 클라이언트의 입력은 무시되며, 서버에서 깃허브 OAuth인증을 기반으로 생성됩니다."),
 								fieldWithPath("name").description("저장될 유저의 이름입니다. 중복되면 안됩니다"),
 								fieldWithPath("profileUrl").description("유저의 프로필 사진 Url입니다.").optional()
 							),
 						   	responseFields(
+								fieldWithPath("id").description("저장된 유저의 id입니다."),
 								fieldWithPath("name").description("저장된 유저의 이름 입니다. 요청 HTTP 본문의 name과 동일해야합니다."),
 								fieldWithPath("profileUrl").description("저장된 유저의 프로필 URL입니다."),
 								fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
@@ -209,6 +213,7 @@ public class UserInfoControllerTest{
 	public void userInfo_PUT_Test() throws Exception{
 		// given
 		UserDTO user = new UserDTO.Builder()
+			.id(1L)
 			.name("savedUser")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
 			.build();
@@ -216,6 +221,7 @@ public class UserInfoControllerTest{
 		String content = objectMapper.writeValueAsString(user);
 		
 		UserDTO editUser = new UserDTO.Builder()
+			.id(1L)
 			.name("savedUser")
 			.profileUrl("https://example.profileUrl.com?modified")
 			.build();
@@ -231,10 +237,12 @@ public class UserInfoControllerTest{
 			.andExpect(status().isOk())
 			.andDo(document("user/put",
 						relaxedRequestFields(
+							fieldWithPath("id").description("수정 대상 유저의 id입니다. 유저 수정은 id값을 기반으로 동작하며 id값은 수정할수없습니다"),
 							fieldWithPath("name").description("수정 대상 유저 이름입니다."),
 							fieldWithPath("profileUrl").description("수정 대상 유저 프로필 URL입니다.")
 						),
 						responseFields(
+							fieldWithPath("id").description("유저의 id 입니다."),
 							fieldWithPath("name").description("수정된 유저의 이름 입니다. 요청 HTTP 본문의 name과 동일해야합니다."),
 							fieldWithPath("profileUrl").description("수정된 유저의 프로필 URL입니다."),
 							fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
@@ -252,6 +260,7 @@ public class UserInfoControllerTest{
 	
 	private UserDTO getUser(){
 		return new UserDTO.Builder()
+			.id(0L)
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
 			.build();

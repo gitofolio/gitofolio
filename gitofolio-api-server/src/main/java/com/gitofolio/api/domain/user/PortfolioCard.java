@@ -30,7 +30,7 @@ public class PortfolioCard{
 	@Column(name="PORTFOLIO_URL", nullable=false)
 	private String portfolioUrl;
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="USER_INFO_ID")
 	private UserInfo userInfo;
 	
@@ -57,6 +57,10 @@ public class PortfolioCard{
 	}
 	
 	//setter
+	public void setId(Long id){
+		this.id = id;
+	}
+	
 	public void setPortfolioCardArticle(String portfolioCardArticle){
 		this.portfolioCardArticle = portfolioCardArticle;
 	}

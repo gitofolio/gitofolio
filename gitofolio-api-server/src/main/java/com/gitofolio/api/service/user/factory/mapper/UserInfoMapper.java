@@ -19,6 +19,7 @@ public class UserInfoMapper implements UserMapper<UserInfo>{
 	@Override
 	public UserInfo resolveMap(UserDTO userDTO){
 		UserInfo userInfo = new UserInfo();
+		userInfo.setId(userDTO.getId());
 		userInfo.setName(userDTO.getName());
 		userInfo.setProfileUrl(userDTO.getProfileUrl());
 		return userInfo;

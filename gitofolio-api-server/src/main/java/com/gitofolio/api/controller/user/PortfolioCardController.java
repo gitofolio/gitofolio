@@ -61,9 +61,9 @@ public class PortfolioCardController{
 	}
 	
 	@RequestMapping(path="", method=RequestMethod.PUT)
-	public ResponseEntity<UserDTO> putPortfolioCard(@RequestBody UserDTO userDTO,
-												   @RequestParam(value="card", required=true) Integer card){
-		UserDTO result = this.portfolioCardFactory.editUser(userDTO, card);
+	public ResponseEntity<UserDTO> putPortfolioCard(@RequestBody UserDTO userDTO){
+		
+		UserDTO result = this.portfolioCardFactory.editUser(userDTO);
 		
 		return new ResponseEntity(result, HttpStatus.OK);
 	}

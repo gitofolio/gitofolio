@@ -34,6 +34,7 @@ public class PortfolioCardServiceTest{
 	public void portfolioCardService_Get_and_Save_Test(){
 		// given
 		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
 		userInfo.setName(this.name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		
@@ -90,6 +91,7 @@ public class PortfolioCardServiceTest{
 	public void portfolioCardService_ExistButNoPortfolioCard_Fail_Test(){
 		// given
 		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
 		userInfo.setName(this.name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		
@@ -105,6 +107,7 @@ public class PortfolioCardServiceTest{
 	public void portfolioCardService_Put_Test(){
 		// given
 		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
 		userInfo.setName(this.name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		
@@ -134,7 +137,12 @@ public class PortfolioCardServiceTest{
 		cards.add(portfolioCard2);
 		cards.add(portfolioCard3);
 		
+		// when
+		this.userInfoService.save(userInfo);
+		this.portfolioCardService.save(cards);
+		
 		PortfolioCard editCard = new PortfolioCard();
+		editCard.setId(this.portfolioCardService.get(this.name).get(0).getId());
 		editCard.setPortfolioCardArticle("edit");
 		editCard.setPortfolioCardStars(0);
 		editCard.setPortfolioUrl("edit");
@@ -144,10 +152,8 @@ public class PortfolioCardServiceTest{
 		List<PortfolioCard> editCards = new ArrayList<PortfolioCard>();
 		editCards.add(editCard);
 		
-		// when
-		this.userInfoService.save(userInfo);
-		this.portfolioCardService.save(cards);
-		this.portfolioCardService.edit(1, editCards);
+		
+		this.portfolioCardService.edit(editCards);
 			
 		// then
 		List<PortfolioCard> results = this.portfolioCardService.get(this.name);

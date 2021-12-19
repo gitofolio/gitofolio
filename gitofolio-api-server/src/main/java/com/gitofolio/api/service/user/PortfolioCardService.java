@@ -69,9 +69,10 @@ public class PortfolioCardService{
 		return;
 	}
 	
-	public List<PortfolioCard> edit(Integer order, List<PortfolioCard> portfolioCards){
+	public List<PortfolioCard> edit(List<PortfolioCard> portfolioCards){
 		
 		String name = portfolioCards.get(0).getUserInfo().getName();
+		Long editId = portfolioCards.get(0).getId();
 		
 		List<PortfolioCard> exist = this.portfolioCardRepository.findByName(name);
 		if(exist.size() == 0) {
@@ -80,11 +81,14 @@ public class PortfolioCardService{
 		}
 		
 		PortfolioCard oldPortfolioCard = null;
-		try{
-			oldPortfolioCard = exist.get(order-1);
-		}catch(Exception E){
-			throw new IllegalParameterException("잘못된 파라미터 요청", "요청하신 번호에 해당하는 포토폴리오 카드를 찾을 수 없습니다.", "https://api.gitofolio.com/portfoliocards");
+		for(PortfolioCard card : exist){
+			
+			if(card.getId().equals(editId)) oldPortfolioCard = card;
 		}
+			
+		if(oldPortfolioCard == null)
+			throw new IllegalParameterException("잘못된 파라미터 요청", "요청하신 번호에 해당하는 포토폴리오 카드를 찾을 수 없습니다.", "https://api.gitofolio.com/portfoliocards");
+		
 		
 		PortfolioCard newPortfolioCard = portfolioCards.get(0);
 		

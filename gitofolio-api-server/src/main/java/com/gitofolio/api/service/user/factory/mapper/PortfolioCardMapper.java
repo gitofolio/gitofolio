@@ -39,6 +39,10 @@ public class PortfolioCardMapper implements UserMapper<List<PortfolioCard>>{
 		for(PortfolioCardDTO cardDTO : portfolioCardDTOs){
 			PortfolioCard portfolioCard = new PortfolioCard();
 			
+			try{
+				portfolioCard.setId(cardDTO.getId());
+			}catch(NullPointerException NPE){}
+			
 			portfolioCard.setPortfolioCardArticle(cardDTO.getPortfolioCardArticle());
 			portfolioCard.setPortfolioCardStars(cardDTO.getPortfolioCardStars());
 			portfolioCard.setPortfolioUrl(cardDTO.getPortfolioUrl());
@@ -54,6 +58,9 @@ public class PortfolioCardMapper implements UserMapper<List<PortfolioCard>>{
 	private UserInfo getMockUserInfo(UserDTO userDTO){
 		UserInfo mockUserInfo = new UserInfo();
 		mockUserInfo.setName(userDTO.getName());
+		try{
+			mockUserInfo.setId(userDTO.getId());
+		}catch(NullPointerException NPE){}
 		return mockUserInfo;
 	}
 	

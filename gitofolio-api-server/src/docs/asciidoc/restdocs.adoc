@@ -12,11 +12,13 @@ gitofolio rest api를 사용하여, 유저데이터, 통계, 포토폴리오 정
 
 [[HATEOAS]]
 == gitofolio HATEOAS
-gitofolio는 HATEOAS단계를 지원합니다.
+gitofolio는 HATEOAS를 지원합니다.
 
-HATEOAS를 사용하여, 서버와 클라이언트의 느슨한 연결관계를 유지하며 서버의 변화에 유연하게 대처하세요.
+HATEOAS를 사용하여, 서버의 변화에 유연하게 대처하세요.
 
 TIP: HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 기술되어 있습니다.
+
+CAUTION: HATEOAS의 rel값은 절대 변경되지않으며, URL은 변경될수있습니다. 
 
 엔드포인트 '/'요청에 대한 응답은 아래와 같습니다.
 
@@ -121,8 +123,6 @@ DB에 저장되어있는 유저를 삭제합니다.
 ==== Request
 DB에 저장되어있는 유저를 삭제하려면, DELETE메소드로 요청하세요.
 
-NOTE: 이후, DELETE요청을 위해 인증하는 메소드가 추가될 예정입니다.
-
 요청 시 생성되는 HTTP 헤더는 아래와 같습니다.
 
 include::{snippets}/user/delete/http-request.adoc[]
@@ -142,6 +142,36 @@ CAUTION: 서버는 존재하지 않는 유저에 대한 삭제 요청에 대해 
 include::{snippets}/user/delete/fail/http-response.adoc[]
 
 include::{snippets}/user/delete/fail/response-fields.adoc[]
+
+[[user-put]]
+=== 유저 수정하기
+DB에 저장되어있는 유저 정보를 수정합니다.
+
+DB에 저장되어있는 유저를 수정하기위해 PUT요청을 합니다.
+
+GET,POST,DELETE요청은 유저의 이름을 기반으로 동작하지만, PUT메소드는 유저의 id값을 기반으로 동작하게끔 구현되어있습니다.
+
+NOTE: id값은 깃허브 인증 고유값으로 임의로설정 불가능하며 변경또한 불가능합니다.
+
+[[user-put-request]]
+==== Request
+요청시 생성되는 응답은 아래와 같습니다.
+
+include::{snippets}/user/post/http-request.adoc[]
+
+include::{snippets}/user/post/request-fields.adoc[]
+
+[[user-put-response]]
+==== Representation
+성공적으로 수정되었다면 아래와 같은 표현이 응답됩니다.
+
+include::{snippets}/user/put/http-response.adoc[]
+
+[[user-put-errorhandle1]]
+==== NonExistUserException
+
+[[user-put-errorhandle2]]
+==== EditException
 
 [[userstat]]
 == 유저 통계
@@ -341,3 +371,25 @@ include::{snippets}/portfoliocards/delete/fail/http-response.adoc[]
 
 include::{snippets}/portfoliocards/delete/fail/response-fields.adoc[]
 
+[[portfoliocards-put]]
+=== 포트폴리오 카드 수정하기
+DB에 저장되어있는 유저가 갖고있는 포트폴리오 카드를 수정할수있습니다.
+
+포트폴리오 카드의 id값을 기준으로 수정됩니다.
+
+[[portfoliocards-put-request]]
+==== Request
+요청시 생성되는 HTTP 헤더는 아래와 같습니다.
+
+include::{snippets}/portfoliocards/put/http-request.adoc[]
+
+include::{snippets}/portfoliocards/put/request-fields.adoc[]
+
+[[portfoliocards-put-response]]
+==== Representation
+
+성공적으로 수정되었다면 200 OK와 함께 아래 표현이 응답됩니다.
+
+include::{snippets}/portfoliocards/put/http-response.adoc[]
+
+include::{snippets}/portfoliocards/put/response-fields.adoc[]

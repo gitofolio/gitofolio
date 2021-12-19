@@ -33,6 +33,7 @@ public class UserStatisticsServiceTest{
 	public void UserStatisticsService_Get_and_Save_Test(){
 		// given
 		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
 		userInfo.setName(this.name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		
