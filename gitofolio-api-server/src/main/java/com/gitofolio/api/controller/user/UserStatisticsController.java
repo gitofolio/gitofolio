@@ -48,4 +48,10 @@ public class UserStatisticsController{
 		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user/dailystat URI에는 GET 메소드만 사용 가능합니다.", "DELETE : user/dailystat");
 	}
 	
+	@RequestMapping(path={"*", "**", ""}, method=RequestMethod.PUT)
+	public ResponseEntity<UserDTO> putUserStatistics(){
+		
+		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user/dailystat URI에는 GET 메소드만 사용 가능합니다.", "PUT : user/dailystat");
+	}
+	
 }

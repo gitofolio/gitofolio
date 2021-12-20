@@ -10,6 +10,7 @@ import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
 import com.gitofolio.api.service.user.UserInfoService;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
+import com.gitofolio.api.service.user.exception.DuplicationUserException;
 import com.gitofolio.api.domain.user.UserInfo;
 
 @Service
@@ -38,13 +39,19 @@ public class UserInfoFactory implements UserFactory{
 	@Override
 	@Transactional
 	public UserDTO saveUser(UserDTO userDTO){
-		return this.setHateoas(
-			this.userInfoMapper.doMap(
-				this.userInfoService.save(
-					this.userInfoMapper.resolveMap(userDTO)
+		UserDTO result = new UserDTO();
+		try{
+			result = this.setHateoas(
+				this.userInfoMapper.doMap(
+					this.userInfoService.save(
+						this.userInfoMapper.resolveMap(userDTO)
+					)
 				)
-			)
-		);
+			);
+		}catch(DuplicationUserException DUE){
+			result = this.editUser(userDTO);
+		}
+		return result;
 	}
 	
 	@Override

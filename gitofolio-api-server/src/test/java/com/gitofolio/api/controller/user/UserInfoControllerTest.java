@@ -118,62 +118,6 @@ public class UserInfoControllerTest{
 	}
 	
 	@Test
-	public void userInfo_POST_Test() throws Exception{
-		// given
-		UserDTO user = new UserDTO.Builder()
-			.id(1L)
-			.name("savedUser")
-			.profileUrl("https://example.profileUrl.com?1123u8413478")
-			.build();
-	 
-		String content = objectMapper.writeValueAsString(user);
-	
-		// then
-		mockMvc.perform(post("/user").content(content).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isCreated())
-			.andDo(document("user/post",
-							relaxedRequestFields(
-								fieldWithPath("id").description("저장할 유저의 이름입니다. 클라이언트의 입력은 무시되며, 서버에서 깃허브 OAuth인증을 기반으로 생성됩니다."),
-								fieldWithPath("name").description("저장될 유저의 이름입니다. 중복되면 안됩니다"),
-								fieldWithPath("profileUrl").description("유저의 프로필 사진 Url입니다.").optional()
-							),
-						   	responseFields(
-								fieldWithPath("id").description("저장된 유저의 id입니다."),
-								fieldWithPath("name").description("저장된 유저의 이름 입니다. 요청 HTTP 본문의 name과 동일해야합니다."),
-								fieldWithPath("profileUrl").description("저장된 유저의 프로필 URL입니다."),
-								fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
-								fieldWithPath("links.[].method").description("HTTP METHOD"),
-								fieldWithPath("links.[].href").description("다음 선택지 요청 URL 입니다.")
-						   )
-				)
-		);
-		
-		try{
-			this.userInfoEraser.delete(user.getName());
-		} catch(NonExistUserException NEUE){}
-	}
-	
-	@Test
-	public void userInfo_POST_FAIL_Test() throws Exception{
-		// given
-		UserDTO user = this.getUser();
-		
-		String httpBody = objectMapper.writeValueAsString(user);
-		
-		// then
-		mockMvc.perform(post("/user").content(httpBody).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isConflict())
-			.andDo(document("user/post/fail",
-							responseFields(
-								fieldWithPath("title").description("에러의 주요 원인입니다."),
-								fieldWithPath("message").description("에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다."),
-								fieldWithPath("request").description("에러가 발생한 request URL 입니다.")
-							)
-				)
-			);
-	}
-	
-	@Test
 	public void userInfo_DELETE_Test() throws Exception{
 		// given
 		String name = this.getUser().getName();
@@ -207,55 +151,6 @@ public class UserInfoControllerTest{
 								fieldWithPath("request").description("에러가 발생한 request URL 입니다.")
 							)
 					));
-	}
-	
-	@Test
-	public void userInfo_PUT_Test() throws Exception{
-		// given
-		UserDTO user = new UserDTO.Builder()
-			.id(1L)
-			.name("savedUser")
-			.profileUrl("https://example.profileUrl.com?1123u8413478")
-			.build();
-	 
-		String content = objectMapper.writeValueAsString(user);
-		
-		UserDTO editUser = new UserDTO.Builder()
-			.id(1L)
-			.name("savedUser")
-			.profileUrl("https://example.profileUrl.com?modified")
-			.build();
-		
-		String editContent = objectMapper.writeValueAsString(editUser);
-		
-		// when
-		mockMvc.perform(post("/user").content(content).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isCreated());
-		
-		// then
-		mockMvc.perform(put("/user").content(editContent).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andDo(document("user/put",
-						relaxedRequestFields(
-							fieldWithPath("id").description("수정 대상 유저의 id입니다. 유저 수정은 id값을 기반으로 동작하며 id값은 수정할수없습니다"),
-							fieldWithPath("name").description("수정 대상 유저 이름입니다."),
-							fieldWithPath("profileUrl").description("수정 대상 유저 프로필 URL입니다.")
-						),
-						responseFields(
-							fieldWithPath("id").description("유저의 id 입니다."),
-							fieldWithPath("name").description("수정된 유저의 이름 입니다. 요청 HTTP 본문의 name과 동일해야합니다."),
-							fieldWithPath("profileUrl").description("수정된 유저의 프로필 URL입니다."),
-							fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
-							fieldWithPath("links.[].method").description("HTTP METHOD"),
-							fieldWithPath("links.[].href").description("다음 선택지 요청 URL 입니다.")
-						)
-					)
-				);
-		
-		try{
-			this.userInfoEraser.delete(user.getName());
-		} catch(NonExistUserException NEUE){}
-
 	}
 	
 	private UserDTO getUser(){

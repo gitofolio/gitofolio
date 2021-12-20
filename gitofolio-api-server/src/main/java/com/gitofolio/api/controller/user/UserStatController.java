@@ -49,4 +49,11 @@ public class UserStatController{
 		
 	}
 	
+	@RequestMapping(path={"", "*", "**"}, method=RequestMethod.PUT)
+	public ResponseEntity<UserDTO> putUserStat(){
+		
+		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user/stat URI에는 GET 메소드만 사용 가능합니다.", "PUT : user/stat");
+		
+	}
+	
 }

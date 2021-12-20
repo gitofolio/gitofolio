@@ -26,7 +26,7 @@ public class UserInfoService{
 		UserInfo exist = this.userInfoRepository.findByName(user.getName()).orElseGet(()->new UserInfo());
 		if(exist.getName() == null) userInfoRepository.save(user);
 		else if(exist.getName() != null) throw new DuplicationUserException("유저 이름이 중복되었습니다.", "다른 유저이름을 사용해 저장하세요", "/user/"+exist.getName());
-			
+		
 		return this.get(user.getName());
 	}
 	

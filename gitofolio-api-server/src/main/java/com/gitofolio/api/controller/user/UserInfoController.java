@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
+import com.gitofolio.api.service.user.exception.InvalidHttpMethodException;
 
 @RestController
 @RequestMapping(path="/user")
@@ -37,9 +38,8 @@ public class UserInfoController {
 	@RequestMapping(path="", method=RequestMethod.POST)
 	public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO){
 
-		UserDTO result = this.userInfoFactory.saveUser(userDTO);
+		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user 의 POST메소드는 허용되지 않았습니다.", "POST : user/dailystat");
 		
-		return new ResponseEntity(result, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
@@ -53,8 +53,7 @@ public class UserInfoController {
 	@RequestMapping(path="", method=RequestMethod.PUT)
 	public ResponseEntity<UserDTO> putUser(@RequestBody UserDTO userDTO){
 		
-		UserDTO result = this.userInfoFactory.editUser(userDTO);
+		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user 의 PUT메소드는 허용되지 않았습니다.", "PUT : user/dailystat");
 		
-		return new ResponseEntity(result, HttpStatus.OK);
 	}
 }
