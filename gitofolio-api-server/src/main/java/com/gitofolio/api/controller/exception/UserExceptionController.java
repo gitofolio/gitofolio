@@ -39,11 +39,18 @@ public class UserExceptionController{
 	}
 	
 	@ExceptionHandler({InvalidHttpMethodException.class})
-	public ResponseEntity InvalidHttpMethodException(InvalidHttpMethodException invalidHttpMethodException){
+	public ResponseEntity InvalidHttpMethodExceptionHandler(InvalidHttpMethodException invalidHttpMethodException){
 		ErrorDTO errorDTO = new ErrorDTO(invalidHttpMethodException.getTitle()
 										, invalidHttpMethodException.getMessage()
 										, invalidHttpMethodException.getRequest());
 		return new ResponseEntity(errorDTO, HttpStatus.METHOD_NOT_ALLOWED);
+	}
+	
+	@ExceptionHandler({Exception.class})
+	public ResponseEntity<ErrorDTO> AllUnknownExceptionHandler(Exception e){
+		ErrorDTO errorDTO = new ErrorDTO("INTERNALSERVERERROR", "서버가 처리할수 없는 오류가 발생했습니다.", "버그 리포트를 보내주세요 큰 도움이 됩니다.");
+		
+		return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

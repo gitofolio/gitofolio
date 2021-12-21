@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.auth.authenticate.Authenticator;
 import com.gitofolio.api.service.user.factory.UserFactory;
+import com.gitofolio.api.service.auth.SessionProcessor;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping(path="/oauth")
@@ -25,9 +28,15 @@ public class OAuthController{
 	@Qualifier("userInfoFactory")
 	private UserFactory userInfoFactory;
 	
+	@Autowired
+	@Qualifier("loginSessionProcessor")
+	private SessionProcessor<UserDTO> loginSessionProcessor;
+	
 	@RequestMapping(path="/github", method=RequestMethod.GET)
-	public ResponseEntity<UserDTO> receiveGithubCode(@RequestParam(value="code") String code){
+	public ResponseEntity<UserDTO> receiveGithubCode(@RequestParam(value="code") String code, HttpSession httpSession){
 		UserDTO userDTO = this.githubAuthenticator.authenticate(code);
+		
+		loginSessionProcessor.setAttribute(httpSession, userDTO);
 		
 		userDTO = this.userInfoFactory.saveUser(userDTO);
 		

@@ -57,7 +57,6 @@ public class UserInterceptor implements HandlerInterceptor{
 	private void setReffererSite(String name, HttpServletRequest request){
 		String refferingSiteName = request.getHeader("Referer");
 		if(refferingSiteName == null) return;
-		System.out.println(refferingSiteName);
 		this.userStatisticsService.setRefferingSite(name, refferingSiteName);
 	}
 	
