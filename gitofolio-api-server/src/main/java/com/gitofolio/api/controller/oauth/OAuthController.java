@@ -33,10 +33,10 @@ public class OAuthController{
 	private SessionProcessor<UserDTO> loginSessionProcessor;
 	
 	@RequestMapping(path="/github", method=RequestMethod.GET)
-	public ResponseEntity<UserDTO> receiveGithubCode(@RequestParam(value="code") String code, HttpSession httpSession){
+	public ResponseEntity<UserDTO> receiveGithubCode(@RequestParam(value="code") String code){
 		UserDTO userDTO = this.githubAuthenticator.authenticate(code);
 		
-		loginSessionProcessor.setAttribute(httpSession, userDTO);
+		loginSessionProcessor.setAttribute(userDTO);
 		
 		userDTO = this.userInfoFactory.saveUser(userDTO);
 		

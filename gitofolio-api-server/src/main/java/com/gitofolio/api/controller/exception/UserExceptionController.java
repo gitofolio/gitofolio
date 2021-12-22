@@ -48,7 +48,7 @@ public class UserExceptionController{
 	
 	@ExceptionHandler({Exception.class})
 	public ResponseEntity<ErrorDTO> AllUnknownExceptionHandler(Exception e){
-		ErrorDTO errorDTO = new ErrorDTO("INTERNALSERVERERROR", "서버가 처리할수 없는 오류가 발생했습니다.", "버그 리포트를 보내주세요 큰 도움이 됩니다.");
+		ErrorDTO errorDTO = new ErrorDTO("INTERNALSERVERERROR", "서버가 처리할수 없는 오류가 발생했습니다.", "버그 리포트를 보내주세요");
 		
 		return new ResponseEntity(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

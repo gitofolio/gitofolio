@@ -19,7 +19,7 @@ public class LoginSessionProcessor extends SessionProcessor<UserDTO>{
 	}
 	
 	@Override
-	protected void hook(HttpSession httpSession){
+	protected void hook(){
 		httpSession.setMaxInactiveInterval(60*30);
 	}
 }

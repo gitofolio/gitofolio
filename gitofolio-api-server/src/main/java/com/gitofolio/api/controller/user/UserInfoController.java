@@ -16,6 +16,7 @@ import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.exception.InvalidHttpMethodException;
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
 import com.gitofolio.api.service.auth.SessionProcessor;
+import com.gitofolio.api.aop.auth.annotation.UserAuthorizationer;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,10 +37,10 @@ public class UserInfoController {
 	private SessionProcessor<UserDTO> loginSessionProcessor;
 	
 	@RequestMapping(path="", method=RequestMethod.GET)
-	public ResponseEntity<UserDTO> getLoginedUser(HttpSession httpSession){
+	public ResponseEntity<UserDTO> getLoginedUser(){
 		
-		UserDTO userDTO = this.loginSessionProcessor.getAttribute(httpSession).orElseThrow(()->new AuthenticateException("인증 오류", "로그인 되어있는 유저가 없습니다."));
-
+		UserDTO userDTO = this.loginSessionProcessor.getAttribute().orElseThrow(()->new AuthenticateException("인증 오류", "로그인 되어있는 유저가 없습니다."));
+		
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
@@ -54,7 +55,7 @@ public class UserInfoController {
 	@RequestMapping(path="", method=RequestMethod.POST)
 	public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO){
 
-		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user 의 POST메소드는 허용되지 않았습니다.", "POST : user/dailystat");
+		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user 의 POST메소드는 허용되지 않았습니다.", "POST : user/{name}");
 		
 	}
 	
@@ -69,7 +70,7 @@ public class UserInfoController {
 	@RequestMapping(path="", method=RequestMethod.PUT)
 	public ResponseEntity<UserDTO> putUser(@RequestBody UserDTO userDTO){
 		
-		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user 의 PUT메소드는 허용되지 않았습니다.", "PUT : user/dailystat");
+		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user 의 PUT메소드는 허용되지 않았습니다.", "PUT : user/{name}");
 		
 	}
 }

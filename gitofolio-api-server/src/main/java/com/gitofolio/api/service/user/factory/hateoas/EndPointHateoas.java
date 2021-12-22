@@ -14,10 +14,13 @@ public class EndPointHateoas extends Hateoas{
 	@Override
 	public void setHateoas(){
 		this.links = new ArrayList<Link>();
+		
 		this.links.add(new Link("getThis", "GET", "http://api.gitofolio.com"));
 		this.links.add(new Link("getUser", "GET", "http://api.giotofolio.com/user/{name}"));
 		this.links.add(new Link("postUser", "POST", "http://api.gitofolio.com/user"));
 		this.links.add(new Link("deleteUser", "DELETE", "http://api.gitofolio.com/user/{name}"));
+		
+		this.links.add(new Link("getLoginedUser", "GET", "http://api.gitofolio.com/user"));
 		
 		this.links.add(new Link("getPortfoliocards", "GET", "http://api.gitofolio.com/portfoliocards/{name}", "cards={n1},{n2}"));
 		this.links.add(new Link("deletePortfolicards", "DELETE", "http://api.gitofolio.com/portfoliocards/{name}", "card={n1}"));

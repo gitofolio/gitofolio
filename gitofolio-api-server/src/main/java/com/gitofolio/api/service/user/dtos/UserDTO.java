@@ -77,6 +77,14 @@ public class UserDTO{
 		return this.links;
 	}
 	
+	// logic
+	public boolean compare(UserDTO userDTO){
+		if(!this.name.equals(userDTO.getName())) return false;
+		if(!this.id.equals(userDTO.getId())) return false;
+		if(!this.profileUrl.equals(userDTO.getProfileUrl())) return false;
+		return true;
+	}
+	
 	// constructor
 	public UserDTO(){
 		

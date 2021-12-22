@@ -15,6 +15,7 @@ import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.parameter.ParameterHandler;
+import com.gitofolio.api.aop.auth.annotation.UserAuthorizationer;
 
 @RestController
 @RequestMapping(path="/portfoliocards")
@@ -40,6 +41,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
+	@UserAuthorizationer
 	@RequestMapping(path="", method=RequestMethod.POST)
 	public ResponseEntity<UserDTO> savePortfolioCard(@RequestBody UserDTO userDTO){
 		
@@ -48,6 +50,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(result, HttpStatus.CREATED);
 	}
 	
+	@UserAuthorizationer
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
 													  @RequestParam(value="card", required=false) String card){
@@ -60,6 +63,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
 	
+	@UserAuthorizationer
 	@RequestMapping(path="", method=RequestMethod.PUT)
 	public ResponseEntity<UserDTO> putPortfolioCard(@RequestBody UserDTO userDTO){
 		
