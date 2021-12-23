@@ -50,7 +50,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(result, HttpStatus.CREATED);
 	}
 	
-	@UserAuthorizationer
+	@UserAuthorizationer(idx=1)
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
 													  @RequestParam(value="card", required=false) String card){

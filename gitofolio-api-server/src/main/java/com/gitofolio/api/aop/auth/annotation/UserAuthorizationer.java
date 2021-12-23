@@ -6,5 +6,9 @@ import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 
 @Target(ElementType.METHOD)
-@Retention(RetentionPolicy.CLASS)
-public @interface UserAuthorizationer{}
+@Retention(RetentionPolicy.RUNTIME)
+public @interface UserAuthorizationer{
+	
+	int idx() default 0;
+	
+}

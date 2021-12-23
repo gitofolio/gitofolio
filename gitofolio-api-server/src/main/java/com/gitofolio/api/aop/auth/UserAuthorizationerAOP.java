@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.*;
+import java.lang.annotation.Annotation;
+
 @Aspect
 @Component
 public class UserAuthorizationerAOP{
@@ -21,8 +24,20 @@ public class UserAuthorizationerAOP{
 	
 	@Before("@annotation(com.gitofolio.api.aop.auth.annotation.UserAuthorizationer)")
 	public void authorize(JoinPoint joinPoint){
+		
+		Class target = joinPoint.getTarget().getClass();
+		Method[] targetMethods = target.getMethods();
+		String methodName = joinPoint.getSignature().getName();
+		
+		UserAuthorizationer userAuthorizationerAnnotation = null;
+		for(Method method : targetMethods) 
+			if(method.getName().equals(methodName)) 
+				userAuthorizationerAnnotation = method.getAnnotation(UserAuthorizationer.class);
+		
+		int idx = userAuthorizationerAnnotation.idx();
+
 		Object[] params = joinPoint.getArgs();
-		Object param = params[0];
+		Object param = params[idx];
 		if(param.getClass().equals(UserDTO.class)) this.processAuthorization((UserDTO)param);
 		else if(param.getClass().equals(String.class)) this.processAuthorization((String)param);
 	}

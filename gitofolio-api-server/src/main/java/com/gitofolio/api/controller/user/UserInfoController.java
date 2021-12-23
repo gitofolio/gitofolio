@@ -44,6 +44,7 @@ public class UserInfoController {
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
+	@UserAuthorizationer(idx=0)
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUser(@PathVariable("name") String name){
 		
@@ -59,6 +60,7 @@ public class UserInfoController {
 		
 	}
 	
+	@UserAuthorizationer(idx=0)
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){
 		
