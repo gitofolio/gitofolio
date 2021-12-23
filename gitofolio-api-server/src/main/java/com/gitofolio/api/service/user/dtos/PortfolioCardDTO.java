@@ -4,7 +4,7 @@ import com.gitofolio.api.domain.user.PortfolioCard;
 
 public class PortfolioCardDTO{
 	
-	private Long id = 0L;
+	private Long id;
 	private String portfolioCardArticle;
 	private Integer portfolioCardStars;
 	private String portfolioUrl;

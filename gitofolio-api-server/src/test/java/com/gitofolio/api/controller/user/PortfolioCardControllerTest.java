@@ -12,6 +12,9 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
@@ -21,6 +24,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.any;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,10 +38,19 @@ import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.service.user.exception.*;
+import com.gitofolio.api.service.auth.LoginSessionProcessor;
+import com.gitofolio.api.service.auth.SessionProcessor;
+import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.user.factory.hateoas.PortfolioCardHateoas;
+import com.gitofolio.api.service.user.UserStatService;
+import com.gitofolio.api.service.user.UserStatisticsService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest
+import java.util.Optional;
+
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(PortfolioCardController.class)
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com", uriPort=80)
 public class PortfolioCardControllerTest {
@@ -45,28 +58,32 @@ public class PortfolioCardControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@Autowired
-	@Qualifier("userInfoEraser")
-	private UserEraser userInfoEraser;
-	
-	@Autowired
+	@MockBean
 	@Qualifier("portfolioCardEraser")
 	private UserEraser portfolioCardEraser;
 	
-	@Autowired
-	@Qualifier("userInfoFactory")
-	private UserFactory userInfoFactory;
-	
-	@Autowired
+	@MockBean
 	@Qualifier("portfolioCardFactory")
 	private UserFactory portfolioCardFactory;
 	
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
+	@MockBean
+	@Qualifier("loginSessionProcessor")
+	private SessionProcessor loginSessionProcessor;
+	
+	@MockBean
+	private UserStatService userStatService;
+	
+	@MockBean
+	private UserStatisticsService userStatisticsService;
+	
 	@Test
 	public void PortfolioCard_GET_테스트() throws Exception{
 		// when
 		String name = "name";
+		
+		given(portfolioCardFactory.getUser(name, "1,5")).willReturn(this.getUser());
 		
 		// then
 		mockMvc.perform(get("/portfoliocards/{name}?cards=1,5", name).accept(MediaType.APPLICATION_JSON))
@@ -99,6 +116,9 @@ public class PortfolioCardControllerTest {
 		// when
 		String name = "nonExistUser";
 		
+		given(portfolioCardFactory.getUser(name,"1,5"))
+			.willThrow(new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/nonExistUser"));
+		
 		// then
 		mockMvc.perform(get("/portfoliocards/{name}?cards=1,5", name).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
@@ -118,9 +138,36 @@ public class PortfolioCardControllerTest {
 	}
 	
 	@Test
+	public void PortfolioCard_GET_Fail_But_UserExist_테스트() throws Exception{
+		// when
+		String name = "name";
+		
+		// when
+		given(portfolioCardFactory.getUser(name))
+			.willThrow(new NonExistUserException("이 유저는 어떠한 포트폴리오 카드도 갖고있지 않습니다.", "요청 전 포트폴리오 카드를 생성해주세요", "/portfoliocards/"+name));
+		
+		// then
+		mockMvc.perform(get("/portfoliocards/{name}?cards=1,5", name).accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isNotFound())
+			.andDo(document("portfoliocards/get/fail_but_exist_user",
+							pathParameters(
+								parameterWithName("name").description("포토폴리오 카드를 가져올 유저 이름입니다.")
+							),
+							responseFields(
+								fieldWithPath("title").description("에러의 주요 원인입니다."),
+								fieldWithPath("message").description("에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다."),
+								fieldWithPath("request").description("에러가 발생한 request URL 입니다.")
+							)
+						));
+	}
+	
+	@Test
 	public void Portfolio_GET_ParameterFail_테스트() throws Exception{
 		// when
 		String name = "name";
+		
+		given(portfolioCardFactory.getUser(name, "here,tohere"))
+			.willThrow(new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/name?cards=here,tohere"));
 		
 		// then
 		mockMvc.perform(get("/portfoliocards/{name}?cards=here,tohere", name).accept(MediaType.APPLICATION_JSON))
@@ -145,6 +192,8 @@ public class PortfolioCardControllerTest {
 		// when
 		String name = "name";
 		
+		given(portfolioCardEraser.delete(name, "1")).willReturn("name");
+		
 		// then
 		mockMvc.perform(delete("/portfoliocards/{name}?card=1", name).accept(MediaType.ALL))
 			.andExpect(status().isOk())
@@ -162,6 +211,8 @@ public class PortfolioCardControllerTest {
 	public void PortfolioCard_DELETE_Fail_테스트() throws Exception{
 		// when
 		String name = "nonExistUser";
+		
+		given(portfolioCardEraser.delete(name, "1")).willThrow(new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/nonExistUser"));
 		
 		// then
 		mockMvc.perform(delete("/portfoliocards/{name}?card=1", name).accept(MediaType.APPLICATION_JSON))
@@ -186,6 +237,9 @@ public class PortfolioCardControllerTest {
 		// when
 		String name = "name";
 		
+		given(portfolioCardEraser.delete(name, "iwantdeletethis"))
+			.willThrow(new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/user?card=iwantdeletethis"));
+		
 		// then
 		mockMvc.perform(delete("/portfoliocards/{name}?card=iwantdeletethis",name).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotAcceptable())
@@ -208,13 +262,25 @@ public class PortfolioCardControllerTest {
 	public void PortfolioCard_POST_테스트() throws Exception{
 		// given
 		UserDTO user = new UserDTO.Builder()
+			.id(0L)
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
-			.portfolioCardDTO(this.getPortfolioCard("this is new portfoliocard", 0, "https://api.gitofolio.com/portfolio/name/6"))
+			.portfolioCardDTO(this.getPortfolioCard(6L, "this is new portfoliocard", 0, "https://api.gitofolio.com/portfolio/name/6"))
 			.build();
+		
+		UserDTO userCopy = new UserDTO.Builder()
+			.id(0L)
+			.name("name")
+			.profileUrl("https://example.profileUrl.com?1123u8413478")
+			.portfolioCardDTO(this.getPortfolioCard(6L, "this is new portfoliocard", 0, "https://api.gitofolio.com/portfolio/name/6"))
+			.build();
+		
+		Hateoas portfolioCardHateoas = new PortfolioCardHateoas();
+		userCopy.setLinks(portfolioCardHateoas.getLinks());
 		
 		// when
 		String content = objectMapper.writeValueAsString(user);
+		given(portfolioCardFactory.saveUser(any(UserDTO.class))).willReturn(userCopy);
 		
 		// then
 		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -251,11 +317,13 @@ public class PortfolioCardControllerTest {
 			.id(1L)
 			.name("nonExistUser")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
-			.portfolioCardDTO(this.getPortfolioCard("this is new portfoliocard", 0, "https://api.gitofolio.com/portfolio/name/6"))
+			.portfolioCardDTO(this.getPortfolioCard(6L, "this is new portfoliocard", 0, "https://api.gitofolio.com/portfolio/name/6"))
 			.build();
 		
 		// when
 		String content = objectMapper.writeValueAsString(user);
+		given(this.portfolioCardFactory.saveUser(any(UserDTO.class)))
+			.willThrow(new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/nonExistUser"));
 		
 		// then
 		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -280,14 +348,25 @@ public class PortfolioCardControllerTest {
 	public void PortfolioCard_PUT_Test() throws Exception{
 		// given
 		UserDTO editUser = new UserDTO.Builder()
-			.id(this.userInfoFactory.getUser("name").getId())
+			.id(this.getUser().getId())
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
-			.portfolioCardDTO(this.portfolioCardFactory.getUser("name").getPortfolioCards().get(0))
+			.portfolioCardDTO(this.getPortfolioCard(0L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/1"))
 			.build();
+		
+		UserDTO userCopy = new UserDTO.Builder()
+			.id(this.getUser().getId())
+			.name("name")
+			.profileUrl("https://example.profileUrl.com?1123u8413478")
+			.portfolioCardDTO(this.getPortfolioCard(0L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/1"))
+			.build();
+		
+		Hateoas portfolioCardHateoas = new PortfolioCardHateoas();
+		userCopy.setLinks(portfolioCardHateoas.getLinks());
 		
 		// when
 		String content = objectMapper.writeValueAsString(editUser);
+		given(portfolioCardFactory.editUser(any(UserDTO.class))).willReturn(userCopy);
 		
 		// then
 		mockMvc.perform(put("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -320,48 +399,30 @@ public class PortfolioCardControllerTest {
 	}
 	
 	@BeforeEach
-	public void preInit(){
-		UserDTO user = this.getUser();
-		try{
-			this.userInfoEraser.delete(user.getName());
-		} catch(NonExistUserException NEUE){}
-		try{
-			this.userInfoFactory.saveUser(user);
-			this.portfolioCardFactory.saveUser(user);
-		}catch(DuplicationUserException DUE){}
-		UserDTO result = this.portfolioCardFactory.getUser(user.getName());
-		assertEquals(user.getName(), result.getName());
-	}
-	
-	@AfterEach
-	public void postInit(){
-		UserDTO user = this.getUser();
-		try{
-			this.userInfoEraser.delete(user.getName());
-		} catch(NonExistUserException NEUE){}
-		try{
-			this.userInfoFactory.saveUser(user);
-			this.portfolioCardFactory.saveUser(user);
-		}catch(DuplicationUserException DUE){}
-		UserDTO result = this.portfolioCardFactory.getUser(user.getName());
-		assertEquals(user.getName(), result.getName());
+	public void initMockObj(){
+		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(this.getUser()));
 	}
 	
 	private UserDTO getUser(){
-		return new UserDTO.Builder()
+		UserDTO user = new UserDTO.Builder()
 			.id(0L)
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
-			.portfolioCardDTO(this.getPortfolioCard("Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/1"))
-			.portfolioCardDTO(this.getPortfolioCard("Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/2"))
-			.portfolioCardDTO(this.getPortfolioCard("Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/3"))
-			.portfolioCardDTO(this.getPortfolioCard("Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/4"))
-			.portfolioCardDTO(this.getPortfolioCard("Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/5"))
+			.portfolioCardDTO(this.getPortfolioCard(0L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/1"))
+			.portfolioCardDTO(this.getPortfolioCard(1L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/2"))
+			.portfolioCardDTO(this.getPortfolioCard(2L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/3"))
+			.portfolioCardDTO(this.getPortfolioCard(3L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/4"))
+			.portfolioCardDTO(this.getPortfolioCard(4L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/5"))
 			.build();
+		
+		Hateoas portfolioCardHateoas = new PortfolioCardHateoas();
+		user.setLinks(portfolioCardHateoas.getLinks());
+		return user;
 	}
 	
-	private PortfolioCardDTO getPortfolioCard(String article, Integer stars, String url){
+	private PortfolioCardDTO getPortfolioCard(Long id, String article, Integer stars, String url){
 		return new PortfolioCardDTO.Builder()
+			.id(id)
 			.portfolioCardArticle(article)
 			.portfolioCardStars(stars)
 			.portfolioUrl(url)

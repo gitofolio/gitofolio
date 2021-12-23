@@ -30,7 +30,7 @@ public class UserStatisticsService{
 		
 		if(userStatistics.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
-				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"));
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"+name));
 			
 			userStatistics.setUserInfo(userInfo);
 			
@@ -54,7 +54,7 @@ public class UserStatisticsService{
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
-				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"));
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"+name));
 			
 			userStatistics.setUserInfo(userInfo); 
 			
@@ -68,7 +68,7 @@ public class UserStatisticsService{
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
-				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"));
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"+name));
 			
 			userStatistics.setUserInfo(userInfo);	
 		}

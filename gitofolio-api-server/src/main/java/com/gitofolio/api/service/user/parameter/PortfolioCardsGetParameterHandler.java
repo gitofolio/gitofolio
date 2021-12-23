@@ -23,7 +23,7 @@ public class PortfolioCardsGetParameterHandler<T extends String> implements Para
 			from = Integer.parseInt(params[0]);
 			to = Integer.parseInt(params[1]);
 		}catch(Exception e){
-			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards?cards/user="+parameter);
+			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/user/cards="+parameter);
 		}
 		List<PortfolioCardDTO> portfolioCards = userDTO.getPortfolioCards();
 		List<PortfolioCardDTO> removedPortfolioCards = new ArrayList<PortfolioCardDTO>(portfolioCards.size());

@@ -227,10 +227,16 @@ include::{snippets}/portfoliocards/get/fail/http-response.adoc[]
 include::{snippets}/portfoliocards/get/fail/response-fields.adoc[]
 
 [[portfoliocards-get-errorhandle2]]
+==== UserExistButNothingException
+CAUTION: 어떠한 포트폴리오 카드도 갖고있지 않은 유저의 포트폴리오 카드 요청에대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/portfoliocards/get/fail_but_exist_user/http-response.adoc[]
+
+include::{snippets}/portfoliocards/get/fail_but_exist_user/response-fields.adoc[]
+
+[[portfoliocards-get-errorhandle3]]
 ==== IllegalParameterException
 CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
-
-HTTP 요청 예시
 
 include::{snippets}/portfoliocards/get/parameterfail/http-request.adoc[]
 
@@ -330,3 +336,26 @@ include::{snippets}/portfoliocards/put/request-fields.adoc[]
 include::{snippets}/portfoliocards/put/http-response.adoc[]
 
 include::{snippets}/portfoliocards/put/response-fields.adoc[]
+
+[[portfoliocards-put-errorhandle1]]
+==== NonExistUserException
+CAUTION: 서버는 존재하지 않는 유저에 대한 포트폴리오 카드 수정요청에 대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/portfoliocards/get/fail/http-response.adoc[]
+
+include::{snippets}/portfoliocards/get/fail/response-fields.adoc[]
+
+[[portfoliocards-put-errorhandle2]]
+==== UserExistButNothingException
+CAUTION: 어떠한 포트폴리오 카드도 갖고있지 않은 유저의 포트폴리오 카드 수정 요청에대해 NonExistUserException 예외처리를 합니다.
+
+include::{snippets}/portfoliocards/get/fail_but_exist_user/http-response.adoc[]
+
+include::{snippets}/portfoliocards/get/fail_but_exist_user/response-fields.adoc[]
+
+[[portfoliocards-put-errorhandle3]]
+==== IllegalParameterException
+CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
+
+[[auth]]
+== 인증

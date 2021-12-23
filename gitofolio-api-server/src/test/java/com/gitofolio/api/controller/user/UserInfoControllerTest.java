@@ -1,6 +1,7 @@
 package com.gitofolio.api.controller.user;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -34,10 +35,19 @@ import com.gitofolio.api.service.user.factory.UserFactory;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.*;
+import com.gitofolio.api.service.auth.SessionProcessor;
+import com.gitofolio.api.controller.user.UserInfoController;
+import com.gitofolio.api.service.user.UserStatisticsService;
+import com.gitofolio.api.service.user.UserStatService;
+import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.user.factory.hateoas.UserInfoHateoas;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest
+import java.util.Optional;
+
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(UserInfoController.class)
 @AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com", uriPort=80)
 @AutoConfigureMockMvc
 public class UserInfoControllerTest{
@@ -45,41 +55,25 @@ public class UserInfoControllerTest{
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@Autowired
+	@MockBean
 	@Qualifier("userInfoEraser")
 	private UserEraser userInfoEraser;
 	
-	@Autowired
+	@MockBean
 	@Qualifier("userInfoFactory")
 	private UserFactory userInfoFactory;
 	
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
-	@BeforeEach
-	public void preInit(){
-		UserDTO user = this.getUser();
-		try{
-			this.userInfoEraser.delete(user.getName());
-		} catch(NonExistUserException NEUE){}
-		try{
-			this.userInfoFactory.saveUser(user);
-		}catch(DuplicationUserException DUE){}
-		UserDTO result = this.userInfoFactory.getUser(user.getName());
-		assertEquals(user.getName(), result.getName());
-	}
+	@MockBean
+	@Qualifier("loginSessionProcessor")
+	private SessionProcessor loginSessionProcessor;
 	
-	@AfterEach
-	public void postInit(){
-		UserDTO user = this.getUser();
-		try{
-			this.userInfoEraser.delete(user.getName());
-		} catch(NonExistUserException NEUE){}
-		try{
-			this.userInfoFactory.saveUser(user);
-		}catch(DuplicationUserException DUE){}
-		UserDTO result = this.userInfoFactory.getUser(user.getName());
-		assertEquals(user.getName(), result.getName());
-	}
+	@MockBean
+	private UserStatService userStatService;
+	
+	@MockBean
+	private UserStatisticsService userStatisticsService;
 	
 	@Test
 	public void userInfo_GET_Test() throws Exception{
@@ -104,6 +98,9 @@ public class UserInfoControllerTest{
 	
 	@Test
 	public void userInfo_GET_Fail_Test() throws Exception{
+		// when
+		given(userInfoFactory.getUser("nonExistUser")).willThrow(new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/nonExistUser"));
+		
 		// then
 		mockMvc.perform(get("/user/{name}", "nonExistUser").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
@@ -137,7 +134,7 @@ public class UserInfoControllerTest{
 	public void userInfo_DELETE_Fail_Test() throws Exception{
 		// given
 		String name = "nonExistUser";
-		
+		given(userInfoEraser.delete("nonExistUser")).willThrow(new NonExistUserException("존재하지 않는 유저에 대한 삭제 요청입니다.", "유저 이름을 확인해주세요", "/user/nonExistUser"));
 		// then
 		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
@@ -153,12 +150,26 @@ public class UserInfoControllerTest{
 					));
 	}
 	
+	@BeforeEach
+	public void initMockObj(){
+		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(this.getUser()));
+		given(userInfoFactory.saveUser(this.getUser())).willReturn(this.getUser());
+		given(userInfoFactory.getUser(this.getUser().getName())).willReturn(this.getUser());
+		given(userInfoEraser.delete(this.getUser().getName())).willReturn(this.getUser().getName());
+	}
+	
 	private UserDTO getUser(){
-		return new UserDTO.Builder()
+		UserDTO user = new UserDTO.Builder()
 			.id(0L)
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
 			.build();
+		Hateoas userInfoHateoas = new UserInfoHateoas();
+		user.setLinks(userInfoHateoas.getLinks());
+		return user;
 	}
+	
+	
+	
 	
 }
