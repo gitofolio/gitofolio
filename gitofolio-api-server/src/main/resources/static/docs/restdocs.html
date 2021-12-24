@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Gitofolio RESTful API Docs</h1>
 <div class="details">
-<span id="revnumber">version 0.1.1-SNAPSHOT</span>
+<span id="revnumber">version 0.1.2-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -465,6 +465,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#user-delete-request">Request</a></li>
 <li><a href="#user-delete-response">Representation</a></li>
 <li><a href="#user-delete-errorhandle1">NonExistUserException</a></li>
+</ul>
+</li>
+<li><a href="#logined-user-get">로그인된 유저 가져오기</a>
+<ul class="sectlevel3">
+<li><a href="#logined-user-get-request">Request</a></li>
+<li><a href="#logined-user-get-response">Representation</a></li>
+<li><a href="#logined-user-get-errorhandle1">AuthenticateException</a></li>
 </ul>
 </li>
 </ul>
@@ -498,7 +505,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#portfoliocards-get-request">Request</a></li>
 <li><a href="#portfoliocards-get-response">Representation</a></li>
 <li><a href="#portfoliocards-get-errorhandle1">NonExistUserException</a></li>
-<li><a href="#portfoliocards-get-errorhandle2">IllegalParameterException</a></li>
+<li><a href="#portfoliocards-get-errorhandle2">UserExistButNothingException</a></li>
+<li><a href="#portfoliocards-get-errorhandle3">IllegalParameterException</a></li>
 </ul>
 </li>
 <li><a href="#portfoliocards-post">포트폴리오 카드 저장하기</a>
@@ -520,8 +528,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#portfoliocards-put-request">Request</a></li>
 <li><a href="#portfoliocards-put-response">Representation</a></li>
+<li><a href="#portfoliocards-put-errorhandle1">NonExistUserException</a></li>
+<li><a href="#portfoliocards-put-errorhandle2">UserExistButNothingException</a></li>
+<li><a href="#portfoliocards-put-errorhandle3">IllegalParameterException</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#auth">인증</a>
+<ul class="sectlevel2">
+<li><a href="#auth-github">Github</a></li>
 </ul>
 </li>
 </ul>
@@ -576,7 +592,7 @@ HATEOAS의 rel값은 절대 변경되지않으며, URL은 변경될수있습니�
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 975
+Content-Length: 993
 
 {
   "links" : [ {
@@ -587,10 +603,6 @@ Content-Length: 975
     "rel" : "getUser",
     "method" : "GET",
     "href" : "http://api.giotofolio.com/user/{name}"
-  }, {
-    "rel" : "postUser",
-    "method" : "POST",
-    "href" : "http://api.gitofolio.com/user"
   }, {
     "rel" : "deleteUser",
     "method" : "DELETE",
@@ -613,6 +625,10 @@ Content-Length: 975
     "rel" : "postPortfoliocards",
     "method" : "POST",
     "href" : "http://api.gitofolio.com/portfoliocards/{name}"
+  }, {
+    "rel" : "putPortfoliocards",
+    "method" : "PUT",
+    "href" : "http://api.gitofolio.com/portfoliocards"
   } ]
 }</code></pre>
 </div>
@@ -704,15 +720,15 @@ user에 관련된 API 목차 입니다.
 </table>
 </div>
 <div class="paragraph">
-<p>이 섹터에는 유저의 이름, 프로필 URL이 포함되어있습니다.</p>
+<p>유저 수정과 저장은 OAuth인증과정에서 자동으로 진행되며, 임의로 수정, 저장 할 수 없습니다.</p>
+</div>
+<div class="paragraph">
+<p>이 섹터에는 유저 가져오기, 유저 삭제하기, 현재 로그인 되어있는 유저 가져오기가 기술되어있습니다.</p>
 </div>
 <div class="sect2">
 <h3 id="user-get"><a class="link" href="#user-get">유저 가져오기</a></h3>
 <div class="paragraph">
 <p>api서버에 저장된 유저의 정보를 가져옵니다.</p>
-</div>
-<div class="paragraph">
-<p>유저는 github login을 통해 자동으로 저장 수정되며, 클라이언트에서 임의로 저장 및 수정할수 없습니다.</p>
 </div>
 <div class="sect3">
 <h4 id="user-get-request"><a class="link" href="#user-get-request">Request</a></h4>
@@ -900,6 +916,18 @@ Content-Length: 145
 <div class="paragraph">
 <p>DB에 저장되어있는 유저를 삭제합니다.</p>
 </div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+인증 필요
+</td>
+</tr>
+</table>
+</div>
 <div class="sect3">
 <h4 id="user-delete-request"><a class="link" href="#user-delete-request">Request</a></h4>
 <div class="paragraph">
@@ -1005,6 +1033,109 @@ Content-Length: 167
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 request URL 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="logined-user-get"><a class="link" href="#logined-user-get">로그인된 유저 가져오기</a></h3>
+<div class="paragraph">
+<p>현재 로그인된 유저의 정보를 가져옵니다.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+인증 필요
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="logined-user-get-request"><a class="link" href="#logined-user-get-request">Request</a></h4>
+<div class="paragraph">
+<p>현재 로그인되어있는 유저를 가져옵니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /user HTTP/1.1
+Accept: application/json
+Host: api.gitofolio.com:80</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="logined-user-get-response"><a class="link" href="#logined-user-get-response">Representation</a></h4>
+<div class="paragraph">
+<p>로그인 되어있는 유저가 있다면, 아래 표현이 응답됩니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 97
+
+{
+  "id" : 0,
+  "name" : "name",
+  "profileUrl" : "https://example.profileUrl.com?1123u8413478"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="logined-user-get-errorhandle1"><a class="link" href="#logined-user-get-errorhandle1">AuthenticateException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+로그인 되어있는 유저가 없다면, AuthenticateException 예외처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Content-Length: 95
+
+{
+  "title" : "인증 오류",
+  "message" : "로그인 되어있는 유저가 없습니다."
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러의 주요 원인입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1320,12 +1451,12 @@ Content-Length: 475
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2021-12-23",
+      "visitDate" : "2021-12-24",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2021-12-23"
+      "refferingDate" : "2021-12-24"
     } ]
   }
 }</code></pre>
@@ -1440,12 +1571,12 @@ Content-Length: 475
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/json
-Content-Length: 144
+Content-Length: 156
 
 {
   "title" : "존재 하지 않는 유저 입니다.",
   "message" : "유저이름을 확인해 주세요.",
-  "request" : "/user/dailystat/"
+  "request" : "/user/dailystat/nonExistUser"
 }</code></pre>
 </div>
 </div>
@@ -1748,7 +1879,66 @@ Content-Length: 156
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-get-errorhandle2"><a class="link" href="#portfoliocards-get-errorhandle2">IllegalParameterException</a></h4>
+<h4 id="portfoliocards-get-errorhandle2"><a class="link" href="#portfoliocards-get-errorhandle2">UserExistButNothingException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+어떠한 포트폴리오 카드도 갖고있지 않은 유저의 포트폴리오 카드 요청에대해 NonExistUserException 예외처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 205
+
+{
+  "title" : "이 유저는 어떠한 포트폴리오 카드도 갖고있지 않습니다.",
+  "message" : "요청 전 포트폴리오 카드를 생성해주세요",
+  "request" : "/portfoliocards/name"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러의 주요 원인입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 request URL 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-get-errorhandle3"><a class="link" href="#portfoliocards-get-errorhandle3">IllegalParameterException</a></h4>
 <div class="admonitionblock caution">
 <table>
 <tr>
@@ -1760,9 +1950,6 @@ Content-Length: 156
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>HTTP 요청 예시</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1821,6 +2008,18 @@ Content-Length: 220
 <h3 id="portfoliocards-post"><a class="link" href="#portfoliocards-post">포트폴리오 카드 저장하기</a></h3>
 <div class="paragraph">
 <p>DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 저장합니다.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+인증 필요
+</td>
+</tr>
+</table>
 </div>
 <div class="sect3">
 <h4 id="portfoliocards-post-request"><a class="link" href="#portfoliocards-post-request">Request</a></h4>
@@ -2059,6 +2258,18 @@ Content-Length: 156
 <div class="paragraph">
 <p>DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 삭제합니다.</p>
 </div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+인증 필요
+</td>
+</tr>
+</table>
+</div>
 <div class="sect3">
 <h4 id="portfoliocards-delete-request"><a class="link" href="#portfoliocards-delete-request">Request</a></h4>
 <div class="paragraph">
@@ -2261,6 +2472,18 @@ Content-Length: 156
 <div class="paragraph">
 <p>포트폴리오 카드의 id값을 기준으로 수정됩니다.</p>
 </div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+인증 필요
+</td>
+</tr>
+</table>
+</div>
 <div class="sect3">
 <h4 id="portfoliocards-put-request"><a class="link" href="#portfoliocards-put-request">Request</a></h4>
 <div class="paragraph">
@@ -2440,14 +2663,167 @@ Content-Length: 717
 </tbody>
 </table>
 </div>
+<div class="sect3">
+<h4 id="portfoliocards-put-errorhandle1"><a class="link" href="#portfoliocards-put-errorhandle1">NonExistUserException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+서버는 존재하지 않는 유저에 대한 포트폴리오 카드 수정요청에 대해 NonExistUserException 예외처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 156
+
+{
+  "title" : "존재 하지 않는 유저 입니다.",
+  "message" : "유저이름을 확인해 주세요.",
+  "request" : "/portfoliocards/nonExistUser"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러의 주요 원인입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 request URL 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-put-errorhandle2"><a class="link" href="#portfoliocards-put-errorhandle2">UserExistButNothingException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+어떠한 포트폴리오 카드도 갖고있지 않은 유저의 포트폴리오 카드 수정 요청에대해 NonExistUserException 예외처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 205
+
+{
+  "title" : "이 유저는 어떠한 포트폴리오 카드도 갖고있지 않습니다.",
+  "message" : "요청 전 포트폴리오 카드를 생성해주세요",
+  "request" : "/portfoliocards/name"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러의 주요 원인입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러가 발생한 request URL 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="portfoliocards-put-errorhandle3"><a class="link" href="#portfoliocards-put-errorhandle3">IllegalParameterException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="auth"><a class="link" href="#auth">인증</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>모든 인증과정은 연동된 OAuth애플리케이션을 통해서 이뤄집니다.</p>
+</div>
+<div class="paragraph">
+<p>인증이 필요한 모든 요청은 프론트엔드 서버를 통해이루어 진다고 가정했으며, 따라서 인증 완료후 메인 페이지로 리다이렉트 됩니다.</p>
+</div>
+<div class="paragraph">
+<p>이 목차에는 인증을 위해서 요청해야하는 URL이 기술되어 있습니다</p>
+</div>
+<div class="sect2">
+<h3 id="auth-github"><a class="link" href="#auth-github">Github</a></h3>
+<div class="paragraph">
+<p>GET : <a href="https://github.com/login/oauth/authorize?client_id=b86796ef36e991c00490" class="bare">https://github.com/login/oauth/authorize?client_id=b86796ef36e991c00490</a></p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.1-SNAPSHOT<br>
-Last updated 2021-12-20 13:16:40 UTC
+Version 0.1.2-SNAPSHOT<br>
+Last updated 2021-12-24 10:18:49 UTC
 </div>
 </div>
 </body>

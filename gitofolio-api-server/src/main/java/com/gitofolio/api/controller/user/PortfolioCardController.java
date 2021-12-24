@@ -32,7 +32,7 @@ public class PortfolioCardController{
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getPortfolioCard(
 		@PathVariable("name") String name,
-		@RequestParam(value="cards", defaultValue="1,5") String cards){
+		@RequestParam(value="cards", required = false) String cards){
 		
 		UserDTO userDTO = null;
 		if(cards == null) userDTO = portfolioCardFactory.getUser(name);

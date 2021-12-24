@@ -48,13 +48,13 @@ CAUTION: "rel" 네이밍 규칙에서, 자기자신을 호출할경우는 {http 
 == 유저
 NOTE: user에 관련된 API 목차 입니다.
 
-이 섹터에는 유저의 이름, 프로필 URL이 포함되어있습니다.
+유저 수정과 저장은 OAuth인증과정에서 자동으로 진행되며, 임의로 수정, 저장 할 수 없습니다.
+
+이 섹터에는 유저 가져오기, 유저 삭제하기, 현재 로그인 되어있는 유저 가져오기가 기술되어있습니다.
 
 [[user-get]]
 === 유저 가져오기
 api서버에 저장된 유저의 정보를 가져옵니다.
-
-유저는 github login을 통해 자동으로 저장 수정되며, 클라이언트에서 임의로 저장 및 수정할수 없습니다.
 
 [[user-get-request]]
 ==== Request
@@ -86,6 +86,8 @@ include::{snippets}/user/get/fail/response-fields.adoc[]
 === 유저 삭제하기
 DB에 저장되어있는 유저를 삭제합니다.
 
+CAUTION: 인증 필요
+
 [[user-delete-request]]
 ==== Request
 DB에 저장되어있는 유저를 삭제하려면, DELETE메소드로 요청하세요.
@@ -109,6 +111,32 @@ CAUTION: 서버는 존재하지 않는 유저에 대한 삭제 요청에 대해 
 include::{snippets}/user/delete/fail/http-response.adoc[]
 
 include::{snippets}/user/delete/fail/response-fields.adoc[]
+
+[[logined-user-get]]
+=== 로그인된 유저 가져오기
+현재 로그인된 유저의 정보를 가져옵니다.
+
+CAUTION: 인증 필요
+
+[[logined-user-get-request]]
+==== Request
+현재 로그인되어있는 유저를 가져옵니다.
+
+include::{snippets}/user/logined/http-request.adoc[]
+
+[[logined-user-get-response]]
+==== Representation
+로그인 되어있는 유저가 있다면, 아래 표현이 응답됩니다.
+
+include::{snippets}/user/logined/http-response.adoc[]
+
+[[logined-user-get-errorhandle1]]
+==== AuthenticateException
+CAUTION: 로그인 되어있는 유저가 없다면, AuthenticateException 예외처리를 합니다.
+
+include::{snippets}/user/logined/fail/http-response.adoc[]
+
+include::{snippets}/user/logined/fail/response-fields.adoc[]
 
 [[userstat]]
 == 유저 통계
@@ -248,6 +276,8 @@ include::{snippets}/portfoliocards/get/parameterfail/response-fields.adoc[]
 === 포트폴리오 카드 저장하기
 DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 저장합니다.
 
+CAUTION: 인증 필요
+
 [[portfoliocards-post-request]]
 ==== Request
 포트폴리오 카드를 저장하기 위해 POST 요청을 합니다.
@@ -277,6 +307,8 @@ include::{snippets}/portfoliocards/post/fail/response-fields.adoc[]
 [[portfoliocards-delete]]
 === 포트폴리오 카드 삭제하기
 DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 삭제합니다.
+
+CAUTION: 인증 필요
 
 [[portfoliocards-delete-request]]
 ==== Request
@@ -320,6 +352,8 @@ DB에 저장되어있는 유저가 갖고있는 포트폴리오 카드를 수정
 
 포트폴리오 카드의 id값을 기준으로 수정됩니다.
 
+CAUTION: 인증 필요
+
 [[portfoliocards-put-request]]
 ==== Request
 요청시 생성되는 HTTP 헤더는 아래와 같습니다.
@@ -359,3 +393,13 @@ CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException �
 
 [[auth]]
 == 인증
+모든 인증과정은 연동된 OAuth애플리케이션을 통해서 이뤄집니다. 
+
+인증이 필요한 모든 요청은 프론트엔드 서버를 통해이루어 진다고 가정했으며, 따라서 인증 완료후 메인 페이지로 리다이렉트 됩니다.
+
+이 목차에는 인증을 위해서 요청해야하는 URL이 기술되어 있습니다 
+
+[[auth-github]]
+=== Github
+GET : https://github.com/login/oauth/authorize?client_id=b86796ef36e991c00490
+

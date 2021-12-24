@@ -143,11 +143,11 @@ public class PortfolioCardControllerTest {
 		String name = "name";
 		
 		// when
-		given(portfolioCardFactory.getUser(name))
+		given(portfolioCardFactory.getUser(any(String.class)))
 			.willThrow(new NonExistUserException("이 유저는 어떠한 포트폴리오 카드도 갖고있지 않습니다.", "요청 전 포트폴리오 카드를 생성해주세요", "/portfoliocards/"+name));
 		
 		// then
-		mockMvc.perform(get("/portfoliocards/{name}?cards=1,5", name).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(get("/portfoliocards/{name}", name).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
 			.andDo(document("portfoliocards/get/fail_but_exist_user",
 							pathParameters(
