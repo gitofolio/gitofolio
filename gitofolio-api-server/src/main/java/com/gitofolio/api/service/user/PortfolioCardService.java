@@ -36,6 +36,16 @@ public class PortfolioCardService{
 		return portfolioCards;
 	}
 	
+	public List<PortfolioCard> get(Long id){
+		PortfolioCard portfolioCard = this.portfolioCardRepository.findById(id)
+			.orElseThrow(()->new IllegalParameterException("존재 하지 않는 포트폴리오 카드 id 입니다.", "포트폴리오 카드 id값을 확인해 주세요.", "/portfoliocard/"+id));
+		
+		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
+		cards.add(portfolioCard);
+		
+		return cards;
+	}
+	
 	public List<PortfolioCard> save(List<PortfolioCard> portfolioCards){
 		UserInfo userInfo = this.userInfoRepository.findByName(portfolioCards.get(0).getUserInfo().getName())
 			.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/"));

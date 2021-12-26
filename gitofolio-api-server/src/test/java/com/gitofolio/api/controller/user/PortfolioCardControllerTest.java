@@ -44,6 +44,7 @@ import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
 import com.gitofolio.api.service.user.factory.hateoas.PortfolioCardHateoas;
 import com.gitofolio.api.service.user.UserStatService;
 import com.gitofolio.api.service.user.UserStatisticsService;
+import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -77,6 +78,9 @@ public class PortfolioCardControllerTest {
 	
 	@MockBean
 	private UserStatisticsService userStatisticsService;
+	
+	@MockBean
+	private PortfolioCardSvgFactory portfolioCardSvgFactory;
 	
 	@Test
 	public void PortfolioCard_GET_테스트() throws Exception{

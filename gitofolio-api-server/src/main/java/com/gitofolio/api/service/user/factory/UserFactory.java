@@ -11,6 +11,8 @@ public interface UserFactory{
 	
 	UserDTO getUser(String name);
 	
+	UserDTO getUser(Long id);
+	
 	UserDTO getUser(String name, Object parameter);
 	
 	UserDTO saveUser(UserDTO userDTO);

@@ -165,6 +165,59 @@ public class PortfolioCardServiceTest{
 		assertEquals(results.get(0).getPortfolioCardArticle(), "edit");
 	}
 	
+	@Test
+	@Transactional
+	public void portfolioCardService_find_By_Id_Test(){
+		// given
+		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
+		userInfo.setName(this.name);
+		userInfo.setProfileUrl("url.helloworld.com");
+		
+		PortfolioCard portfolioCard1 = new PortfolioCard();
+		portfolioCard1.setPortfolioCardArticle("article1");
+		portfolioCard1.setPortfolioCardStars(1);
+		portfolioCard1.setPortfolioUrl("portfolioUrl1");
+		
+		portfolioCard1.setUserInfo(userInfo);
+		
+		PortfolioCard portfolioCard2 = new PortfolioCard();
+		portfolioCard2.setPortfolioCardArticle("article2");
+		portfolioCard2.setPortfolioCardStars(2);
+		portfolioCard2.setPortfolioUrl("portfolioUrl2");
+		
+		portfolioCard2.setUserInfo(userInfo);
+		
+		PortfolioCard portfolioCard3 = new PortfolioCard();
+		portfolioCard3.setPortfolioCardArticle("article3");
+		portfolioCard3.setPortfolioCardStars(3);
+		portfolioCard3.setPortfolioUrl("portfolioUrl3");
+		
+		portfolioCard3.setUserInfo(userInfo);
+		
+		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
+		cards.add(portfolioCard1);
+		cards.add(portfolioCard2);
+		cards.add(portfolioCard3);
+		
+		// when
+		this.userInfoService.save(userInfo);
+		this.portfolioCardService.save(cards);
+		
+		List<PortfolioCard> originAns = this.portfolioCardService.get(userInfo.getName());
+		PortfolioCard originCard = originAns.get(0);
+		List<PortfolioCard> ans = this.portfolioCardService.get(originCard.getId());
+		PortfolioCard card = ans.get(0);
+		
+		// then
+		assertEquals(originCard.getId(), card.getId());
+		assertEquals(originCard.getPortfolioCardArticle(), card.getPortfolioCardArticle());
+		assertEquals(originCard.getPortfolioUrl(), card.getPortfolioUrl());
+		assertEquals(originCard.getPortfolioCardStars(), card.getPortfolioCardStars());
+		assertEquals(originCard.getUserInfo().getName(), card.getUserInfo().getName());
+	}
+	
+	@Test
 	@AfterEach
 	@Transactional
 	public void pre_UserStatisticsService_delete_Test(){
@@ -181,6 +234,7 @@ public class PortfolioCardServiceTest{
 		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userName));
 	}
 	
+	@Test
 	@BeforeEach
 	@Transactional
 	public void post_UserStatisticsService_delete_Test(){

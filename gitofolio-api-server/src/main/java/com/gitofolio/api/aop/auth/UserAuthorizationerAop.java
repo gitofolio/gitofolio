@@ -18,7 +18,7 @@ import java.lang.annotation.Annotation;
 
 @Aspect
 @Component
-public class UserAuthorizationerAOP{
+public class UserAuthorizationerAop{
 	
 	private SessionProcessor<UserDTO> loginSessionProcessor;
 	
@@ -43,7 +43,7 @@ public class UserAuthorizationerAOP{
 	}
 	
 	@Autowired
-	public UserAuthorizationerAOP(@Qualifier("loginSessionProcessor") SessionProcessor<UserDTO> loginSessionProcessor){
+	public UserAuthorizationerAop(@Qualifier("loginSessionProcessor") SessionProcessor<UserDTO> loginSessionProcessor){
 		this.loginSessionProcessor = loginSessionProcessor;
 	}
 	

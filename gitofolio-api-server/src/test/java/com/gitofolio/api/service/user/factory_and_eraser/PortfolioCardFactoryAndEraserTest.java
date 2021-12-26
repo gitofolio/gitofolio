@@ -46,18 +46,21 @@ public class PortfolioCardFactoryAndEraserTest{
 	public void PortfolioCardFactory_Save_and_Get_Test(){
 		// given
 		PortfolioCardDTO portfolioCardDTO1 = new PortfolioCardDTO.Builder()
+			.id(3L)
 			.portfolioCardArticle("p1")
 			.portfolioCardStars(1)
 			.portfolioUrl("pu1")
 			.build();
 		
 		PortfolioCardDTO portfolioCardDTO2 = new PortfolioCardDTO.Builder()
+			.id(2L)
 			.portfolioCardArticle("p2")
 			.portfolioCardStars(2)
 			.portfolioUrl("pu2")
 			.build();
 		
 		PortfolioCardDTO portfolioCardDTO3 = new PortfolioCardDTO.Builder()
+			.id(1L)
 			.portfolioCardArticle("p3")
 			.portfolioCardStars(3)
 			.portfolioUrl("pu3")
@@ -90,18 +93,21 @@ public class PortfolioCardFactoryAndEraserTest{
 	public void PortfolioCardFactory_Edit_Test(){
 		// given
 		PortfolioCardDTO portfolioCardDTO1 = new PortfolioCardDTO.Builder()
+			.id(3L)
 			.portfolioCardArticle("p1")
 			.portfolioCardStars(1)
 			.portfolioUrl("pu1")
 			.build();
 		
 		PortfolioCardDTO portfolioCardDTO2 = new PortfolioCardDTO.Builder()
+			.id(2L)
 			.portfolioCardArticle("p2")
 			.portfolioCardStars(2)
 			.portfolioUrl("pu2")
 			.build();
 		
 		PortfolioCardDTO portfolioCardDTO3 = new PortfolioCardDTO.Builder()
+			.id(1L)
 			.portfolioCardArticle("p3")
 			.portfolioCardStars(1)
 			.portfolioUrl("pu3")

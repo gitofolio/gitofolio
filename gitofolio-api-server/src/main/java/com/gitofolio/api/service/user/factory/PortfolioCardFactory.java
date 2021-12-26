@@ -35,6 +35,16 @@ public class PortfolioCardFactory implements UserFactory{
 	
 	@Override
 	@Transactional(readOnly = true)
+	public UserDTO getUser(Long id){
+		return this.setHateoas(
+			this.portfolioCardMapper.doMap(
+				this.portfolioCardService.get(id)
+			)
+		);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
 	public UserDTO getUser(String name, Object parameter){
 		if(!parameter.getClass().equals(String.class)) 
 			throw new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards");

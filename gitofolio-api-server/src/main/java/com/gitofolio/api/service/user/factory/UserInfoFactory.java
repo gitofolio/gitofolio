@@ -31,7 +31,11 @@ public class UserInfoFactory implements UserFactory{
 	}
 	
 	@Override
-	@Transactional(readOnly = true)
+	public UserDTO getUser(Long id){
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
 	public UserDTO getUser(String name, Object parameter){
 		throw new IllegalParameterException("잘못된 파라미터 요청", "GET : /user/{name}의 parameter요청은 허용되지 않았습니다.", "https://api.gitofolio.com/user"+name);
 	}

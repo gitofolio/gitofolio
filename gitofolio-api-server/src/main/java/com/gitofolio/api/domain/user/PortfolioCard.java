@@ -34,7 +34,6 @@ public class PortfolioCard{
 	@JoinColumn(name="USER_INFO_ID")
 	private UserInfo userInfo;
 	
-	
 	//getter
 	public Long getId(){
 		return this.id;
