@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
+import javax.persistence.Lob;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class PortfolioCard{
 	@Column(name="PORTFOLIO_CARD_ID")
 	private Long id;
 	
+	@Lob
 	@Column(name="PORTFOLIO_CARD_ARTICLE")
 	private String portfolioCardArticle;
 

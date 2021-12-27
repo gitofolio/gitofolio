@@ -43,7 +43,7 @@ public class SvgStringLineBreakerAop{
 		
 		Object[] params = joinPoint.getArgs();
 		String string = (String)params[idx];
-		params[idx] = breakLine(width, splitWord(width, string));
+		if(!string.equals("") && !string.equals(" ")) params[idx] = breakLine(width, splitWord(width, string));
 		
 		return joinPoint.proceed(params);
 	}
@@ -56,7 +56,7 @@ public class SvgStringLineBreakerAop{
 			if(itsTooLongWord(width, line.toString()+word)){
 				ans.append(openTextTag(lineCnt))
 					.append(line.toString())
-					.append(closeTextTag()).append("\n");
+					.append(closeTextTag());
 				line.setLength(0);
 				lineCnt++;
 			}
@@ -64,7 +64,7 @@ public class SvgStringLineBreakerAop{
 		}
 		ans.append(openTextTag(lineCnt))
 			.append(line.toString())
-			.append(closeTextTag()).append("\n");
+			.append(closeTextTag());
 		return ans.toString();
 	}
 	
@@ -94,11 +94,12 @@ public class SvgStringLineBreakerAop{
 		StringBuilder splited = new StringBuilder();
 		int length = 0;
 		for(char character : word){
-			if(itsAscii(character)) length += ascii[(int)character];
+			if(isAscii(character)) length += ascii[(int)character];
 			else length += noAscii;
 			if(length > width){
 				ans.add(splited.toString());
-				length = ascii[(int)character];
+				if(isAscii(character)) length = ascii[(int)character];
+				else length = noAscii;
 				splited.setLength(0);
 			}
 			splited.append(character);
@@ -111,14 +112,13 @@ public class SvgStringLineBreakerAop{
 		char[] word = string.toCharArray();
 		int length = 0;
 		for(char character : word){
-			if(itsAscii(character)) length += ascii[(int)character];
+			if(isAscii(character)) length += ascii[(int)character];
 			else length += noAscii;
 		}
 		return (width < length) ? true : false;
-			
 	}
 	
-	private boolean itsAscii(char character){
+	private boolean isAscii(char character){
 		return ((int)character > 31 && (int)character < 127) ? true : false;
 	}
 	
