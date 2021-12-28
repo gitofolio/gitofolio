@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Gitofolio RESTful API Docs</h1>
 <div class="details">
-<span id="revnumber">version 0.1.2-SNAPSHOT</span>
+<span id="revnumber">version 0.1.4-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -533,6 +533,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#portfoliocards-put-errorhandle3">IllegalParameterException</a></li>
 </ul>
 </li>
+<li><a href="#portfoliocard-get-svg-image">포트폴리오 카드 이미지 가져오기</a></li>
 </ul>
 </li>
 <li><a href="#auth">인증</a>
@@ -592,7 +593,7 @@ HATEOAS의 rel값은 절대 변경되지않으며, URL은 변경될수있습니�
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 993
+Content-Length: 1136
 
 {
   "links" : [ {
@@ -611,6 +612,10 @@ Content-Length: 993
     "rel" : "getLoginedUser",
     "method" : "GET",
     "href" : "http://api.gitofolio.com/user"
+  }, {
+    "rel" : "getPortfoliocardImage",
+    "method" : "GET",
+    "href" : "http://api.gitofolio.com/portfoliocard/svg/{portfoliocard.id}"
   }, {
     "rel" : "getPortfoliocards",
     "method" : "GET",
@@ -1451,12 +1456,12 @@ Content-Length: 475
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2021-12-24",
+      "visitDate" : "2021-12-28",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2021-12-24"
+      "refferingDate" : "2021-12-28"
     } ]
   }
 }</code></pre>
@@ -2797,6 +2802,27 @@ Content-Length: 205
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="portfoliocard-get-svg-image"><a class="link" href="#portfoliocard-get-svg-image">포트폴리오 카드 이미지 가져오기</a></h3>
+<div class="paragraph">
+<p>서버에 저장된 포트폴리오 카드의 svg이미지를 가져옵니다.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+반환 MIME타입은 image/svg+xml 입니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>내용 추가 예정</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -2822,8 +2848,8 @@ Content-Length: 205
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.2-SNAPSHOT<br>
-Last updated 2021-12-24 10:18:49 UTC
+Version 0.1.4-SNAPSHOT<br>
+Last updated 2021-12-28 12:51:51 UTC
 </div>
 </div>
 </body>

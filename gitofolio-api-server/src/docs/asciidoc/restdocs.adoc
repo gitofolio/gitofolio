@@ -391,6 +391,14 @@ include::{snippets}/portfoliocards/get/fail_but_exist_user/response-fields.adoc[
 ==== IllegalParameterException
 CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
 
+[[portfoliocard-get-svg-image]]
+=== 포트폴리오 카드 이미지 가져오기
+서버에 저장된 포트폴리오 카드의 svg이미지를 가져옵니다.
+
+CAUTION: 반환 MIME타입은 image/svg+xml 입니다.
+
+내용 추가 예정
+
 [[auth]]
 == 인증
 모든 인증과정은 연동된 OAuth애플리케이션을 통해서 이뤄집니다. 

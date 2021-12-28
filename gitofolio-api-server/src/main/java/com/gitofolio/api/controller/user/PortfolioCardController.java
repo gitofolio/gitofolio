@@ -51,7 +51,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
-	@UserAuthorizationer(idx=0)
+	// @UserAuthorizationer(idx=0)
 	@RequestMapping(path="/portfoliocards", method=RequestMethod.POST)
 	public ResponseEntity<UserDTO> savePortfolioCard(@RequestBody UserDTO userDTO){
 		
@@ -60,7 +60,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(result, HttpStatus.CREATED);
 	}
 	
-	@UserAuthorizationer(idx=0)
+	// @UserAuthorizationer(idx=0)
 	@RequestMapping(path="/portfoliocards/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
 													  @RequestParam(value="card", required=false) String card){
@@ -73,7 +73,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
 	
-	@UserAuthorizationer(idx=0)
+	// @UserAuthorizationer(idx=0)
 	@RequestMapping(path="/portfoliocards", method=RequestMethod.PUT)
 	public ResponseEntity<UserDTO> putPortfolioCard(@RequestBody UserDTO userDTO){
 		

@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.util.MultiValueMap;
-import org.springframework.util.LinkedMultiValueMap;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.auth.oauth.TokenReceiver;
