@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.user.factory.UserFactory;
+import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.exception.InvalidHttpMethodException;
 
@@ -21,8 +21,8 @@ import com.gitofolio.api.service.user.exception.InvalidHttpMethodException;
 public class UserStatisticsController{
 	
 	@Autowired
-	@Qualifier("userStatisticsFactory")
-	private UserFactory userStatisticsFactory;
+	@Qualifier("userStatisticsProxy")
+	private UserProxy userStatisticsProxy;
 	
 	@Autowired
 	@Qualifier("userStatisticsEraser")
@@ -31,7 +31,7 @@ public class UserStatisticsController{
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUserStatistics(@PathVariable("name") String name){
 		
-		UserDTO userDTO = this.userStatisticsFactory.getUser(name);
+		UserDTO userDTO = this.userStatisticsProxy.getUser(name);
 		
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}

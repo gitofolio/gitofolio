@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user.factory;
+package com.gitofolio.api.service.user.proxy;
 
 import org.springframework.stereotype.Service;
 
@@ -7,7 +7,7 @@ import com.gitofolio.api.service.user.parameter.ParameterHandler;
 import com.gitofolio.api.service.user.factory.mapper.UserMapper;
 
 @Service
-public interface UserFactory{
+public interface UserProxy{
 	
 	UserDTO getUser(String name);
 	

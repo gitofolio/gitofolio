@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.user.factory.EncodedProfileImageFactory;
+import com.gitofolio.api.service.user.proxy.EncodedProfileImageProxy;
 import com.gitofolio.api.service.auth.authenticate.Authenticator;
-import com.gitofolio.api.service.user.factory.UserFactory;
+import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.auth.SessionProcessor;
 
 import javax.servlet.http.HttpSession;
@@ -26,25 +26,25 @@ public class OAuthController{
 	private Authenticator<UserDTO, String> githubAuthenticator;
 	
 	@Autowired
-	@Qualifier("userInfoFactory")
-	private UserFactory userInfoFactory;
+	@Qualifier("userInfoProxy")
+	private UserProxy userInfoProxy;
 	
 	@Autowired
 	@Qualifier("loginSessionProcessor")
 	private SessionProcessor<UserDTO> loginSessionProcessor;
 	
 	@Autowired
-	@Qualifier("encodedProfileImageFactory")
-	private EncodedProfileImageFactory encodedProfileImageFactory;
+	@Qualifier("encodedProfileImageProxy")
+	private EncodedProfileImageProxy encodedProfileImageProxy;
 	
 	@RequestMapping(path="/github", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> receiveGithubCode(@RequestParam(value="code") String code){
 		UserDTO userDTO = this.githubAuthenticator.authenticate(code);
 		loginSessionProcessor.setAttribute(userDTO);
 		
-		userDTO = this.userInfoFactory.saveUser(userDTO);
+		userDTO = this.userInfoProxy.saveUser(userDTO);
 		
-		this.encodedProfileImageFactory.save(userDTO);
+		this.encodedProfileImageProxy.save(userDTO);
 		
 		return new ResponseEntity(userDTO, HttpStatus.CREATED);
 	}

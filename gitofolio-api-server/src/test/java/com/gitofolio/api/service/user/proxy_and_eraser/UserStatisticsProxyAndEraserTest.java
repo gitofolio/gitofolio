@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user.factory;
+package com.gitofolio.api.service.user.proxy;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.gitofolio.api.service.user.factory.UserFactory;
+import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.domain.user.*;
@@ -21,15 +21,15 @@ import java.util.List;
 import java.util.ArrayList;
 
 @SpringBootTest
-public class UserStatFactoryAndEraserTest{
+public class UserStatisticsProxyAndEraserTest{
 	
 	@Autowired
-	@Qualifier("userStatFactory")
-	private UserFactory userStatFactory;
+	@Qualifier("userInfoProxy")
+	private UserProxy userInfoProxy;
 	
 	@Autowired
-	@Qualifier("userInfoFactory")
-	private UserFactory userInfoFactory;
+	@Qualifier("userStatisticsProxy")
+	private UserProxy userStatisticsProxy;
 	
 	@Autowired
 	@Qualifier("userInfoEraser")
@@ -39,7 +39,7 @@ public class UserStatFactoryAndEraserTest{
 	String url = "testProfileUrl";
 	
 	@Test
-	public void userStatFactory_Save_and_Get_Test(){
+	public void UserStatisticsProxy_Save_and_Get_Test(){
 		// given
 		UserDTO userDTO = new UserDTO.Builder()
 			.id(0L)
@@ -48,34 +48,33 @@ public class UserStatFactoryAndEraserTest{
 			.build();
 		
 		// when
-		userInfoFactory.saveUser(userDTO);
+		userInfoProxy.saveUser(userDTO);
 		
 		// then
-		UserDTO resultUserDTO = userStatFactory.getUser(this.name);
-		UserStatDTO resultUserStatDTO = resultUserDTO.getUserStat();
-		
-		assertEquals(resultUserDTO.getName(), this.name);
-		assertEquals(resultUserDTO.getProfileUrl(), this.url);
-		assertEquals(resultUserStatDTO.getTotalVisitors(), 1);
-		assertEquals(resultUserStatDTO.getTotalStars(), 0);
+		UserDTO retUserDTO = this.userStatisticsProxy.getUser(this.name); 
+		UserStatisticsDTO retUserStatisticsDTO = retUserDTO.getUserStatistics();
+		assertEquals(retUserDTO.getName(), this.name);
+		assertEquals(retUserDTO.getProfileUrl(), this.url);
+		assertEquals(retUserStatisticsDTO.getRefferingSites().size(), 0);
+		assertEquals(retUserStatisticsDTO.getVisitorStatistics().size(), 0);
 	}
 	
 	@AfterEach
-	public void pre_UserStatEraser_Delete_Test(){
+	public void pre_UserStatisticsEraser_Delete_Test(){
 		try{
 			this.userInfoEraser.delete(this.name);
 		}catch(NonExistUserException NUE){}
 		
-		assertThrows(NonExistUserException.class, ()->userStatFactory.getUser(this.name));
+		assertThrows(NonExistUserException.class, ()->userStatisticsProxy.getUser(this.name));
 	}
 	
 	@BeforeEach
-	public void post_UserStatEraser_Delete_Test(){
+	public void post_UserStatisticsEraser_Delete_Test(){
 		try{
 			this.userInfoEraser.delete(this.name);
 		}catch(NonExistUserException NUE){}
 		
-		assertThrows(NonExistUserException.class, ()->userStatFactory.getUser(this.name));
+		assertThrows(NonExistUserException.class, ()->userStatisticsProxy.getUser(this.name));
 	}
 	
 }

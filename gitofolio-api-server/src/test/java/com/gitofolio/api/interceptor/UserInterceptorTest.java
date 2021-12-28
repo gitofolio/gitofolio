@@ -17,7 +17,7 @@ import java.util.List;
 
 import com.gitofolio.api.domain.user.*;
 import com.gitofolio.api.service.user.dtos.*;
-import com.gitofolio.api.service.user.factory.*;
+import com.gitofolio.api.service.user.proxy.*;
 import com.gitofolio.api.service.user.*;
 import com.gitofolio.api.service.user.eraser.*;
 
@@ -31,16 +31,16 @@ public class UserInterceptorTest{
 	private UserStatisticsService userStatisticsService;
 	
 	@Autowired
-	@Qualifier("userInfoFactory")
-	private UserFactory userInfoFactory;
+	@Qualifier("userInfoProxy")
+	private UserProxy userInfoProxy;
 	
 	@Autowired
-	@Qualifier("userStatFactory")
-	private UserFactory userStatFactory;
+	@Qualifier("userStatProxy")
+	private UserProxy userStatProxy;
 	
 	@Autowired
-	@Qualifier("userStatisticsFactory")
-	private UserFactory userStatisticsFactory;
+	@Qualifier("userStatisticsProxy")
+	private UserProxy userStatisticsProxy;
 	
 	@Autowired
 	@Qualifier("userEraser")
@@ -50,7 +50,7 @@ public class UserInterceptorTest{
 	public void UserStat_자동_업데이트_테스트(){
 		// given
 		UserDTO setting = new UserDTO.Builder().name("devxb").build();
-		this.userInfoFactory.saveUser(setting);
+		this.userInfoProxy.saveUser(setting);
 		
 		// when
 		this.userStatService.increaseTotalVisitors("devxb");
@@ -61,7 +61,7 @@ public class UserInterceptorTest{
 		this.userStatService.increaseTotalStars("devxb");
 		
 		// then
-		UserDTO userDTO = this.userStatFactory.getUser("devxb");
+		UserDTO userDTO = this.userStatProxy.getUser("devxb");
 		UserStatDTO userStatDTO = userDTO.getUserStat();
 		assertEquals(userDTO.getName(), "devxb");
 		assertEquals(userStatDTO.getTotalVisitors(), 3);
@@ -72,7 +72,7 @@ public class UserInterceptorTest{
 	public void UserStatistics_자동_업데이트_테스트(){
 		// given
 		UserDTO setting = new UserDTO.Builder().name("devxb").build();
-		this.userInfoFactory.saveUser(setting);
+		this.userInfoProxy.saveUser(setting);
 		
 		// when
 		this.userStatisticsService.increaseVisitorStatistics("devxb");
@@ -84,7 +84,7 @@ public class UserInterceptorTest{
 		this.userStatisticsService.setRefferingSite("devxb", "https://naver.com"); // 중복 되서 저장 안되야함
 		
 		// then
-		UserDTO userDTO = this.userStatisticsFactory.getUser("devxb");
+		UserDTO userDTO = this.userStatisticsProxy.getUser("devxb");
 		UserStatisticsDTO userStatisticsDTO = userDTO.getUserStatistics();
 		
 		assertEquals(userDTO.getName(), "devxb");

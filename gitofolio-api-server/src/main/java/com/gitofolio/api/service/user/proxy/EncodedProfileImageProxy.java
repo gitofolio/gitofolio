@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user.factory;
+package com.gitofolio.api.service.user.proxy;
 
 import com.gitofolio.api.service.user.factory.mapper.UserMapper;
 import com.gitofolio.api.service.user.dtos.UserDTO;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.scheduling.annotation.Async;
 
 @Service
-public class EncodedProfileImageFactory{
+public class EncodedProfileImageProxy{
 	
 	private UserMapper<UserInfo> userInfoMapper;
 	private EncodedProfileImageService encodedProfileImageService;
@@ -30,7 +30,7 @@ public class EncodedProfileImageFactory{
 	}
 	
 	@Autowired
-	public EncodedProfileImageFactory(@Qualifier("userInfoMapper") UserMapper<UserInfo> userInfoMapper,
+	public EncodedProfileImageProxy(@Qualifier("userInfoMapper") UserMapper<UserInfo> userInfoMapper,
 									 EncodedProfileImageService encodedProfileImageService){
 		this.userInfoMapper = userInfoMapper;
 		this.encodedProfileImageService = encodedProfileImageService;

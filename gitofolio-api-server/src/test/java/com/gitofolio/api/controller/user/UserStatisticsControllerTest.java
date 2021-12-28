@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.gitofolio.api.service.user.factory.UserFactory;
+import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.*;
@@ -47,12 +47,12 @@ public class UserStatisticsControllerTest{
 	private MockMvc mockMvc;
 	
 	@Autowired
-	@Qualifier("userStatisticsFactory")
-	private UserFactory userStatisticsFactory;
+	@Qualifier("userStatisticsProxy")
+	private UserProxy userStatisticsProxy;
 	
 	@Autowired
-	@Qualifier("userInfoFactory")
-	private UserFactory userInfoFactory;
+	@Qualifier("userInfoProxy")
+	private UserProxy userInfoProxy;
 	
 	@Autowired
 	@Qualifier("userInfoEraser")
@@ -116,9 +116,9 @@ public class UserStatisticsControllerTest{
 			this.userInfoEraser.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
 		try{
-			this.userInfoFactory.saveUser(user);
+			this.userInfoProxy.saveUser(user);
 		}catch(DuplicationUserException DUE){}
-		UserDTO result = this.userInfoFactory.getUser(user.getName());
+		UserDTO result = this.userInfoProxy.getUser(user.getName());
 		assertEquals(user.getName(), result.getName());
 	}
 	
@@ -129,7 +129,7 @@ public class UserStatisticsControllerTest{
 			this.userInfoEraser.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
 		try{
-			this.userInfoFactory.saveUser(user);
+			this.userInfoProxy.saveUser(user);
 		}catch(DuplicationUserException DUE){DUE.printStackTrace();}
 	}
 	

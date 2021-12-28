@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.gitofolio.api.service.user.factory.UserFactory;
+import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.*;
@@ -61,8 +61,8 @@ public class UserInfoControllerTest{
 	private UserEraser userInfoEraser;
 	
 	@MockBean
-	@Qualifier("userInfoFactory")
-	private UserFactory userInfoFactory;
+	@Qualifier("userInfoProxy")
+	private UserProxy userInfoProxy;
 	
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
@@ -100,7 +100,7 @@ public class UserInfoControllerTest{
 	@Test
 	public void userInfo_GET_Fail_Test() throws Exception{
 		// when
-		given(userInfoFactory.getUser("nonExistUser")).willThrow(new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/nonExistUser"));
+		given(userInfoProxy.getUser("nonExistUser")).willThrow(new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/nonExistUser"));
 		
 		// then
 		mockMvc.perform(get("/user/{name}", "nonExistUser").accept(MediaType.APPLICATION_JSON))
@@ -199,8 +199,8 @@ public class UserInfoControllerTest{
 	@BeforeEach
 	public void initMockObj(){
 		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(this.getUser()));
-		given(userInfoFactory.saveUser(any(UserDTO.class))).willReturn(this.getUser());
-		given(userInfoFactory.getUser(any(String.class))).willReturn(this.getUser());
+		given(userInfoProxy.saveUser(any(UserDTO.class))).willReturn(this.getUser());
+		given(userInfoProxy.getUser(any(String.class))).willReturn(this.getUser());
 		given(userInfoEraser.delete(any(String.class))).willReturn(this.getUser().getName());
 	}
 	

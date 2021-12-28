@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user.factory;
+package com.gitofolio.api.service.user.proxy;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.gitofolio.api.service.user.factory.UserFactory;
+import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.domain.user.*;
@@ -21,15 +21,15 @@ import java.util.List;
 import java.util.ArrayList;
 
 @SpringBootTest
-public class PortfolioCardFactoryAndEraserTest{
+public class PortfolioCardProxyAndEraserTest{
 	
 	@Autowired
-	@Qualifier("userInfoFactory")
-	private UserFactory userInfoFactory;
+	@Qualifier("userInfoProxy")
+	private UserProxy userInfoProxy;
 	
 	@Autowired
-	@Qualifier("portfolioCardFactory")
-	private UserFactory portfolioCardFactory;
+	@Qualifier("portfolioCardProxy")
+	private UserProxy portfolioCardProxy;
 	
 	@Autowired
 	@Qualifier("userInfoEraser")
@@ -43,7 +43,7 @@ public class PortfolioCardFactoryAndEraserTest{
 	String url = "testProfileUrl";
 	
 	@Test
-	public void PortfolioCardFactory_Save_and_Get_Test(){
+	public void PortfolioCardProxy_Save_and_Get_Test(){
 		// given
 		PortfolioCardDTO portfolioCardDTO1 = new PortfolioCardDTO.Builder()
 			.id(3L)
@@ -76,11 +76,11 @@ public class PortfolioCardFactoryAndEraserTest{
 			.build();
 		
 		// when
-		userInfoFactory.saveUser(userDTO);
-		portfolioCardFactory.saveUser(userDTO);
+		userInfoProxy.saveUser(userDTO);
+		portfolioCardProxy.saveUser(userDTO);
 		
 		// then
-		UserDTO ans = this.portfolioCardFactory.getUser(this.name);
+		UserDTO ans = this.portfolioCardProxy.getUser(this.name);
 		List<PortfolioCardDTO> cardDTOs = ans.getPortfolioCards();
 		
 		assertEquals(ans.getName(), this.name);
@@ -90,7 +90,7 @@ public class PortfolioCardFactoryAndEraserTest{
 	}
 	
 	@Test
-	public void PortfolioCardFactory_Edit_Test(){
+	public void PortfolioCardProxy_Edit_Test(){
 		// given
 		PortfolioCardDTO portfolioCardDTO1 = new PortfolioCardDTO.Builder()
 			.id(3L)
@@ -123,11 +123,11 @@ public class PortfolioCardFactoryAndEraserTest{
 			.build();
 		
 		// when 
-		userInfoFactory.saveUser(userDTO);
-		portfolioCardFactory.saveUser(userDTO);
+		userInfoProxy.saveUser(userDTO);
+		portfolioCardProxy.saveUser(userDTO);
 		
 		PortfolioCardDTO editPortfolioCardDTO = new PortfolioCardDTO.Builder()
-			.id(this.portfolioCardFactory.getUser(this.name).getPortfolioCards().get(0).getId())
+			.id(this.portfolioCardProxy.getUser(this.name).getPortfolioCards().get(0).getId())
 			.portfolioCardArticle("edit")
 			.portfolioCardStars(2)
 			.portfolioUrl("edit")
@@ -140,10 +140,10 @@ public class PortfolioCardFactoryAndEraserTest{
 			.portfolioCardDTO(editPortfolioCardDTO)
 			.build();
 		
-		portfolioCardFactory.editUser(editUserDTO);
+		portfolioCardProxy.editUser(editUserDTO);
 		
 		// then
-		UserDTO ans = this.portfolioCardFactory.getUser(this.name);
+		UserDTO ans = this.portfolioCardProxy.getUser(this.name);
 		List<PortfolioCardDTO> cardDTOs = ans.getPortfolioCards();
 		
 		assertEquals(ans.getName(), this.name);
@@ -160,7 +160,7 @@ public class PortfolioCardFactoryAndEraserTest{
 			this.userInfoEraser.delete(this.name);
 		}catch(NonExistUserException NUE){}
 		
-		assertThrows(NonExistUserException.class, ()->portfolioCardFactory.getUser(this.name));
+		assertThrows(NonExistUserException.class, ()->portfolioCardProxy.getUser(this.name));
 	}
 	
 	@BeforeEach
@@ -170,6 +170,6 @@ public class PortfolioCardFactoryAndEraserTest{
 			this.userInfoEraser.delete(this.name);
 		}catch(NonExistUserException NUE){}
 		
-		assertThrows(NonExistUserException.class, ()->portfolioCardFactory.getUser(this.name));
+		assertThrows(NonExistUserException.class, ()->portfolioCardProxy.getUser(this.name));
 	}
 }

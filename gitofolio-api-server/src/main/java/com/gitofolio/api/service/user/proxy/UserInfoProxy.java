@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user.factory;
+package com.gitofolio.api.service.user.proxy;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import com.gitofolio.api.service.user.exception.DuplicationUserException;
 import com.gitofolio.api.domain.user.UserInfo;
 
 @Service
-public class UserInfoFactory implements UserFactory{
+public class UserInfoProxy implements UserProxy{
 	
 	private UserInfoService userInfoService;
 	private UserMapper<UserInfo> userInfoMapper;
@@ -82,7 +82,7 @@ public class UserInfoFactory implements UserFactory{
 	}
 	
 	@Autowired
-	public UserInfoFactory(@Qualifier("userInfoMapper") UserMapper<UserInfo> userInfoMapper,
+	public UserInfoProxy(@Qualifier("userInfoMapper") UserMapper<UserInfo> userInfoMapper,
 						  @Qualifier("userInfoHateoas") Hateoas hateoas,
 						   UserInfoService userInfoService
 						  ){

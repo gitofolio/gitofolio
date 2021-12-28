@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user.factory;
+package com.gitofolio.api.service.user.proxy;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.gitofolio.api.service.user.factory.UserFactory;
+import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.domain.user.*;
@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 @SpringBootTest
-public class UserInfoFactoryAndEraserTest{
+public class UserInfoProxyAndEraserTest{
 	
 	@Autowired
-	@Qualifier("userInfoFactory")
-	private UserFactory userInfoFactory;
+	@Qualifier("userInfoProxy")
+	private UserProxy userInfoProxy;
 	
 	@Autowired
 	@Qualifier("userInfoEraser")
@@ -35,7 +35,7 @@ public class UserInfoFactoryAndEraserTest{
 	String url = "testProfileUrl";
 	
 	@Test
-	public void UserInfoFactory_Save_and_Get_Test(){
+	public void UserInfoProxy_Save_and_Get_Test(){
 		// given
 		UserDTO userDTO = new UserDTO.Builder()
 			.id(0L)
@@ -44,16 +44,16 @@ public class UserInfoFactoryAndEraserTest{
 			.build();
 		
 		// when
-		userInfoFactory.saveUser(userDTO);
+		userInfoProxy.saveUser(userDTO);
 		
 		// then
-		UserDTO ret = userInfoFactory.getUser(name);
+		UserDTO ret = userInfoProxy.getUser(name);
 		assertEquals(ret.getName(), this.name);
 		assertEquals(ret.getProfileUrl(), this.url);
 	}
 	
 	@Test
-	public void UserInfoFactory_Edit_Test(){
+	public void UserInfoProxy_Edit_Test(){
 		// given
 		UserDTO userDTO = new UserDTO.Builder()
 			.id(0L)
@@ -68,11 +68,11 @@ public class UserInfoFactoryAndEraserTest{
 			.build();
 		
 		// when
-		this.userInfoFactory.saveUser(userDTO);
-		this.userInfoFactory.editUser(editUserDTO);
+		this.userInfoProxy.saveUser(userDTO);
+		this.userInfoProxy.editUser(editUserDTO);
 		
 		// then
-		UserDTO result = this.userInfoFactory.getUser(this.name);
+		UserDTO result = this.userInfoProxy.getUser(this.name);
 		assertEquals(result.getName(), this.name);
 		assertEquals(result.getProfileUrl(), this.url+"edit");
 	}
@@ -83,7 +83,7 @@ public class UserInfoFactoryAndEraserTest{
 			this.userInfoEraser.delete(this.name);
 		}catch(NonExistUserException NUE){}
 		
-		assertThrows(NonExistUserException.class, ()->userInfoFactory.getUser(this.name));
+		assertThrows(NonExistUserException.class, ()->userInfoProxy.getUser(this.name));
 	}
 	
 	@BeforeEach
@@ -92,7 +92,7 @@ public class UserInfoFactoryAndEraserTest{
 			this.userInfoEraser.delete(this.name);
 		}catch(NonExistUserException NUE){}
 		
-		assertThrows(NonExistUserException.class, ()->userInfoFactory.getUser(this.name));
+		assertThrows(NonExistUserException.class, ()->userInfoProxy.getUser(this.name));
 	}
 	
 }

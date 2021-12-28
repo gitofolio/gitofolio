@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user.factory;
+package com.gitofolio.api.service.user.proxy;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +13,11 @@ import com.gitofolio.api.service.user.exception.IllegalParameterException;
 import com.gitofolio.api.domain.user.UserStatistics;
 
 @Service
-public class UserStatisticsFactory implements UserFactory{
+public class UserStatisticsProxy implements UserProxy{
 	
 	private UserStatisticsService userStatisticsService;
 	private UserMapper<UserStatistics> userStatisticsMapper;
-	private UserFactory userInfoFactory;
+	private UserProxy userInfoProxy;
 	private Hateoas userStatisticsHateoas;
 	
 	@Override
@@ -44,7 +44,7 @@ public class UserStatisticsFactory implements UserFactory{
 	@Override
 	@Transactional
 	public UserDTO saveUser(UserDTO userDTO){
-		throw new IllegalStateException("/userStatisticsFactory의 saveUser메소드는 허용되지 않았습니다.");
+		throw new IllegalStateException("/userStatisticsProxy의 saveUser메소드는 허용되지 않았습니다.");
 	}
 	
 	@Override
@@ -65,12 +65,12 @@ public class UserStatisticsFactory implements UserFactory{
 	}
 	
 	@Autowired
-	public UserStatisticsFactory(UserStatisticsService userStatisticsService,
-								@Qualifier("userInfoFactory") UserFactory userInfoFactory,
+	public UserStatisticsProxy(UserStatisticsService userStatisticsService,
+								@Qualifier("userInfoProxy") UserProxy userInfoProxy,
 								@Qualifier("userStatisticsHateoas") Hateoas userStatisticsHateoas,
 								@Qualifier("userStatisticsMapper") UserMapper<UserStatistics> userStatisticsMapper){
 		this.userStatisticsService = userStatisticsService;
-		this.userInfoFactory = userInfoFactory;
+		this.userInfoProxy = userInfoProxy;
 		this.userStatisticsHateoas = userStatisticsHateoas;
 		this.userStatisticsMapper = userStatisticsMapper;
 	}

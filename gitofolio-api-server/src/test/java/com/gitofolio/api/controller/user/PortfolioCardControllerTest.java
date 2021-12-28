@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.gitofolio.api.service.user.factory.UserFactory;
+import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.service.user.exception.*;
@@ -45,7 +45,7 @@ import com.gitofolio.api.service.user.factory.hateoas.PortfolioCardHateoas;
 import com.gitofolio.api.service.user.UserStatService;
 import com.gitofolio.api.service.user.UserStatisticsService;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgFactory;
-import com.gitofolio.api.service.user.factory.EncodedProfileImageFactory;
+import com.gitofolio.api.service.user.proxy.EncodedProfileImageProxy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -65,8 +65,8 @@ public class PortfolioCardControllerTest {
 	private UserEraser portfolioCardEraser;
 	
 	@MockBean
-	@Qualifier("portfolioCardFactory")
-	private UserFactory portfolioCardFactory;
+	@Qualifier("portfolioCardProxy")
+	private UserProxy portfolioCardProxy;
 	
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
@@ -84,14 +84,14 @@ public class PortfolioCardControllerTest {
 	private PortfolioCardSvgFactory portfolioCardSvgFactory;
 	
 	@MockBean
-	private EncodedProfileImageFactory encodedProfileImageFactory;
+	private EncodedProfileImageProxy encodedProfileImageProxy;
 	
 	@Test
 	public void PortfolioCard_GET_테스트() throws Exception{
 		// when
 		String name = "name";
 		
-		given(portfolioCardFactory.getUser(name, "1,5")).willReturn(this.getUser());
+		given(portfolioCardProxy.getUser(name, "1,5")).willReturn(this.getUser());
 		
 		// then
 		mockMvc.perform(get("/portfoliocards/{name}?cards=1,5", name).accept(MediaType.APPLICATION_JSON))
@@ -124,7 +124,7 @@ public class PortfolioCardControllerTest {
 		// when
 		String name = "nonExistUser";
 		
-		given(portfolioCardFactory.getUser(name,"1,5"))
+		given(portfolioCardProxy.getUser(name,"1,5"))
 			.willThrow(new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/nonExistUser"));
 		
 		// then
@@ -151,7 +151,7 @@ public class PortfolioCardControllerTest {
 		String name = "name";
 		
 		// when
-		given(portfolioCardFactory.getUser(any(String.class)))
+		given(portfolioCardProxy.getUser(any(String.class)))
 			.willThrow(new NonExistUserException("이 유저는 어떠한 포트폴리오 카드도 갖고있지 않습니다.", "요청 전 포트폴리오 카드를 생성해주세요", "/portfoliocards/"+name));
 		
 		// then
@@ -174,7 +174,7 @@ public class PortfolioCardControllerTest {
 		// when
 		String name = "name";
 		
-		given(portfolioCardFactory.getUser(name, "here,tohere"))
+		given(portfolioCardProxy.getUser(name, "here,tohere"))
 			.willThrow(new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/name?cards=here,tohere"));
 		
 		// then
@@ -288,7 +288,7 @@ public class PortfolioCardControllerTest {
 		
 		// when
 		String content = objectMapper.writeValueAsString(user);
-		given(portfolioCardFactory.saveUser(any(UserDTO.class))).willReturn(userCopy);
+		given(portfolioCardProxy.saveUser(any(UserDTO.class))).willReturn(userCopy);
 		
 		// then
 		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -330,7 +330,7 @@ public class PortfolioCardControllerTest {
 		
 		// when
 		String content = objectMapper.writeValueAsString(user);
-		given(this.portfolioCardFactory.saveUser(any(UserDTO.class)))
+		given(this.portfolioCardProxy.saveUser(any(UserDTO.class)))
 			.willThrow(new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/nonExistUser"));
 		
 		// then
@@ -374,7 +374,7 @@ public class PortfolioCardControllerTest {
 		
 		// when
 		String content = objectMapper.writeValueAsString(editUser);
-		given(portfolioCardFactory.editUser(any(UserDTO.class))).willReturn(userCopy);
+		given(portfolioCardProxy.editUser(any(UserDTO.class))).willReturn(userCopy);
 		
 		// then
 		mockMvc.perform(put("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))

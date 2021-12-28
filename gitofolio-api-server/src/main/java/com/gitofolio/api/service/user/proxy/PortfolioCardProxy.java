@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user.factory;
+package com.gitofolio.api.service.user.proxy;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import com.gitofolio.api.service.user.parameter.ParameterHandler;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
 
 @Service
-public class PortfolioCardFactory implements UserFactory{
+public class PortfolioCardProxy implements UserProxy{
 	
 	private PortfolioCardService portfolioCardService;
 	private UserMapper<List<PortfolioCard>> portfolioCardMapper;
@@ -90,7 +90,7 @@ public class PortfolioCardFactory implements UserFactory{
 	}
 	
 	@Autowired
-	public PortfolioCardFactory(PortfolioCardService portfolioCardService,
+	public PortfolioCardProxy(PortfolioCardService portfolioCardService,
 								@Qualifier("portfolioCardMapper") UserMapper<List<PortfolioCard>> portfolioCardMapper,
 								@Qualifier("portfolioCardsGetParameterHandler") ParameterHandler<String> parameterHandler,
 								@Qualifier("portfolioCardHateoas") Hateoas portfolioCardHateoas){

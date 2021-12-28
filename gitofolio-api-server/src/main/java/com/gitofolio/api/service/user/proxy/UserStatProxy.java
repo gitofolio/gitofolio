@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.user.factory;
+package com.gitofolio.api.service.user.proxy;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import com.gitofolio.api.service.user.UserStatService;
 import com.gitofolio.api.domain.user.UserStat;
 
 @Service
-public class UserStatFactory implements UserFactory{
+public class UserStatProxy implements UserProxy{
 	
 	private UserStatService userStatService;
-	private UserFactory userInfoFactory;
+	private UserProxy userInfoProxy;
 	private Hateoas userStatHateoas;
 	private UserMapper<UserStat> userStatMapper;
 	
@@ -65,12 +65,12 @@ public class UserStatFactory implements UserFactory{
 	}
 	
 	@Autowired
-	public UserStatFactory(UserStatService userStatService,
-						  @Qualifier("userInfoFactory") UserFactory userInfoFactory,
+	public UserStatProxy(UserStatService userStatService,
+						  @Qualifier("userInfoProxy") UserProxy userInfoProxy,
 						  @Qualifier("userStatHateoas") Hateoas userStatHateoas,
 						  @Qualifier("userStatMapper") UserMapper<UserStat> userStatMapper){
 		this.userStatService = userStatService;
-		this.userInfoFactory = userInfoFactory;
+		this.userInfoProxy = userInfoProxy;
 		this.userStatHateoas = userStatHateoas;
 		this.userStatMapper = userStatMapper;
 	}
