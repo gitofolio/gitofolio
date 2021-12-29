@@ -53,6 +53,14 @@ public class SvgStringLineBreakerAop{
 		StringBuilder line = new StringBuilder();
 		int lineCnt = 0;
 		for(String word : words){
+			if(word.contains("\n")){
+				ans.append(openTextTag(lineCnt))
+					.append(line.append(word).toString())
+					.append(closeTextTag());
+				line.setLength(0);
+				lineCnt++;
+				continue;
+			}
 			if(itsTooLongWord(width, line.toString()+word)){
 				ans.append(openTextTag(lineCnt))
 					.append(line.toString())
@@ -69,7 +77,7 @@ public class SvgStringLineBreakerAop{
 	}
 	
 	/*
-		문자열을 단어기준으로 자름 
+		문자열을 단어, 개행문자기준으로 자름 
 		이때, 하나의 문자열이 width값을 넘어간다면 강제로 자름
 	*/
 	private List<String> splitWord(int width, String word){

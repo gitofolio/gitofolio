@@ -8,16 +8,15 @@
 		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
 		 
 		@keyframes delayFadeInAnimation{
-			0%{
-            	opacity:0;
-			}
-			60%{
-				opacity:0;
-			}
-			100%{
-				opacity:1;
-			}
+			0%, 60%{opacity:0;}
+			100%{opacity:1;}
 		}
+		
+		@keyframes arrowAnimation{
+			0%, 20%, 50%, 80%, 100% {transform: translateX(0);}
+			40% {transform: translateX(-3px);}
+			60% {transform: translateX(-1px);}
+		 } 
 		 
 		.userName {
 			fill : ${svgDTO.getColor().getTextColor()};
@@ -50,6 +49,10 @@
 			animation: delayFadeInAnimation 1.8s ease-in-out; 
 		}
 		 
+		 .arrowInner{
+			 animation: arrowAnimation 1.5s ease-in-out 1.8s infinite;
+		 }
+		 
 		]]> 
 	</style>
 	 <a href="${svgDTO.getPortfolioUrl()}" title="click to portfolio" target="_blank">
@@ -61,9 +64,11 @@
 	<text class ="portfolio" x="70" y="60"> portfolio </text>
 	 
     <g transform="translate(0, ${svgDTO.getArrowY()})" class="arrow">	
-		<path class="arrow"
-			  d="M314 190C313.448 190 313 190.448 313 191C313 191.552 313.448 192 314 192V190ZM329.707 191.707C330.098 191.317 330.098 190.683 329.707 190.293L323.343 183.929C322.953 183.538 322.319 183.538 321.929 183.929C321.538 184.319 321.538 184.953 321.929 185.343L327.586 191L321.929 196.657C321.538 197.047 321.538 197.681 321.929 198.071C322.319 198.462 322.953 198.462 323.343 198.071L329.707 191.707ZM314 192H329V190H314V192Z"
-			  fill="${svgDTO.getColor().getTextColor()}" />
+		<g class = "arrowInner">
+			<path class="arrow"
+				  d="M314 190C313.448 190 313 190.448 313 191C313 191.552 313.448 192 314 192V190ZM329.707 191.707C330.098 191.317 330.098 190.683 329.707 190.293L323.343 183.929C322.953 183.538 322.319 183.538 321.929 183.929C321.538 184.319 321.538 184.953 321.929 185.343L327.586 191L321.929 196.657C321.538 197.047 321.538 197.681 321.929 198.071C322.319 198.462 322.953 198.462 323.343 198.071L329.707 191.707ZM314 192H329V190H314V192Z"
+				  fill="${svgDTO.getColor().getTextColor()}" />
+		</g>
 	</g>
 	 
     <circle class="userImage" cx="36.5" cy="36.5" r="22.5" />
