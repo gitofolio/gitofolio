@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.dtos.UserDTO;
+import com.gitofolio.api.service.user.dtos.PortfolioCardDTO;
 import com.gitofolio.api.service.user.exception.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,13 +59,20 @@ public class UserStatisticsControllerTest{
 	@Qualifier("userInfoEraser")
 	private UserEraser userInfoEraser;
 	
+	@Autowired
+	@Qualifier("portfolioCardProxy")
+	private UserProxy portfolioCardProxy;
+	
 	@Test
 	public void userDailyStat_GET_Test() throws Exception{
 		// given
-		UserDTO user = this.getUser();
+		UserDTO user = this.portfolioCardProxy.getUser(this.getUser().getName());
+		Long cardId = user.getPortfolioCards().get(0).getId();
 		
 		// when
-		mockMvc.perform(get("/user/{name}", user.getName()).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.REFERER, "https://example.com")).andExpect(status().isOk());
+		mockMvc.perform(get("/portfolio/{userId}/{cardId}?redirect=false", user.getId(), cardId)
+						.accept(MediaType.APPLICATION_JSON)
+						.header(HttpHeaders.REFERER, "https://example.com"));
 		
 		// then
 		mockMvc.perform(get("/user/dailystat/{name}", user.getName()).accept(MediaType.APPLICATION_JSON))
@@ -117,6 +125,7 @@ public class UserStatisticsControllerTest{
 		} catch(NonExistUserException NEUE){}
 		try{
 			this.userInfoProxy.saveUser(user);
+			this.portfolioCardProxy.saveUser(user);
 		}catch(DuplicationUserException DUE){}
 		UserDTO result = this.userInfoProxy.getUser(user.getName());
 		assertEquals(user.getName(), result.getName());
@@ -130,14 +139,25 @@ public class UserStatisticsControllerTest{
 		} catch(NonExistUserException NEUE){}
 		try{
 			this.userInfoProxy.saveUser(user);
-		}catch(DuplicationUserException DUE){DUE.printStackTrace();}
+			this.portfolioCardProxy.saveUser(user);
+		}catch(DuplicationUserException DUE){}
+		UserDTO result = this.userInfoProxy.getUser(user.getName());
+		assertEquals(user.getName(), result.getName());
 	}
 	
 	private UserDTO getUser(){
+		PortfolioCardDTO portfolioCardDTO1 = new PortfolioCardDTO.Builder()
+			.id(3L)
+			.portfolioCardArticle("p1")
+			.portfolioCardStars(1)
+			.portfolioUrl("pu1")
+			.build();
+		
 		return new UserDTO.Builder()
 			.id(0L)
 			.name("name")
 			.profileUrl("https://example.profileUrl.com?1123u8413478")
+			.portfolioCardDTO(portfolioCardDTO1)
 			.build();
 	}
 	

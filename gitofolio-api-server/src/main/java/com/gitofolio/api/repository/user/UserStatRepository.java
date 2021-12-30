@@ -17,6 +17,9 @@ public interface UserStatRepository extends JpaRepository<UserStat, Long>{
 	@Query("select u from UserStat u inner join u.userInfo i where i.name = :name")
 	Optional<UserStat> findByName(@Param("name") String name);
 	
+	@Query("select u from UserStat u inner join u.userInfo i where i.id = :id")
+	Optional<UserStat> findById(@Param("id") Long id);
+	
 	@Modifying
 	@Query(value = "DELETE s FROM user_stat s JOIN user_info i WHERE i.name = :name", nativeQuery=true)
 	void deleteByName(@Param("name") String name);

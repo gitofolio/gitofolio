@@ -2,33 +2,37 @@ package com.gitofolio.api.service.user.svg.portfoliocard;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.gitofolio.api.aop.svg.annotation.SvgStringLineBreaker;
 import com.gitofolio.api.service.user.svg.color.colors.Color;
-import com.gitofolio.api.service.user.svg.color.ColorFactory;
 import com.gitofolio.api.service.user.dtos.UserDTO;
+import com.gitofolio.api.service.user.factory.Factory;
+import com.gitofolio.api.service.user.factory.parameter.StringParameter;
+import com.gitofolio.api.service.user.factory.parameter.PortfolioCardSvgParameter;
 
 @Service
-public class PortfolioCardSvgFactory{
+public class PortfolioCardSvgFactory implements Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter>{
 	
-	private ColorFactory colorFactory;
+	private Factory<Color, StringParameter> colorFactory;
 	
-	@SvgStringLineBreaker(idx=4, width=260)
-	public PortfolioCardSvgDTO getPortfolioCardSvgDTO(String name, String encodedImage, String portfolioUrl, Integer starNum, String article, String colorName){
-		Color color = this.colorFactory.getColor(colorName);
+	@Override
+	@SvgStringLineBreaker(idx=0, width=260)
+	public PortfolioCardSvgDTO get(PortfolioCardSvgParameter parameter){
+		Color color = this.colorFactory.get(new StringParameter(parameter.getColorName()));
 		
 		return new PortfolioCardSvgDTO.Builder()
-			.name(name)
-			.portfolioUrl(portfolioUrl)
+			.name(parameter.getName())
+			.portfolioUrl(parameter.getPortfolioUrl())
 			.color(color)
-			.base64EncodedImage(encodedImage)
-			.starNum(String.valueOf(starNum))
-			.article(article)
+			.base64EncodedImage(parameter.getEncodedImage())
+			.starNum(String.valueOf(parameter.getStarNum()))
+			.article(parameter.getArticle())
 			.build();
 	}
 	
 	@Autowired
-	public PortfolioCardSvgFactory(ColorFactory colorFactory){
+	public PortfolioCardSvgFactory(@Qualifier("colorFactory") Factory<Color, StringParameter> colorFactory){
 		this.colorFactory = colorFactory;
 	}
 	

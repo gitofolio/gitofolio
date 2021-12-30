@@ -16,6 +16,8 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Long>{
 	 
 	Optional<UserInfo> findByName(String name);
 	
+	Optional<UserInfo> findById(Long id);
+	
 	@Modifying
 	@Query("delete from UserInfo u where u.name=:name")
 	void deleteByName(@Param("name") String name);

@@ -23,7 +23,7 @@ public class UserStatService{
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"+name));
 			userStat.setTotalStars(0);
-			userStat.setTotalVisitors(1);
+			userStat.setTotalVisitors(0);
 			userStat.setUserInfo(userInfo);
 			
 			userStatRepository.save(userStat);
@@ -48,6 +48,7 @@ public class UserStatService{
 		return;
 	}
 	
+	@Transactional
 	public void increaseTotalVisitors(String name){
 		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
 		if(userStat.getUserInfo() == null){
@@ -63,10 +64,42 @@ public class UserStatService{
 		return;
 	}
 	
+	@Transactional
+	public void increaseTotalVisitors(Long id){
+		UserStat userStat = this.userStatRepository.findById(id).orElseGet(()->new UserStat());
+		if(userStat.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findById(id)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
+			userStat.setTotalStars(0);
+			userStat.setTotalVisitors(0);
+			userStat.setUserInfo(userInfo);
+			
+			userStatRepository.save(userStat);
+		}
+		userStat.addTotalVisitors();
+	}
+	
+	@Transactional
 	public void increaseTotalStars(String name){
 		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
 		if(userStat.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
+			userStat.setTotalStars(0);
+			userStat.setTotalVisitors(1);
+			userStat.setUserInfo(userInfo);
+			
+			userStatRepository.save(userStat);
+		}
+		userStat.addTotalStars();
+		return;
+	}
+	
+	@Transactional
+	public void increaseTotalStars(Long id){
+		UserStat userStat = this.userStatRepository.findById(id).orElseGet(()->new UserStat());
+		if(userStat.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findById(id)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
 			userStat.setTotalStars(0);
 			userStat.setTotalVisitors(1);

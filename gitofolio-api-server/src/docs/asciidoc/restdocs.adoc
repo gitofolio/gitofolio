@@ -44,13 +44,33 @@ NOTE: "rel"키 값의 명명 규칙은 변경되지 않습니다.
 
 CAUTION: "rel" 네이밍 규칙에서, 자기자신을 호출할경우는 {http method}+This로 이루어집니다.
 
+[[custom-api]]
+== 커스텀 API
+이 구역에는 사용자가 자신의 이력서에 직접 적용할수있는 API가 기술되어있습니다.
+
+[[custom-api-stat]]
+=== 통계
+TIP: 애플리케이션에서 제작된 링크(ex.포트폴리오 카드)를 통해 유입되는 통계는 자동으로 수집되어 증가됩니다.
+
+모든 경로에 대해서 유입경로를 수집하고 싶다면, 아래 링크로 GET요청을 보내면 됩니다.
+
+GET : http://api.gitofolio.com/portfolio/{userId}/{cardId}?redirect=false
+
+예를들어, 서버의 응답이 아래와 같을때
+
+include::{snippets}/portfoliocards/get/http-response.adoc[]
+
+{userId}에 가장 바깥 "id"의 value를
+
+{cardId}에 portfolioUrl과 매핑된 card "id"의 value를 입력하면 됩니다.
+
 [[user]]
 == 유저
 NOTE: user에 관련된 API 목차 입니다.
 
 유저 수정과 저장은 OAuth인증과정에서 자동으로 진행되며, 임의로 수정, 저장 할 수 없습니다.
 
-이 섹터에는 유저 가져오기, 유저 삭제하기, 현재 로그인 되어있는 유저 가져오기가 기술되어있습니다.
+이 목차에는 유저 가져오기, 유저 삭제하기, 현재 로그인 되어있는 유저 가져오기가 기술되어있습니다.
 
 [[user-get]]
 === 유저 가져오기
@@ -142,7 +162,7 @@ include::{snippets}/user/logined/fail/response-fields.adoc[]
 == 유저 통계
 NOTE: 유저 통계정보에 관한 목차입니다. 
 
-이 섹터에는 유저 포토폴리오 총 방문자수, 총 스타수가 포함되어있습니다.
+이 목차에는 유저 포토폴리오 총 방문자수, 총 스타수가 포함되어있습니다.
 
 [[userstat-get]]
 === 유저 통계 가져오기
@@ -180,7 +200,7 @@ include::{snippets}/userstat/get/fail/response-fields.adoc[]
 == 유저 날짜별 통계
 NOTE: 유저 날짜별 통계에 관한 목차 입니다.
 
-이 섹터에는 날짜별 방문자수, 날짜별 유입 경로가 저장되어 있습니다.
+이 목차에는 날짜별 방문자수, 날짜별 유입 경로가 저장되어 있습니다.
 
 [[userdailystat-request]]
 === 유저 날짜별 통계 가져오기
@@ -338,8 +358,6 @@ include::{snippets}/portfoliocards/delete/fail/response-fields.adoc[]
 ==== IllegalParameterException
 CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
 
-HTTP 요청 예시
-
 include::{snippets}/portfoliocards/delete/parameterfail/http-request.adoc[]
 
 include::{snippets}/portfoliocards/delete/fail/http-response.adoc[]
@@ -395,9 +413,26 @@ CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException �
 === 포트폴리오 카드 이미지 가져오기
 서버에 저장된 포트폴리오 카드의 svg이미지를 가져옵니다.
 
+카드는 과정은 포트폴리오 카드를 저장할때 자동으로 저장되며, 따라서 저장 관련 HTTP METHOD는 활성화 되어있지 않습니다.
+
 CAUTION: 반환 MIME타입은 image/svg+xml 입니다.
 
-내용 추가 예정
+[[portfoliocard-get-svg-image-request]]
+==== Request
+요청 URL은 아래와 같습니다.
+
+GET: https://api.gitofolio.com/portfoliocard/svg/{cardId}
+
+예를들어, 서버의 응답이 아래와 같을때, 
+
+include::{snippets}/portfoliocards/get/http-response.adoc[]
+
+{cardId}부분에 응답받은 카드의 ID를 입력해서 요청합니다.
+
+[[portfoliocard-get-svg-image-errorHandle]]
+==== IllegalParameterException
+CAUTION: 서버는 존재하지 않는 포트폴리오 카드 ID입력시 IllegalParameterException예외처리를 합니다.
+
 
 [[auth]]
 == 인증

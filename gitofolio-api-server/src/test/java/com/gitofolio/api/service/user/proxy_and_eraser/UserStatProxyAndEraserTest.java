@@ -56,7 +56,7 @@ public class UserStatProxyAndEraserTest{
 		
 		assertEquals(resultUserDTO.getName(), this.name);
 		assertEquals(resultUserDTO.getProfileUrl(), this.url);
-		assertEquals(resultUserStatDTO.getTotalVisitors(), 1);
+		assertEquals(resultUserStatDTO.getTotalVisitors(), 0);
 		assertEquals(resultUserStatDTO.getTotalStars(), 0);
 	}
 	

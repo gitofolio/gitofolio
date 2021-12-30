@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Gitofolio RESTful API Docs</h1>
 <div class="details">
-<span id="revnumber">version 0.1.4-SNAPSHOT</span>
+<span id="revnumber">version 0.1.5-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -449,6 +449,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#HATEOAS">gitofolio HATEOAS</a>
 <ul class="sectlevel2">
 <li><a href="#HATEOAS-naming-convention">HATEOAS 네이밍 규칙</a></li>
+</ul>
+</li>
+<li><a href="#custom-api">커스텀 API</a>
+<ul class="sectlevel2">
+<li><a href="#custom-api-stat">통계</a></li>
 </ul>
 </li>
 <li><a href="#user">유저</a>
@@ -533,7 +538,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#portfoliocards-put-errorhandle3">IllegalParameterException</a></li>
 </ul>
 </li>
-<li><a href="#portfoliocard-get-svg-image">포트폴리오 카드 이미지 가져오기</a></li>
+<li><a href="#portfoliocard-get-svg-image">포트폴리오 카드 이미지 가져오기</a>
+<ul class="sectlevel3">
+<li><a href="#portfoliocard-get-svg-image-request">Request</a></li>
+<li><a href="#portfoliocard-get-svg-image-errorHandle">IllegalParameterException</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#auth">인증</a>
@@ -593,7 +603,7 @@ HATEOAS의 rel값은 절대 변경되지않으며, URL은 변경될수있습니�
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1136
+Content-Length: 1259
 
 {
   "links" : [ {
@@ -617,6 +627,10 @@ Content-Length: 1136
     "method" : "GET",
     "href" : "http://api.gitofolio.com/portfoliocard/svg/{portfoliocard.id}"
   }, {
+    "rel" : "getPortfolio",
+    "method" : "GET",
+    "href" : "http://api.gitofolio.com/portfolio/{userId}/{portfolioId}"
+  }, {
     "rel" : "getPortfoliocards",
     "method" : "GET",
     "href" : "http://api.gitofolio.com/portfoliocards/{name}",
@@ -629,7 +643,7 @@ Content-Length: 1136
   }, {
     "rel" : "postPortfoliocards",
     "method" : "POST",
-    "href" : "http://api.gitofolio.com/portfoliocards/{name}"
+    "href" : "http://api.gitofolio.com/portfoliocards"
   }, {
     "rel" : "putPortfoliocards",
     "method" : "PUT",
@@ -710,6 +724,98 @@ Content-Length: 1136
 </div>
 </div>
 <div class="sect1">
+<h2 id="custom-api"><a class="link" href="#custom-api">커스텀 API</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>이 구역에는 사용자가 자신의 이력서에 직접 적용할수있는 API가 기술되어있습니다.</p>
+</div>
+<div class="sect2">
+<h3 id="custom-api-stat"><a class="link" href="#custom-api-stat">통계</a></h3>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+애플리케이션에서 제작된 링크(ex.포트폴리오 카드)를 통해 유입되는 통계는 자동으로 수집되어 증가됩니다.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>모든 경로에 대해서 유입경로를 수집하고 싶다면, 아래 링크로 GET요청을 보내면 됩니다.</p>
+</div>
+<div class="paragraph">
+<p>GET : <a href="http://api.gitofolio.com/portfolio/{userId}/{cardId}?redirect=false" class="bare">http://api.gitofolio.com/portfolio/{userId}/{cardId}?redirect=false</a></p>
+</div>
+<div class="paragraph">
+<p>예를들어, 서버의 응답이 아래와 같을때</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 1361
+
+{
+  "id" : 0,
+  "name" : "name",
+  "profileUrl" : "https://example.profileUrl.com?1123u8413478",
+  "portfolioCards" : [ {
+    "id" : 0,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
+  }, {
+    "id" : 1,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
+  }, {
+    "id" : 2,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
+  }, {
+    "id" : 3,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
+  }, {
+    "id" : 4,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
+  } ],
+  "links" : [ {
+    "rel" : "getThis",
+    "method" : "GET",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "cards={n1},{n2}"
+  }, {
+    "rel" : "deleteThis",
+    "method" : "DELETE",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "card={n1}"
+  }, {
+    "rel" : "postThis",
+    "method" : "POST",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}"
+  } ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>{userId}에 가장 바깥 "id"의 value를</p>
+</div>
+<div class="paragraph">
+<p>{cardId}에 portfolioUrl과 매핑된 card "id"의 value를 입력하면 됩니다.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="user"><a class="link" href="#user">유저</a></h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
@@ -728,7 +834,7 @@ user에 관련된 API 목차 입니다.
 <p>유저 수정과 저장은 OAuth인증과정에서 자동으로 진행되며, 임의로 수정, 저장 할 수 없습니다.</p>
 </div>
 <div class="paragraph">
-<p>이 섹터에는 유저 가져오기, 유저 삭제하기, 현재 로그인 되어있는 유저 가져오기가 기술되어있습니다.</p>
+<p>이 목차에는 유저 가져오기, 유저 삭제하기, 현재 로그인 되어있는 유저 가져오기가 기술되어있습니다.</p>
 </div>
 <div class="sect2">
 <h3 id="user-get"><a class="link" href="#user-get">유저 가져오기</a></h3>
@@ -1164,7 +1270,7 @@ Content-Length: 95
 </table>
 </div>
 <div class="paragraph">
-<p>이 섹터에는 유저 포토폴리오 총 방문자수, 총 스타수가 포함되어있습니다.</p>
+<p>이 목차에는 유저 포토폴리오 총 방문자수, 총 스타수가 포함되어있습니다.</p>
 </div>
 <div class="sect2">
 <h3 id="userstat-get"><a class="link" href="#userstat-get">유저 통계 가져오기</a></h3>
@@ -1234,7 +1340,7 @@ Content-Length: 290
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?1123u8413478",
   "userStat" : {
-    "totalVisitors" : 1,
+    "totalVisitors" : 0,
     "totalStars" : 0
   },
   "links" : [ {
@@ -1380,7 +1486,7 @@ Content-Length: 151
 </table>
 </div>
 <div class="paragraph">
-<p>이 섹터에는 날짜별 방문자수, 날짜별 유입 경로가 저장되어 있습니다.</p>
+<p>이 목차에는 날짜별 방문자수, 날짜별 유입 경로가 저장되어 있습니다.</p>
 </div>
 <div class="sect2">
 <h3 id="userdailystat-request"><a class="link" href="#userdailystat-request">유저 날짜별 통계 가져오기</a></h3>
@@ -1456,12 +1562,12 @@ Content-Length: 475
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2021-12-28",
+      "visitDate" : "2021-12-30",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2021-12-28"
+      "refferingDate" : "2021-12-30"
     } ]
   }
 }</code></pre>
@@ -2282,7 +2388,7 @@ Content-Length: 156
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?card=1 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=1 HTTP/1.1
 Accept: */*
 Host: api.gitofolio.com:80</code></pre>
 </div>
@@ -2319,8 +2425,8 @@ Host: api.gitofolio.com:80</code></pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>card</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">={a} 삭제할 포트폴리오 카드 번호를 파라미터로 넘기면 해당 포트폴리오카드를 삭제합니다. 아니라면, 모든 포트폴리오 카드를 삭제합니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">={cardId} 삭제할 포트폴리오 카드 id를 파라미터로 넘기면 해당 포트폴리오카드를 삭제합니다. 아니라면, 모든 포트폴리오 카드를 삭제합니다.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2413,12 +2519,9 @@ Content-Length: 156
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>HTTP 요청 예시</p>
-</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?card=iwantdeletethis HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=1 HTTP/1.1
 Accept: application/json
 Host: api.gitofolio.com:80</code></pre>
 </div>
@@ -2807,6 +2910,9 @@ Content-Length: 205
 <div class="paragraph">
 <p>서버에 저장된 포트폴리오 카드의 svg이미지를 가져옵니다.</p>
 </div>
+<div class="paragraph">
+<p>카드는 과정은 포트폴리오 카드를 저장할때 자동으로 저장되며, 따라서 저장 관련 HTTP METHOD는 활성화 되어있지 않습니다.</p>
+</div>
 <div class="admonitionblock caution">
 <table>
 <tr>
@@ -2819,8 +2925,89 @@ Content-Length: 205
 </tr>
 </table>
 </div>
+<div class="sect3">
+<h4 id="portfoliocard-get-svg-image-request"><a class="link" href="#portfoliocard-get-svg-image-request">Request</a></h4>
 <div class="paragraph">
-<p>내용 추가 예정</p>
+<p>요청 URL은 아래와 같습니다.</p>
+</div>
+<div class="paragraph">
+<p>GET: <a href="https://api.gitofolio.com/portfoliocard/svg/{cardId}" class="bare">https://api.gitofolio.com/portfoliocard/svg/{cardId}</a></p>
+</div>
+<div class="paragraph">
+<p>예를들어, 서버의 응답이 아래와 같을때,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 1361
+
+{
+  "id" : 0,
+  "name" : "name",
+  "profileUrl" : "https://example.profileUrl.com?1123u8413478",
+  "portfolioCards" : [ {
+    "id" : 0,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
+  }, {
+    "id" : 1,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
+  }, {
+    "id" : 2,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
+  }, {
+    "id" : 3,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
+  }, {
+    "id" : 4,
+    "portfolioCardArticle" : "Lorem ipsum",
+    "portfolioCardStars" : 0,
+    "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
+  } ],
+  "links" : [ {
+    "rel" : "getThis",
+    "method" : "GET",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "cards={n1},{n2}"
+  }, {
+    "rel" : "deleteThis",
+    "method" : "DELETE",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}",
+    "parameter" : "card={n1}"
+  }, {
+    "rel" : "postThis",
+    "method" : "POST",
+    "href" : "http://api.gitofolio.com/portfoliocards/{name}"
+  } ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>{cardId}부분에 응답받은 카드의 ID를 입력해서 요청합니다.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="portfoliocard-get-svg-image-errorHandle"><a class="link" href="#portfoliocard-get-svg-image-errorHandle">IllegalParameterException</a></h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+서버는 존재하지 않는 포트폴리오 카드 ID입력시 IllegalParameterException예외처리를 합니다.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -2848,8 +3035,8 @@ Content-Length: 205
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.4-SNAPSHOT<br>
-Last updated 2021-12-28 12:51:51 UTC
+Version 0.1.5-SNAPSHOT<br>
+Last updated 2021-12-30 14:34:56 UTC
 </div>
 </div>
 </body>

@@ -50,6 +50,7 @@ public class UserStatisticsService{
 		return;
 	}
 	
+	@Transactional
 	public void increaseVisitorStatistics(String name){
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){
@@ -64,11 +65,40 @@ public class UserStatisticsService{
 		userStatistics.addVisitorStatistics();
 	}
 	
+	@Transactional
+	public void increaseVisitorStatistics(Long id){
+		UserStatistics userStatistics = this.userStatisticsRepository.findById(id).orElseGet(()->new UserStatistics());
+		if(userStatistics.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findById(id)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요."));
+			
+			userStatistics.setUserInfo(userInfo); 
+			
+			userStatisticsRepository.save(userStatistics);	
+		}
+		
+		userStatistics.addVisitorStatistics();
+	}
+	
+	@Transactional
 	public void setRefferingSite(String name, String refferingSiteName){
 		UserStatistics userStatistics = this.userStatisticsRepository.findByName(name).orElseGet(()->new UserStatistics());
 		if(userStatistics.getUserInfo() == null){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/dailystat/"+name));
+			
+			userStatistics.setUserInfo(userInfo);	
+		}
+		userStatistics.setRefferingSite(refferingSiteName);
+		userStatisticsRepository.save(userStatistics);	
+	}
+	
+	@Transactional
+	public void setRefferingSite(Long id, String refferingSiteName){
+		UserStatistics userStatistics = this.userStatisticsRepository.findById(id).orElseGet(()->new UserStatistics());
+		if(userStatistics.getUserInfo() == null){
+			UserInfo userInfo = this.userInfoRepository.findById(id)
+				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요."));
 			
 			userStatistics.setUserInfo(userInfo);	
 		}

@@ -20,6 +20,8 @@ import com.gitofolio.api.aop.auth.annotation.UserAuthorizationer;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgDTO;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgFactory;
 import com.gitofolio.api.service.user.proxy.EncodedProfileImageProxy;
+import com.gitofolio.api.service.user.factory.parameter.PortfolioCardSvgParameter;
+import com.gitofolio.api.service.user.factory.Factory;
 
 @RestController
 @RequestMapping
@@ -34,7 +36,8 @@ public class PortfolioCardController{
 	private UserEraser portfolioCardEraser;
 	
 	@Autowired
-	private PortfolioCardSvgFactory portfolioCardSvgFactory;
+	@Qualifier("portfolioCardSvgFactory")
+	private Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter> portfolioCardSvgFactory;
 	
 	@Autowired
 	private EncodedProfileImageProxy encodedProfileImageProxy;
@@ -63,12 +66,12 @@ public class PortfolioCardController{
 	// @UserAuthorizationer(idx=0)
 	@RequestMapping(path="/portfoliocards/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
-													  @RequestParam(value="card", required=false) String card){
+													  @RequestParam(value="id", required=false) Long id){
 		
 		String result = null;
 		
-		if(card == null) result = this.portfolioCardEraser.delete(name);
-		else result = this.portfolioCardEraser.delete(name, card);
+		if(id == null) result = this.portfolioCardEraser.delete(name);
+		else result = this.portfolioCardEraser.delete(name, id);
 		
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
@@ -88,12 +91,17 @@ public class PortfolioCardController{
 		
 		UserDTO userDTO = this.portfolioCardProxy.getUser(cardId);
 		String encodedImage = this.encodedProfileImageProxy.get(userDTO);
-		PortfolioCardSvgDTO svgDTO = this.portfolioCardSvgFactory.getPortfolioCardSvgDTO(userDTO.getName(), 
-																						 encodedImage,
-																						 userDTO.getPortfolioCards().get(0).getPortfolioUrl(),
-																						 userDTO.getPortfolioCards().get(0).getPortfolioCardStars(), 
-																						 userDTO.getPortfolioCards().get(0).getPortfolioCardArticle(),
-																						 color);
+		
+		PortfolioCardSvgParameter portfolioCardSvgParameter = new PortfolioCardSvgParameter.Builder()
+			.name(userDTO.getName())
+			.encodedImage(encodedImage)
+			.portfolioUrl(userDTO.getPortfolioCards().get(0).getPortfolioUrl())
+			.starNum(userDTO.getPortfolioCards().get(0).getPortfolioCardStars())
+			.article(userDTO.getPortfolioCards().get(0).getPortfolioCardArticle())
+			.colorName(color)
+			.build();
+			
+		PortfolioCardSvgDTO svgDTO = this.portfolioCardSvgFactory.get(portfolioCardSvgParameter);
 		
 		return new ModelAndView("portfolioCard", "svgDTO", svgDTO);
 	}

@@ -45,6 +45,9 @@ import com.gitofolio.api.service.user.factory.hateoas.PortfolioCardHateoas;
 import com.gitofolio.api.service.user.UserStatService;
 import com.gitofolio.api.service.user.UserStatisticsService;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgFactory;
+import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgDTO;
+import com.gitofolio.api.service.user.factory.Factory;
+import com.gitofolio.api.service.user.factory.parameter.PortfolioCardSvgParameter;
 import com.gitofolio.api.service.user.proxy.EncodedProfileImageProxy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -81,7 +84,8 @@ public class PortfolioCardControllerTest {
 	private UserStatisticsService userStatisticsService;
 	
 	@MockBean
-	private PortfolioCardSvgFactory portfolioCardSvgFactory;
+	@Qualifier("portfolioCardSvgFactory")
+	private Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter> portfolioCardSvgFactory;
 	
 	@MockBean
 	private EncodedProfileImageProxy encodedProfileImageProxy;
@@ -200,17 +204,17 @@ public class PortfolioCardControllerTest {
 		// when
 		String name = "name";
 		
-		given(portfolioCardEraser.delete(name, "1")).willReturn("name");
+		given(portfolioCardEraser.delete(name, 1L)).willReturn("name");
 		
 		// then
-		mockMvc.perform(delete("/portfoliocards/{name}?card=1", name).accept(MediaType.ALL))
+		mockMvc.perform(delete("/portfoliocards/{name}?id=1", name).accept(MediaType.ALL))
 			.andExpect(status().isOk())
 			.andDo(document("portfoliocards/delete",
 							pathParameters(
 								parameterWithName("name").description("포트폴리오 카드를 삭제할 유저 이름입니다.")
 							),
 							requestParameters(
-								parameterWithName("card").description("={a} 삭제할 포트폴리오 카드 번호를 파라미터로 넘기면 해당 포트폴리오카드를 삭제합니다. 아니라면, 모든 포트폴리오 카드를 삭제합니다.")
+								parameterWithName("id").description("={cardId} 삭제할 포트폴리오 카드 id를 파라미터로 넘기면 해당 포트폴리오카드를 삭제합니다. 아니라면, 모든 포트폴리오 카드를 삭제합니다.")
 							)
 						));
 	}
@@ -220,17 +224,17 @@ public class PortfolioCardControllerTest {
 		// when
 		String name = "nonExistUser";
 		
-		given(portfolioCardEraser.delete(name, "1")).willThrow(new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/nonExistUser"));
+		given(portfolioCardEraser.delete(name, 1L)).willThrow(new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/portfoliocards/nonExistUser"));
 		
 		// then
-		mockMvc.perform(delete("/portfoliocards/{name}?card=1", name).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(delete("/portfoliocards/{name}?id={cardId}", name, 1L).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
 			.andDo(document("portfoliocards/delete/fail",
 							pathParameters(
 								parameterWithName("name").description("포트폴리오 카드를 삭제할 유저 이름입니다.")
 							),
 							requestParameters(
-								parameterWithName("card").description("={a} 삭제할 포트폴리오 카드 번호를 파라미터로 넘기면 해당 포트폴리오카드를 삭제합니다. 아니라면, 모든 포트폴리오 카드를 삭제합니다.")
+								parameterWithName("id").description("={cardId} 삭제할 포트폴리오 카드 id를 파라미터로 넘기면 해당 포트폴리오카드를 삭제합니다. 아니라면, 모든 포트폴리오 카드를 삭제합니다.")
 							),
 							responseFields(
 								fieldWithPath("title").description("에러의 주요 원인입니다."),
@@ -245,18 +249,21 @@ public class PortfolioCardControllerTest {
 		// when
 		String name = "name";
 		
-		given(portfolioCardEraser.delete(name, "iwantdeletethis"))
-			.willThrow(new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/user?card=iwantdeletethis"));
+		given(portfolioCardEraser.delete(name))
+			.willThrow(new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/user?id=1"));
+		
+		given(portfolioCardEraser.delete(name, 1L))
+			.willThrow(new IllegalParameterException("잘못된 파라미터 요청", "포트폴리오 카드요청 파라미터를 잘못 입력하셨습니다.", "https://api.gitofolio.com/portfoliocards/user?id=1"));
 		
 		// then
-		mockMvc.perform(delete("/portfoliocards/{name}?card=iwantdeletethis",name).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(delete("/portfoliocards/{name}?id={cardId}",name, 1L).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotAcceptable())
 			.andDo(document("portfoliocards/delete/parameterfail",
 						   pathParameters(
 								parameterWithName("name").description("포토폴리오 카드를 가져올 유저 이름입니다.")
 							),
 							requestParameters(
-								parameterWithName("card").description("={a} 삭제할 포트폴리오 카드 번호를 파라미터로 넘기면 해당 포트폴리오카드를 삭제합니다. 아니라면, 모든 포트폴리오 카드를 삭제합니다.")
+								parameterWithName("id").description("={cardId} 삭제할 포트폴리오 카드 id를 파라미터로 넘기면 해당 포트폴리오카드를 삭제합니다. 아니라면, 모든 포트폴리오 카드를 삭제합니다.")
 							),
 							responseFields(
 								fieldWithPath("title").description("에러의 주요 원인입니다."),

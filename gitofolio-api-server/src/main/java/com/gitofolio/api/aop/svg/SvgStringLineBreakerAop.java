@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.gitofolio.api.aop.svg.annotation.SvgStringLineBreaker;
+import com.gitofolio.api.service.user.dtos.UserDTO;
 
 import java.lang.reflect.*;
 import java.lang.annotation.Annotation;
@@ -42,9 +43,25 @@ public class SvgStringLineBreakerAop{
 		int idx = annotation.idx();
 		
 		Object[] params = joinPoint.getArgs();
-		String string = (String)params[idx];
-		if(!string.equals("") && !string.equals(" ")) params[idx] = breakLine(width, splitWord(width, string));
 		
+		String string = "";
+		try{
+			if(params[idx].getClass().equals(String.class)) string = (String)params[idx];
+			else{
+				SvgBreakAble b = (SvgBreakAble)params[idx];
+				string = b.breakTarget();
+			}
+		}catch(Exception e){
+			throw new IllegalArgumentException("SvgStringLineBreaker 어노테이션이 참조하는 파라미터의 타입은 파싱 불가능함");
+		}
+		
+		if(!string.equals("") && !string.equals(" ")){
+			string = breakLine(width, splitWord(width, string));
+			if(params[idx].getClass().equals(String.class)) params[idx] = string;
+			else{
+				((SvgBreakAble)params[idx]).setBreakedString(string);
+			}
+		}
 		return joinPoint.proceed(params);
 	}
 	
@@ -53,6 +70,15 @@ public class SvgStringLineBreakerAop{
 		StringBuilder line = new StringBuilder();
 		int lineCnt = 0;
 		for(String word : words){
+			if(isTooLongWord(width, line.toString()+word)){
+				ans.append(openTextTag(lineCnt))
+					.append(line.toString())
+					.append(closeTextTag());
+				line.setLength(0);
+				lineCnt++;
+				line.append(word).append(" ");
+				continue;
+			}
 			if(word.contains("\n")){
 				ans.append(openTextTag(lineCnt))
 					.append(line.append(word).toString())
@@ -60,13 +86,6 @@ public class SvgStringLineBreakerAop{
 				line.setLength(0);
 				lineCnt++;
 				continue;
-			}
-			if(itsTooLongWord(width, line.toString()+word)){
-				ans.append(openTextTag(lineCnt))
-					.append(line.toString())
-					.append(closeTextTag());
-				line.setLength(0);
-				lineCnt++;
 			}
 			line.append(word).append(" ");
 		}
@@ -84,7 +103,7 @@ public class SvgStringLineBreakerAop{
 		String[] words = word.split(" ");
 		List<String> ans = new ArrayList<String>();
 		for(String string : words){
-			if(itsTooLongWord(width, string)){
+			if(isTooLongWord(width, string)){
 				List<String> splitedWords = splitTooLongWord(width, string);
 				for(String splitedWord : splitedWords) ans.add(splitedWord);
 			}
@@ -116,7 +135,7 @@ public class SvgStringLineBreakerAop{
 		return ans;
 	}
 	
-	private boolean itsTooLongWord(int width, String string){
+	private boolean isTooLongWord(int width, String string){
 		char[] word = string.toCharArray();
 		int length = 0;
 		for(char character : word){
