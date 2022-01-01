@@ -28,7 +28,7 @@ include::{snippets}/endpoint/get/http-response.adoc[]
 === HATEOAS 네이밍 규칙
 HATEOAS는 아래와 같은 네이밍 규칙이 있습니다.
 
-- 기본적으로 camel표기법을 따릅니다.
+- camel표기법을 따릅니다.
 
 - "href"키 값에는 다음으로 선택가능한 URL이 표시됩니다. 
 
