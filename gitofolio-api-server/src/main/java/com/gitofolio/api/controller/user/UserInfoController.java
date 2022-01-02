@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.proxy.UserProxy;
 import com.gitofolio.api.service.user.eraser.UserEraser;
+import com.gitofolio.api.service.user.proxy.CrudProxy;
 import com.gitofolio.api.service.user.exception.InvalidHttpMethodException;
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
 import com.gitofolio.api.service.auth.SessionProcessor;
@@ -27,6 +28,10 @@ public class UserInfoController {
 	@Autowired
 	@Qualifier("userInfoProxy")
 	private UserProxy userInfoProxy;
+	
+	@Autowired
+	@Qualifier("userInfoCrudProxy")
+	private CrudProxy<UserDTO> userInfoCrudProxy;
 	
 	@Autowired
 	@Qualifier("userInfoEraser")
@@ -47,7 +52,7 @@ public class UserInfoController {
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUser(@PathVariable("name") String name){
 		
-		UserDTO userDTO = this.userInfoProxy.getUser(name);
+		UserDTO userDTO = this.userInfoCrudProxy.read(name);
 		
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
@@ -63,9 +68,9 @@ public class UserInfoController {
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){
 		
-		String result = this.userInfoEraser.delete(name);
+		this.userInfoCrudProxy.delete(name);
 		
-		return new ResponseEntity(result, HttpStatus.OK);
+		return new ResponseEntity(name, HttpStatus.OK);
 	}
 	
 	@RequestMapping(path="", method=RequestMethod.PUT)

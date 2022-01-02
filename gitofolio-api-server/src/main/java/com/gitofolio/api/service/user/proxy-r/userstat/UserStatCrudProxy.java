@@ -1,49 +1,61 @@
-// package com.gitofolio.api.service.user.proxy.userstat;
+package com.gitofolio.api.service.user.proxy.userstat;
 
-// import com.gitofolio.api.service.user.proxy.CrudProxy;
-// import com.gitofolio.api.service.user.dtos.UserDTO;
-// import com.gitofolio.api.domain.user.UserStat;
-// import com.gitofolio.api.service.user.UserStatService;
+import com.gitofolio.api.service.user.proxy.CrudProxy;
+import com.gitofolio.api.service.user.factory.mapper.UserMapper;
+import com.gitofolio.api.service.user.dtos.UserDTO;
+import com.gitofolio.api.domain.user.UserStat;
+import com.gitofolio.api.service.user.UserStatService;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.beans.factory.annotation.Qualifier;
-// import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
-// @Service
-// public class UserStatCrudProxy implements CrudProxy<UserDTO>{
+@Service
+public class UserStatCrudProxy implements CrudProxy<UserDTO>{
 	
-// 	private CrudProxy<UserDTO> userStatStringCrudProxy;
-// 	private UserStatService userStatService;
+	private final CrudProxy<UserDTO> crudProxy;
+	private final UserMapper<UserStat> userStatMapper;
+	private final UserStatService userStatService;
 	
-// 	@Override
-// 	public UserDTO create(Object ...args){
-// 		if(args.size()==1 && args[0].getClass().equals(UserStat.class)) return userStatService.save((UserStat)args[0]);
-// 		return this.userStatStringCrudProxy.create(args);
-// 	}
+	@Override
+	@Transactional
+	public UserDTO create(Object ...args){
+		return this.crudProxy.create(args);
+	}
 	
-// 	@Override
-// 	public UserDTO read(Object ...args){
-// 		if(args.size()==1 && args[0].getClass().equals(UserStat.class)) return userStatService.get((UserStat)args[0]);
-// 		return this.userStatStringCrudProxy.read(args);
-// 	}
+	@Override
+	@Transactional(readOnly=true)
+	public UserDTO read(Object ...args){
+		return this.crudProxy.read(args);
+	}
 	
-// 	@Override
-// 	public UserDTO update(Object ...args){
-// 		if(args.size()==1 && args[0].getClass().equals(UserStat.class)) return userStatService.update((UserStat)args[0]);
-// 		return this.userStatStringCrudProxy.update(args);
-// 	}
+	@Override
+	@Transactional
+	public UserDTO update(Object ...args){
+		if(args.length==1 && args[0].getClass().equals(UserDTO.class)) {
+			return this.userStatMapper.doMap(
+				userStatService.edit(
+					this.userStatMapper.resolveMap((UserDTO)args[0])
+				)
+			);
+		}
+		return this.crudProxy.update(args);
+	}
 	
-// 	@Override
-// 	public UserDTO delete(Object ...args){
-// 		if(args.size()==1 && args[0].getClass().equals(UserStat.class)) return userStatService.delete((UserStat)args[0]);
-// 		return this.userStatStringCrudProxy.delete(args);
-// 	}
+	@Override
+	@Transactional
+	public void delete(Object ...args){
+		this.crudProxy.delete(args);
+	}
 	
-// 	@Autowired
-// 	public UserStatCrudProxy(@Qualifier("userStatStringCrudProxy") CrudProxy<UserDTO> userStatStringCrudProxy,
-// 							UserStatService userStatService){
-// 		this.userStatStringCrudProxy = userStatStringCrudProxy;
-// 		this.userStatService = userStatService;
-// 	}
+	@Autowired
+	public UserStatCrudProxy(@Qualifier("userStatStringCrudProxy") CrudProxy<UserDTO> crudProxy,
+							 @Qualifier("userStatMapper") UserMapper<UserStat> userStatMapper,
+							 UserStatService userStatService){
+		this.userStatMapper = userStatMapper;
+		this.userStatService = userStatService;
+		this.crudProxy = crudProxy;
+	}
 	
-// }
+}
