@@ -19,9 +19,9 @@ import com.gitofolio.api.service.user.parameter.ParameterHandler;
 import com.gitofolio.api.aop.auth.annotation.UserAuthorizationer;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
+import com.gitofolio.api.domain.user.EncodedProfileImage;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgDTO;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgFactory;
-import com.gitofolio.api.service.user.proxy.EncodedProfileImageProxy;
 import com.gitofolio.api.service.user.factory.parameter.PortfolioCardSvgParameter;
 import com.gitofolio.api.service.user.factory.Factory;
 
@@ -31,9 +31,9 @@ public class PortfolioCardController{
 	
 	private final CrudProxy<UserDTO> portfolioCardCrudProxy;
 	
-	private final Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter> portfolioCardSvgFactory;
+	private final CrudProxy<EncodedProfileImage> encodedProfileImageCrudProxy;
 	
-	private final EncodedProfileImageProxy encodedProfileImageProxy;
+	private final Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter> portfolioCardSvgFactory;
 	
 	@HateoasSetter(hateoasType=HateoasType.PORTFOLIOCARDHATEOAS)
 	@RequestMapping(path="/portfoliocards/{name}", method=RequestMethod.GET)
@@ -82,7 +82,7 @@ public class PortfolioCardController{
 											@RequestParam(value="color", defaultValue="white") String color){
 		
 		UserDTO userDTO = this.portfolioCardCrudProxy.read(cardId);
-		String encodedImage = this.encodedProfileImageProxy.get(userDTO);
+		String encodedImage = this.encodedProfileImageCrudProxy.read(userDTO).getEncodedProfileUrl();
 		
 		PortfolioCardSvgParameter portfolioCardSvgParameter = new PortfolioCardSvgParameter.Builder()
 			.name(userDTO.getName())
@@ -100,10 +100,10 @@ public class PortfolioCardController{
 	
 	@Autowired
 	public PortfolioCardController(@Qualifier("portfolioCardCrudFactory") CrudFactory<UserDTO> portfolioCardCrudFactory,
-								   @Qualifier("portfolioCardSvgFactory") Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter> portfolioCardSvgFactory,
-								   EncodedProfileImageProxy encodedProfileImageProxy){
+								   @Qualifier("encodedProfileImageCrudFactory") CrudFactory<EncodedProfileImage> encodedProfileImageCrudFactory,
+								   @Qualifier("portfolioCardSvgFactory") Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter> portfolioCardSvgFactory){
 		this.portfolioCardCrudProxy = portfolioCardCrudFactory.get();
+		this.encodedProfileImageCrudProxy = encodedProfileImageCrudFactory.get();
 		this.portfolioCardSvgFactory = portfolioCardSvgFactory;
-		this.encodedProfileImageProxy = encodedProfileImageProxy;
 	}
 }

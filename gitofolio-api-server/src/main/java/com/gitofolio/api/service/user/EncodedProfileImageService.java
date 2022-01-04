@@ -3,7 +3,6 @@ package com.gitofolio.api.service.user;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gitofolio.api.domain.user.EncodedProfileImage;
 import com.gitofolio.api.domain.user.UserInfo;
@@ -27,7 +26,6 @@ public class EncodedProfileImageService{
 	
 	private ImageEncoder base64ImageEncoder;
 	
-	@Transactional(readOnly=true)
 	public EncodedProfileImage get(UserInfo user){
 		EncodedProfileImage encodedProfileImage = encodedProfileImageRepository.findByName(user.getName())
 			.orElseThrow(()->new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요."));
@@ -40,7 +38,6 @@ public class EncodedProfileImageService{
 		return encodedProfileImage;
 	}
 	
-	@Transactional
 	public EncodedProfileImage save(UserInfo user){
 		EncodedProfileImage encodedProfileImage = this.encodedProfileImageRepository.findByName(user.getName())
 			.orElseGet(()->this.getEncodedProfileImage(user));
@@ -57,7 +54,6 @@ public class EncodedProfileImageService{
 		return this.get(user);
 	}
 	
-	@Transactional
 	public void delete(String name){
 		EncodedProfileImage encodedProfileImage = encodedProfileImageRepository.findByName(name)
 			.orElseThrow(()->new NonExistUserException("존재하지 않는 유저에 대한 삭제 요청입니다.", "유저이름을 확인해 주세요."));
