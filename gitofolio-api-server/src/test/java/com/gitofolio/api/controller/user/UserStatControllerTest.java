@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.gitofolio.api.service.user.proxy.UserProxy;
-import com.gitofolio.api.service.user.eraser.UserEraser;
+import com.gitofolio.api.service.user.proxy.CrudProxy;
+import com.gitofolio.api.service.user.factory.CrudFactory;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.*;
 
@@ -42,31 +42,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com", uriPort=80)
 public class UserStatControllerTest{
 	
-	@Autowired
 	private MockMvc mockMvc;
 	
-	@Autowired
-	@Qualifier("userInfoEraser")
-	private UserEraser userInfoEraser;
+	private CrudProxy<UserDTO> userStatCrudProxy;
+	
+	private CrudProxy<UserDTO> userInfoCrudProxy;
 	
 	@Autowired
-	@Qualifier("userStatProxy")
-	private UserProxy userStatProxy;
-	
-	@Autowired
-	@Qualifier("userInfoProxy")
-	private UserProxy userInfoProxy;
+	public UserStatControllerTest(@Qualifier("userInfoCrudFactory") CrudFactory<UserDTO> userInfoCrudFactory,
+								 @Qualifier("userStatCrudFactory") CrudFactory<UserDTO> userStatCrudFactory,
+								 MockMvc mockMvc){
+		this.userInfoCrudProxy = userInfoCrudFactory.get();
+		this.userStatCrudProxy = userStatCrudFactory.get();
+		this.mockMvc = mockMvc;
+	}
 	
 	@BeforeEach
 	public void preInit(){
 		UserDTO user = this.getUser();
 		try{
-			this.userInfoEraser.delete(user.getName());
+			this.userInfoCrudProxy.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
 		try{
-			this.userInfoProxy.saveUser(user);
+			this.userInfoCrudProxy.create(user);
 		}catch(DuplicationUserException DUE){}
-		UserDTO result = this.userInfoProxy.getUser(user.getName());
+		UserDTO result = this.userInfoCrudProxy.read(user.getName());
 		assertEquals(user.getName(), result.getName());
 	}
 	
@@ -74,10 +74,10 @@ public class UserStatControllerTest{
 	public void postInit(){
 		UserDTO user = this.getUser();
 		try{
-			this.userInfoEraser.delete(user.getName());
+			this.userInfoCrudProxy.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
 		try{
-			this.userInfoProxy.saveUser(user);
+			this.userInfoCrudProxy.create(user);
 		}catch(DuplicationUserException DUE){DUE.printStackTrace();}
 	}
 	
@@ -135,7 +135,7 @@ public class UserStatControllerTest{
 		return new UserDTO.Builder()
 			.id(0L)
 			.name("name")
-			.profileUrl("https://example.profileUrl.com?1123u8413478")
+			.profileUrl("https://example.profileUrl.com?ust")
 			.build();
 	}
 	

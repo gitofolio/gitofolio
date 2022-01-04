@@ -4,6 +4,9 @@ import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.service.user.exception.DuplicationUserException;
 import com.gitofolio.api.service.user.exception.EditException;
 import com.gitofolio.api.repository.user.UserInfoRepository;
+import com.gitofolio.api.repository.user.PortfolioCardRepository;
+import com.gitofolio.api.repository.user.EncodedProfileImageRepository;
+import com.gitofolio.api.repository.user.UserStatRepository;
 import com.gitofolio.api.domain.user.UserInfo;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +18,10 @@ import java.lang.reflect.Field;
 public class UserInfoService{
 	
 	private UserInfoRepository userInfoRepository;
+	private UserStatRepository userStatRepository;
+	private UserStatisticsService userStatisticsService;
+	private PortfolioCardRepository portfolioCardRepository;
+	private EncodedProfileImageRepository encodedProfileImageRepository;
 	
 	public UserInfo get(String name){
 		UserInfo user = this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/"+name));
@@ -24,7 +31,9 @@ public class UserInfoService{
 	public UserInfo save(UserInfo user){
 		UserInfo exist = this.userInfoRepository.findByName(user.getName()).orElseGet(()->new UserInfo());
 		if(exist.getName() == null) userInfoRepository.save(user);
-		else if(exist.getName() != null) throw new DuplicationUserException("유저 이름이 중복되었습니다.", "다른 유저이름을 사용해 저장하세요", "/user/"+exist.getName());
+		else if(exist.getName() != null) {
+			return this.edit(user);
+		}
 		
 		return this.get(user.getName());
 	}
@@ -32,6 +41,10 @@ public class UserInfoService{
 	public void delete(String name){
 		UserInfo user = this.userInfoRepository.findByName(name)
 			.orElseThrow(() -> new NonExistUserException("존재하지 않는 유저에 대한 삭제 요청입니다.", "유저 이름을 확인해주세요", "/user/"+name));
+		this.portfolioCardRepository.deleteByName(name);
+		this.userStatRepository.deleteByName(name);
+		this.encodedProfileImageRepository.deleteByName(name);
+		this.userStatisticsService.delete(name);
 		this.userInfoRepository.deleteByName(name);
 		return;
 	}
@@ -68,8 +81,16 @@ public class UserInfoService{
 	
 	// constructor
 	@Autowired
-	public UserInfoService(UserInfoRepository userInfoRepository){
+	public UserInfoService(UserInfoRepository userInfoRepository,
+						  UserStatRepository userStatRepository,
+						  UserStatisticsService userStatisticsService,
+						  PortfolioCardRepository portfolioCardRepository,
+						  EncodedProfileImageRepository encodedProfileImageRepository){
 		this.userInfoRepository = userInfoRepository;
+		this.userStatRepository = userStatRepository;
+		this.userStatisticsService = userStatisticsService;
+		this.portfolioCardRepository = portfolioCardRepository;
+		this.encodedProfileImageRepository = encodedProfileImageRepository;
 	}
 	
 }

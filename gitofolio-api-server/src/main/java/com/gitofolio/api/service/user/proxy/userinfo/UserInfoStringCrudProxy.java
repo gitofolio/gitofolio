@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserInfoStringCrudProxy implements CrudProxy<UserDTO>{
 	
-	private final CrudProxy<UserDTO> crudProxy = null;
+	private CrudProxy<UserDTO> crudProxy = null;
 	private final UserInfoService userInfoService;
 	private final UserMapper<UserInfo> userInfoMapper;
 	
@@ -40,7 +40,13 @@ public class UserInfoStringCrudProxy implements CrudProxy<UserDTO>{
 	@Override
 	public void delete(Object ...args){
 		if(args.length==1 && args[0].getClass().equals(String.class)) userInfoService.delete((String)args[0]);
-		this.crudProxy.delete(args);
+		else this.crudProxy.delete(args);
+	}
+	
+	@Override
+	public void addProxy(CrudProxy<UserDTO> crudProxy){
+		if(this.crudProxy == null) this.crudProxy = crudProxy;
+		else this.crudProxy.addProxy(crudProxy);
 	}
 	
 	@Autowired

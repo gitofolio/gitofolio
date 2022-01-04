@@ -43,22 +43,6 @@ public class UserInfoServiceTest{
 	
 	@Test
 	@Transactional
-	public void UserInfoService_Save_DuplicationUser_Fail_Test(){
-		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(name);
-		userInfo.setProfileUrl("url.helloworld.com");
-		
-		// when
-		this.userInfoService.save(userInfo);
-		
-		// then
-		assertThrows(DuplicationUserException.class, ()->this.userInfoService.save(userInfo));
-	}
-	
-	@Test
-	@Transactional
 	public void UserInfoService_Get_NonExistUser_Fail_Test(){
 		// given
 		UserInfo userInfo = new UserInfo();

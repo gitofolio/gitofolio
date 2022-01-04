@@ -14,7 +14,7 @@ import com.gitofolio.api.domain.user.UserStatistics;
 @Service
 public class UserStatisticsCrudProxy implements CrudProxy<UserDTO>{
 	
-	private final CrudProxy<UserDTO> crudProxy;
+	private CrudProxy<UserDTO> crudProxy = null;
 	private final UserMapper<UserStatistics> userStatisticsMapper;
 	private final UserStatisticsService userStatisticsService;
 	
@@ -42,9 +42,14 @@ public class UserStatisticsCrudProxy implements CrudProxy<UserDTO>{
 		this.crudProxy.delete(args);
 	}
 	
+	@Override
+	public void addProxy(CrudProxy<UserDTO> crudProxy){
+		if(this.crudProxy == null) this.crudProxy = crudProxy;
+		else this.crudProxy.addProxy(crudProxy);
+	}
+	
 	@Autowired
-	public UserStatisticsCrudProxy(@Qualifier("userStatisticsStringCrudProxy") CrudProxy<UserDTO> crudProxy,
-								  @Qualifier("userStatisticsMapper") UserMapper<UserStatistics> userStatisticsMapper,
+	public UserStatisticsCrudProxy(@Qualifier("userStatisticsMapper") UserMapper<UserStatistics> userStatisticsMapper,
 								  UserStatisticsService userStatisticsService){
 		this.crudProxy = crudProxy;
 		this.userStatisticsMapper = userStatisticsMapper;

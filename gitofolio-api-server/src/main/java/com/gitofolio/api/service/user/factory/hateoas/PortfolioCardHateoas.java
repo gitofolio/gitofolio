@@ -8,11 +8,11 @@ import java.util.ArrayList;
 public class PortfolioCardHateoas extends Hateoas{
 	
 	public PortfolioCardHateoas(){
-		this.setHateoas();
+		this.initLinks();
 	}
 	
 	@Override
-	public void setHateoas(){
+	public void initLinks(){
 		this.links = new ArrayList<Link>();
 		this.links.add(new Link("getThis", "GET", "http://api.gitofolio.com/portfoliocards/{name}", "cards={n1},{n2}"));
 		this.links.add(new Link("deleteThis", "DELETE", "http://api.gitofolio.com/portfoliocards/{name}", "card={n1}"));

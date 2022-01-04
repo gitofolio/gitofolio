@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class PortfolioCardLongCrudProxy implements CrudProxy<UserDTO>{
 	
-	private final CrudProxy<UserDTO> crudProxy;
+	private CrudProxy<UserDTO> crudProxy = null;
 	private final UserMapper<List<PortfolioCard>> portfolioCardMapper;
 	private final PortfolioCardService portfolioCardService;
 	
@@ -44,11 +44,15 @@ public class PortfolioCardLongCrudProxy implements CrudProxy<UserDTO>{
 		this.crudProxy.delete(args);
 	}
 	
+	@Override
+	public void addProxy(CrudProxy<UserDTO> crudProxy){
+		if(this.crudProxy == null) this.crudProxy = crudProxy;
+		else this.crudProxy.addProxy(crudProxy);
+	}
+	
 	@Autowired
-	public PortfolioCardLongCrudProxy(@Qualifier("portfolioCardStringLongCrudProxy") CrudProxy<UserDTO> crudProxy,
-								 @Qualifier("portfolioCardMapper") UserMapper<List<PortfolioCard>> portfolioCardMapper,
-								 PortfolioCardService portfolioCardService){
-		this.crudProxy = crudProxy;
+	public PortfolioCardLongCrudProxy(@Qualifier("portfolioCardMapper") UserMapper<List<PortfolioCard>> portfolioCardMapper,
+									  PortfolioCardService portfolioCardService){
 		this.portfolioCardMapper = portfolioCardMapper;
 		this.portfolioCardService = portfolioCardService;
 	}

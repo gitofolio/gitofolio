@@ -7,17 +7,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas.Link;
+import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
+import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
 
 import java.util.List;
 
 @Controller
 public class EndPointController{
 	
-	@Autowired
-	@Qualifier("endPointHateoas")
-	private Hateoas hateoas;
+	private EndPointHateoasDTO endPointHateoasDTO;
 	
 	@RequestMapping(path="/restdocs", method=RequestMethod.GET)
 	public String docs(){
@@ -25,37 +23,15 @@ public class EndPointController{
 	}
 	
 	@ResponseBody
+	@HateoasSetter(hateoasType=HateoasType.ENDPOINTHATEOAS)
 	@RequestMapping(path="", method=RequestMethod.GET)
-	public EndPointHateoas endPoint(){
-		return EndPointHateoas.getInstance(hateoas);
+	public EndPointHateoasDTO endPoint(){
+		return this.endPointHateoasDTO;
 	}
 	
-	private static class EndPointHateoas{
-		
-		private List<Link> links;
-		private static EndPointHateoas endPointHateoas;
-		private static Object sync = new Object();
-		
-		private EndPointHateoas(){}
-		
-		private EndPointHateoas(Hateoas hateoas){
-			this.links = hateoas.getLinks();
-		}
-		
-		public static EndPointHateoas getInstance(Hateoas hateoas){
-			if(endPointHateoas == null){
-				synchronized(sync){
-					if(endPointHateoas != null) return endPointHateoas;
-					endPointHateoas = new EndPointHateoas(hateoas);
-				}
-			}
-			return endPointHateoas;
-		}
-		
-		public List<Link> getLinks(){
-			return this.links;
-		}
-		
+	@Autowired
+	public EndPointController(EndPointHateoasDTO endPointHateoasDTO){
+		this.endPointHateoasDTO = endPointHateoasDTO;
 	}
 	
 }

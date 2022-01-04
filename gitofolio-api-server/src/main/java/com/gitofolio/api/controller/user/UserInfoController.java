@@ -11,13 +11,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.user.proxy.UserProxy;
-import com.gitofolio.api.service.user.eraser.UserEraser;
 import com.gitofolio.api.service.user.proxy.CrudProxy;
+import com.gitofolio.api.service.user.factory.CrudFactory;
 import com.gitofolio.api.service.user.exception.InvalidHttpMethodException;
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
+import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
 import com.gitofolio.api.service.auth.SessionProcessor;
 import com.gitofolio.api.aop.auth.annotation.UserAuthorizationer;
+import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
+import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,22 +27,11 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(path="/user")
 public class UserInfoController {
 	
-	@Autowired
-	@Qualifier("userInfoProxy")
-	private UserProxy userInfoProxy;
+	private final CrudProxy<UserDTO> userInfoCrudProxy;
 	
-	@Autowired
-	@Qualifier("userInfoCrudProxy")
-	private CrudProxy<UserDTO> userInfoCrudProxy;
+	private final SessionProcessor<UserDTO> loginSessionProcessor;
 	
-	@Autowired
-	@Qualifier("userInfoEraser")
-	private UserEraser userInfoEraser;
-	
-	@Autowired
-	@Qualifier("loginSessionProcessor")
-	private SessionProcessor<UserDTO> loginSessionProcessor;
-	
+	@HateoasSetter(hateoasType=HateoasType.USERINFOHATEOAS)
 	@RequestMapping(path="", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getLoginedUser(){
 		
@@ -49,6 +40,7 @@ public class UserInfoController {
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
+	@HateoasSetter(hateoasType=HateoasType.USERINFOHATEOAS)
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUser(@PathVariable("name") String name){
 		
@@ -64,7 +56,7 @@ public class UserInfoController {
 		
 	}
 	
-	@UserAuthorizationer(idx=0)
+	// @UserAuthorizationer(idx=0)
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){
 		
@@ -78,5 +70,12 @@ public class UserInfoController {
 		
 		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user 의 PUT메소드는 허용되지 않았습니다.", "PUT : user/{name}");
 		
+	}
+	
+	@Autowired
+	public UserInfoController(@Qualifier("userInfoCrudFactory") CrudFactory<UserDTO> userInfoCrudFactory,
+							  @Qualifier("loginSessionProcessor") SessionProcessor<UserDTO> loginSessionProcessor){
+		this.userInfoCrudProxy = userInfoCrudFactory.get();
+		this.loginSessionProcessor = loginSessionProcessor;
 	}
 }

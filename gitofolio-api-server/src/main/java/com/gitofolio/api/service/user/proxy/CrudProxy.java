@@ -10,4 +10,6 @@ public interface CrudProxy<V extends Object>{
 	
 	void delete(Object ...args) throws NullPointerException;
 	
+	void addProxy(CrudProxy<V> crudProxy);
+	
 }

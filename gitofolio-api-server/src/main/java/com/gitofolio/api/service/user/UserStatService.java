@@ -32,17 +32,6 @@ public class UserStatService{
 		return userStat;
 	}
 	
-	// public UserStat save(UserStat userStat){
-	// 	UserInfo userInfo = this.userInfoRepository.findByName(userStat.getUserInfo().getName())
-	// 		.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
-		
-	// 	UserStat exist = this.userStatRepository.findByName(userInfo.getName()).orElseGet(()->new UserStat());
-	// 	if(exist.getUserInfo() == null) userStatRepository.save(userStat);
-	// 	else userStat.addTotalStars();
-		
-	// 	return exist;
-	// }
-	
 	public UserStat edit(UserStat userStat){
 		UserInfo userInfo = this.userInfoRepository.findByName(userStat.getUserInfo().getName())
 			.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));

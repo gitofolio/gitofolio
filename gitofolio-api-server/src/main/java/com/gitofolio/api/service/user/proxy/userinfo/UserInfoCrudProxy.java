@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserInfoCrudProxy implements CrudProxy<UserDTO>{
 	
-	private final CrudProxy<UserDTO> crudProxy;
+	private CrudProxy<UserDTO> crudProxy;
 	private final UserInfoService userInfoService;
 	private final UserMapper<UserInfo> userInfoMapper;
 	
@@ -61,11 +61,15 @@ public class UserInfoCrudProxy implements CrudProxy<UserDTO>{
 		this.crudProxy.delete(args);
 	}
 	
+	@Override
+	public void addProxy(CrudProxy<UserDTO> crudProxy){
+		if(this.crudProxy == null) this.crudProxy = crudProxy;
+		else this.crudProxy.addProxy(crudProxy);
+	}
+	
 	@Autowired
-	public UserInfoCrudProxy(@Qualifier("userInfoStringCrudProxy") CrudProxy<UserDTO> crudProxy,
-							UserInfoService userInfoService,
-							@Qualifier("userInfoMapper") UserMapper<UserInfo> userInfoMapper){
-		this.crudProxy = crudProxy;
+	public UserInfoCrudProxy(UserInfoService userInfoService,
+							 @Qualifier("userInfoMapper") UserMapper<UserInfo> userInfoMapper){
 		this.userInfoService = userInfoService;
 		this.userInfoMapper = userInfoMapper;
 	}

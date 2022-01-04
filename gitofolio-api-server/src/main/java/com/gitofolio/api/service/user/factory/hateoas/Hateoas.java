@@ -2,6 +2,8 @@ package com.gitofolio.api.service.user.factory.hateoas;
 
 import org.springframework.stereotype.Component;
 
+import com.gitofolio.api.service.user.dtos.UserDTO;
+
 import java.util.List;
 
 @Component
@@ -46,7 +48,11 @@ public abstract class Hateoas{
 	
 	protected List<Link> links;
 	
-	public abstract void setHateoas();
+	public void setHateoas(HateoasAble target){
+		target.setLinks(this.links);
+	}
+	
+	public abstract void initLinks();
 	
 	public Hateoas getHateoas(){
 		return this;

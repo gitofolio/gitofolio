@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.proxy.EncodedProfileImageProxy;
 import com.gitofolio.api.service.auth.authenticate.Authenticator;
-import com.gitofolio.api.service.user.proxy.UserProxy;
+import com.gitofolio.api.service.user.proxy.CrudProxy;
 import com.gitofolio.api.service.auth.SessionProcessor;
 
 import javax.servlet.http.HttpSession;
@@ -21,32 +21,36 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(path="/oauth")
 public class OAuthController{
 	
-	@Autowired
-	@Qualifier("githubAuthenticator")
-	private Authenticator<UserDTO, String> githubAuthenticator;
+	private final Authenticator<UserDTO, String> githubAuthenticator;
 	
-	@Autowired
-	@Qualifier("userInfoProxy")
-	private UserProxy userInfoProxy;
+	private final CrudProxy<UserDTO> userInfoCrudProxy;
 	
-	@Autowired
-	@Qualifier("loginSessionProcessor")
-	private SessionProcessor<UserDTO> loginSessionProcessor;
+	private final  SessionProcessor<UserDTO> loginSessionProcessor;
 	
-	@Autowired
-	@Qualifier("encodedProfileImageProxy")
-	private EncodedProfileImageProxy encodedProfileImageProxy;
+	private final EncodedProfileImageProxy encodedProfileImageProxy;
 	
 	@RequestMapping(path="/github", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> receiveGithubCode(@RequestParam(value="code") String code){
+		
 		UserDTO userDTO = this.githubAuthenticator.authenticate(code);
 		loginSessionProcessor.setAttribute(userDTO);
 		
-		userDTO = this.userInfoProxy.saveUser(userDTO);
+		userDTO = this.userInfoCrudProxy.create(userDTO);
 		
 		this.encodedProfileImageProxy.save(userDTO);
 		
 		return new ResponseEntity(userDTO, HttpStatus.CREATED);
+	}
+	
+	@Autowired
+	public OAuthController(@Qualifier("githubAuthenticator") Authenticator<UserDTO, String> githubAuthenticator,
+						   @Qualifier("userInfoCrudProxy") CrudProxy<UserDTO> userInfoCrudProxy,
+						   @Qualifier("loginSessionProcessor") SessionProcessor<UserDTO> loginSessionProcessor,
+						   @Qualifier("encodedProfileImageProxy") EncodedProfileImageProxy encodedProfileImageProxy){
+		this.githubAuthenticator = githubAuthenticator;
+		this.userInfoCrudProxy = userInfoCrudProxy;
+		this.loginSessionProcessor = loginSessionProcessor;
+		this.encodedProfileImageProxy = encodedProfileImageProxy;
 	}
 	
 }

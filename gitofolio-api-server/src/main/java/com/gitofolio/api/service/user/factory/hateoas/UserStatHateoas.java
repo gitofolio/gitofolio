@@ -8,11 +8,11 @@ import java.util.ArrayList;
 public class UserStatHateoas extends Hateoas{
 	
 	public UserStatHateoas(){
-		this.setHateoas();
+		this.initLinks();
 	}
 	
 	@Override
-	public void setHateoas(){
+	public void initLinks(){
 		this.links = new ArrayList<Link>();
 		this.links.add(new Link("getThis", "GET", "http://api.gitofolio.com/user/stat/{name}"));
 	}

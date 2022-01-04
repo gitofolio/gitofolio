@@ -13,9 +13,9 @@ import com.gitofolio.api.domain.user.PortfolioCard;
 import java.util.List;
 
 @Service
-public class PortfolioCardStringCrudProxy implements CrudProxy<UserDTO>{
+public class PortfolioCardStringLongCrudProxy implements CrudProxy<UserDTO>{
 	
-	private final CrudProxy<UserDTO> crudProxy;
+	private CrudProxy<UserDTO> crudProxy = null;
 	private final UserMapper<List<PortfolioCard>> portfolioCardMapper;
 	private final PortfolioCardService portfolioCardService;
 	
@@ -26,11 +26,6 @@ public class PortfolioCardStringCrudProxy implements CrudProxy<UserDTO>{
 	
 	@Override
 	public UserDTO read(Object ...args){
-		if(args.length==1 && args[0].getClass().equals(String.class)){
-			return this.portfolioCardMapper.doMap(
-				this.portfolioCardService.get(String.valueOf(args[0]))
-			);
-		}
 		return this.crudProxy.read(args);
 	}
 	
@@ -41,15 +36,19 @@ public class PortfolioCardStringCrudProxy implements CrudProxy<UserDTO>{
 	
 	@Override
 	public void delete(Object ...args){
-		if(args.length==1 && args[0].getClass().equals(String.class)) this.portfolioCardService.delete((String)args[0]);
-		this.crudProxy.delete(args);
+		if(args.length==2 && (args[0].getClass().equals(String.class) && args[1].getClass().equals(Long.class))) this.portfolioCardService.delete((String)args[0], (Long)args[1]);
+		else this.crudProxy.delete(args);
 	}
 	
-	@Autowired
-	public PortfolioCardStringCrudProxy(@Qualifier("portfolioCardLongCrudProxy") CrudProxy<UserDTO> crudProxy,
-								 @Qualifier("portfolioCardMapper") UserMapper<List<PortfolioCard>> portfolioCardMapper,
-								 PortfolioCardService portfolioCardService){
-		this.crudProxy = crudProxy;
+	@Override
+	public void addProxy(CrudProxy<UserDTO> crudProxy){
+		if(this.crudProxy == null) this.crudProxy = crudProxy;
+		else this.crudProxy.addProxy(crudProxy);
+	}
+	
+	@Autowired 
+	public PortfolioCardStringLongCrudProxy(@Qualifier("portfolioCardMapper") UserMapper<List<PortfolioCard>> portfolioCardMapper,
+											PortfolioCardService portfolioCardService){
 		this.portfolioCardMapper = portfolioCardMapper;
 		this.portfolioCardService = portfolioCardService;
 	}

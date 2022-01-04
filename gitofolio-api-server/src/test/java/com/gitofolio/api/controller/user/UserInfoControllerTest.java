@@ -32,23 +32,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.gitofolio.api.service.user.proxy.UserProxy;
-import com.gitofolio.api.service.user.eraser.UserEraser;
+import com.gitofolio.api.service.user.proxy.CrudProxy;
+import com.gitofolio.api.service.user.factory.CrudFactory;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.*;
 import com.gitofolio.api.service.auth.SessionProcessor;
-import com.gitofolio.api.controller.user.UserInfoController;
-import com.gitofolio.api.service.user.UserStatisticsService;
-import com.gitofolio.api.service.user.UserStatService;
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
-import com.gitofolio.api.service.user.factory.hateoas.UserInfoHateoas;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Optional;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(UserInfoController.class)
+@SpringBootTest
 @AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com", uriPort=80)
 @AutoConfigureMockMvc
 public class UserInfoControllerTest{
@@ -56,25 +50,17 @@ public class UserInfoControllerTest{
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@MockBean
-	@Qualifier("userInfoEraser")
-	private UserEraser userInfoEraser;
+	@Autowired
+	@Qualifier("userInfoCrudFactory")
+	private CrudFactory<UserDTO> crudFactory;
 	
-	@MockBean
-	@Qualifier("userInfoProxy")
-	private UserProxy userInfoProxy;
+	private CrudProxy<UserDTO> crudProxy;
 	
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@MockBean
 	@Qualifier("loginSessionProcessor")
 	private SessionProcessor loginSessionProcessor;
-	
-	@MockBean
-	private UserStatService userStatService;
-	
-	@MockBean
-	private UserStatisticsService userStatisticsService;
 	
 	@Test
 	public void userInfo_GET_Test() throws Exception{
@@ -99,9 +85,6 @@ public class UserInfoControllerTest{
 	
 	@Test
 	public void userInfo_GET_Fail_Test() throws Exception{
-		// when
-		given(userInfoProxy.getUser("nonExistUser")).willThrow(new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/nonExistUser"));
-		
 		// then
 		mockMvc.perform(get("/user/{name}", "nonExistUser").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
@@ -125,7 +108,7 @@ public class UserInfoControllerTest{
 			.andExpect(status().isOk())
 			.andDo(document("user/delete",
 							pathParameters(
-								parameterWithName("name").description("삭제할 유저의 name 입니다.")
+								parameterWithName("name").description("삭제할 유저의 이름 입니다.")
 							)
 					));
 		
@@ -135,9 +118,6 @@ public class UserInfoControllerTest{
 	public void userInfo_DELETE_Fail_Test() throws Exception{
 		// given
 		String name = "nonExistUser";
-		
-		// when
-		given(userInfoEraser.delete("nonExistUser")).willThrow(new NonExistUserException("존재하지 않는 유저에 대한 삭제 요청입니다.", "유저 이름을 확인해주세요", "/user/nonExistUser"));
 		
 		// then
 		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.APPLICATION_JSON))
@@ -156,16 +136,6 @@ public class UserInfoControllerTest{
 	
 	@Test
 	public void loginedUser_Get_Test() throws Exception{
-		// given
-		UserDTO user = new UserDTO.Builder()
-			.id(0L)
-			.name("name")
-			.profileUrl("https://example.profileUrl.com?1123u8413478")
-			.build();
-		
-		// when
-		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(user));
-		
 		// then
 		mockMvc.perform(get("/user").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
@@ -173,7 +143,10 @@ public class UserInfoControllerTest{
 							responseFields(
 								fieldWithPath("id").description("요청한 유저의 id입니다."),
 								fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
-								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다.")
+								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
+								fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
+								fieldWithPath("links.[].method").description("HTTP METHOD"),
+								fieldWithPath("links.[].href").description("다음 선택지 요청 URL 입니다.")
 							)
 						)
 				);
@@ -197,21 +170,37 @@ public class UserInfoControllerTest{
 	}
 	
 	@BeforeEach
-	public void initMockObj(){
+	public void preInit(){
 		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(this.getUser()));
-		given(userInfoProxy.saveUser(any(UserDTO.class))).willReturn(this.getUser());
-		given(userInfoProxy.getUser(any(String.class))).willReturn(this.getUser());
-		given(userInfoEraser.delete(any(String.class))).willReturn(this.getUser().getName());
+		this.crudProxy = this.crudFactory.get();
+		UserDTO user = this.getUser();
+		try{
+			this.crudProxy.delete(user.getName());
+		} catch(NonExistUserException NEUE){}
+		try{
+			this.crudProxy.create(user);
+		}catch(DuplicationUserException DUE){}
+		UserDTO result = this.crudProxy.read(user.getName());
+		assertEquals(user.getName(), result.getName());
+	}
+	
+	@AfterEach
+	public void postInit(){
+		UserDTO user = this.getUser();
+		try{
+			this.crudProxy.delete(user.getName());
+		} catch(NonExistUserException NEUE){}
+		try{
+			this.crudProxy.create(user);
+		}catch(DuplicationUserException DUE){DUE.printStackTrace();}
 	}
 	
 	private UserDTO getUser(){
 		UserDTO user = new UserDTO.Builder()
 			.id(0L)
 			.name("name")
-			.profileUrl("https://example.profileUrl.com?1123u8413478")
+			.profileUrl("https://example.profileUrl.com?uit")
 			.build();
-		Hateoas userInfoHateoas = new UserInfoHateoas();
-		user.setLinks(userInfoHateoas.getLinks());
 		return user;
 	}
 	

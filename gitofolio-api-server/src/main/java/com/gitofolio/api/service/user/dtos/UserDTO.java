@@ -5,10 +5,11 @@ import java.util.ArrayList;
 
 import com.gitofolio.api.domain.user.UserInfo;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas.Link;
+import com.gitofolio.api.service.user.factory.hateoas.HateoasAble;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UserDTO{
+public class UserDTO implements HateoasAble{
 	
 	private Long id;
 	private String name;
@@ -43,6 +44,7 @@ public class UserDTO{
 		this.userStatistics = userStatistics;
 	}
 	
+	@Override
 	public void setLinks(List<Link> links){
 		this.links = links;
 	}

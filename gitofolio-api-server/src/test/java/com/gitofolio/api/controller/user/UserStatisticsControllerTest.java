@@ -31,8 +31,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.gitofolio.api.service.user.proxy.UserProxy;
-import com.gitofolio.api.service.user.eraser.UserEraser;
+import com.gitofolio.api.service.user.proxy.CrudProxy;
+import com.gitofolio.api.service.user.factory.CrudFactory;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.dtos.PortfolioCardDTO;
 import com.gitofolio.api.service.user.exception.*;
@@ -44,29 +44,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureRestDocs(uriScheme="https", uriHost="api.gitofolio.com", uriPort=80)
 public class UserStatisticsControllerTest{
 	
-	@Autowired
 	private MockMvc mockMvc;
 	
-	@Autowired
-	@Qualifier("userStatisticsProxy")
-	private UserProxy userStatisticsProxy;
+	private CrudProxy<UserDTO> userStatisticsCrudProxy;
+	
+	private CrudProxy<UserDTO> userInfoCrudProxy;
+	
+	private CrudProxy<UserDTO> portfolioCardCrudProxy;
 	
 	@Autowired
-	@Qualifier("userInfoProxy")
-	private UserProxy userInfoProxy;
-	
-	@Autowired
-	@Qualifier("userInfoEraser")
-	private UserEraser userInfoEraser;
-	
-	@Autowired
-	@Qualifier("portfolioCardProxy")
-	private UserProxy portfolioCardProxy;
+	public UserStatisticsControllerTest(@Qualifier("userInfoCrudFactory") CrudFactory<UserDTO> userInfoCrudFactory,
+									   @Qualifier("userStatisticsCrudFactory") CrudFactory<UserDTO> userStatisticsCrudFactory,
+									   @Qualifier("portfolioCardCrudFactory") CrudFactory<UserDTO> portfolioCardCrudFactory,
+									   MockMvc mockMvc){
+		this.userStatisticsCrudProxy = userStatisticsCrudFactory.get();
+		this.userInfoCrudProxy = userInfoCrudFactory.get();
+		this.portfolioCardCrudProxy = portfolioCardCrudFactory.get();
+		this.mockMvc = mockMvc;
+	}
 	
 	@Test
 	public void userDailyStat_GET_Test() throws Exception{
 		// given
-		UserDTO user = this.portfolioCardProxy.getUser(this.getUser().getName());
+		UserDTO user = this.portfolioCardCrudProxy.read(this.getUser().getName());
 		Long cardId = user.getPortfolioCards().get(0).getId();
 		
 		// when
@@ -121,13 +121,13 @@ public class UserStatisticsControllerTest{
 	public void preInit(){
 		UserDTO user = this.getUser();
 		try{
-			this.userInfoEraser.delete(user.getName());
+			this.userInfoCrudProxy.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
 		try{
-			this.userInfoProxy.saveUser(user);
-			this.portfolioCardProxy.saveUser(user);
+			this.userInfoCrudProxy.create(user);
+			this.portfolioCardCrudProxy.create(user);
 		}catch(DuplicationUserException DUE){}
-		UserDTO result = this.userInfoProxy.getUser(user.getName());
+		UserDTO result = this.userInfoCrudProxy.read(user.getName());
 		assertEquals(user.getName(), result.getName());
 	}
 	
@@ -135,13 +135,13 @@ public class UserStatisticsControllerTest{
 	public void postInit(){
 		UserDTO user = this.getUser();
 		try{
-			this.userInfoEraser.delete(user.getName());
+			this.userInfoCrudProxy.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
 		try{
-			this.userInfoProxy.saveUser(user);
-			this.portfolioCardProxy.saveUser(user);
+			this.userInfoCrudProxy.create(user);
+			this.portfolioCardCrudProxy.create(user);
 		}catch(DuplicationUserException DUE){}
-		UserDTO result = this.userInfoProxy.getUser(user.getName());
+		UserDTO result = this.userInfoCrudProxy.read(user.getName());
 		assertEquals(user.getName(), result.getName());
 	}
 	
@@ -156,7 +156,7 @@ public class UserStatisticsControllerTest{
 		return new UserDTO.Builder()
 			.id(0L)
 			.name("name")
-			.profileUrl("https://example.profileUrl.com?1123u8413478")
+			.profileUrl("https://example.profileUrl.com?usst")
 			.portfolioCardDTO(portfolioCardDTO1)
 			.build();
 	}
