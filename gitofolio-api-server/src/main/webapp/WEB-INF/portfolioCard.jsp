@@ -16,28 +16,37 @@
 			0%, 20%, 50%, 80%, 100% {transform: translateX(0);}
 			40% {transform: translateX(-3px);}
 			60% {transform: translateX(-1px);}
-		 } 
+		} 
 		 
 		.userName {
 			fill : ${svgDTO.getColor().getTextColor()};
             font : 700 18px Noto Sans KR;
 			animation: delayFadeInAnimation 0.5s ease-in-out;
+			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
         }
         .portfolio {
 			fill : ${svgDTO.getColor().getSubColor()};
             font : 100 12px Noto Sans KR;
 			animation: delayFadeInAnimation 0.8s ease-in-out;
+			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
         }
 		 
         .article {
 			fill : ${svgDTO.getColor().getTextColor()};
             font : 400 13px Noto Sans KR;
 			animation: delayFadeInAnimation 1.5s ease-in-out;
+			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
         }
+		 
+		.star{
+			animation: delayFadeInAnimation 1.1s ease-in-out;
+		}
+		 
         .starText {
 			fill : ${svgDTO.getColor().getTextColor()};
             font : 400 10px  Noto Sans KR;
 			animation: delayFadeInAnimation 1.1s ease-in-out;
+			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
 		}
 		 
 		.userImage{
@@ -49,9 +58,9 @@
 			animation: delayFadeInAnimation 1.8s ease-in-out; 
 		}
 		 
-		 .arrowInner{
-			 animation: arrowAnimation 1.5s ease-in-out 1.8s infinite;
-		 }
+		.arrowInner{
+			animation: arrowAnimation 1.5s ease-in-out 1.8s infinite;
+		}
 		 
 		]]> 
 	</style>
@@ -77,11 +86,11 @@
 		${svgDTO.getArticle()}
 	</g>
 	 
-	 <g class="starText">
-    <path id="star"
+	<g class="star">
+    	<path id="star"
 		  d="M311.524 25.4635C311.674 25.0029 312.326 25.0029 312.476 25.4635L313.908 29.8734C313.975 30.0794 314.167 30.2188 314.384 30.2188H319.021C319.505 30.2188 319.706 30.8387 319.315 31.1234L315.563 33.8488C315.388 33.9761 315.315 34.2018 315.382 34.4078L316.815 38.8176C316.964 39.2783 316.437 39.6613 316.045 39.3766L312.294 36.6512C312.119 36.5239 311.881 36.5239 311.706 36.6512L307.955 39.3766C307.563 39.6613 307.036 39.2783 307.185 38.8176L308.618 34.4078C308.685 34.2018 308.612 33.9761 308.437 33.8488L304.685 31.1234C304.294 30.8387 304.495 30.2188 304.979 30.2188H309.616C309.833 30.2188 310.025 30.0794 310.092 29.8734L311.524 25.4635Z"
 		  fill="${svgDTO.getColor().getPointColor()}" />
-     </g>
+    </g>
 	<text class="starText" x="322" y="37">${svgDTO.getStarNum()}</text>
 	 
     <defs>

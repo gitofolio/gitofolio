@@ -7,12 +7,12 @@ import java.util.List;
 @Component
 public abstract class Color{
 	
-	protected String name;
-	protected String mainColor;
-	protected String pointColor;
-	protected String textColor;
-	protected String subColor;
-	protected List<String> additionalColor;
+	protected String name = "";
+	protected String mainColor = "";
+	protected String pointColor = "";
+	protected String textColor = "";
+	protected String subColor = "";
+	protected String textShadowColor = "";
 	
 	public String getName(){
 		return this.name;
@@ -34,8 +34,8 @@ public abstract class Color{
 		return this.subColor;
 	}
 	
-	public String getAdditionalColor(int idx){
-		return this.additionalColor.get(idx);
+	public String getTextShadowColor(){
+		return this.textShadowColor;
 	}
 	
 }
