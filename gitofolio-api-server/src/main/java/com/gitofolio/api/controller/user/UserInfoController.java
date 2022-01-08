@@ -20,6 +20,7 @@ import com.gitofolio.api.service.auth.SessionProcessor;
 import com.gitofolio.api.aop.auth.annotation.UserAuthorizationer;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
+import com.gitofolio.api.aop.log.time.annotation.ExpectedTime;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,6 +32,7 @@ public class UserInfoController {
 	
 	private final SessionProcessor<UserDTO> loginSessionProcessor;
 	
+	@ExpectedTime
 	@HateoasSetter(hateoasType=HateoasType.USERINFOHATEOAS)
 	@RequestMapping(path="", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getLoginedUser(){
@@ -40,6 +42,7 @@ public class UserInfoController {
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
+	@ExpectedTime
 	@HateoasSetter(hateoasType=HateoasType.USERINFOHATEOAS)
 	@RequestMapping(path="/{name}", method=RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUser(@PathVariable("name") String name){
@@ -49,27 +52,14 @@ public class UserInfoController {
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path="", method=RequestMethod.POST)
-	public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO){
-
-		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user 의 POST메소드는 허용되지 않았습니다.", "POST : user/{name}");
-		
-	}
-	
-	// @UserAuthorizationer(idx=0)
+	@ExpectedTime
+	@UserAuthorizationer(idx=0)
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){
 		
 		this.userInfoCrudProxy.delete(name);
 		
 		return new ResponseEntity(name, HttpStatus.OK);
-	}
-	
-	@RequestMapping(path="", method=RequestMethod.PUT)
-	public ResponseEntity<UserDTO> putUser(@RequestBody UserDTO userDTO){
-		
-		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user 의 PUT메소드는 허용되지 않았습니다.", "PUT : user/{name}");
-		
 	}
 	
 	@Autowired

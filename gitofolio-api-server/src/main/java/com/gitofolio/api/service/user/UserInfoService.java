@@ -8,6 +8,7 @@ import com.gitofolio.api.repository.user.PortfolioCardRepository;
 import com.gitofolio.api.repository.user.EncodedProfileImageRepository;
 import com.gitofolio.api.repository.user.UserStatRepository;
 import com.gitofolio.api.domain.user.UserInfo;
+import com.gitofolio.api.aop.log.time.annotation.ExpectedTime;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;

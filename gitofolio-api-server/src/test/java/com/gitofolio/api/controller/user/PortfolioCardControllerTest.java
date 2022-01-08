@@ -45,7 +45,6 @@ import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgFactory;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgDTO;
 import com.gitofolio.api.service.user.factory.Factory;
 import com.gitofolio.api.service.user.factory.parameter.PortfolioCardSvgParameter;
-import com.gitofolio.api.service.user.proxy.EncodedProfileImageProxy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -149,6 +148,9 @@ public class PortfolioCardControllerTest {
 	public void PortfolioCard_DELETE_Fail_테스트() throws Exception{
 		// when
 		String name = "nonExistUser";
+		UserDTO user = new UserDTO();
+		user.setName(name);
+		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(user));
 		
 		// then
 		mockMvc.perform(delete("/portfoliocards/{name}?id={cardId}", name, 1L).accept(MediaType.APPLICATION_JSON))
@@ -221,6 +223,7 @@ public class PortfolioCardControllerTest {
 		
 		// when
 		String content = objectMapper.writeValueAsString(user);
+		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(user));
 		
 		// then
 		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))

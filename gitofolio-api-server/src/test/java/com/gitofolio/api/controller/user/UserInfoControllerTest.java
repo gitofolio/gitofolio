@@ -119,6 +119,9 @@ public class UserInfoControllerTest{
 		// given
 		String name = "nonExistUser";
 		
+		UserDTO user = new UserDTO();
+		user.setName(name);
+		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(user));
 		// then
 		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
@@ -203,8 +206,5 @@ public class UserInfoControllerTest{
 			.build();
 		return user;
 	}
-	
-	
-	
 	
 }

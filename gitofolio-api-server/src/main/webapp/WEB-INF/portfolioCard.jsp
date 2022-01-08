@@ -5,7 +5,7 @@
 	 
 	 <style type="text/css">
 		<![CDATA[
-		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;700&display=swap');
 		 
 		@keyframes delayFadeInAnimation{
 			0%, 60%{opacity:0;}

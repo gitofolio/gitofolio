@@ -39,8 +39,10 @@ public class UserStatGeneratorAop{
 		
 		UserStatGenerator userStatGenerator = null;
 		for(Method method : methods){
-			if(method.getName().equals(methodName))
+			if(method.getName().equals(methodName)){
 				userStatGenerator = method.getAnnotation(UserStatGenerator.class);
+				break;
+			}
 		}
 		
 		int idx = userStatGenerator.idx();

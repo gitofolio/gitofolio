@@ -32,27 +32,6 @@ public class UserStatController{
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path={"", "*", "**"}, method=RequestMethod.POST)
-	public ResponseEntity<UserDTO> saveUserStat(){
-		
-		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user/stat URI에는 GET 메소드만 사용 가능합니다.", "POST : user/stat");
-		
-	}
-	
-	@RequestMapping(path={"", "*", "**"}, method=RequestMethod.DELETE)
-	public ResponseEntity<UserDTO> deleteUserStat(){
-		
-		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user/stat URI에는 GET 메소드만 사용 가능합니다.", "DELETE : user/stat");
-		
-	}
-	
-	@RequestMapping(path={"", "*", "**"}, method=RequestMethod.PUT)
-	public ResponseEntity<UserDTO> putUserStat(){
-		
-		throw new InvalidHttpMethodException("허용되지않은 HTTP METHOD 입니다.", "user/stat URI에는 GET 메소드만 사용 가능합니다.", "PUT : user/stat");
-		
-	}
-	
 	@Autowired
 	public UserStatController(@Qualifier("userStatCrudFactory") CrudFactory<UserDTO> userStatCrudFactory){
 		this.userStatCrudProxy = userStatCrudFactory.get();

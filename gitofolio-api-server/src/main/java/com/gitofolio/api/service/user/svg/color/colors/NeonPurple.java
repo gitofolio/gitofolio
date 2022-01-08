@@ -7,7 +7,7 @@ public class NeonPurple extends Color{
 	
 	public NeonPurple(){
 		this.name="neonpurple";
-		this.mainColor="#000000";
+		this.mainColor="#0A0011";
 		this.pointColor="#FFF3C7";
 		this.textColor="#FFFFFF";
 		this.subColor="#FFFFFF";
