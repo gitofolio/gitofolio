@@ -22,11 +22,9 @@ public class ExpectedTimeAop{
 	
 	@Around("@annotation(com.gitofolio.api.aop.log.time.annotation.ExpectedTime)")
 	public Object checkTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
-		System.out.println("start");
 		String methodName = proceedingJoinPoint.getSignature().getName();
 		Object[] args = proceedingJoinPoint.getArgs();
 		Class targetClass = proceedingJoinPoint.getTarget().getClass();
-		System.out.println(methodName + ", " + args + ", " + targetClass.toString());
 		
 		Method methods[] = targetClass.getMethods();
 		ExpectedTime expectedTime = null;

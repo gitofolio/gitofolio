@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.gitofolio'
-version = '0.1.9-SNAPSHOT'
+version = '0.2.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
@@ -30,13 +30,15 @@ dependencies {
 	// spring rest docs
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' 
 	
-	// for jsp
+	// jsp
 	implementation 'javax.servlet:jstl'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	
 	// httpclient
 	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
-
+	
+	// jwt
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
 ext { 

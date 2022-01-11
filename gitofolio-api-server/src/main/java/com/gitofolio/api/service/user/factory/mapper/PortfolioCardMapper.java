@@ -4,15 +4,19 @@ import com.gitofolio.api.domain.user.UserInfo;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.dtos.PortfolioCardDTO;
 import com.gitofolio.api.domain.user.PortfolioCard;
+import com.gitofolio.api.service.common.secure.XssProtector;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.ArrayList;
 
 @Service
 public class PortfolioCardMapper implements UserMapper<List<PortfolioCard>>{
+	
+	private final XssProtector xssProtector;
 	
 	@Override
 	public UserDTO doMap(List<PortfolioCard> portfolioCards){
@@ -44,7 +48,6 @@ public class PortfolioCardMapper implements UserMapper<List<PortfolioCard>>{
 			}catch(NullPointerException NPE){
 				portfolioCard.setId(-1L);
 			}
-			
 			portfolioCard.setPortfolioCardArticle(cardDTO.getPortfolioCardArticle());
 			portfolioCard.setPortfolioCardStars(cardDTO.getPortfolioCardStars());
 			portfolioCard.setPortfolioUrl(cardDTO.getPortfolioUrl());
@@ -66,6 +69,11 @@ public class PortfolioCardMapper implements UserMapper<List<PortfolioCard>>{
 			mockUserInfo.setId(-1L);
 		}
 		return mockUserInfo;
+	}
+	
+	@Autowired
+	public PortfolioCardMapper(XssProtector xssProtector){
+		this.xssProtector = xssProtector;
 	}
 	
 }

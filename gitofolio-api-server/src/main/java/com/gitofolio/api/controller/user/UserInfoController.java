@@ -15,14 +15,17 @@ import com.gitofolio.api.service.user.proxy.CrudProxy;
 import com.gitofolio.api.service.user.factory.CrudFactory;
 import com.gitofolio.api.service.user.exception.InvalidHttpMethodException;
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
+import com.gitofolio.api.service.auth.token.TokenValidator;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
-import com.gitofolio.api.service.auth.SessionProcessor;
-import com.gitofolio.api.aop.auth.annotation.UserAuthorizationer;
+import com.gitofolio.api.aop.auth.annotation.AuthToken;
+import com.gitofolio.api.aop.auth.annotation.TokenType;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
 import com.gitofolio.api.aop.log.time.annotation.ExpectedTime;
 
-import javax.servlet.http.HttpSession;
+import io.jsonwebtoken.Jwts;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(path="/user")
@@ -30,15 +33,17 @@ public class UserInfoController {
 	
 	private final CrudProxy<UserDTO> userInfoCrudProxy;
 	
-	private final SessionProcessor<UserDTO> loginSessionProcessor;
+	private final TokenValidator jwtTokenValidator;
 	
 	@ExpectedTime
 	@HateoasSetter(hateoasType=HateoasType.USERINFOHATEOAS)
 	@RequestMapping(path="", method=RequestMethod.GET)
-	public ResponseEntity<UserDTO> getLoginedUser(){
+	public ResponseEntity<UserDTO> getLoginedUser(HttpServletRequest httpServletRequest){
 		
-		UserDTO userDTO = this.loginSessionProcessor.getAttribute().orElseThrow(()->new AuthenticateException("인증 오류", "로그인 되어있는 유저가 없습니다."));
+		String name = jwtTokenValidator.currentLogined();
 		
+		UserDTO userDTO = this.userInfoCrudProxy.read(name);
+			
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
@@ -53,7 +58,7 @@ public class UserInfoController {
 	}
 	
 	@ExpectedTime
-	@UserAuthorizationer(idx=0)
+	@AuthToken(tokenType=TokenType.JWT)
 	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){
 		
@@ -64,8 +69,9 @@ public class UserInfoController {
 	
 	@Autowired
 	public UserInfoController(@Qualifier("userInfoCrudFactory") CrudFactory<UserDTO> userInfoCrudFactory,
-							  @Qualifier("loginSessionProcessor") SessionProcessor<UserDTO> loginSessionProcessor){
+							  @Qualifier("jwtTokenValidator") TokenValidator jwtTokenValidator){
 		this.userInfoCrudProxy = userInfoCrudFactory.get();
-		this.loginSessionProcessor = loginSessionProcessor;
+		this.jwtTokenValidator = jwtTokenValidator;
 	}
+	
 }

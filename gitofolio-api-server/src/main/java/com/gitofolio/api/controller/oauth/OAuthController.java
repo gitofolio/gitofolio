@@ -8,15 +8,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.auth.authenticate.Authenticator;
 import com.gitofolio.api.service.user.proxy.CrudProxy;
 import com.gitofolio.api.service.user.factory.CrudFactory;
-import com.gitofolio.api.service.auth.SessionProcessor;
 import com.gitofolio.api.domain.user.EncodedProfileImage;
+import com.gitofolio.api.service.auth.token.TokenGenerator;
+import com.gitofolio.api.service.auth.token.TokenAble;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(path="/oauth")
@@ -28,15 +30,17 @@ public class OAuthController{
 	
 	private final CrudProxy<EncodedProfileImage> encodedProfileImageCrudProxy;
 	
-	private final SessionProcessor<UserDTO> loginSessionProcessor;
+	private final TokenGenerator jwtTokenGenerator;
 	
 	@RequestMapping(path="/github", method=RequestMethod.GET)
-	public ResponseEntity<UserDTO> receiveGithubCode(@RequestParam(value="code") String code){
+	public ResponseEntity<UserDTO> receiveGithubCode(@RequestParam(value="code", defaultValue="invalidCode", required=false) String code, HttpServletResponse httpServletResponse){
 		
 		UserDTO userDTO = this.githubAuthenticator.authenticate(code);
-		loginSessionProcessor.setAttribute(userDTO);
 		
 		userDTO = this.userInfoCrudProxy.create(userDTO);
+		
+		String token = jwtTokenGenerator.generateToken((TokenAble)userDTO);
+		httpServletResponse.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 		
 		this.encodedProfileImageCrudProxy.create(userDTO);
 		
@@ -47,11 +51,11 @@ public class OAuthController{
 	public OAuthController(@Qualifier("githubAuthenticator") Authenticator<UserDTO, String> githubAuthenticator,
 						   @Qualifier("userInfoCrudFactory") CrudFactory<UserDTO> userInfoCrudFactory,
 						   @Qualifier("encodedProfileImageCrudFactory") CrudFactory<EncodedProfileImage> encodedProfileImageCrudFactory,
-						   @Qualifier("loginSessionProcessor") SessionProcessor<UserDTO> loginSessionProcessor){
+						   @Qualifier("jwtTokenGenerator") TokenGenerator jwtTokenGenerator){
 		this.githubAuthenticator = githubAuthenticator;
 		this.userInfoCrudProxy = userInfoCrudFactory.get();
 		this.encodedProfileImageCrudProxy = encodedProfileImageCrudFactory.get();
-		this.loginSessionProcessor = loginSessionProcessor;
+		this.jwtTokenGenerator = jwtTokenGenerator;
 	}
 	
 }

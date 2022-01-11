@@ -35,8 +35,8 @@ import com.gitofolio.api.service.user.proxy.CrudProxy;
 import com.gitofolio.api.service.user.factory.CrudFactory;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.service.user.exception.*;
-import com.gitofolio.api.service.auth.LoginSessionProcessor;
-import com.gitofolio.api.service.auth.SessionProcessor;
+import com.gitofolio.api.service.auth.token.TokenValidator;
+import com.gitofolio.api.service.auth.token.TokenAble;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
 import com.gitofolio.api.service.user.factory.hateoas.PortfolioCardHateoas;
 import com.gitofolio.api.service.user.UserStatService;
@@ -73,8 +73,8 @@ public class PortfolioCardControllerTest {
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@MockBean
-	@Qualifier("loginSessionProcessor")
-	private SessionProcessor loginSessionProcessor;
+	@Qualifier("jwtTokenValidator")
+	private TokenValidator tokenValidator;
 	
 	@Test
 	public void PortfolioCard_GET_테스트() throws Exception{
@@ -150,7 +150,7 @@ public class PortfolioCardControllerTest {
 		String name = "nonExistUser";
 		UserDTO user = new UserDTO();
 		user.setName(name);
-		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(user));
+		given(tokenValidator.validateToken((TokenAble)user)).willReturn(true);
 		
 		// then
 		mockMvc.perform(delete("/portfoliocards/{name}?id={cardId}", name, 1L).accept(MediaType.APPLICATION_JSON))
@@ -182,6 +182,7 @@ public class PortfolioCardControllerTest {
 		
 		// when
 		String content = objectMapper.writeValueAsString(user);
+		given(tokenValidator.validateToken((TokenAble)user)).willReturn(true);
 		
 		// then
 		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -223,7 +224,7 @@ public class PortfolioCardControllerTest {
 		
 		// when
 		String content = objectMapper.writeValueAsString(user);
-		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(user));
+		given(tokenValidator.validateToken((TokenAble)user)).willReturn(true);
 		
 		// then
 		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -256,6 +257,7 @@ public class PortfolioCardControllerTest {
 		
 		// when
 		String content = objectMapper.writeValueAsString(editUser);
+		given(tokenValidator.validateToken((TokenAble)editUser)).willReturn(true);
 		
 		// then
 		mockMvc.perform(put("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -289,7 +291,8 @@ public class PortfolioCardControllerTest {
 	
 	@BeforeEach
 	public void preInit(){
-		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(this.getUser()));
+		given(tokenValidator.validateToken(any(TokenAble.class))).willReturn(true);
+		given(tokenValidator.validateToken(any(String.class))).willReturn(true);
 		this.userInfoCrudProxy = this.userInfoCrudFactory.get();
 		this.portfolioCardCrudProxy = this.portfolioCardCrudFactory.get();
 		UserDTO user = this.getUser();

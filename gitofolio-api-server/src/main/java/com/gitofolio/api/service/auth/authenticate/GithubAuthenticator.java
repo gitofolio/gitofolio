@@ -35,7 +35,7 @@ public class GithubAuthenticator implements Authenticator<UserDTO, String>{
 		try{
 			response = this.restTemplate.exchange(this.url, HttpMethod.GET, httpEntity, HashMap.class).getBody();
 		}catch(Exception e){
-			throw new AuthenticateException("깃허브 인증 오류","토큰에 해당하는 유저를 찾을 수 없습니다. 깃허브 서버오류이거나, 너무 많은요청을 한번에 보낼시 오류가 발생할수있습니다.");
+			throw new AuthenticateException("깃허브 인증 오류","토큰에 해당하는 유저를 찾을 수 없습니다.");
 		}
 		
 		return new UserDTO.Builder()

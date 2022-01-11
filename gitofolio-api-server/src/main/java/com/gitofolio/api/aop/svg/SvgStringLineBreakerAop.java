@@ -1,6 +1,7 @@
 package com.gitofolio.api.aop.svg;
 
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Around;
@@ -8,6 +9,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.gitofolio.api.aop.svg.annotation.SvgStringLineBreaker;
 import com.gitofolio.api.service.user.dtos.UserDTO;
+import com.gitofolio.api.service.common.secure.XssProtector;
 
 import java.lang.reflect.*;
 import java.lang.annotation.Annotation;
@@ -28,6 +30,7 @@ public class SvgStringLineBreakerAop{
 	
 	private final int[] ascii;
 	private final int noAscii = 12;
+	private final XssProtector xssProtector;
 	
 	@Around("@annotation(com.gitofolio.api.aop.svg.annotation.SvgStringLineBreaker)")
 	public Object lineBreak(ProceedingJoinPoint joinPoint) throws Throwable{
@@ -72,7 +75,7 @@ public class SvgStringLineBreakerAop{
 		for(String word : words){
 			if(isTooLongWord(width, line.toString()+word)){
 				ans.append(openTextTag(lineCnt))
-					.append(line.toString())
+					.append(xssProtector.convertXssSafeString(line.toString()))
 					.append(closeTextTag());
 				line.setLength(0);
 				lineCnt++;
@@ -81,7 +84,7 @@ public class SvgStringLineBreakerAop{
 			}
 			if(word.contains("\n")){
 				ans.append(openTextTag(lineCnt))
-					.append(line.append(word).toString())
+					.append(xssProtector.convertXssSafeString(line.append(word).toString()))
 					.append(closeTextTag());
 				line.setLength(0);
 				lineCnt++;
@@ -90,7 +93,7 @@ public class SvgStringLineBreakerAop{
 			line.append(word).append(" ");
 		}
 		ans.append(openTextTag(lineCnt))
-			.append(line.toString())
+			.append(xssProtector.convertXssSafeString(line.toString()))
 			.append(closeTextTag());
 		return ans.toString();
 	}
@@ -157,7 +160,9 @@ public class SvgStringLineBreakerAop{
 		return "</text>";
 	}
 	
-	public SvgStringLineBreakerAop(){
+	@Autowired
+	public SvgStringLineBreakerAop(XssProtector xssProtector){
+		this.xssProtector = xssProtector;
 		ascii = new int[130];
 		ascii[32] = 3;
 		ascii[(int)'!'] = 4;

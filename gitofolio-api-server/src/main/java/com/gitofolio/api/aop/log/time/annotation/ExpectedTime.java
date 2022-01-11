@@ -9,6 +9,6 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExpectedTime{
 	
-	long milliSec() default 500L;
+	long milliSec() default 300L;
 	
 }

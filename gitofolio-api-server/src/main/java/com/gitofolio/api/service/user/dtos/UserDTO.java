@@ -5,11 +5,12 @@ import java.util.ArrayList;
 
 import com.gitofolio.api.domain.user.UserInfo;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas.Link;
+import com.gitofolio.api.service.auth.token.TokenAble;
 import com.gitofolio.api.service.user.factory.hateoas.HateoasAble;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UserDTO implements HateoasAble{
+public class UserDTO implements HateoasAble, TokenAble{
 	
 	private Long id;
 	private String name;
@@ -47,6 +48,11 @@ public class UserDTO implements HateoasAble{
 	@Override
 	public void setLinks(List<Link> links){
 		this.links = links;
+	}
+	
+	@Override
+	public String token(){
+		return this.name;
 	}
 	
 	// getter

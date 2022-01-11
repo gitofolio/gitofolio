@@ -16,7 +16,8 @@ import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.proxy.CrudProxy;
 import com.gitofolio.api.service.user.factory.CrudFactory;
 import com.gitofolio.api.service.user.parameter.ParameterHandler;
-import com.gitofolio.api.aop.auth.annotation.UserAuthorizationer;
+import com.gitofolio.api.aop.auth.annotation.AuthToken;
+import com.gitofolio.api.aop.auth.annotation.TokenType;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
 import com.gitofolio.api.aop.log.time.annotation.ExpectedTime;
@@ -50,7 +51,7 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime
-	@UserAuthorizationer(idx=0)
+	@AuthToken(tokenType=TokenType.JWT)
 	@HateoasSetter(hateoasType=HateoasType.PORTFOLIOCARDHATEOAS)
 	@RequestMapping(path="/portfoliocards", method=RequestMethod.POST)
 	public ResponseEntity<UserDTO> savePortfolioCard(@RequestBody UserDTO userDTO){
@@ -61,7 +62,7 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime
-	@UserAuthorizationer(idx=0)
+	@AuthToken(tokenType=TokenType.JWT)
 	@RequestMapping(path="/portfoliocards/{name}", method=RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
 													  @RequestParam(value="id", required=false) Long id){
@@ -72,7 +73,7 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime
-	@UserAuthorizationer(idx=0)
+	@AuthToken(tokenType=TokenType.JWT)
 	@HateoasSetter(hateoasType=HateoasType.PORTFOLIOCARDHATEOAS)
 	@RequestMapping(path="/portfoliocards", method=RequestMethod.PUT)
 	public ResponseEntity<UserDTO> putPortfolioCard(@RequestBody UserDTO userDTO){
@@ -82,7 +83,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
 	
-	@ExpectedTime
+	@ExpectedTime(milliSec=500L)
 	@RequestMapping(path="/portfoliocard/svg/{cardId}", method=RequestMethod.GET)
 	public ModelAndView getPortfolioCardSvg(@PathVariable("cardId") Long cardId, 
 											@RequestParam(value="color", defaultValue="white") String color){

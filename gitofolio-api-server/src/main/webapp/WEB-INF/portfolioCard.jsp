@@ -82,7 +82,7 @@
 	 
     <circle class="userImage" cx="36.5" cy="36.5" r="22.5" />
         
-    <g transform="translate(70,80)" class="article">	
+    <g transform="translate(70,80)" class="article">
 		${svgDTO.getArticle()}
 	</g>
 	 

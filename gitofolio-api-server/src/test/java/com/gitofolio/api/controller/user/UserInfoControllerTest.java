@@ -36,9 +36,13 @@ import com.gitofolio.api.service.user.proxy.CrudProxy;
 import com.gitofolio.api.service.user.factory.CrudFactory;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.*;
-import com.gitofolio.api.service.auth.SessionProcessor;
+import com.gitofolio.api.service.auth.token.TokenValidator;
+import com.gitofolio.api.service.auth.token.TokenAble;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 import java.util.Optional;
 
@@ -59,8 +63,8 @@ public class UserInfoControllerTest{
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@MockBean
-	@Qualifier("loginSessionProcessor")
-	private SessionProcessor loginSessionProcessor;
+	@Qualifier("jwtTokenValidator")
+	private TokenValidator tokenValidator;
 	
 	@Test
 	public void userInfo_GET_Test() throws Exception{
@@ -121,7 +125,7 @@ public class UserInfoControllerTest{
 		
 		UserDTO user = new UserDTO();
 		user.setName(name);
-		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(user));
+		given(tokenValidator.validateToken((TokenAble)user)).willReturn(true);
 		// then
 		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
@@ -139,6 +143,9 @@ public class UserInfoControllerTest{
 	
 	@Test
 	public void loginedUser_Get_Test() throws Exception{
+		// when
+		given(tokenValidator.currentLogined()).willReturn(this.getUser().getName());
+		
 		// then
 		mockMvc.perform(get("/user").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
@@ -158,15 +165,13 @@ public class UserInfoControllerTest{
 	@Test
 	public void loginedUser_Get_Fail_Test() throws Exception{
 		// when
-		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(null));
-		
+		given(tokenValidator.currentLogined()).willThrow(UnsupportedJwtException.class);
 		// then
 		mockMvc.perform(get("/user").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isUnauthorized())
 			.andDo(document("user/logined/fail",
-							responseFields(
-								fieldWithPath("title").description("에러의 주요 원인입니다."),
-								fieldWithPath("message").description("에러가 발생한 이유에 대한 가장 근본적인 해결책 입니다.")
+							relaxedResponseFields(
+								fieldWithPath("title").description("에러의 주요 원인입니다.")
 							)
 						)
 				);
@@ -174,7 +179,8 @@ public class UserInfoControllerTest{
 	
 	@BeforeEach
 	public void preInit(){
-		given(loginSessionProcessor.getAttribute()).willReturn(Optional.ofNullable(this.getUser()));
+		given(tokenValidator.validateToken(any(String.class))).willReturn(true);
+		given(tokenValidator.validateToken(any(TokenAble.class))).willReturn(true);
 		this.crudProxy = this.crudFactory.get();
 		UserDTO user = this.getUser();
 		try{
