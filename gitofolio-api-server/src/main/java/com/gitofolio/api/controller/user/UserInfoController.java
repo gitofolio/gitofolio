@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.proxy.CrudProxy;
 import com.gitofolio.api.service.user.factory.CrudFactory;
-import com.gitofolio.api.service.user.exception.InvalidHttpMethodException;
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
 import com.gitofolio.api.service.auth.token.TokenValidator;
 import com.gitofolio.api.service.user.factory.hateoas.Hateoas;

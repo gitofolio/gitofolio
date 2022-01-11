@@ -18,6 +18,7 @@ public class UserInfoHateoas extends Hateoas{
 		this.links.add(new Link("deleteThis", "DELETE", "http://api.gitofolio.com/user/{name}"));
 		this.links.add(new Link("getStat", "GET", "http://api.gitofolio.com/user/stat/{name}"));
 		this.links.add(new Link("getDailyStat", "GET", "http://api.gitofolio.com/user/dailystat/{name}"));
+		this.links.add(new Link("getLoginedUser", "GET", "http://api.gitofolio.com/user"));
 	}
 	
 }

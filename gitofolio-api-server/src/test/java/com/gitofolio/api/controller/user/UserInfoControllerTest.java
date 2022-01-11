@@ -1,6 +1,7 @@
 package com.gitofolio.api.controller.user;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 
@@ -147,9 +149,12 @@ public class UserInfoControllerTest{
 		given(tokenValidator.currentLogined()).willReturn(this.getUser().getName());
 		
 		// then
-		mockMvc.perform(get("/user").accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(get("/user").accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer {token}"))
 			.andExpect(status().isOk())
 			.andDo(document("user/logined",
+							requestHeaders(
+								headerWithName(HttpHeaders.AUTHORIZATION).description("현재 로그인된 유저의 토큰입니다.")
+							),
 							responseFields(
 								fieldWithPath("id").description("요청한 유저의 id입니다."),
 								fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),

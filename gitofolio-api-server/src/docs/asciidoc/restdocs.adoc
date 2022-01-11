@@ -72,6 +72,47 @@ NOTE: user에 관련된 API 목차 입니다.
 
 이 목차에는 유저 가져오기, 유저 삭제하기, 현재 로그인 되어있는 유저 가져오기가 기술되어있습니다.
 
+[[logined-user-get]]
+=== 로그인된 유저 가져오기
+현재 로그인된 유저의 정보를 가져옵니다.
+
+인증하기 위해 사전에 발급받은 JWT가 필요하며, Http Authorization Header에 "Bearer {token}" 형태로 token을 입력하면됩니다.
+
+예시) Authorization : Bearer qwbhbefghvbrqvf2134123jk4hjksfkasdfn...
+
+이 문서에서 아래와 같은 CAUTION: JWT토큰 인증 필요... 문구는 모두 위와같은 인증방식을 따릅니다.
+
+CAUTION: JWT토큰 인증 필요
+
+[[logined-user-get-request]]
+==== Request
+현재 로그인되어있는 유저의 정보를 가져옵니다.
+
+include::{snippets}/user/logined/http-request.adoc[]
+
+include::{snippets}/user/logined/request-headers.adoc[]
+
+[[logined-user-get-response]]
+==== Representation
+로그인 되어있는 유저가 있다면, 아래 표현이 응답됩니다.
+
+include::{snippets}/user/logined/http-response.adoc[]
+
+[[logined-user-get-errorhandle]]
+==== 발생할수있는 애러
+
+===== <<AuthenticateException>>
+
+===== <<UnsupportedJwtException>>
+
+===== <<MissingClaimException>>
+
+===== <<IncorrectClaimException>>
+
+===== <<SignatureException>>
+
+===== <<NonExistUserException>>
+
 [[user-get]]
 === 유저 가져오기
 api서버에 저장된 유저의 정보를 가져옵니다.
@@ -92,21 +133,16 @@ include::{snippets}/user/get/http-response.adoc[]
 
 include::{snippets}/user/get/response-fields.adoc[]
 
-[[user-get-error-handle1]]
-==== NonExistUserException
-CAUTION: 서버는 존재하지않는 유저에 대해 NonExistUserException 예외처리를 합니다.
+[[user-get-error-handle]]
+==== 발생할수있는 애러
 
-핸들링 결과는 아래처럼 표현됩니다.
-
-include::{snippets}/user/get/fail/http-response.adoc[]
-
-include::{snippets}/user/get/fail/response-fields.adoc[]
+===== <<NonExistUserException>>
 
 [[user-delete]]
 === 유저 삭제하기
 DB에 저장되어있는 유저를 삭제합니다.
 
-CAUTION: 인증 필요
+CAUTION: JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목차를 참고하세요.
 
 [[user-delete-request]]
 ==== Request
@@ -124,39 +160,20 @@ include::{snippets}/user/delete/path-parameters.adoc[]
 
 include::{snippets}/user/delete/http-response.adoc[]
 
-[[user-delete-errorhandle1]]
-==== NonExistUserException
-CAUTION: 서버는 존재하지 않는 유저에 대한 삭제 요청에 대해 NonExistUserException 예외처리를 합니다.
+[[user-delete-errorhandle]]
+==== 발생할수있는 애러
 
-include::{snippets}/user/delete/fail/http-response.adoc[]
+===== <<AuthenticateException>>
 
-include::{snippets}/user/delete/fail/response-fields.adoc[]
+===== <<UnsupportedJwtException>>
 
-[[logined-user-get]]
-=== 로그인된 유저 가져오기
-현재 로그인된 유저의 정보를 가져옵니다.
+===== <<MissingClaimException>>
 
-CAUTION: 인증 필요
+===== <<IncorrectClaimException>>
 
-[[logined-user-get-request]]
-==== Request
-현재 로그인되어있는 유저를 가져옵니다.
+===== <<SignatureException>>
 
-include::{snippets}/user/logined/http-request.adoc[]
-
-[[logined-user-get-response]]
-==== Representation
-로그인 되어있는 유저가 있다면, 아래 표현이 응답됩니다.
-
-include::{snippets}/user/logined/http-response.adoc[]
-
-[[logined-user-get-errorhandle1]]
-==== AuthenticateException
-CAUTION: 로그인 되어있는 유저가 없다면, AuthenticateException 예외처리를 합니다.
-
-include::{snippets}/user/logined/fail/http-response.adoc[]
-
-include::{snippets}/user/logined/fail/response-fields.adoc[]
+===== <<NonExistUserException>>
 
 [[userstat]]
 == 유저 통계
@@ -188,13 +205,10 @@ include::{snippets}/userstat/get/http-response.adoc[]
 
 include::{snippets}/userstat/get/response-fields.adoc[]
 
-[[userstat-get-errorhandle1]]
-==== NonExistUserException
-CAUTION: 서버는 존재하지 않는 유저에 대한 통계정보 요청에 대해 NonExistUserException 예외처리를 합니다.
+[[userstat-get-errorhandle]]
+==== 발생할수있는 애러
 
-include::{snippets}/userstat/get/fail/http-response.adoc[]
-
-include::{snippets}/userstat/get/fail/response-fields.adoc[]
+===== <<NonExistUserException>>
 
 [[userdailystat]]
 == 유저 날짜별 통계
@@ -230,13 +244,10 @@ NOTE: 날짜별 방문자수 통계에 대해 최대 7개(날짜기준)를 저�
 
 NOTE: 유입 경로에 대해 최대 30개 까지 저장하며, 초과시 오래된 순으로 자동 삭제됩니다.
 
-[[userdailystat-get-errorhandle1]]
-==== NonExistUserException
-CAUTION: 서버는 존재하지 않는 유저에 대한 날짜별 통계정보 요청에 대해 NonExistUserException 예외처리를 합니다.
+[[userdailystat-get-errorhandle]]
+==== 발생할수있는 애러
 
-include::{snippets}/userdailystat/get/fail/http-response.adoc[]
-
-include::{snippets}/userdailystat/get/fail/response-fields.adoc[]
+===== <<NonExistUserException>>
 
 [[portfoliocards]]
 == 포트폴리오 카드
@@ -266,37 +277,18 @@ include::{snippets}/portfoliocards/get/http-response.adoc[]
 
 include::{snippets}/portfoliocards/get/response-fields.adoc[]
 
-[[portfoliocards-get-errorhandle1]]
-==== NonExistUserException
-CAUTION: 서버는 존재하지 않는 유저에 대한 포트폴리오 카드 요청에 대해 NonExistUserException 예외처리를 합니다.
+[[portfoliocards-get-errorhandle]]
+==== 발생할수있는 애러
 
-include::{snippets}/portfoliocards/get/fail/http-response.adoc[]
+===== <<IllegalParameterException>>
 
-include::{snippets}/portfoliocards/get/fail/response-fields.adoc[]
-
-[[portfoliocards-get-errorhandle2]]
-==== UserExistButNothingException
-CAUTION: 어떠한 포트폴리오 카드도 갖고있지 않은 유저의 포트폴리오 카드 요청에대해 NonExistUserException 예외처리를 합니다.
-
-include::{snippets}/portfoliocards/get/fail_but_exist_user/http-response.adoc[]
-
-include::{snippets}/portfoliocards/get/fail_but_exist_user/response-fields.adoc[]
-
-[[portfoliocards-get-errorhandle3]]
-==== IllegalParameterException
-CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
-
-include::{snippets}/portfoliocards/get/parameterfail/http-request.adoc[]
-
-include::{snippets}/portfoliocards/get/parameterfail/http-response.adoc[]
-
-include::{snippets}/portfoliocards/get/parameterfail/response-fields.adoc[]
+===== <<NonExistUserException>>
 
 [[portfoliocards-post]]
 === 포트폴리오 카드 저장하기
 DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 저장합니다.
 
-CAUTION: 인증 필요
+CAUTION: JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목차를 참고하세요.
 
 [[portfoliocards-post-request]]
 ==== Request
@@ -316,19 +308,26 @@ include::{snippets}/portfoliocards/post/http-response.adoc[]
 
 include::{snippets}/portfoliocards/post/response-fields.adoc[]
 
-[[portfoliocards-post-errorhandle1]]
-==== NonExistUserException
-CAUTION: 서버는 존재하지 않는 유저에 대한 포트폴리오 카드 저장 요청에 대해 NonExistUserException 예외처리를 합니다.
+[[portfoliocards-post-errorhandle]]
+==== 발생할수있는 애러
 
-include::{snippets}/portfoliocards/post/fail/http-response.adoc[]
+===== <<AuthenticateException>>
 
-include::{snippets}/portfoliocards/post/fail/response-fields.adoc[]
+===== <<UnsupportedJwtException>>
+
+===== <<MissingClaimException>>
+
+===== <<IncorrectClaimException>>
+
+===== <<SignatureException>>
+
+===== <<NonExistUserException>>
 
 [[portfoliocards-delete]]
 === 포트폴리오 카드 삭제하기
 DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 삭제합니다.
 
-CAUTION: 인증 필요
+CAUTION: JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목차를 참고하세요.
 
 [[portfoliocards-delete-request]]
 ==== Request
@@ -346,23 +345,22 @@ include::{snippets}/portfoliocards/delete/request-parameters.adoc[]
 
 include::{snippets}/portfoliocards/delete/http-response.adoc[]
 
-[[portfoliocards-delete-errorhandle1]]
-==== NonExistUserException
-CAUTION: 서버는 존재하지 않는 유저에 대한 포트폴리오 카드 삭제 요청에 대해 NonExistUserException 예외처리를 합니다.
+[[portfoliocards-delete-errorhandle]]
+==== 발생할수있는 애러
 
-include::{snippets}/portfoliocards/delete/fail/http-response.adoc[]
+===== <<AuthenticateException>>
 
-include::{snippets}/portfoliocards/delete/fail/response-fields.adoc[]
+===== <<UnsupportedJwtException>>
 
-[[portfoliocards-delete-errorhandle2]]
-==== IllegalParameterException
-CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
+===== <<MissingClaimException>>
 
-include::{snippets}/portfoliocards/delete/parameterfail/http-request.adoc[]
+===== <<IncorrectClaimException>>
 
-include::{snippets}/portfoliocards/delete/fail/http-response.adoc[]
+===== <<SignatureException>>
 
-include::{snippets}/portfoliocards/delete/fail/response-fields.adoc[]
+===== <<NonExistUserException>>
+
+===== <<IllegalParameterException>>
 
 [[portfoliocards-put]]
 === 포트폴리오 카드 수정하기
@@ -370,7 +368,7 @@ DB에 저장되어있는 유저가 갖고있는 포트폴리오 카드를 수정
 
 포트폴리오 카드의 id값을 기준으로 수정됩니다.
 
-CAUTION: 인증 필요
+CAUTION: JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목차를 참고하세요.
 
 [[portfoliocards-put-request]]
 ==== Request
@@ -389,25 +387,22 @@ include::{snippets}/portfoliocards/put/http-response.adoc[]
 
 include::{snippets}/portfoliocards/put/response-fields.adoc[]
 
-[[portfoliocards-put-errorhandle1]]
-==== NonExistUserException
-CAUTION: 서버는 존재하지 않는 유저에 대한 포트폴리오 카드 수정요청에 대해 NonExistUserException 예외처리를 합니다.
+[[portfoliocards-put-errorhandle]]
+==== 발생할수있는 애러
 
-include::{snippets}/portfoliocards/get/fail/http-response.adoc[]
+===== <<AuthenticateException>>
 
-include::{snippets}/portfoliocards/get/fail/response-fields.adoc[]
+===== <<UnsupportedJwtException>>
 
-[[portfoliocards-put-errorhandle2]]
-==== UserExistButNothingException
-CAUTION: 어떠한 포트폴리오 카드도 갖고있지 않은 유저의 포트폴리오 카드 수정 요청에대해 NonExistUserException 예외처리를 합니다.
+===== <<MissingClaimException>>
 
-include::{snippets}/portfoliocards/get/fail_but_exist_user/http-response.adoc[]
+===== <<IncorrectClaimException>>
 
-include::{snippets}/portfoliocards/get/fail_but_exist_user/response-fields.adoc[]
+===== <<SignatureException>>
 
-[[portfoliocards-put-errorhandle3]]
-==== IllegalParameterException
-CAUTION: 잘못된 파라미터와 함께 요청시 IllegalParameterException 처리를 합니다.
+===== <<NonExistUserException>>
+
+===== <<IllegalParameterException>>
 
 [[portfoliocard-get-svg-image]]
 === 포트폴리오 카드 이미지 가져오기
@@ -429,10 +424,52 @@ include::{snippets}/portfoliocards/get/http-response.adoc[]
 
 {cardId}부분에 응답받은 카드의 ID를 입력해서 요청합니다.
 
-[[portfoliocard-get-svg-image-errorHandle]]
-==== IllegalParameterException
-CAUTION: 서버는 존재하지 않는 포트폴리오 카드 ID입력시 IllegalParameterException예외처리를 합니다.
+[[portfoliocard-get-svg-image-errorhandle]]
+==== 발생할수있는 애러
 
+===== <<NonExistUserException>>
+
+===== <<IllegalParameterException>>
+
+[[errorhandle]]
+== 에러
+
+[[IllegalParameterException]]
+=== IllegalParameterException
+잘못된 파라미터 값 혹은 타입을 입력시 발생합니다. 
+
+include::{snippets}/portfoliocards/get/parameterfail/http-response.adoc[]
+
+[[NonExistUserException]]
+=== NonExistUserException
+유저를 찾을수없는 모든 경우에 발생합니다. 
+
+예외로 유저는 찾았지만, 유저가 갖고있는 포트폴리오 카드가 하나도 없을때 발생합니다.
+
+include::{snippets}/user/get/fail/http-response.adoc[]
+
+[[AuthenticateException]]
+=== AuthenticateException
+유저 인증에 실패했을때 발생합니다.
+
+include::{snippets}/user/logined/fail/http-response.adoc[]
+
+인증실패에 연관된 예외로 아래 4개 목차가 있습니다.
+[[UnsupportedJwtException]]
+=== UnsupportedJwtException
+Authorization헤더의 인증타입이 'Bearer'이 아니거나 토큰의 형태가 JWT가 아닐경우 발생합니다.
+
+[[MissingClaimException]]
+=== MissingClaimException
+인증에 필요한 Claim을 찾을수없을때 발생합니다.
+
+[[IncorrectClaimException]]
+=== IncorrectClaimException
+서버에서 생산한 Claim과 요청 헤더의 Claim이 다를경우 발생합니다.
+
+[[SignatureException]]
+=== SignatureException
+서버에 저장된 암호화 알고리즘 Key값과 요청 헤더의 암호화 알고리즘 key값이 다를 경우 발생합니다.
 
 [[auth]]
 == 인증
