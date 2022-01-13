@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.auth.oauth;
+package com.gitofolio.api.service.auth.oauth.applications.github;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
@@ -9,9 +9,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
+import com.gitofolio.api.service.auth.oauth.OauthTokenReceiver;
 
 @Service
-public class GithubTokenReceiver implements TokenReceiver<String, String>{
+public class GithubTokenReceiver implements OauthTokenReceiver<String, String>{
 	
 	private GithubClientSecret githubClientSecret;
 	private RestTemplate restTemplate;

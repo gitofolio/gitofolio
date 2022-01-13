@@ -15,7 +15,7 @@ import java.util.List;
 @Controller
 public class EndPointController{
 	
-	private EndPointHateoasDTO endPointHateoasDTO;
+	private final EndPointHateoasDTO endPointHateoasDTO;
 	
 	@RequestMapping(path="/restdocs", method=RequestMethod.GET)
 	public String docs(){

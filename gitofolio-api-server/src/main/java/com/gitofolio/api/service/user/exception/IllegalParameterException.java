@@ -11,6 +11,11 @@ public class IllegalParameterException extends RuntimeException{
 		this.request = request;
 	}
 	
+	public IllegalParameterException(String title, String message){
+		super(message);
+		this.title = title;
+	}
+	
 	public String getTitle(){
 		return this.title;
 	}

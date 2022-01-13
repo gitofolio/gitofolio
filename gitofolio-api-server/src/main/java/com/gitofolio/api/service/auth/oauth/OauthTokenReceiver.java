@@ -1,6 +1,6 @@
 package com.gitofolio.api.service.auth.oauth;
 
-public interface TokenReceiver<V, T>{
+public interface OauthTokenReceiver<V, T>{
 	
 	V receiveToken(T parameter);
 	

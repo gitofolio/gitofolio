@@ -21,12 +21,12 @@ public class EndPointHateoas extends Hateoas{
 		
 		this.links.add(new Link("getLoginedUser", "GET", "http://api.gitofolio.com/user"));
 		
-		this.links.add(new Link("getPortfoliocardImage", "GET", "http://api.gitofolio.com/portfoliocard/svg/{portfoliocard.id}"));
+		this.links.add(new Link("getPortfoliocardImage", "GET", "http://api.gitofolio.com/portfoliocard/svg/{portfolioCards.[].id}"));
 		
-		this.links.add(new Link("getPortfolio", "GET", "http://api.gitofolio.com/portfolio/{userId}/{portfolioId}"));
+		this.links.add(new Link("getPortfolio", "GET", "http://api.gitofolio.com/portfolio/{id}/{portfolioCards.[].id}"));
 		
-		this.links.add(new Link("getPortfoliocards", "GET", "http://api.gitofolio.com/portfoliocards/{name}", "cards={n1},{n2}"));
-		this.links.add(new Link("deletePortfolicards", "DELETE", "http://api.gitofolio.com/portfoliocards/{name}", "card={n1}"));
+		this.links.add(new Link("getPortfoliocards", "GET", "http://api.gitofolio.com/portfoliocards/{name}"));
+		this.links.add(new Link("deletePortfolicards", "DELETE", "http://api.gitofolio.com/portfoliocards/{name}", "id={portfolioCards.[].id}"));
 		this.links.add(new Link("postPortfoliocards", "POST", "http://api.gitofolio.com/portfoliocards"));
 		this.links.add(new Link("putPortfoliocards", "PUT", "http://api.gitofolio.com/portfoliocards"));
 	}

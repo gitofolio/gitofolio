@@ -41,8 +41,6 @@ import com.gitofolio.api.service.user.exception.*;
 import com.gitofolio.api.service.auth.token.TokenValidator;
 import com.gitofolio.api.service.auth.token.TokenAble;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
@@ -61,8 +59,6 @@ public class UserInfoControllerTest{
 	private CrudFactory<UserDTO> crudFactory;
 	
 	private CrudProxy<UserDTO> crudProxy;
-	
-	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@MockBean
 	@Qualifier("jwtTokenValidator")

@@ -9,7 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.auth.oauth.TokenReceiver;
+import com.gitofolio.api.service.auth.oauth.OauthTokenReceiver;
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class GithubAuthenticator implements Authenticator<UserDTO, String>{
 	
 	private RestTemplate restTemplate;
-	private TokenReceiver<String, String> githubTokenReceiver;
+	private OauthTokenReceiver<String, String> githubTokenReceiver;
 	private String url = "https://api.github.com/user";
 	
 	@Override
@@ -47,7 +47,7 @@ public class GithubAuthenticator implements Authenticator<UserDTO, String>{
 	
 	@Autowired
 	public GithubAuthenticator(RestTemplate restTemplate,
-							  @Qualifier("githubTokenReceiver") TokenReceiver githubTokenReceiver){
+							  @Qualifier("githubTokenReceiver") OauthTokenReceiver githubTokenReceiver){
 		this.githubTokenReceiver = githubTokenReceiver;
 		this.restTemplate = restTemplate;
 	}

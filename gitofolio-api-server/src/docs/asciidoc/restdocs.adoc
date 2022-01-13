@@ -44,25 +44,130 @@ NOTE: "rel"키 값의 명명 규칙은 변경되지 않습니다.
 
 CAUTION: "rel" 네이밍 규칙에서, 자기자신을 호출할경우는 {http method}+This로 이루어집니다.
 
+[[auth]]
+== 인증
+
+TIP: 이 목차에서 나오는 서버는 gitofolio서버를, 인증서버는 실제 인증과정이 진행되는 OAUTH 구현 서버를 뜻합니다.
+
+[[auth-flow]]
+=== Authenticate-flow
+인증의 전체 과정은 아래와 같습니다.
+
+TIP: 클라이언트의 상호작용이 필요한 목차는 -user로 표시되어있습니다.
+
+1. 클라이언트는 서버로 인증요청을 보냅니다. 이때, 인증에 사용할 application과 인증이 끝나고 임시토큰을 발급받을 url을 파라미터로 보내야합니다. -user
+
+2. 서버는 클라이언트를 application에 해당하는 인증서버로 리다이렉트 시킵니다.
+
+3. 클라이언트는 인증서버에 자신의 정보를 입력해 인증합니다. -user
+
+4. 서버는 인증서버로 부터 넘겨받은 유저 정보를 분석하여 임시토큰을 발급후, 1번에서 입력한 url로 임시토큰을 전달합니다.
+
+CAUTION: 임시토큰은 1회성 토큰이며, 5분동안만 유지됩니다.
+
+5. 클라이언트는 받은 임시토큰을 /token로 보내 실제사용할 토큰을 얻습니다.-user
+
+[[auth-do]]
+=== Authenticate-detail
+
+이 목차에는 인증을 위해 클라이언트가 해야하는 행동이 자세히 적혀있습니다.
+
+==== 서버로 인증요청 보내기
+
+모든 인증과정은 api서버로 인증요청을 보내며 시작되고 이때, 클라이언트는 자신이 사용할 인증서버와 임시토큰을 발급받을 url을 쿼리 파라미터로 보내야합니다.
+
+인증 요청을 보내야할 url은 아래와 같습니다.
+
+----
+GET: http://api.gitofolio.com/oauth?application={사용할 인증 서버}&redirect={임시토큰을 발급받을 url}
+----
+
+임시토큰을 발급받을 url은 스킴을 포함한 완전한 url이여야 합니다.
+
+예시
+
+----
+https://api.gitofolio.com (O)
+http://api.gitofolio.com (O)
+api.gitofolio.com (X)
+/gitofolio (X)
+----
+
+==== 현재 사용할수있는 인증 서버 목록
+
+[cols=1*]
+|===
+|application
+
+|github
+|===
+
+==== 임시토큰으로 실제 사용 토큰 발급받기
+
+앞선 인증과정이 성공적으로 완료되었다면, <<auth-flow>> 목차 1번에서 설정한 redirect파라미터에 입력된 url의 파라미터로 임시토큰이 발급됩니다.
+
+CAUTION: 앞서 적었듯이, 임시토큰은 1회성 토큰이며, 5분동안만 유지됩니다.
+
+예시로, 클라이언트가 redirect파라미터를 아래와 같이 입력했다면,
+
+----
+GET: http://api.gitofolio.com/oauth?application=github&redirect=http://api.gitofolio.com
+---- 
+
+응답은 아래와 같습니다.
+
+----
+http://api.gitofolio.com?cert=7f6538de87c744ed92b70d4fb9ee070c
+----
+
+이제, 응답에 포함된 cert값을 통해 서버에 실제 토큰을 받아올수있습니다.
+
+==== Request
+include::{snippets}/oauth/token/http-request.adoc[]
+
+include::{snippets}/oauth/token/request-fields.adoc[]
+
+==== Response
+include::{snippets}/oauth/token/http-response.adoc[]
+
+[[auth-errorhandle]]
+==== 발생할수있는 에러
+
+===== <<AuthenticateException>>
+
+===== <<UnsupportedJwtException>>
+
+===== <<MissingClaimException>>
+
+===== <<IncorrectClaimException>>
+
+===== <<SignatureException>>
+
+===== <<NonExistUserException>>
+
+===== <<IllegalParameterException>>
+
 [[custom-api]]
-== 커스텀 API
-이 구역에는 사용자가 자신의 이력서에 직접 적용할수있는 API가 기술되어있습니다.
+== 사용자 API
+이 목차에는 사용자가 직접 사용하기에 적합한 API가 기술되어있습니다.
 
 [[custom-api-stat]]
 === 통계
 TIP: 애플리케이션에서 제작된 링크(ex.포트폴리오 카드)를 통해 유입되는 통계는 자동으로 수집되어 증가됩니다.
 
-모든 경로에 대해서 유입경로를 수집하고 싶다면, 아래 링크로 GET요청을 보내면 됩니다.
+모든 접속에 대해서 유입경로를 조사하고 싶다면, 사용자가 자신의 페이지에 도착했을때, 아래의 링크가 호출되도록 조작하세요.
 
-GET : http://api.gitofolio.com/portfolio/{userId}/{cardId}?redirect=false
+----
+GET : http://api.gitofolio.com/portfolio/{id}/{portfolioCards.[].id}?redirect=false
+----
+
+CAUTION: url파라미터의 redirect값을 false로 지정하지않으면 유입경로가 2번 중복되서 수집될수있습니다.
 
 예를들어, 서버의 응답이 아래와 같을때
 
 include::{snippets}/portfoliocards/get/http-response.adoc[]
 
-{userId}에 가장 바깥 "id"의 value를
-
-{cardId}에 portfolioUrl과 매핑된 card "id"의 value를 입력하면 됩니다.
+{userId}에 가장 바깥 "id"의 value를 {cardId}에 portfolioUrl과 매핑된 card "id"를 입력하면 됩니다.
 
 [[user]]
 == 유저
@@ -416,7 +521,7 @@ CAUTION: 반환 MIME타입은 image/svg+xml 입니다.
 ==== Request
 요청 URL은 아래와 같습니다.
 
-GET: https://api.gitofolio.com/portfoliocard/svg/{cardId}
+GET: https://api.gitofolio.com/portfoliocard/svg/{portfolioCards.[].id}
 
 예를들어, 서버의 응답이 아래와 같을때, 
 
@@ -470,16 +575,3 @@ Authorization헤더의 인증타입이 'Bearer'이 아니거나 토큰의 형태
 [[SignatureException]]
 === SignatureException
 서버에 저장된 암호화 알고리즘 Key값과 요청 헤더의 암호화 알고리즘 key값이 다를 경우 발생합니다.
-
-[[auth]]
-== 인증
-모든 인증과정은 연동된 OAuth애플리케이션을 통해서 이뤄집니다. 
-
-인증이 필요한 모든 요청은 프론트엔드 서버를 통해이루어 진다고 가정했으며, 따라서 인증 완료후 메인 페이지로 리다이렉트 됩니다.
-
-이 목차에는 인증을 위해서 요청해야하는 URL이 기술되어 있습니다 
-
-[[auth-github]]
-=== Github
-GET : https://github.com/login/oauth/authorize?client_id=b86796ef36e991c00490
-
