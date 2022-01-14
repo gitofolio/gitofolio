@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class OauthTokenPool{
 	
-	private final Map<String, Token> tokenPool; // cert -> token (ex. jwt)
+	private final Map<String, Token> tokenPool;
 	
 	public OauthTokenPool(){
 		this.tokenPool = new ConcurrentHashMap<String, Token>();
@@ -57,7 +57,7 @@ public class OauthTokenPool{
 		}
 		
 		private boolean isOldToken(){
-			return this.generatedTime.isBefore(LocalDateTime.now().minusMinutes(5)); // token 유효기간 5분
+			return this.generatedTime.isBefore(LocalDateTime.now().minusMinutes(5));
 		}
 		
 	}

@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Gitofolio RESTful API Docs</h1>
 <div class="details">
-<span id="revnumber">version 0.2.3-SNAPSHOT</span>
+<span id="revnumber">version 0.2.4-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -457,11 +457,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#auth-do">Authenticate-detail</a>
 <ul class="sectlevel3">
 <li><a href="#_서버로_인증요청_보내기">서버로 인증요청 보내기</a></li>
-<li><a href="#_현재_사용할수있는_인증_서버_목록">현재 사용할수있는 인증 서버 목록</a></li>
 <li><a href="#_임시토큰으로_실제_사용_토큰_발급받기">임시토큰으로 실제 사용 토큰 발급받기</a></li>
-<li><a href="#_request">Request</a></li>
-<li><a href="#_response">Response</a></li>
-<li><a href="#auth-errorhandle">발생할수있는 에러</a></li>
+<li><a href="#auth-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 </ul>
@@ -477,21 +474,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#logined-user-get-request">Request</a></li>
 <li><a href="#logined-user-get-response">Representation</a></li>
-<li><a href="#logined-user-get-errorhandle">발생할수있는 애러</a></li>
+<li><a href="#logined-user-get-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 <li><a href="#user-get">유저 가져오기</a>
 <ul class="sectlevel3">
 <li><a href="#user-get-request">Request</a></li>
 <li><a href="#user-get-response">Representation</a></li>
-<li><a href="#user-get-error-handle">발생할수있는 애러</a></li>
+<li><a href="#user-get-error-handle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 <li><a href="#user-delete">유저 삭제하기</a>
 <ul class="sectlevel3">
 <li><a href="#user-delete-request">Request</a></li>
 <li><a href="#user-delete-response">Representation</a></li>
-<li><a href="#user-delete-errorhandle">발생할수있는 애러</a></li>
+<li><a href="#user-delete-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 </ul>
@@ -502,7 +499,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#userstat-get-request">Request</a></li>
 <li><a href="#userstat-get-response">Representation</a></li>
-<li><a href="#userstat-get-errorhandle">발생할수있는 애러</a></li>
+<li><a href="#userstat-get-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 </ul>
@@ -513,7 +510,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#userdailystat-get-request">Request</a></li>
 <li><a href="#userdailystat-get-response">Representation</a></li>
-<li><a href="#userdailystat-get-errorhandle">발생할수있는 애러</a></li>
+<li><a href="#userdailystat-get-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 </ul>
@@ -524,34 +521,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#portfoliocards-get-request">Request</a></li>
 <li><a href="#portfoliocards-get-response">Representation</a></li>
-<li><a href="#portfoliocards-get-errorhandle">발생할수있는 애러</a></li>
+<li><a href="#portfoliocards-get-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 <li><a href="#portfoliocards-post">포트폴리오 카드 저장하기</a>
 <ul class="sectlevel3">
 <li><a href="#portfoliocards-post-request">Request</a></li>
 <li><a href="#portfoliocards-post-response">Representation</a></li>
-<li><a href="#portfoliocards-post-errorhandle">발생할수있는 애러</a></li>
+<li><a href="#portfoliocards-post-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 <li><a href="#portfoliocards-delete">포트폴리오 카드 삭제하기</a>
 <ul class="sectlevel3">
 <li><a href="#portfoliocards-delete-request">Request</a></li>
 <li><a href="#portfoliocards-delete-response">Representation</a></li>
-<li><a href="#portfoliocards-delete-errorhandle">발생할수있는 애러</a></li>
+<li><a href="#portfoliocards-delete-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 <li><a href="#portfoliocards-put">포트폴리오 카드 수정하기</a>
 <ul class="sectlevel3">
 <li><a href="#portfoliocards-put-request">Request</a></li>
 <li><a href="#portfoliocards-put-response">Representation</a></li>
-<li><a href="#portfoliocards-put-errorhandle">발생할수있는 애러</a></li>
+<li><a href="#portfoliocards-put-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 <li><a href="#portfoliocard-get-svg-image">포트폴리오 카드 이미지 가져오기</a>
 <ul class="sectlevel3">
 <li><a href="#portfoliocard-get-svg-image-request">Request</a></li>
-<li><a href="#portfoliocard-get-svg-image-errorhandle">발생할수있는 애러</a></li>
+<li><a href="#portfoliocard-get-svg-image-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 </ul>
@@ -595,19 +592,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Tip</div>
 </td>
 <td class="content">
-HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 기술되어 있습니다.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock caution">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Caution</div>
-</td>
-<td class="content">
-HATEOAS의 rel값은 절대 변경되지않으며, URL은 변경될수있습니다.
+HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 기술되어 있습니다. HATEOAS의 rel값은 절대 변경되지않으며, URL은 변경될수있습니다.
 </td>
 </tr>
 </table>
@@ -821,14 +806,14 @@ Content-Length: 1247
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>GET: http://api.gitofolio.com/oauth?application={사용할 인증 서버}&amp;redirect={임시토큰을 발급받을 url}</pre>
+<pre>GET: http://api.gitofolio.com/oauth?application={인증에 사용할 OAuth 애플리케이션}&amp;redirect={임시토큰을 발급받을 url}</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>임시토큰을 발급받을 url은 스킴을 포함한 완전한 url이여야 합니다.</p>
 </div>
 <div class="paragraph">
-<p>예시</p>
+<p>url 예시</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -838,9 +823,8 @@ api.gitofolio.com (X)
 /gitofolio (X)</pre>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_현재_사용할수있는_인증_서버_목록"><a class="link" href="#_현재_사용할수있는_인증_서버_목록">현재 사용할수있는 인증 서버 목록</a></h4>
+<div class="sect4">
+<h5 id="_현재_사용할수있는_oauth_애플리케이션_목록"><a class="link" href="#_현재_사용할수있는_oauth_애플리케이션_목록">현재 사용할수있는 OAuth 애플리케이션 목록</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -857,6 +841,7 @@ api.gitofolio.com (X)
 </tbody>
 </table>
 </div>
+</div>
 <div class="sect3">
 <h4 id="_임시토큰으로_실제_사용_토큰_발급받기"><a class="link" href="#_임시토큰으로_실제_사용_토큰_발급받기">임시토큰으로 실제 사용 토큰 발급받기</a></h4>
 <div class="paragraph">
@@ -869,13 +854,13 @@ api.gitofolio.com (X)
 <div class="title">Caution</div>
 </td>
 <td class="content">
-앞서 적었듯이, 임시토큰은 1회성 토큰이며, 5분동안만 유지됩니다.
+앞서 적었듯이, 임시토큰은 1회성 토큰이며, 5분의 유효시간을 갖고있습니다.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>예시로, 클라이언트가 redirect파라미터를 아래와 같이 입력했다면,</p>
+<p>예시로, 클라이언트가 application으로 github, 임시토큰을 받을 redirect파라미터를 아래와 같이 입력했다면,</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -893,9 +878,8 @@ api.gitofolio.com (X)
 <div class="paragraph">
 <p>이제, 응답에 포함된 cert값을 통해 서버에 실제 토큰을 받아올수있습니다.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_request"><a class="link" href="#_request">Request</a></h4>
+<div class="sect4">
+<h5 id="_request"><a class="link" href="#_request">Request</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /token HTTP/1.1
@@ -924,13 +908,13 @@ Host: api.gitofolio.com:80
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>cert</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">redirect url에 파라미터로 전달된 cert값을 지정합니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP BODY에 전달받은 토큰을 입력합니다.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_response"><a class="link" href="#_response">Response</a></h4>
+<div class="sect4">
+<h5 id="_response"><a class="link" href="#_response">Response</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -943,9 +927,36 @@ Content-Length: 194
 }</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">token의 인증 타입입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저의 인증에 사용될 실제 토큰입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="sect3">
-<h4 id="auth-errorhandle"><a class="link" href="#auth-errorhandle">발생할수있는 에러</a></h4>
+<h4 id="auth-errorhandle"><a class="link" href="#auth-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_authenticateexception"><a class="link" href="#_authenticateexception"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
@@ -1032,27 +1043,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3278,
+    "id" : 3524,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3279,
+    "id" : 3525,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3280,
+    "id" : 3526,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3281,
+    "id" : 3527,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3282,
+    "id" : 3528,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -1212,7 +1223,7 @@ Content-Length: 650
 </div>
 </div>
 <div class="sect3">
-<h4 id="logined-user-get-errorhandle"><a class="link" href="#logined-user-get-errorhandle">발생할수있는 애러</a></h4>
+<h4 id="logined-user-get-errorhandle"><a class="link" href="#logined-user-get-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_authenticateexception_2"><a class="link" href="#_authenticateexception_2"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
@@ -1363,7 +1374,7 @@ Content-Length: 650
 </table>
 </div>
 <div class="sect3">
-<h4 id="user-get-error-handle"><a class="link" href="#user-get-error-handle">발생할수있는 애러</a></h4>
+<h4 id="user-get-error-handle"><a class="link" href="#user-get-error-handle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_nonexistuserexception_3"><a class="link" href="#_nonexistuserexception_3"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
@@ -1438,7 +1449,7 @@ name</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="user-delete-errorhandle"><a class="link" href="#user-delete-errorhandle">발생할수있는 애러</a></h4>
+<h4 id="user-delete-errorhandle"><a class="link" href="#user-delete-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_authenticateexception_3"><a class="link" href="#_authenticateexception_3"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
@@ -1622,7 +1633,7 @@ Content-Length: 281
 </table>
 </div>
 <div class="sect3">
-<h4 id="userstat-get-errorhandle"><a class="link" href="#userstat-get-errorhandle">발생할수있는 애러</a></h4>
+<h4 id="userstat-get-errorhandle"><a class="link" href="#userstat-get-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_nonexistuserexception_5"><a class="link" href="#_nonexistuserexception_5"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
@@ -1723,12 +1734,12 @@ Content-Length: 467
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2022-01-13",
+      "visitDate" : "2022-01-14",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2022-01-13"
+      "refferingDate" : "2022-01-14"
     } ]
   }
 }</code></pre>
@@ -1826,7 +1837,7 @@ Content-Length: 467
 </div>
 </div>
 <div class="sect3">
-<h4 id="userdailystat-get-errorhandle"><a class="link" href="#userdailystat-get-errorhandle">발생할수있는 애러</a></h4>
+<h4 id="userdailystat-get-errorhandle"><a class="link" href="#userdailystat-get-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_nonexistuserexception_6"><a class="link" href="#_nonexistuserexception_6"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
@@ -1906,27 +1917,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3278,
+    "id" : 3524,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3279,
+    "id" : 3525,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3280,
+    "id" : 3526,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3281,
+    "id" : 3527,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3282,
+    "id" : 3528,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2033,7 +2044,7 @@ Content-Length: 1735
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-get-errorhandle"><a class="link" href="#portfoliocards-get-errorhandle">발생할수있는 애러</a></h4>
+<h4 id="portfoliocards-get-errorhandle"><a class="link" href="#portfoliocards-get-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_illegalparameterexception_2"><a class="link" href="#_illegalparameterexception_2"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
 
@@ -2138,32 +2149,32 @@ Content-Length: 1913
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3267,
+    "id" : 3513,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3268,
+    "id" : 3514,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3269,
+    "id" : 3515,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3270,
+    "id" : 3516,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3271,
+    "id" : 3517,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
   }, {
-    "id" : 3272,
+    "id" : 3518,
     "portfolioCardArticle" : "this is new portfoliocard",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/6"
@@ -2270,7 +2281,7 @@ Content-Length: 1913
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-post-errorhandle"><a class="link" href="#portfoliocards-post-errorhandle">발생할수있는 애러</a></h4>
+<h4 id="portfoliocards-post-errorhandle"><a class="link" href="#portfoliocards-post-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_authenticateexception_4"><a class="link" href="#_authenticateexception_4"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
@@ -2321,7 +2332,7 @@ JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=3298 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=3544 HTTP/1.1
 Accept: */*
 Host: api.gitofolio.com:80</code></pre>
 </div>
@@ -2380,7 +2391,7 @@ name</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-delete-errorhandle"><a class="link" href="#portfoliocards-delete-errorhandle">발생할수있는 애러</a></h4>
+<h4 id="portfoliocards-delete-errorhandle"><a class="link" href="#portfoliocards-delete-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_authenticateexception_5"><a class="link" href="#_authenticateexception_5"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
@@ -2444,7 +2455,7 @@ Accept: application/json
 Content-Length: 273
 Host: api.gitofolio.com:80
 
-{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":3288,"portfolioCardArticle":"Lorem ipsum","portfolioCardStars":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
+{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":3534,"portfolioCardArticle":"Lorem ipsum","portfolioCardStars":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2515,27 +2526,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3288,
+    "id" : 3534,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3289,
+    "id" : 3535,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3290,
+    "id" : 3536,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3291,
+    "id" : 3537,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3292,
+    "id" : 3538,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2642,7 +2653,7 @@ Content-Length: 1735
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-put-errorhandle"><a class="link" href="#portfoliocards-put-errorhandle">발생할수있는 애러</a></h4>
+<h4 id="portfoliocards-put-errorhandle"><a class="link" href="#portfoliocards-put-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_authenticateexception_6"><a class="link" href="#_authenticateexception_6"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
@@ -2698,8 +2709,10 @@ Content-Length: 1735
 <div class="paragraph">
 <p>요청 URL은 아래와 같습니다.</p>
 </div>
-<div class="paragraph">
-<p>GET: <a href="https://api.gitofolio.com/portfoliocard/svg/{portfolioCards" class="bare">https://api.gitofolio.com/portfoliocard/svg/{portfolioCards</a>.[].id}</p>
+<div class="listingblock">
+<div class="content">
+<pre>GET: https://api.gitofolio.com/portfoliocard/svg/{portfolioCards.[].id}</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>예를들어, 서버의 응답이 아래와 같을때,</p>
@@ -2715,27 +2728,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3278,
+    "id" : 3524,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3279,
+    "id" : 3525,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3280,
+    "id" : 3526,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3281,
+    "id" : 3527,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3282,
+    "id" : 3528,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2774,7 +2787,7 @@ Content-Length: 1735
 </div>
 </div>
 <div class="sect3">
-<h4 id="portfoliocard-get-svg-image-errorhandle"><a class="link" href="#portfoliocard-get-svg-image-errorhandle">발생할수있는 애러</a></h4>
+<h4 id="portfoliocard-get-svg-image-errorhandle"><a class="link" href="#portfoliocard-get-svg-image-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
 <h5 id="_nonexistuserexception_11"><a class="link" href="#_nonexistuserexception_11"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
@@ -2866,7 +2879,7 @@ Content-Length: 42
 <div class="sect2">
 <h3 id="IncorrectClaimException"><a class="link" href="#IncorrectClaimException">IncorrectClaimException</a></h3>
 <div class="paragraph">
-<p>서버에서 생산한 Claim과 요청 헤더의 Claim이 다를경우 발생합니다.</p>
+<p>서버에서 생산한 토큰의 Claim과 요청 헤더의 Claim이 다를경우 발생합니다.</p>
 </div>
 </div>
 <div class="sect2">
@@ -2880,8 +2893,8 @@ Content-Length: 42
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2.3-SNAPSHOT<br>
-Last updated 2022-01-13 11:06:59 UTC
+Version 0.2.4-SNAPSHOT<br>
+Last updated 2022-01-14 11:30:33 UTC
 </div>
 </div>
 </body>

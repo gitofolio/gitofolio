@@ -71,11 +71,11 @@ public class OauthControllerTest{
 			.andExpect(status().isOk())
 			.andDo(document("oauth/token",
 							requestFields(
-								fieldWithPath("cert").description("redirect url에 파라미터로 전달된 cert값을 지정합니다.")
+								fieldWithPath("cert").description("HTTP BODY에 전달받은 토큰을 입력합니다.")
 							),
 							responseFields(
 								fieldWithPath("type").description("token의 인증 타입입니다."),
-								fieldWithPath("token").description("유저의 토큰입니다.")
+								fieldWithPath("token").description("유저의 인증에 사용될 실제 토큰입니다.")
 							)
 						));
 		

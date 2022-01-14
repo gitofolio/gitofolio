@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.proxy.CrudProxy;
 import com.gitofolio.api.service.user.factory.CrudFactory;
-import com.gitofolio.api.service.user.parameter.ParameterHandler;
 import com.gitofolio.api.aop.auth.annotation.AuthToken;
 import com.gitofolio.api.aop.auth.annotation.TokenType;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
@@ -113,4 +112,5 @@ public class PortfolioCardController{
 		this.encodedProfileImageCrudProxy = encodedProfileImageCrudFactory.get();
 		this.portfolioCardSvgFactory = portfolioCardSvgFactory;
 	}
+	
 }

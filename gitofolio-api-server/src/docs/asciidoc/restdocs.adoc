@@ -16,9 +16,7 @@ gitofolio는 HATEOAS를 지원합니다.
 
 HATEOAS를 사용하여, 서버의 변화에 유연하게 대처하세요.
 
-TIP: HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 기술되어 있습니다.
-
-CAUTION: HATEOAS의 rel값은 절대 변경되지않으며, URL은 변경될수있습니다. 
+TIP: HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 기술되어 있습니다. HATEOAS의 rel값은 절대 변경되지않으며, URL은 변경될수있습니다. 
 
 엔드포인트 '/'요청에 대한 응답은 아래와 같습니다.
 
@@ -79,12 +77,12 @@ CAUTION: 임시토큰은 1회성 토큰이며, 5분동안만 유지됩니다.
 인증 요청을 보내야할 url은 아래와 같습니다.
 
 ----
-GET: http://api.gitofolio.com/oauth?application={사용할 인증 서버}&redirect={임시토큰을 발급받을 url}
+GET: http://api.gitofolio.com/oauth?application={인증에 사용할 OAuth 애플리케이션}&redirect={임시토큰을 발급받을 url}
 ----
 
 임시토큰을 발급받을 url은 스킴을 포함한 완전한 url이여야 합니다.
 
-예시
+url 예시
 
 ----
 https://api.gitofolio.com (O)
@@ -93,7 +91,7 @@ api.gitofolio.com (X)
 /gitofolio (X)
 ----
 
-==== 현재 사용할수있는 인증 서버 목록
+===== 현재 사용할수있는 OAuth 애플리케이션 목록
 
 [cols=1*]
 |===
@@ -106,9 +104,9 @@ api.gitofolio.com (X)
 
 앞선 인증과정이 성공적으로 완료되었다면, <<auth-flow>> 목차 1번에서 설정한 redirect파라미터에 입력된 url의 파라미터로 임시토큰이 발급됩니다.
 
-CAUTION: 앞서 적었듯이, 임시토큰은 1회성 토큰이며, 5분동안만 유지됩니다.
+CAUTION: 앞서 적었듯이, 임시토큰은 1회성 토큰이며, 5분의 유효시간을 갖고있습니다.
 
-예시로, 클라이언트가 redirect파라미터를 아래와 같이 입력했다면,
+예시로, 클라이언트가 application으로 github, 임시토큰을 받을 redirect파라미터를 아래와 같이 입력했다면,
 
 ----
 GET: http://api.gitofolio.com/oauth?application=github&redirect=http://api.gitofolio.com
@@ -122,16 +120,18 @@ http://api.gitofolio.com?cert=7f6538de87c744ed92b70d4fb9ee070c
 
 이제, 응답에 포함된 cert값을 통해 서버에 실제 토큰을 받아올수있습니다.
 
-==== Request
+===== Request
 include::{snippets}/oauth/token/http-request.adoc[]
 
 include::{snippets}/oauth/token/request-fields.adoc[]
 
-==== Response
+===== Response
 include::{snippets}/oauth/token/http-response.adoc[]
 
+include::{snippets}/oauth/token/response-fields.adoc[]
+
 [[auth-errorhandle]]
-==== 발생할수있는 에러
+==== 발생할 수 있는 에러
 
 ===== <<AuthenticateException>>
 
@@ -204,7 +204,7 @@ include::{snippets}/user/logined/request-headers.adoc[]
 include::{snippets}/user/logined/http-response.adoc[]
 
 [[logined-user-get-errorhandle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<AuthenticateException>>
 
@@ -239,7 +239,7 @@ include::{snippets}/user/get/http-response.adoc[]
 include::{snippets}/user/get/response-fields.adoc[]
 
 [[user-get-error-handle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<NonExistUserException>>
 
@@ -266,7 +266,7 @@ include::{snippets}/user/delete/path-parameters.adoc[]
 include::{snippets}/user/delete/http-response.adoc[]
 
 [[user-delete-errorhandle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<AuthenticateException>>
 
@@ -311,7 +311,7 @@ include::{snippets}/userstat/get/http-response.adoc[]
 include::{snippets}/userstat/get/response-fields.adoc[]
 
 [[userstat-get-errorhandle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<NonExistUserException>>
 
@@ -350,7 +350,7 @@ NOTE: 날짜별 방문자수 통계에 대해 최대 7개(날짜기준)를 저�
 NOTE: 유입 경로에 대해 최대 30개 까지 저장하며, 초과시 오래된 순으로 자동 삭제됩니다.
 
 [[userdailystat-get-errorhandle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<NonExistUserException>>
 
@@ -383,7 +383,7 @@ include::{snippets}/portfoliocards/get/http-response.adoc[]
 include::{snippets}/portfoliocards/get/response-fields.adoc[]
 
 [[portfoliocards-get-errorhandle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<IllegalParameterException>>
 
@@ -414,7 +414,7 @@ include::{snippets}/portfoliocards/post/http-response.adoc[]
 include::{snippets}/portfoliocards/post/response-fields.adoc[]
 
 [[portfoliocards-post-errorhandle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<AuthenticateException>>
 
@@ -451,7 +451,7 @@ include::{snippets}/portfoliocards/delete/request-parameters.adoc[]
 include::{snippets}/portfoliocards/delete/http-response.adoc[]
 
 [[portfoliocards-delete-errorhandle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<AuthenticateException>>
 
@@ -493,7 +493,7 @@ include::{snippets}/portfoliocards/put/http-response.adoc[]
 include::{snippets}/portfoliocards/put/response-fields.adoc[]
 
 [[portfoliocards-put-errorhandle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<AuthenticateException>>
 
@@ -521,7 +521,9 @@ CAUTION: 반환 MIME타입은 image/svg+xml 입니다.
 ==== Request
 요청 URL은 아래와 같습니다.
 
+----
 GET: https://api.gitofolio.com/portfoliocard/svg/{portfolioCards.[].id}
+----
 
 예를들어, 서버의 응답이 아래와 같을때, 
 
@@ -530,7 +532,7 @@ include::{snippets}/portfoliocards/get/http-response.adoc[]
 {cardId}부분에 응답받은 카드의 ID를 입력해서 요청합니다.
 
 [[portfoliocard-get-svg-image-errorhandle]]
-==== 발생할수있는 애러
+==== 발생할 수 있는 에러
 
 ===== <<NonExistUserException>>
 
@@ -570,7 +572,7 @@ Authorization헤더의 인증타입이 'Bearer'이 아니거나 토큰의 형태
 
 [[IncorrectClaimException]]
 === IncorrectClaimException
-서버에서 생산한 Claim과 요청 헤더의 Claim이 다를경우 발생합니다.
+서버에서 생산한 토큰의 Claim과 요청 헤더의 Claim이 다를경우 발생합니다.
 
 [[SignatureException]]
 === SignatureException
