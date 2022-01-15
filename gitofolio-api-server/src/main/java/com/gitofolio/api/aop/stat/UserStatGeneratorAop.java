@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.gitofolio.api.aop.AnnotationExtractor;
 import com.gitofolio.api.service.user.UserStatService;
 import com.gitofolio.api.service.user.UserStatisticsService;
 import com.gitofolio.api.aop.stat.annotation.UserStatGenerator;
@@ -24,37 +25,33 @@ public class UserStatGeneratorAop{
 	
 	@Autowired
 	private UserStatService userStatService;
-	
+
 	@Autowired
 	private UserStatisticsService userStatisticsService;
 	
 	@Autowired
 	private HttpServletRequest httpServletRequest;
 	
+	@Autowired
+	@Qualifier("annotationExtractor") 
+	private AnnotationExtractor<UserStatGenerator> annotationExtractor;
+	
+	
 	@AfterReturning("@annotation(com.gitofolio.api.aop.stat.annotation.UserStatGenerator)")
 	public void generateUserStat(JoinPoint joinPoint){
-		String methodName = joinPoint.getSignature().getName();
-		Class target = joinPoint.getTarget().getClass();
-		Method[] methods = target.getDeclaredMethods();
 		
-		UserStatGenerator userStatGenerator = null;
-		for(Method method : methods){
-			if(method.getName().equals(methodName)){
-				userStatGenerator = method.getAnnotation(UserStatGenerator.class);
-				break;
-			}
-		}
-		
+		UserStatGenerator userStatGenerator = this.annotationExtractor.extractAnnotation(joinPoint, UserStatGenerator.class);
 		int idx = userStatGenerator.idx();
-		Object[] params = joinPoint.getArgs();
 		
-		if(params[idx].getClass().equals(Long.class)){
-			this.increaseVisitCount((Long)params[idx]);
-			this.setReffererSite((Long)params[idx]);
+		Object[] args = joinPoint.getArgs();
+		
+		if(args[idx].getClass().equals(Long.class)){
+			this.increaseVisitCount((Long)args[idx]);
+			this.setReffererSite((Long)args[idx]);
 		}
-		if(params[idx].getClass().equals(String.class)){
-			this.increaseVisitCount((String)params[idx]);
-			this.setReffererSite((String)params[idx]);
+		if(args[idx].getClass().equals(String.class)){
+			this.increaseVisitCount((String)args[idx]);
+			this.setReffererSite((String)args[idx]);
 		}
 	}
 	

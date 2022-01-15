@@ -2,11 +2,13 @@ package com.gitofolio.api.aop.svg;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.ProceedingJoinPoint;
 
+import com.gitofolio.api.aop.AnnotationExtractor;
 import com.gitofolio.api.aop.svg.annotation.SvgStringLineBreaker;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.common.secure.XssProtector;
@@ -31,41 +33,28 @@ public class SvgStringLineBreakerAop{
 	private final int[] ascii;
 	private final int noAscii = 12;
 	private final XssProtector xssProtector;
+	private final AnnotationExtractor<SvgStringLineBreaker> annotationExtractor;
 	
 	@Around("@annotation(com.gitofolio.api.aop.svg.annotation.SvgStringLineBreaker)")
 	public Object lineBreak(ProceedingJoinPoint joinPoint) throws Throwable{
-		Class target = joinPoint.getTarget().getClass();
-		Method[] methods = target.getMethods();
-		String methodName = joinPoint.getSignature().getName();
 		
-		SvgStringLineBreaker annotation = null;  
-		for(Method method : methods)
-			if(method.getName().equals(methodName)) annotation = method.getAnnotation(SvgStringLineBreaker.class);
+		SvgStringLineBreaker svgStringLineBreaker = this.annotationExtractor.extractAnnotation(joinPoint, SvgStringLineBreaker.class);
 		
-		int width = annotation.width();
-		int idx = annotation.idx();
+		int width = svgStringLineBreaker.width();
+		int idx = svgStringLineBreaker.idx();
 		
-		Object[] params = joinPoint.getArgs();
+		Object[] args = joinPoint.getArgs();
+		String svgString = parseStringToSvgString(args[idx]);
 		
-		String string = "";
-		try{
-			if(params[idx].getClass().equals(String.class)) string = (String)params[idx];
-			else{
-				SvgBreakAble b = (SvgBreakAble)params[idx];
-				string = b.breakTarget();
-			}
-		}catch(Exception e){
-			throw new IllegalArgumentException("SvgStringLineBreaker 어노테이션이 참조하는 파라미터의 타입은 파싱 불가능함");
+		if(isEmptyString(svgString)) return joinPoint.proceed(args);
+		svgString = breakLine(width, splitWords(width, svgString));
+		
+		if(args[idx].getClass().equals(String.class)) args[idx] = svgString;
+		else{
+			((SvgBreakAble)args[idx]).setBreakedString(svgString);
 		}
 		
-		if(!string.equals("") && !string.equals(" ")){
-			string = breakLine(width, splitWords(width, string));
-			if(params[idx].getClass().equals(String.class)) params[idx] = string;
-			else{
-				((SvgBreakAble)params[idx]).setBreakedString(string);
-			}
-		}
-		return joinPoint.proceed(params);
+		return joinPoint.proceed(args);
 	}
 	
 	private String breakLine(int width, List<String> words){
@@ -116,7 +105,8 @@ public class SvgStringLineBreakerAop{
 	}
 	
 	/*
-		너무 긴 문자열을 강제로 자름
+		하나의 문자열이 너무 길어서 한 줄을 초과할시
+		강제로 개행문자 처리한다.
 	*/
 	private List<String> splitTooLongWord(int width, String string){
 		char[] word = string.toCharArray();
@@ -136,6 +126,24 @@ public class SvgStringLineBreakerAop{
 		}
 		ans.add(splited.toString());
 		return ans;
+	}
+	
+	private String parseStringToSvgString(Object target){
+		String string = "";
+		try{
+			if(target.getClass().equals(String.class)) string = (String)target;
+			else{
+				SvgBreakAble svgBreakAble = (SvgBreakAble)target;
+				string = svgBreakAble.breakTarget();
+			}
+		}catch(Exception e){
+			throw new IllegalArgumentException("SVGString으로 파싱 불가능한 타입입니다.");
+		}
+		return string;
+	}
+	
+	private boolean isEmptyString(String string){
+		return (string.equals("") || string.equals(" ")) ? true : false;
 	}
 	
 	private boolean isTooLongWord(int width, String string){
@@ -161,7 +169,9 @@ public class SvgStringLineBreakerAop{
 	}
 	
 	@Autowired
-	public SvgStringLineBreakerAop(XssProtector xssProtector){
+	public SvgStringLineBreakerAop(XssProtector xssProtector,
+								  @Qualifier("annotationExtractor") AnnotationExtractor<SvgStringLineBreaker> annotationExtractor){
+		this.annotationExtractor = annotationExtractor;
 		this.xssProtector = xssProtector;
 		ascii = new int[130];
 		ascii[32] = 3;
