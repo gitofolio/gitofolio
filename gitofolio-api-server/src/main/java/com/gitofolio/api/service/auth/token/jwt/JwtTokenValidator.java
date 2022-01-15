@@ -21,14 +21,34 @@ import javax.servlet.http.HttpServletRequest;
 public class JwtTokenValidator implements TokenValidator{
 	
 	@Autowired
-	private HttpServletRequest httpServletRequest;
+	private HttpServletRequest httpServletRequest; // thread-safe하니 의심하지말것
 	
 	@Autowired
 	private JwtSecret jwtSecret;
 	
 	@Override
 	public String currentLogined(){
-		String token = extractToken(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+		return this.parseToken();
+	}
+	
+	@Override
+	public boolean validateToken(String validateTarget){
+		String tokenValue = this.parseToken();
+		if(!tokenValue.equals(validateTarget))
+			throw new AuthenticateException("JWT토큰인증 오류", "접근할 수 없는 문서입니다.");
+		return true;
+	}
+	
+	@Override
+	public boolean validateToken(TokenAble validateTarget){
+		String tokenValue = this.parseToken();
+		if(!tokenValue.equals(validateTarget.token()))
+			throw new AuthenticateException("JWT토큰인증 오류", "접근할 수 없는 문서입니다.");
+		return true;
+	}
+	
+	private String parseToken(){
+		String token = extractTokenInHeader();
 		try{
 			return Jwts.parser()
 				.setSigningKey(this.jwtSecret.getSecretKey())
@@ -36,38 +56,6 @@ public class JwtTokenValidator implements TokenValidator{
 				.parseClaimsJws(token)
 				.getBody()
 				.get(this.jwtSecret.getId(), String.class);
-		}catch(IncorrectClaimException ICE){
-			throw new IncorrectClaimException(ICE.getHeader(), ICE.getClaims(), "변조된 토큰이거나 기간 만료된 토큰입니다.");
-		}catch(MissingClaimException MCE){
-			throw new MissingClaimException(MCE.getHeader(), MCE.getClaims(), "사용할수없는 토큰입니다.");
-		}catch(SignatureException SE){
-			throw new SignatureException("유효하지 않은 sign을 갖고있는 토큰입니다.");
-		}
-	}
-	
-	@Override
-	public boolean validateToken(String target){
-		return getValue(target);
-	}
-	
-	@Override
-	public boolean validateToken(TokenAble target){
-		return getValue(target.token());
-	}
-	
-	private boolean getValue(String target){
-		String token = extractToken(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
-		try{
-			Claims claims = Jwts.parser()
-				.setSigningKey(this.jwtSecret.getSecretKey())
-				.requireIssuer(this.jwtSecret.getIssuer())
-				.parseClaimsJws(token)
-				.getBody();
-			
-			if(!claims.get(this.jwtSecret.getId(), String.class).equals(target)) 
-				throw new AuthenticateException("JWT토큰인증 오류", "접근할 수 없는 문서입니다.");
-			
-			return claims.get(this.jwtSecret.getId(), String.class).equals(target);
 		}catch(IncorrectClaimException ICE){
 			throw new IncorrectClaimException(ICE.getHeader(), ICE.getClaims(), "유효하지 않은 토큰입니다.");
 		}catch(MissingClaimException MCE){
@@ -77,7 +65,8 @@ public class JwtTokenValidator implements TokenValidator{
 		}
 	}
 	
-	private String extractToken(String authorization){
+	private String extractTokenInHeader(){
+		String authorization = this.httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 		if(authorization == null || !authorization.startsWith("Bearer ")) throw new UnsupportedJwtException("토큰이 존재하지않거나, 토큰 인증 타입이 Bearer로 시작하지 않습니다.");
 		return authorization.substring("Bearer ".length());
 	}

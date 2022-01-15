@@ -59,7 +59,7 @@ public class SvgStringLineBreakerAop{
 		}
 		
 		if(!string.equals("") && !string.equals(" ")){
-			string = breakLine(width, splitWord(width, string));
+			string = breakLine(width, splitWords(width, string));
 			if(params[idx].getClass().equals(String.class)) params[idx] = string;
 			else{
 				((SvgBreakAble)params[idx]).setBreakedString(string);
@@ -102,7 +102,7 @@ public class SvgStringLineBreakerAop{
 		문자열을 단어, 개행문자기준으로 자름 
 		이때, 하나의 문자열이 width값을 넘어간다면 강제로 자름
 	*/
-	private List<String> splitWord(int width, String word){
+	private List<String> splitWords(int width, String word){
 		String[] words = word.split(" ");
 		List<String> ans = new ArrayList<String>();
 		for(String string : words){

@@ -80,9 +80,9 @@ public class OAuthController{
 		
 		userDTO = this.userInfoCrudProxy.create(userDTO);
 		
-		String token = jwtTokenGenerator.generateToken((TokenAble)userDTO);
+		String token = this.jwtTokenGenerator.generateToken((TokenAble)userDTO);
 		String uuid = UUID.randomUUID().toString().replaceAll("-","");
-		this.oauthTokenPool.create(uuid, token);
+		this.oauthTokenPool.saveToken(uuid, token);
 		
 		httpServletResponse.addHeader(HttpHeaders.LOCATION, redirect+"?cert="+uuid);
 			

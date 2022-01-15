@@ -22,7 +22,7 @@ public class OauthTokenPool{
 		this.tokenPool = new ConcurrentHashMap<String, Token>();
 	}
 	
-	public void create(String cert, String token){
+	public void saveToken(String cert, String token){
 		this.tokenPool.put(cert, new Token(token));
 	}
 	

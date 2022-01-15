@@ -4,8 +4,8 @@ public interface TokenValidator{
 	
 	String currentLogined();
 	
-	boolean validateToken(String token);
+	boolean validateToken(String validateTarget);
 	
-	boolean validateToken(TokenAble token);
+	boolean validateToken(TokenAble validateTarget);
 	
 }
