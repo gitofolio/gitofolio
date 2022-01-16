@@ -33,29 +33,21 @@ public class JwtTokenValidator implements TokenValidator{
 	
 	@Override
 	public boolean validateToken(String validateTarget){
-		String tokenValue = this.parseToken();
-		if(!tokenValue.equals(validateTarget))
+		if(!this.validateTokenRealTask(this.parseToken(), validateTarget)) 
 			throw new AuthenticateException("JWT토큰인증 오류", "접근할 수 없는 문서입니다.");
 		return true;
 	}
 	
 	@Override
 	public boolean validateToken(TokenAble validateTarget){
-		String tokenValue = this.parseToken();
-		if(!tokenValue.equals(validateTarget.token()))
+		if(!this.validateTokenRealTask(this.parseToken(), validateTarget.token())) 
 			throw new AuthenticateException("JWT토큰인증 오류", "접근할 수 없는 문서입니다.");
 		return true;
 	}
 	
 	private String parseToken(){
-		String token = extractTokenInHeader();
 		try{
-			return Jwts.parser()
-				.setSigningKey(this.jwtSecret.getSecretKey())
-				.requireIssuer(this.jwtSecret.getIssuer())
-				.parseClaimsJws(token)
-				.getBody()
-				.get(this.jwtSecret.getId(), String.class);
+			return parseTokenRealTask();
 		}catch(IncorrectClaimException ICE){
 			throw new IncorrectClaimException(ICE.getHeader(), ICE.getClaims(), "유효하지 않은 토큰입니다.");
 		}catch(MissingClaimException MCE){
@@ -63,6 +55,22 @@ public class JwtTokenValidator implements TokenValidator{
 		}catch(SignatureException SE){
 			throw new SignatureException("유효하지 않은 sign을 갖고있는 토큰입니다.");
 		}
+	}
+	
+	private String parseTokenRealTask() throws IncorrectClaimException, MissingClaimException, SignatureException{
+		String token = extractTokenInHeader();
+		
+		return Jwts.parser()
+			.setSigningKey(this.jwtSecret.getSecretKey())
+			.requireIssuer(this.jwtSecret.getIssuer())
+			.parseClaimsJws(token)
+			.getBody()
+			.get(this.jwtSecret.getId(), String.class);
+	}
+	
+	private boolean validateTokenRealTask(String actual, String expected){
+		if(!expected.equals(actual)) return false;
+		return true;
 	}
 	
 	private String extractTokenInHeader(){

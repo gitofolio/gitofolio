@@ -29,7 +29,7 @@ public class ExpectedTimeAop{
 		
 		ExpectedTime expectedTime = this.annotationExtractor.extractAnnotation(proceedingJoinPoint, ExpectedTime.class);
 		
-		long expectMilliSec = expectedTime.milliSec();
+		long expectedMilliSec = expectedTime.milliSec();
 		long startMilliSec = System.currentTimeMillis();
 		
 		Object result = proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
@@ -38,14 +38,18 @@ public class ExpectedTimeAop{
 		
 		String methodName = proceedingJoinPoint.getSignature().getName();
 		Class targetClass = proceedingJoinPoint.getTarget().getClass();
-		if(endMilliSec - startMilliSec > expectMilliSec){
-			this.logger.warn(targetClass.toString() + "." + methodName + " Timeout / Expected time : " + expectMilliSec + ", Excution time : " + (endMilliSec - startMilliSec));
-		}
-		else {
-			this.logger.info(targetClass.toString() + "." + methodName + " Expected time : " + expectMilliSec + ", Excution time : " + (endMilliSec - startMilliSec));
-		}
+		
+		doLog(targetClass.toString()+"."+methodName, endMilliSec-startMilliSec, expectedMilliSec);
 		
 		return result;
+	}
+	
+	private void doLog(String triggerInfo, long excutionMilliSec, long expectedMillisec){
+		if(excutionMilliSec > expectedMillisec){
+			this.logger.warn(triggerInfo + " Timeout / Expected time : " + expectedMillisec + ", Excution time : " + excutionMilliSec);
+		}else{
+			this.logger.info(triggerInfo + " Expected time : " + expectedMillisec + ", Excution time : " + excutionMilliSec);
+		}
 	}
 	
 	@Autowired

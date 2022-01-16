@@ -131,13 +131,19 @@ public class SvgStringLineBreakerAop{
 	private String parseStringToSvgString(Object target){
 		String string = "";
 		try{
-			if(target.getClass().equals(String.class)) string = (String)target;
-			else{
-				SvgBreakAble svgBreakAble = (SvgBreakAble)target;
-				string = svgBreakAble.breakTarget();
-			}
+			string = parseStringToSvgStringRealTask(target);
 		}catch(Exception e){
 			throw new IllegalArgumentException("SVGString으로 파싱 불가능한 타입입니다.");
+		}
+		return string;
+	}
+	
+	private String parseStringToSvgStringRealTask(Object target) throws Exception{
+		String string = "";
+		if(target.getClass().equals(String.class)) string = (String)target;
+		else{
+			SvgBreakAble svgBreakAble = (SvgBreakAble)target;
+			string = svgBreakAble.breakTarget();
 		}
 		return string;
 	}

@@ -39,16 +39,20 @@ public class HateoasSetterAop{
 	
 	private boolean isHateoasAble(Object aopTarget){
 		try{
-			if(isResponseEntity(aopTarget)){
-				HateoasAble hateoasAble = (HateoasAble)(((ResponseEntity)aopTarget).getBody());
-			}
-			else {
-				HateoasAble hateoasAble = (HateoasAble)aopTarget;
-			}
+			isHateoasAbleRealTask(aopTarget);
 		}catch(ClassCastException CCE){
 			return false;
 		}
 		return true;
+	}
+	
+	private void isHateoasAbleRealTask(Object aopTarget) throws ClassCastException{
+		if(isResponseEntity(aopTarget)){
+			HateoasAble hateoasAble = (HateoasAble)(((ResponseEntity)aopTarget).getBody());
+		}
+		else {
+			HateoasAble hateoasAble = (HateoasAble)aopTarget;
+		}
 	}
 	
 	private boolean isResponseEntity(Object aopTarget){
