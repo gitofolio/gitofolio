@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.factory.hateoas.Hateoas;
 
 public enum HateoasType {
 	

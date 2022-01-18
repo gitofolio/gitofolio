@@ -31,20 +31,20 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.gitofolio.api.service.user.proxy.CrudProxy;
-import com.gitofolio.api.service.user.factory.CrudFactory;
+import com.gitofolio.api.service.proxy.CrudProxy;
+import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.service.user.exception.*;
 import com.gitofolio.api.service.auth.token.TokenValidator;
 import com.gitofolio.api.service.auth.token.TokenAble;
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
-import com.gitofolio.api.service.user.factory.hateoas.PortfolioCardHateoas;
+import com.gitofolio.api.service.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.factory.hateoas.PortfolioCardHateoas;
 import com.gitofolio.api.service.user.UserStatService;
 import com.gitofolio.api.service.user.UserStatisticsService;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgFactory;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgDTO;
-import com.gitofolio.api.service.user.factory.Factory;
-import com.gitofolio.api.service.user.factory.parameter.PortfolioCardSvgParameter;
+import com.gitofolio.api.service.factory.Factory;
+import com.gitofolio.api.service.factory.parameter.PortfolioCardSvgParameter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -6,7 +6,7 @@ public interface OauthApplication{
 	
 	String getName();
 	String getUrl();
-	String getUrlWithRedirect(String redirect);
+	String getUrlWithQueryString(String queryString);
 	Authenticator getAuthenticator();
 	
 }

@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Gitofolio RESTful API Docs</h1>
 <div class="details">
-<span id="revnumber">version 0.2.5</span>
+<span id="revnumber">version 0.2.6</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -456,6 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#auth-flow">Authenticate-flow</a></li>
 <li><a href="#auth-do">Authenticate-detail</a>
 <ul class="sectlevel3">
+<li><a href="#_personal_access_token_발급받기">Personal access token 발급받기</a></li>
 <li><a href="#_서버로_인증요청_보내기">서버로 인증요청 보내기</a></li>
 <li><a href="#_임시토큰으로_실제_사용_토큰_발급받기">임시토큰으로 실제 사용 토큰 발급받기</a></li>
 <li><a href="#auth-errorhandle">발생할 수 있는 에러</a></li>
@@ -758,7 +759,10 @@ Content-Length: 1247
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>클라이언트는 서버로 인증요청을 보냅니다. 이때, 인증에 사용할 application과 인증이 끝나고 임시토큰을 발급받을 url을 파라미터로 보내야합니다. -user</p>
+<p>클라이언트는 사전에 personal access token을 발급받습니다. -user</p>
+</li>
+<li>
+<p>클라이언트는 서버로 인증요청을 보냅니다. 이때, 인증에 사용할 application과 인증이 끝나고 임시토큰을 발급받을 url, 인증에 사용할 personal access token의 'key&#8217;를 쿼리스트링으로 보내야합니다. -user</p>
 </li>
 <li>
 <p>서버는 클라이언트를 application에 해당하는 인증서버로 리다이렉트 시킵니다.</p>
@@ -767,9 +771,23 @@ Content-Length: 1247
 <p>클라이언트는 인증서버에 자신의 정보를 입력해 인증합니다. -user</p>
 </li>
 <li>
-<p>서버는 인증서버로 부터 넘겨받은 유저 정보를 분석하여 임시토큰을 발급후, 1번에서 입력한 url로 임시토큰을 전달합니다.</p>
+<p>서버는 인증서버로 부터 넘겨받은 유저 정보를 분석하여 임시토큰을 발급후, 1번에서 입력된 url로 임시토큰을 전달합니다. (쿼리스트링으로 전달됩니다.)</p>
+</li>
+<li>
+<p>클라이언트는 받은 임시토큰과 2번과정에서 입력한 personal access token의 key와 매칭되는 tokenvalue를 /token로 보내 실제사용할 토큰을 얻습니다. -user</p>
 </li>
 </ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="auth-do"><a class="link" href="#auth-do">Authenticate-detail</a></h3>
+<div class="paragraph">
+<p>이 목차에는 인증을 위해 클라이언트가 해야하는 과정이 자세히 적혀있습니다.</p>
+</div>
+<div class="sect3">
+<h4 id="_personal_access_token_발급받기"><a class="link" href="#_personal_access_token_발급받기">Personal access token 발급받기</a></h4>
+<div class="paragraph">
+<p>인증을 시작하기 앞서 Personal access token을 발급받아야 합니다.</p>
 </div>
 <div class="admonitionblock caution">
 <table>
@@ -778,23 +796,48 @@ Content-Length: 1247
 <div class="title">Caution</div>
 </td>
 <td class="content">
-임시토큰은 1회성 토큰이며, 5분동안만 유지됩니다.
+Personal access token은 30일동안 미사용시 자동으로 삭제됩니다. 발급받은 personal access token은 절대 다시 확인할수없으니 잘 저장해주세요.
 </td>
 </tr>
 </table>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>클라이언트는 받은 임시토큰을 /token로 보내 실제사용할 토큰을 얻습니다.-user</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="auth-do"><a class="link" href="#auth-do">Authenticate-detail</a></h3>
 <div class="paragraph">
-<p>이 목차에는 인증을 위해 클라이언트가 해야하는 행동이 자세히 적혀있습니다.</p>
+<p><a href="http://api.gitofolio.com/token/personal?application=github">Personal Access Token 발급받기</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>GET: http://api.gitofolio.com/token/personal?application={Personal Access Token 발급에 사용할 OAuth 애플리케이션}</pre>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_현재_사용할수있는_oauth_애플리케이션_목록"><a class="link" href="#_현재_사용할수있는_oauth_애플리케이션_목록">현재 사용할수있는 OAuth 애플리케이션 목록</a></h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">application</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">github</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>또한, 현재 갖고있는 personal access token이 유효한지 확인하는 메소드를 제공합니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>HEAD: http://api.gitofolio.com/token/personal?accesskey={유효한지 확인할 accesskey}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>정상적으로 200 OK를 반환한다면 유효한 personal access token 입니다.</p>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_서버로_인증요청_보내기"><a class="link" href="#_서버로_인증요청_보내기">서버로 인증요청 보내기</a></h4>
@@ -806,11 +849,11 @@ Content-Length: 1247
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>GET: http://api.gitofolio.com/oauth?application={인증에 사용할 OAuth 애플리케이션}&amp;redirect={임시토큰을 발급받을 url}</pre>
+<pre>GET: http://api.gitofolio.com/oauth?application={인증에 사용할 OAuth 애플리케이션}&amp;redirect={임시토큰을 발급받을 url}&amp;accesskey={인증에 사용할 personal access token의 'key'}</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>임시토큰을 발급받을 url은 스킴을 포함한 완전한 url이여야 합니다.</p>
+<p>임시토큰을 발급받을 url은 스킴을 포함한 완전한 url이여야 하며, 쿼리스트링과 +(서버 예약어 입니다.)를 포함해서는 안됩니다.</p>
 </div>
 <div class="paragraph">
 <p>url 예시</p>
@@ -819,12 +862,13 @@ Content-Length: 1247
 <div class="content">
 <pre>https://api.gitofolio.com (O)
 http://api.gitofolio.com (O)
+http://api.gitofolio.com?querystring=helloworld (X)
 api.gitofolio.com (X)
 /gitofolio (X)</pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_현재_사용할수있는_oauth_애플리케이션_목록"><a class="link" href="#_현재_사용할수있는_oauth_애플리케이션_목록">현재 사용할수있는 OAuth 애플리케이션 목록</a></h5>
+<h5 id="_현재_사용할수있는_oauth_애플리케이션_목록_2"><a class="link" href="#_현재_사용할수있는_oauth_애플리케이션_목록_2">현재 사용할수있는 OAuth 애플리케이션 목록</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -845,7 +889,7 @@ api.gitofolio.com (X)
 <div class="sect3">
 <h4 id="_임시토큰으로_실제_사용_토큰_발급받기"><a class="link" href="#_임시토큰으로_실제_사용_토큰_발급받기">임시토큰으로 실제 사용 토큰 발급받기</a></h4>
 <div class="paragraph">
-<p>앞선 인증과정이 성공적으로 완료되었다면, <a href="#auth-flow">Authenticate-flow</a> 목차 1번에서 설정한 redirect파라미터에 입력된 url의 파라미터로 임시토큰이 발급됩니다.</p>
+<p>앞선 인증과정이 성공적으로 완료되었다면, redirect파라미터에 입력된 url의 파라미터로 임시토큰이 발급됩니다.</p>
 </div>
 <div class="admonitionblock caution">
 <table>
@@ -854,7 +898,7 @@ api.gitofolio.com (X)
 <div class="title">Caution</div>
 </td>
 <td class="content">
-앞서 적었듯이, 임시토큰은 1회성 토큰이며, 5분의 유효시간을 갖고있습니다.
+임시토큰은 1회성 토큰이며, 5분의 유효시간을 갖고있습니다.
 </td>
 </tr>
 </table>
@@ -864,7 +908,7 @@ api.gitofolio.com (X)
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>GET: http://api.gitofolio.com/oauth?application=github&amp;redirect=http://api.gitofolio.com</pre>
+<pre>GET: http://api.gitofolio.com/oauth?application=github&amp;redirect=http://api.gitofolio.com&amp;accesskey=3891</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -885,10 +929,10 @@ api.gitofolio.com (X)
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 43
+Content-Length: 220
 Host: api.gitofolio.com:80
 
-{"cert":"7f6538de87c744ed92b70d4fb9ee070c"}</code></pre>
+{"cert":"7f6538de87c744ed92b70d4fb9ee070c","accessToken":"54255f6a03eb475996d1a75f4efc28fefeaa25962f9a4de28ce04e745562a4c30a98748751494f258a5498f3de345c71e4c58ae0695e4e539d29c478d1a958191427ffab41564d5e862d3e8a75742232"}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -908,7 +952,12 @@ Host: api.gitofolio.com:80
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>cert</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP BODY에 전달받은 토큰을 입력합니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">쿼리스트링으로 전달받은 cert값을 입력합니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accessToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사전에 발급받은 personal access token의 tokenvalue를 입력합니다.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1043,27 +1092,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3524,
+    "id" : 4533,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3525,
+    "id" : 4534,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3526,
+    "id" : 4535,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3527,
+    "id" : 4536,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3528,
+    "id" : 4537,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -1393,7 +1442,7 @@ Content-Length: 650
 <div class="title">Caution</div>
 </td>
 <td class="content">
-JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목차를 참고하세요.
+JWT토큰 인증 필요 자세한 내용은 인증 목차를 참고하세요.
 </td>
 </tr>
 </table>
@@ -1734,12 +1783,12 @@ Content-Length: 467
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2022-01-14",
+      "visitDate" : "2022-01-18",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2022-01-14"
+      "refferingDate" : "2022-01-18"
     } ]
   }
 }</code></pre>
@@ -1917,27 +1966,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3524,
+    "id" : 4533,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3525,
+    "id" : 4534,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3526,
+    "id" : 4535,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3527,
+    "id" : 4536,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3528,
+    "id" : 4537,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2067,7 +2116,7 @@ Content-Length: 1735
 <div class="title">Caution</div>
 </td>
 <td class="content">
-JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목차를 참고하세요.
+JWT토큰 인증 필요 자세한 내용은 인증 목차를 참고하세요.
 </td>
 </tr>
 </table>
@@ -2149,32 +2198,32 @@ Content-Length: 1913
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3513,
+    "id" : 4522,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3514,
+    "id" : 4523,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3515,
+    "id" : 4524,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3516,
+    "id" : 4525,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3517,
+    "id" : 4526,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
   }, {
-    "id" : 3518,
+    "id" : 4527,
     "portfolioCardArticle" : "this is new portfoliocard",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/6"
@@ -2320,7 +2369,7 @@ Content-Length: 1913
 <div class="title">Caution</div>
 </td>
 <td class="content">
-JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목차를 참고하세요.
+JWT토큰 인증 필요 자세한 내용은 인증 목차를 참고하세요.
 </td>
 </tr>
 </table>
@@ -2332,7 +2381,7 @@ JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=3544 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=4553 HTTP/1.1
 Accept: */*
 Host: api.gitofolio.com:80</code></pre>
 </div>
@@ -2437,7 +2486,7 @@ name</code></pre>
 <div class="title">Caution</div>
 </td>
 <td class="content">
-JWT토큰 인증 필요 자세한 내용은 로그인된 유저 가져오기 목차를 참고하세요.
+JWT토큰 인증 필요 자세한 내용은 인증 목차를 참고하세요.
 </td>
 </tr>
 </table>
@@ -2455,7 +2504,7 @@ Accept: application/json
 Content-Length: 273
 Host: api.gitofolio.com:80
 
-{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":3534,"portfolioCardArticle":"Lorem ipsum","portfolioCardStars":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
+{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":4543,"portfolioCardArticle":"Lorem ipsum","portfolioCardStars":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2526,27 +2575,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3534,
+    "id" : 4543,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3535,
+    "id" : 4544,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3536,
+    "id" : 4545,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3537,
+    "id" : 4546,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3538,
+    "id" : 4547,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2704,11 +2753,6 @@ Content-Length: 1735
 </tr>
 </table>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="https://img.shields.io/badge/License-Apache%202.0-blue" alt="example-card">
-</div>
-</div>
 <div class="sect3">
 <h4 id="portfoliocard-get-svg-image-request"><a class="link" href="#portfoliocard-get-svg-image-request">Request</a></h4>
 <div class="paragraph">
@@ -2733,27 +2777,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3524,
+    "id" : 4533,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3525,
+    "id" : 4534,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3526,
+    "id" : 4535,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3527,
+    "id" : 4536,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3528,
+    "id" : 4537,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2898,8 +2942,8 @@ Content-Length: 42
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2.5<br>
-Last updated 2022-01-14 14:55:57 UTC
+Version 0.2.6<br>
+Last updated 2022-01-18 09:42:59 UTC
 </div>
 </div>
 </body>

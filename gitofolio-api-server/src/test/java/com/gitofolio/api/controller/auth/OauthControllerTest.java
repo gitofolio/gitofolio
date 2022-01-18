@@ -61,9 +61,10 @@ public class OauthControllerTest{
 		// given
 		Map<String, String> payload = new HashMap<String, String>();
 		payload.put("cert", "7f6538de87c744ed92b70d4fb9ee070c");
+		payload.put("accessToken", "54255f6a03eb475996d1a75f4efc28fefeaa25962f9a4de28ce04e745562a4c30a98748751494f258a5498f3de345c71e4c58ae0695e4e539d29c478d1a958191427ffab41564d5e862d3e8a75742232");
 		
 		// when
-		given(this.oauthTokenPool.getToken(any(String.class))).willReturn("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+		given(this.oauthTokenPool.getToken(any(String.class), any(String.class))).willReturn("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
 		String body = objectMapper.writeValueAsString(payload);
 			
 		// then
@@ -71,7 +72,8 @@ public class OauthControllerTest{
 			.andExpect(status().isOk())
 			.andDo(document("oauth/token",
 							requestFields(
-								fieldWithPath("cert").description("HTTP BODY에 전달받은 토큰을 입력합니다.")
+								fieldWithPath("cert").description("쿼리스트링으로 전달받은 cert값을 입력합니다."),
+								fieldWithPath("accessToken").description("사전에 발급받은 personal access token의 tokenvalue를 입력합니다.")
 							),
 							responseFields(
 								fieldWithPath("type").description("token의 인증 타입입니다."),

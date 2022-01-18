@@ -80,7 +80,6 @@ public class UserInfoService{
 		return this.get(exist.getName());
 	}
 	
-	// constructor
 	@Autowired
 	public UserInfoService(UserInfoRepository userInfoRepository,
 						  UserStatRepository userStatRepository,

@@ -1,10 +1,10 @@
-package com.gitofolio.api.service.user.proxy;
+package com.gitofolio.api.service.proxy;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.gitofolio.api.service.user.factory.CrudFactory;
+import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.service.user.exception.*;
 

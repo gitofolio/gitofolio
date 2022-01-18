@@ -11,8 +11,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.http.HttpStatus;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.user.proxy.CrudProxy;
-import com.gitofolio.api.service.user.factory.CrudFactory;
+import com.gitofolio.api.service.proxy.CrudProxy;
+import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.aop.stat.annotation.UserStatGenerator; 
 

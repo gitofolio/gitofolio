@@ -11,11 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.user.proxy.CrudProxy;
-import com.gitofolio.api.service.user.factory.CrudFactory;
+import com.gitofolio.api.service.proxy.CrudProxy;
+import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
 import com.gitofolio.api.service.auth.token.TokenValidator;
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.factory.hateoas.Hateoas;
 import com.gitofolio.api.aop.auth.annotation.AuthToken;
 import com.gitofolio.api.aop.auth.annotation.TokenType;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;

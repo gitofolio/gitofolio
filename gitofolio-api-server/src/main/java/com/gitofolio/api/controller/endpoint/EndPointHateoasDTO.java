@@ -1,8 +1,8 @@
 package com.gitofolio.api.controller.endpoint;
 
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
-import com.gitofolio.api.service.user.factory.hateoas.HateoasAble;
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas.Link;
+import com.gitofolio.api.service.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.factory.hateoas.HateoasAble;
+import com.gitofolio.api.service.factory.hateoas.Hateoas.Link;
 
 import org.springframework.stereotype.Component;
 

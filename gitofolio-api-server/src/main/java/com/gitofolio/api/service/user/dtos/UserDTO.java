@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.gitofolio.api.domain.user.UserInfo;
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas.Link;
+import com.gitofolio.api.service.factory.hateoas.Hateoas.Link;
 import com.gitofolio.api.service.auth.token.TokenAble;
-import com.gitofolio.api.service.user.factory.hateoas.HateoasAble;
+import com.gitofolio.api.service.factory.hateoas.HateoasAble;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

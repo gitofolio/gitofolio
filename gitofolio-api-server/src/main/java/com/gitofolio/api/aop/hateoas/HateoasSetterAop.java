@@ -12,8 +12,8 @@ import org.aspectj.lang.JoinPoint;
 import com.gitofolio.api.aop.AnnotationExtractor;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
-import com.gitofolio.api.service.user.factory.hateoas.HateoasAble;
-import com.gitofolio.api.service.user.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.factory.hateoas.HateoasAble;
+import com.gitofolio.api.service.factory.hateoas.Hateoas;
 
 import java.lang.reflect.Method;
 

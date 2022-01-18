@@ -21,8 +21,9 @@ public class GithubApplication implements OauthApplication{
 	}
 	
 	@Override
-	public String getUrlWithRedirect(String redirect){
-		return this.url+"&redirect_uri=http://api.giotofolio.com/oauth/github?redirect="+redirect;
+	public String getUrlWithQueryString(String queryString){
+		return getRealUrl()+queryString;
+		// return getTestUrl()+queryString;
 	}
 	
 	@Override
@@ -33,6 +34,10 @@ public class GithubApplication implements OauthApplication{
 	@Override
 	public Authenticator getAuthenticator(){
 		return this.githubAuthenticator;
+	}
+	  
+	private String getRealUrl(){
+		return this.url+"&redirect_uri=http://api.gitofolio.com/oauth/github";
 	}
 	
 	@Autowired

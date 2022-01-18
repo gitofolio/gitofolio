@@ -34,8 +34,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.gitofolio.api.service.user.proxy.CrudProxy;
-import com.gitofolio.api.service.user.factory.CrudFactory;
+import com.gitofolio.api.service.proxy.CrudProxy;
+import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.*;
 import com.gitofolio.api.service.auth.token.TokenValidator;

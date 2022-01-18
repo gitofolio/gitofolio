@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gitofolio.api.service.user.svg.color.colors.Color;
-import com.gitofolio.api.service.user.factory.Factory;
-import com.gitofolio.api.service.user.factory.parameter.StringParameter;
+import com.gitofolio.api.service.factory.Factory;
+import com.gitofolio.api.service.factory.parameter.StringParameter;
 
 import java.util.List;
 

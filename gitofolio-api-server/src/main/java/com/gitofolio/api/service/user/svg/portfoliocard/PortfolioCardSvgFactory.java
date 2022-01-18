@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.gitofolio.api.aop.svg.annotation.SvgStringLineBreaker;
 import com.gitofolio.api.service.user.svg.color.colors.Color;
 import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.user.factory.Factory;
-import com.gitofolio.api.service.user.factory.parameter.StringParameter;
-import com.gitofolio.api.service.user.factory.parameter.PortfolioCardSvgParameter;
+import com.gitofolio.api.service.factory.Factory;
+import com.gitofolio.api.service.factory.parameter.StringParameter;
+import com.gitofolio.api.service.factory.parameter.PortfolioCardSvgParameter;
 
 @Service
 public class PortfolioCardSvgFactory implements Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter>{
