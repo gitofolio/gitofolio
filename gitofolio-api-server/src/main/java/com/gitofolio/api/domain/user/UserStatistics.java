@@ -38,7 +38,6 @@ public class UserStatistics{
 	@JoinColumn(name="USER_INFO_ID")
 	private UserInfo userInfo;
 	
-	//getter
 	public Long getId(){
 		return this.id;
 	}
@@ -55,7 +54,6 @@ public class UserStatistics{
 		return this.userInfo;
 	}
 	
-	//setter
 	public void setVisitorStatistics(){
 		if(visitorStatistics.size() > 7) visitorStatistics.remove(0);
 		VisitorStatistics newVs = null;

@@ -17,14 +17,14 @@ public class EndPointController{
 	
 	private final EndPointHateoasDTO endPointHateoasDTO;
 	
-	@RequestMapping(path="/restdocs", method=RequestMethod.GET)
+	@RequestMapping(path = "/restdocs", method = RequestMethod.GET)
 	public String docs(){
 		return "restdocs";
 	}
 	
 	@ResponseBody
-	@HateoasSetter(hateoasType=HateoasType.ENDPOINTHATEOAS)
-	@RequestMapping(path="", method=RequestMethod.GET)
+	@HateoasSetter(hateoasType = HateoasType.ENDPOINTHATEOAS)
+	@RequestMapping(path = "", method = RequestMethod.GET)
 	public EndPointHateoasDTO endPoint(){
 		return this.endPointHateoasDTO;
 	}

@@ -31,12 +31,11 @@ import javax.servlet.http.HttpServletRequest;
 public class UserInfoController {
 	
 	private final CrudProxy<UserDTO> userInfoCrudProxy;
-	
 	private final TokenValidator jwtTokenValidator;
 	
 	@ExpectedTime
-	@HateoasSetter(hateoasType=HateoasType.USERINFOHATEOAS)
-	@RequestMapping(path="", method=RequestMethod.GET)
+	@HateoasSetter(hateoasType = HateoasType.USERINFOHATEOAS)
+	@RequestMapping(path="", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getLoginedUser(HttpServletRequest httpServletRequest){
 		
 		String name = jwtTokenValidator.currentLogined();
@@ -47,8 +46,8 @@ public class UserInfoController {
 	}
 	
 	@ExpectedTime
-	@HateoasSetter(hateoasType=HateoasType.USERINFOHATEOAS)
-	@RequestMapping(path="/{name}", method=RequestMethod.GET)
+	@HateoasSetter(hateoasType = HateoasType.USERINFOHATEOAS)
+	@RequestMapping(path="/{name}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUser(@PathVariable("name") String name){
 		
 		UserDTO userDTO = this.userInfoCrudProxy.read(name);
@@ -57,8 +56,8 @@ public class UserInfoController {
 	}
 	
 	@ExpectedTime
-	@AuthToken(tokenType=TokenType.JWT)
-	@RequestMapping(path="/{name}", method=RequestMethod.DELETE)
+	@AuthToken(tokenType = TokenType.JWT)
+	@RequestMapping(path = "/{name}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){
 		
 		this.userInfoCrudProxy.delete(name);

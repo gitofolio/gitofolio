@@ -24,8 +24,8 @@ public class UserStatController{
 	private final CrudProxy<UserDTO> userStatCrudProxy;
 	
 	@ExpectedTime
-	@HateoasSetter(hateoasType=HateoasType.USERSTATHATEOAS)
-	@RequestMapping(path="/{name}", method=RequestMethod.GET)
+	@HateoasSetter(hateoasType = HateoasType.USERSTATHATEOAS)
+	@RequestMapping(path = "/{name}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUserStat(@PathVariable("name") String name){
 		
 		UserDTO userDTO = userStatCrudProxy.read(name);

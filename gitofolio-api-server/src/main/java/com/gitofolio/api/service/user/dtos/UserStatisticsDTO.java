@@ -14,7 +14,6 @@ public class UserStatisticsDTO{
 		private String refferingSiteName;
 		private LocalDate refferingDate;
 		
-		// setter
 		public void setRefferingSiteName(String refferingSiteName){
 			this.refferingSiteName = refferingSiteName;
 		}
@@ -23,7 +22,6 @@ public class UserStatisticsDTO{
 			this.refferingDate = refferingDate;
 		}
 		
-		// getter
 		public String getRefferingSiteName(){
 			return this.refferingSiteName;
 		}
@@ -31,8 +29,6 @@ public class UserStatisticsDTO{
 		public LocalDate getRefferingDate(){
 			return this.refferingDate;
 		}
-		
-		// constructor
 		
 		public RefferingSiteDTO(){
 			
@@ -48,7 +44,6 @@ public class UserStatisticsDTO{
 		private LocalDate visitDate;	
 		private int visitorCount;
 		
-		// setter
 		public void setVisitDate(LocalDate visitDate){
 			this.visitDate = visitDate;
 		}
@@ -57,7 +52,6 @@ public class UserStatisticsDTO{
 			this.visitorCount = visitorCount;
 		}
 		
-		// getter
 		public LocalDate getVisitDate(){
 			return this.visitDate;
 		}
@@ -65,8 +59,6 @@ public class UserStatisticsDTO{
 		public int getVisitorCount(){
 			return this.visitorCount;
 		}
-		
-		// constructor
 		
 		public VisitorStatisticsDTO(){
 			
@@ -81,7 +73,6 @@ public class UserStatisticsDTO{
 	private List<VisitorStatisticsDTO> visitorStatistics;
 	private List<RefferingSiteDTO> refferingSites;
 	
-	// setter
 	public void setVisitorStatistics(List<VisitorStatisticsDTO> visitorStatistics){
 		this.visitorStatistics = visitorStatistics;
 	}
@@ -90,7 +81,6 @@ public class UserStatisticsDTO{
 		this.refferingSites = refferingSites;
 	}
 	
-	// getter
 	public List<VisitorStatisticsDTO> getVisitorStatistics(){
 		return this.visitorStatistics;
 	}
@@ -99,7 +89,6 @@ public class UserStatisticsDTO{
 		return this.refferingSites;
 	}
 	
-	// constructor
 	public UserStatisticsDTO(){
 		
 	}

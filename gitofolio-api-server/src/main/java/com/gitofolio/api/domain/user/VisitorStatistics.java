@@ -30,8 +30,6 @@ public class VisitorStatistics{
 	@JoinColumn(name="USER_STATISTICS_ID")
 	private UserStatistics userStatistics;
 	
-	//getter
-	
 	public VisitorStatistics(){}
 	
 	public VisitorStatistics(UserStatistics userStatistics){
@@ -54,7 +52,6 @@ public class VisitorStatistics{
 		return this.visitorCount;
 	}
 	
-	//setter
 	public void setVisitorCount(int visitorCount){
 		this.visitorCount = visitorCount;
 	}

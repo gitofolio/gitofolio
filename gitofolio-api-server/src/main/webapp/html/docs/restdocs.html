@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Gitofolio RESTful API Docs</h1>
 <div class="details">
-<span id="revnumber">version 0.2.6</span>
+<span id="revnumber">version 0.2.7</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -574,6 +574,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="paragraph">
 <p>gitofolio rest api를 사용하여, 유저데이터, 통계, 포토폴리오 정보 등을 가져올수있습니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>image::https://api.gitofolio.com/portfoliocard/svg/23[devxb's sample card]</pre>
+</div>
 </div>
 </div>
 </div>
@@ -920,7 +925,19 @@ api.gitofolio.com (X)
 </div>
 </div>
 <div class="paragraph">
-<p>이제, 응답에 포함된 cert값을 통해 서버에 실제 토큰을 받아올수있습니다.</p>
+<p>이제, 응답에 포함된 cert값과 사전에 발급받은 access token의 value를 통해 서버에 실제 토큰을 받아올수있습니다.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+access token의 key가 아닌 value를 전송해야함에 유의하세요. 또한, 전송되는 value값은 사전에 보낸 accesskey와 매칭되는 accessvalue여야 합니다.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect4">
 <h5 id="_request"><a class="link" href="#_request">Request</a></h5>
@@ -1092,27 +1109,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 4533,
+    "id" : 4779,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 4534,
+    "id" : 4780,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 4535,
+    "id" : 4781,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 4536,
+    "id" : 4782,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 4537,
+    "id" : 4783,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -1783,12 +1800,12 @@ Content-Length: 467
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2022-01-18",
+      "visitDate" : "2022-01-20",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2022-01-18"
+      "refferingDate" : "2022-01-20"
     } ]
   }
 }</code></pre>
@@ -1966,27 +1983,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 4533,
+    "id" : 4779,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 4534,
+    "id" : 4780,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 4535,
+    "id" : 4781,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 4536,
+    "id" : 4782,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 4537,
+    "id" : 4783,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2198,32 +2215,32 @@ Content-Length: 1913
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 4522,
+    "id" : 4768,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 4523,
+    "id" : 4769,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 4524,
+    "id" : 4770,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 4525,
+    "id" : 4771,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 4526,
+    "id" : 4772,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
   }, {
-    "id" : 4527,
+    "id" : 4773,
     "portfolioCardArticle" : "this is new portfoliocard",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/6"
@@ -2381,7 +2398,7 @@ JWT토큰 인증 필요 자세한 내용은 인증 목차를 참고하세요.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=4553 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=4799 HTTP/1.1
 Accept: */*
 Host: api.gitofolio.com:80</code></pre>
 </div>
@@ -2504,7 +2521,7 @@ Accept: application/json
 Content-Length: 273
 Host: api.gitofolio.com:80
 
-{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":4543,"portfolioCardArticle":"Lorem ipsum","portfolioCardStars":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
+{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":4789,"portfolioCardArticle":"Lorem ipsum","portfolioCardStars":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2575,27 +2592,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 4543,
+    "id" : 4789,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 4544,
+    "id" : 4790,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 4545,
+    "id" : 4791,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 4546,
+    "id" : 4792,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 4547,
+    "id" : 4793,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2777,27 +2794,27 @@ Content-Length: 1735
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 4533,
+    "id" : 4779,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 4534,
+    "id" : 4780,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 4535,
+    "id" : 4781,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 4536,
+    "id" : 4782,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 4537,
+    "id" : 4783,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardStars" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2942,8 +2959,8 @@ Content-Length: 42
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2.6<br>
-Last updated 2022-01-18 09:42:59 UTC
+Version 0.2.7<br>
+Last updated 2022-01-20 14:11:58 UTC
 </div>
 </div>
 </body>

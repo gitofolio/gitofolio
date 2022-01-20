@@ -9,7 +9,6 @@ public class PortfolioCardDTO{
 	private Integer portfolioCardStars;
 	private String portfolioUrl;
 
-	// setter
 	public void setId(Long id){
 		this.id = id;
 	}
@@ -26,7 +25,6 @@ public class PortfolioCardDTO{
 		this.portfolioUrl = portfolioUrl;
 	}
 	
-	// getter
 	public Long getId(){
 		return this.id;
 	}
@@ -43,7 +41,6 @@ public class PortfolioCardDTO{
 		return this.portfolioUrl;
 	}
 	
-	// constructor
 	private PortfolioCardDTO(){
 		
 	}

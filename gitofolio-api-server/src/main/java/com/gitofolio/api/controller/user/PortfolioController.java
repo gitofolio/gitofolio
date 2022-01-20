@@ -22,7 +22,7 @@ public class PortfolioController{
 	private final CrudProxy<UserDTO> portfolioCardCrudProxy;
 	
 	@UserStatGenerator
-	@RequestMapping(path="/portfolio/{userId}/{cardId}", method=RequestMethod.GET)
+	@RequestMapping(path = "/portfolio/{userId}/{cardId}", method = RequestMethod.GET)
 	public String redirectPortfolio(@PathVariable("userId") Long userId,
 									@PathVariable("cardId") Long cardId,
 								    @RequestParam(value="redirect", required=false) boolean redirect){
@@ -33,7 +33,7 @@ public class PortfolioController{
 		String redirectUrl = userDTO.getPortfolioCards().get(0).getPortfolioUrl();
 		
 		if(!redirect) return "";
-		return "redirect:"+redirectUrl;
+		return "redirect:" + redirectUrl;
 	}
 	
 	@Autowired

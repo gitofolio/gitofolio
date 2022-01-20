@@ -37,8 +37,8 @@ public class PortfolioCardController{
 	private final Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter> portfolioCardSvgFactory;
 	
 	@ExpectedTime
-	@HateoasSetter(hateoasType=HateoasType.PORTFOLIOCARDHATEOAS)
-	@RequestMapping(path="/portfoliocards/{name}", method=RequestMethod.GET)
+	@HateoasSetter(hateoasType = HateoasType.PORTFOLIOCARDHATEOAS)
+	@RequestMapping(path = "/portfoliocards/{name}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getPortfolioCard(
 		@PathVariable("name") String name,
 		@RequestParam(value="page", required = false) String page,
@@ -50,9 +50,9 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime
-	@AuthToken(tokenType=TokenType.JWT)
-	@HateoasSetter(hateoasType=HateoasType.PORTFOLIOCARDHATEOAS)
-	@RequestMapping(path="/portfoliocards", method=RequestMethod.POST)
+	@AuthToken(tokenType = TokenType.JWT)
+	@HateoasSetter(hateoasType = HateoasType.PORTFOLIOCARDHATEOAS)
+	@RequestMapping(path = "/portfoliocards", method = RequestMethod.POST)
 	public ResponseEntity<UserDTO> savePortfolioCard(@RequestBody UserDTO userDTO){
 		
 		UserDTO result = this.portfolioCardCrudProxy.create(userDTO);
@@ -61,8 +61,8 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime
-	@AuthToken(tokenType=TokenType.JWT)
-	@RequestMapping(path="/portfoliocards/{name}", method=RequestMethod.DELETE)
+	@AuthToken(tokenType = TokenType.JWT)
+	@RequestMapping(path = "/portfoliocards/{name}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
 													  @RequestParam(value="id", required=false) Long id){
 		
@@ -72,9 +72,9 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime
-	@AuthToken(tokenType=TokenType.JWT)
-	@HateoasSetter(hateoasType=HateoasType.PORTFOLIOCARDHATEOAS)
-	@RequestMapping(path="/portfoliocards", method=RequestMethod.PUT)
+	@AuthToken(tokenType = TokenType.JWT)
+	@HateoasSetter(hateoasType = HateoasType.PORTFOLIOCARDHATEOAS)
+	@RequestMapping(path = "/portfoliocards", method = RequestMethod.PUT)
 	public ResponseEntity<UserDTO> putPortfolioCard(@RequestBody UserDTO userDTO){
 		
 		UserDTO result = this.portfolioCardCrudProxy.update(userDTO);
@@ -82,14 +82,20 @@ public class PortfolioCardController{
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
 	
-	@ExpectedTime(milliSec=500L)
-	@RequestMapping(path="/portfoliocard/svg/{cardId}", method=RequestMethod.GET)
+	@ExpectedTime(milliSec = 500L)
+	@RequestMapping(path = "/portfoliocard/svg/{cardId}", method = RequestMethod.GET)
 	public ModelAndView getPortfolioCardSvg(@PathVariable("cardId") Long cardId, 
 											@RequestParam(value="color", defaultValue="white") String color){
 		
 		UserDTO userDTO = this.portfolioCardCrudProxy.read(cardId);
 		String encodedImage = this.encodedProfileImageCrudProxy.read(userDTO).getEncodedProfileUrl();
 		
+		PortfolioCardSvgDTO svgDTO = this.getPortfolioCardSvgDTO(userDTO, encodedImage, color);
+		
+		return new ModelAndView("portfolioCard", "svgDTO", svgDTO);
+	}
+	
+	private PortfolioCardSvgDTO getPortfolioCardSvgDTO(UserDTO userDTO, String encodedImage, String color){
 		PortfolioCardSvgParameter portfolioCardSvgParameter = new PortfolioCardSvgParameter.Builder()
 			.name(userDTO.getName())
 			.encodedImage(encodedImage)
@@ -99,9 +105,7 @@ public class PortfolioCardController{
 			.colorName(color)
 			.build();
 			
-		PortfolioCardSvgDTO svgDTO = this.portfolioCardSvgFactory.get(portfolioCardSvgParameter);
-		
-		return new ModelAndView("portfolioCard", "svgDTO", svgDTO);
+		return this.portfolioCardSvgFactory.get(portfolioCardSvgParameter);
 	}
 	
 	@Autowired

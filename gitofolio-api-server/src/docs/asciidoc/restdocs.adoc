@@ -10,6 +10,8 @@ endif::[]
 == 들어가며
 gitofolio rest api를 사용하여, 유저데이터, 통계, 포토폴리오 정보 등을 가져올수있습니다.
 
+image::https://api.gitofolio.com/portfoliocard/svg/23
+
 [[HATEOAS]]
 == gitofolio HATEOAS
 gitofolio는 HATEOAS를 지원합니다.
@@ -148,7 +150,9 @@ GET: http://api.gitofolio.com/oauth?application=github&redirect=http://api.gitof
 http://api.gitofolio.com?cert=7f6538de87c744ed92b70d4fb9ee070c
 ----
 
-이제, 응답에 포함된 cert값을 통해 서버에 실제 토큰을 받아올수있습니다.
+이제, 응답에 포함된 cert값과 사전에 발급받은 access token의 value를 통해 서버에 실제 토큰을 받아올수있습니다.
+
+CAUTION: access token의 key가 아닌 value를 전송해야함에 유의하세요. 또한, 전송되는 value값은 사전에 보낸 accesskey와 매칭되는 accessvalue여야 합니다.
 
 ===== Request
 include::{snippets}/oauth/token/http-request.adoc[]
@@ -542,6 +546,8 @@ include::{snippets}/portfoliocards/put/response-fields.adoc[]
 [[portfoliocard-get-svg-image]]
 === 포트폴리오 카드 이미지 가져오기
 서버에 저장된 포트폴리오 카드의 svg이미지를 가져옵니다.
+
+image::https://api.gitofolio.com/portfoliocard/svg/23?color=black[devxb's sample card]
 
 카드는 과정은 포트폴리오 카드를 저장할때 자동으로 저장되며, 따라서 저장 관련 HTTP METHOD는 활성화 되어있지 않습니다.
 

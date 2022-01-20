@@ -46,23 +46,23 @@ public class OAuthController{
 	
 	private final OauthTokenPool oauthTokenPool;
 	
-	@RequestMapping(path="/oauth", method=RequestMethod.GET)
-	public String redirectToOauthApplication(@RequestParam(value="application", defaultValue="github", required=true) String application,
-					    					@RequestParam(value="redirect", required=false) String redirect,
-											@RequestParam(value="accesskey", required=false) String personalAccessKey){
+	@RequestMapping(path = "/oauth", method = RequestMethod.GET)
+	public String redirectToOauthApplication(@RequestParam(value = "application", defaultValue = "github", required=true) String application,
+					    					@RequestParam(value = "redirect", required = false) String redirect,
+											@RequestParam(value = "accesskey", required = false) String personalAccessKey){
 		
 		if(redirect == null) throw new IllegalParameterException("redirect url 오류", "redirect 파라미터값이 비어있습니다.");
 		if(personalAccessKey == null) throw new IllegalParameterException("accesskey 오류", "accesskey 파라미터값이 비어있습니다.");
 		
-		String applicationUrl = this.oauthApplicationFactory.get(application).getUrlWithQueryString("?redirect="+redirect+"+"+personalAccessKey);
-		return "redirect:"+applicationUrl;
+		String applicationUrl = this.oauthApplicationFactory.get(application).getUrlWithQueryString("?redirect=" + redirect + "+" + personalAccessKey);
+		return "redirect:" + applicationUrl;
 	}
 	
-	@RequestMapping(path="/token/personal", method=RequestMethod.GET)
-	public Object getPersonalAccessToken(@RequestParam(value="application", defaultValue="github", required=false) String application,
-										 @RequestParam(value="code", required=false) String code){
+	@RequestMapping(path = "/token/personal", method = RequestMethod.GET)
+	public Object getPersonalAccessToken(@RequestParam(value = "application", defaultValue = "github", required = false) String application,
+										 @RequestParam(value = "code", required = false) String code){
 
-		if(code == null) return "redirect:"+this.oauthApplicationFactory.get(application).getUrl()+"&redirect_uri=http://api.gitofolio.com/token/personal";
+		if(code == null) return "redirect:"+this.oauthApplicationFactory.get(application).getUrl() + "&redirect_uri=http://api.gitofolio.com/token/personal";
 		
 		UserDTO userDTO = this.getUserDTO(application, code);
 		PersonalAccessToken personalAccessToken = this.personalAccessTokenCrudProxy.create();
@@ -70,8 +70,8 @@ public class OAuthController{
 		return new ResponseEntity(personalAccessToken, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(path="/token/personal", method=RequestMethod.HEAD)
-	public ResponseEntity<Object> isStillValidAccessToken(@RequestParam(value="accesskey", required=false) Long personalAccesskey){
+	@RequestMapping(path = "/token/personal", method = RequestMethod.HEAD)
+	public ResponseEntity<Object> isStillValidAccessToken(@RequestParam(value = "accesskey", required = false) Long personalAccesskey){
 		if(personalAccesskey == null) throw new IllegalParameterException("accesskey 오류", "accesskey 파라미터값이 비어있습니다.");
 		
 		this.personalAccessTokenCrudProxy.read(personalAccesskey);
@@ -79,7 +79,7 @@ public class OAuthController{
 		return new ResponseEntity(HttpStatus.OK);
 	}
 	
-	@RequestMapping(path="/token", method=RequestMethod.POST)
+	@RequestMapping(path = "/token", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, String>> getToken(@RequestBody Map<String, Object> payload, 
 														HttpServletResponse httpServletResponse){
 		String cert = (String)payload.get("cert");
@@ -89,16 +89,15 @@ public class OAuthController{
 		Map<String, String> responsePayload = new HashMap<String, String>();
 		responsePayload.put("type", "Bearer");
 		responsePayload.put("token", this.oauthTokenPool.getToken(cert, personalAccessTokenValue));
-		
 		this.oauthTokenPool.deleteToken(cert);
 		
 		return new ResponseEntity(responsePayload, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path="/oauth/{application}", method=RequestMethod.GET)
-	public ResponseEntity<Object> authenticateOauth(@PathVariable(value="application") String application,
-													@RequestParam(value="redirect", required=false) String redirect,
-													@RequestParam(value="code", defaultValue="invalidCode", required=false) String code,
+	@RequestMapping(path = "/oauth/{application}", method = RequestMethod.GET)
+	public ResponseEntity<Object> authenticateOauth(@PathVariable(value = "application") String application,
+													@RequestParam(value = "redirect", required=false) String redirect,
+													@RequestParam(value = "code", defaultValue="invalidCode", required=false) String code,
 													HttpServletResponse httpServletResponse){
 		
 		String[] queryStrings = redirect.split(" ");
@@ -110,7 +109,7 @@ public class OAuthController{
 		String cert = RandomKeyGenerator.generateKey(2);
 		saveTokenInPool(userDTO, cert, personalAccessKey);
 		
-		httpServletResponse.addHeader(HttpHeaders.LOCATION, redirect+"?cert="+cert);
+		httpServletResponse.addHeader(HttpHeaders.LOCATION, redirect + "?cert=" + cert);
 			
 		this.encodedProfileImageCrudProxy.create(userDTO);
 		

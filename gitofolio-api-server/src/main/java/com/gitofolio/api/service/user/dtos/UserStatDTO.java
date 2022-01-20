@@ -6,7 +6,6 @@ public class UserStatDTO{
 	private Integer totalVisitors;
 	private Integer totalStars;
 	
-	// setter
 	public void setTotalVisitors(Integer totalVisitors){
 		this.totalVisitors = totalVisitors;
 	}
@@ -15,7 +14,6 @@ public class UserStatDTO{
 		this.totalStars = totalStars;
 	}
 	
-	// getter
 	public Integer getTotalVisitors(){
 		return this.totalVisitors;
 	}
@@ -24,7 +22,6 @@ public class UserStatDTO{
 		return this.totalStars;
 	}
 	
-	// constructor
 	public UserStatDTO(){
 		
 	}

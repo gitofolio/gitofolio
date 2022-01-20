@@ -44,7 +44,6 @@ public class RefferingSite{
 		this.userStatistics = userStatistics;
 	}
 	
-	// getter
 	public LocalDate getRefferingDate(){
 		return this.refferingDate;
 	}

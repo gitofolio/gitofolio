@@ -27,7 +27,6 @@ public class UserInfo{
 	@Column(name="PROFILE_URL", nullable=false)
 	private String profileUrl;
 	
-	// getter
 	public Long getId(){
 		return this.id;
 	}
@@ -40,7 +39,6 @@ public class UserInfo{
 		return this.profileUrl;
 	}
 
-	//setter
 	public void setId(Long id){
 		this.id = id;
 	}

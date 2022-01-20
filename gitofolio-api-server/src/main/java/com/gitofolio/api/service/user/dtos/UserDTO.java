@@ -20,7 +20,6 @@ public class UserDTO implements HateoasAble, TokenAble{
 	private UserStatisticsDTO userStatistics;
 	private List<Link> links;
 	
-	// setter
 	public void setId(Long id){
 		this.id = id;
 	}
@@ -55,7 +54,6 @@ public class UserDTO implements HateoasAble, TokenAble{
 		return this.name;
 	}
 	
-	// getter
 	public Long getId(){
 		return this.id;
 	}
@@ -85,7 +83,6 @@ public class UserDTO implements HateoasAble, TokenAble{
 		return this.links;
 	}
 	
-	// logic
 	public boolean compare(UserDTO userDTO){
 		if(!this.name.equals(userDTO.getName())) return false;
 		if(!this.id.equals(userDTO.getId())) return false;
@@ -93,7 +90,6 @@ public class UserDTO implements HateoasAble, TokenAble{
 		return true;
 	}
 	
-	// constructor
 	public UserDTO(){
 		
 	}

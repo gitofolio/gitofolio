@@ -60,7 +60,6 @@ public class PortfolioCardSvgDTO{
 		return this.color;
 	}
 	
-	// constructor
 	public PortfolioCardSvgDTO(Builder builder){
 		this.viewBoxHeight = builder.viewBoxHeight;
 		this.viewBoxWidth = builder.viewBoxWidth;

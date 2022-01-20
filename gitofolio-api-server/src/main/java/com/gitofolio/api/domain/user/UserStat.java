@@ -28,7 +28,6 @@ public class UserStat{
 	@JoinColumn(name="USER_INFO_ID")
 	private UserInfo userInfo;
 	
-	//getter
 	public Long getId(){
 		return this.id;
 	}
@@ -45,7 +44,6 @@ public class UserStat{
 		return this.userInfo;
 	}
 	
-	// setter
 	public void setTotalVisitors(Integer totalVisitors){
 		this.totalVisitors = totalVisitors;
 	}
@@ -54,7 +52,6 @@ public class UserStat{
 		this.totalStars = totalStars;
 	}
 	
-	// logic
 	public void addTotalVisitors(){
 		this.totalVisitors++;
 	}
@@ -65,9 +62,7 @@ public class UserStat{
 	
 	public void setUserInfo(UserInfo userInfo){
 		if(userInfo == null) this.userInfo = null;
-		// if(this.userInfo != null) this.userInfo.setUserStat(null);
 		this.userInfo = userInfo;
-		// if(userInfo.getUserStat() != this) userInfo.setUserStat(this);
 	}
 	
 }
