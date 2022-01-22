@@ -137,12 +137,6 @@ public class UserStatisticsControllerTest{
 		try{
 			this.userInfoCrudProxy.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
-		try{
-			this.userInfoCrudProxy.create(user);
-			this.portfolioCardCrudProxy.create(user);
-		}catch(DuplicationUserException DUE){}
-		UserDTO result = this.userInfoCrudProxy.read(user.getName());
-		assertEquals(user.getName(), result.getName());
 	}
 	
 	private UserDTO getUser(){

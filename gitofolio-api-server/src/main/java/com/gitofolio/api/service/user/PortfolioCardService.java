@@ -85,10 +85,8 @@ public class PortfolioCardService{
 		}
 		
 		PortfolioCard oldPortfolioCard = null;
-		for(PortfolioCard card : exist){
-			
-			if(card.getId().equals(editId)) oldPortfolioCard = card;
-		}
+		for(PortfolioCard card : exist) if(card.getId().equals(editId)) oldPortfolioCard = card;
+		
 			
 		if(oldPortfolioCard == null)
 			throw new IllegalParameterException("잘못된 파라미터 요청", "요청하신 번호에 해당하는 포토폴리오 카드를 찾을 수 없습니다.", "https://api.gitofolio.com/portfoliocards");

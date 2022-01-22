@@ -1,97 +1,81 @@
 package com.gitofolio.api.service.user;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.BDDMockito.*;
 
 import com.gitofolio.api.domain.user.*;
 import com.gitofolio.api.service.user.*;
 import com.gitofolio.api.service.user.exception.*;
+import com.gitofolio.api.repository.user.*;
 
-@SpringBootTest
+import java.util.Optional;
+
+@ExtendWith(MockitoExtension.class)
 public class UserStatServiceTest{
 	
-	@Autowired
+	@Mock
+	private UserStatRepository userStatRepository;
+	@Mock
+	private UserInfoRepository userInfoRepository;
+
+	@InjectMocks
 	private UserStatService userStatService;
-	
-	@Autowired
-	private UserInfoService userInfoService;
-	
-	String name = "testName";
 	
 	@Test
 	@Transactional
-	public void UserStatService_Get_and_Save_Test(){
+	public void UserStatService_GET_Test(){
 		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(this.name);
-		userInfo.setProfileUrl("url.helloworld.com");
-		
-		this.userInfoService.save(userInfo);
+		UserStat userStat = this.getUserStat();
 		
 		// when
-		this.userStatService.increaseTotalVisitors(this.name);
-		this.userStatService.increaseTotalStars(this.name);
+		given(this.userStatRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(this.getUserStat()));
+		
+		UserStat result = this.userStatService.get(userStat.getUserInfo().getName());
 		
 		// then
-		UserStat resultUserStat = this.userStatService.get(this.name);
-		
-		UserInfo resultUserInfo = resultUserStat.getUserInfo();
-		
-		assertEquals(resultUserInfo.getName(), this.name);
-		assertEquals(resultUserStat.getTotalStars(), 1);
-		assertEquals(resultUserStat.getTotalVisitors(), 1);
+		assertEquals(result.getId(), userStat.getId());
 	}
 
 	@Test
 	@Transactional
 	public void UserStatService_Get_NonExistUser_Fail_Test(){
 		// given
-		String userName = this.name + "1";
+		UserStat userStat = this.getUserStat();
+		
+		// when
+		given(this.userInfoRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(null));
+		given(this.userStatRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(null));
+
 		
 		// then
-		assertThrows(NonExistUserException.class, ()->this.userStatService.increaseTotalStars(userName));
-		assertThrows(NonExistUserException.class, ()->this.userStatService.increaseTotalVisitors(userName));
+		assertThrows(NonExistUserException.class, ()->this.userStatService.get(userStat.getUserInfo().getName()));
 	}
 	
-	@AfterEach
-	@Transactional
-	public void pre_UserStatService_delete_Test(){
-		// given
-		String userName = this.name;
+	private UserStat getUserStat(){
+		UserStat userStat = new UserStat();
+		userStat.setTotalStars(0);
+		userStat.setTotalVisitors(0);
+		userStat.setUserInfo(this.getUserInfo());
 		
-		// when 
-		try{
-			this.userStatService.delete(userName);
-			this.userInfoService.delete(userName);
-		}catch(NonExistUserException NEU){}
-		
-		// then
-		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userName));
+		return userStat;
 	}
 	
-	@BeforeEach
-	@Transactional
-	public void post_UserStatService_delete_Test(){
-		// given
-		String userName = this.name;
+	private UserInfo getUserInfo(){
+		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
+		userInfo.setName("name");
+		userInfo.setProfileUrl("url.helloworld.com");
 		
-		// when 
-		try{
-			this.userStatService.delete(userName);
-			this.userInfoService.delete(userName);
-		}catch(NonExistUserException NEU){}
-		
-		// then
-		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userName));
+		return userInfo;
 	}
 	
 }

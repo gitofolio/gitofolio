@@ -76,9 +76,6 @@ public class UserStatControllerTest{
 		try{
 			this.userInfoCrudProxy.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
-		try{
-			this.userInfoCrudProxy.create(user);
-		}catch(DuplicationUserException DUE){DUE.printStackTrace();}
 	}
 	
 	@Test

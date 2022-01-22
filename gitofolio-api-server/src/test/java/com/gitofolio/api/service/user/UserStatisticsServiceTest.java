@@ -1,107 +1,80 @@
 package com.gitofolio.api.service.user;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.mockito.Mock;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.BDDMockito.*;
 
 import com.gitofolio.api.domain.user.*;
 import com.gitofolio.api.service.user.*;
 import com.gitofolio.api.service.user.exception.*;
+import com.gitofolio.api.repository.user.*;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UserStatisticsServiceTest{
 	
-	@Autowired
+	@Mock
+	private UserStatisticsRepository userStatisticsRepository;
+	@Mock
+	private UserInfoRepository userInfoRepository;
+	
+	@InjectMocks
 	private UserStatisticsService userStatisticsService;
-	
-	@Autowired
-	private UserInfoService userInfoService;
-	
-	String name = "testName";
 	
 	@Test
 	@Transactional
-	public void UserStatisticsService_Get_and_Save_Test(){
+	public void UserStatisticsService_Get_Test(){
 		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(this.name);
-		userInfo.setProfileUrl("url.helloworld.com");
-		
-		this.userInfoService.save(userInfo);
+		UserStatistics userStatistics = this.getUserStatistics();
 		
 		// when
-		this.userStatisticsService.increaseVisitorStatistics(this.name);
+		given(this.userStatisticsRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(userStatistics));
+		
+		UserStatistics result = this.userStatisticsService.get(userStatistics.getUserInfo().getName());
 		
 		// then
-		UserStatistics retStat = this.userStatisticsService.get(this.name);
-		UserInfo retInfo = retStat.getUserInfo();
-		
-		assertEquals(retInfo.getName(), this.name);
-		assertEquals(retStat.getVisitorStatistics().size(), 1);
-		assertEquals(retStat.getVisitorStatistics().get(0).getVisitorCount(), 1);
-		assertEquals(retStat.getVisitorStatistics().get(0).getVisitDate().toString(), LocalDate.now().toString());
+		assertEquals(result.getVisitorStatistics().size(), 1);
+		assertEquals(result.getVisitorStatistics().get(0).getVisitorCount(), 1);
+		assertEquals(result.getVisitorStatistics().get(0).getVisitDate().toString(), LocalDate.now().toString());
 	}
 	
 	@Test
 	@Transactional
 	public void UserStatisticsService_Get_Fail_Test(){
 		// given
-		String userName = this.name + "1"; 
+		UserStatistics userStatistics = this.getUserStatistics();
+		
+		// when
+		given(this.userStatisticsRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(null));
+		given(this.userInfoRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(null));
 		
 		// then
-		assertThrows(NonExistUserException.class, ()->this.userStatisticsService.get(userName));
+		assertThrows(NonExistUserException.class, ()->this.userStatisticsService.get(userStatistics.getUserInfo().getName()));
+	}
+
+	private UserStatistics getUserStatistics(){
+		UserStatistics userStatistics = new UserStatistics();
+		userStatistics.setUserInfo(this.getUserInfo());
+		userStatistics.setRefferingSite("reffering_site_1");
+		userStatistics.addVisitorStatistics();
+		return userStatistics;
 	}
 	
-	@Test
-	@Transactional
-	public void UserStatisticsService_Logic_Fail_Test(){
-		// given
-		String userName = this.name + "1"; 
-		
-		// then
-		assertThrows(NonExistUserException.class, ()->this.userStatisticsService.increaseVisitorStatistics(this.name));
-		assertThrows(NonExistUserException.class, ()->this.userStatisticsService.setRefferingSite(this.name, "REFER.helloworld.com"));
+	private UserInfo getUserInfo(){
+		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
+		userInfo.setName("name");
+		userInfo.setProfileUrl("url.helloworld.com");
+		return userInfo;
 	}
 	
-	@AfterEach
-	@Transactional
-	public void pre_UserStatisticsService_delete_Test(){
-		// given
-		String userName = this.name;
-		
-		// when 
-		try{
-			this.userStatisticsService.delete(userName);
-			this.userInfoService.delete(userName);
-		}catch(NonExistUserException NEU){}
-		
-		// then
-		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userName));
-	}
-	
-	@BeforeEach
-	@Transactional
-	public void post_UserStatisticsService_delete_Test(){
-		// given
-		String userName = this.name;
-		
-		// when 
-		try{
-			this.userStatisticsService.delete(userName);
-			this.userInfoService.delete(userName);
-		}catch(NonExistUserException NEU){}
-		
-		// then
-		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userName));
-	}
 }

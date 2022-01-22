@@ -1,253 +1,124 @@
 package com.gitofolio.api.service.user;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.mockito.Mock;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.BDDMockito.*;
 
 import com.gitofolio.api.domain.user.*;
 import com.gitofolio.api.service.user.*;
 import com.gitofolio.api.service.user.exception.*;
+import com.gitofolio.api.repository.user.*;
 
 import java.util.List; 
 import java.util.ArrayList;
+import java.util.Optional;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class PortfolioCardServiceTest{
 	
-	@Autowired
+	@Mock
+	private PortfolioCardRepository portfolioCardRepository;
+	@Mock
+	private UserInfoRepository userInfoRepository;
+	
+	@InjectMocks
 	private PortfolioCardService portfolioCardService;
-	
-	@Autowired
-	private UserInfoService userInfoService;
-	
-	String name = "testName";
 	
 	@Test
 	@Transactional
-	public void portfolioCardService_Get_and_Save_Test(){
+	public void portfolioCardService_Get_Test(){
 		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(this.name);
-		userInfo.setProfileUrl("url.helloworld.com");
-		
-		PortfolioCard portfolioCard1 = new PortfolioCard();
-		portfolioCard1.setPortfolioCardArticle("article1");
-		portfolioCard1.setPortfolioCardStars(1);
-		portfolioCard1.setPortfolioUrl("portfolioUrl1");
-		
-		portfolioCard1.setUserInfo(userInfo);
-		
-		PortfolioCard portfolioCard2 = new PortfolioCard();
-		portfolioCard2.setPortfolioCardArticle("article2");
-		portfolioCard2.setPortfolioCardStars(2);
-		portfolioCard2.setPortfolioUrl("portfolioUrl2");
-		
-		portfolioCard2.setUserInfo(userInfo);
-		
-		PortfolioCard portfolioCard3 = new PortfolioCard();
-		portfolioCard3.setPortfolioCardArticle("article3");
-		portfolioCard3.setPortfolioCardStars(3);
-		portfolioCard3.setPortfolioUrl("portfolioUrl3");
-		
-		portfolioCard3.setUserInfo(userInfo);
-		
 		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
-		cards.add(portfolioCard1);
-		cards.add(portfolioCard2);
-		cards.add(portfolioCard3);
+		cards.add(this.getPortfolioCard(1));
+		cards.add(this.getPortfolioCard(2));
+		cards.add(this.getPortfolioCard(3));
 		
 		// when
-		this.userInfoService.save(userInfo);
-		this.portfolioCardService.save(cards);
+		given(this.portfolioCardRepository.findByName(any(String.class))).willReturn(cards);
+		
+		List<PortfolioCard> result = this.portfolioCardService.get(cards.get(0).getUserInfo().getName());
 		
 		// then
-		List<PortfolioCard> ret = this.portfolioCardService.get(this.name);
-		UserInfo retUser = this.userInfoService.get(this.name);
-		assertEquals(retUser.getName(), this.name);
-		assertEquals(ret.size(), 3);
-		assertEquals(ret.get(0).getPortfolioUrl(), "portfolioUrl1");
+		assertEquals(result.get(0).getUserInfo().getName(), cards.get(0).getUserInfo().getName());
+		assertEquals(result.size(), 3);
 	}
 	
 	@Test
 	@Transactional
 	public void portfolioCard_NonExistUser_Fail_Test(){
 		// given
-		String name = this.name;
+		UserInfo userInfo = this.getUserInfo();
+		
+		// when
+		given(this.portfolioCardRepository.findByName(any(String.class))).willReturn(new ArrayList<PortfolioCard>(0));
+		given(this.userInfoRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(null));
 		
 		// then
-		assertThrows(NonExistUserException.class, ()->this.portfolioCardService.get(name));
+		assertThrows(NonExistUserException.class, ()->this.portfolioCardService.get(userInfo.getName()));
 	}
 	
 	@Test
 	@Transactional
 	public void portfolioCardService_ExistButNoPortfolioCard_Fail_Test(){
 		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(this.name);
-		userInfo.setProfileUrl("url.helloworld.com");
+		UserInfo userInfo = this.getUserInfo();
 		
-		this.userInfoService.save(userInfo);
 		// when
+		given(this.portfolioCardRepository.findByName(any(String.class))).willReturn(new ArrayList<PortfolioCard>(0));
+		given(this.userInfoRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(userInfo));
 		
 		// then
-		assertThrows(NonExistUserException.class, ()->this.portfolioCardService.get(this.name));
+		assertThrows(NonExistUserException.class, ()->this.portfolioCardService.get(userInfo.getName()));
 	}
 	
 	@Test
 	@Transactional
-	public void portfolioCardService_Put_Test(){
+	public void portfolioCardService_Edit_Test(){
 		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(this.name);
-		userInfo.setProfileUrl("url.helloworld.com");
-		
-		PortfolioCard portfolioCard1 = new PortfolioCard();
-		portfolioCard1.setPortfolioCardArticle("article1");
-		portfolioCard1.setPortfolioCardStars(1);
-		portfolioCard1.setPortfolioUrl("portfolioUrl1");
-		
-		portfolioCard1.setUserInfo(userInfo);
-		
-		PortfolioCard portfolioCard2 = new PortfolioCard();
-		portfolioCard2.setPortfolioCardArticle("article2");
-		portfolioCard2.setPortfolioCardStars(2);
-		portfolioCard2.setPortfolioUrl("portfolioUrl2");
-		
-		portfolioCard2.setUserInfo(userInfo);
-		
-		PortfolioCard portfolioCard3 = new PortfolioCard();
-		portfolioCard3.setPortfolioCardArticle("article3");
-		portfolioCard3.setPortfolioCardStars(3);
-		portfolioCard3.setPortfolioUrl("portfolioUrl3");
-		
-		portfolioCard3.setUserInfo(userInfo);
-		
 		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
-		cards.add(portfolioCard1);
-		cards.add(portfolioCard2);
-		cards.add(portfolioCard3);
-		
-		// when
-		this.userInfoService.save(userInfo);
-		this.portfolioCardService.save(cards);
-		
-		PortfolioCard editCard = new PortfolioCard();
-		editCard.setId(this.portfolioCardService.get(this.name).get(0).getId());
-		editCard.setPortfolioCardArticle("edit");
-		editCard.setPortfolioCardStars(0);
-		editCard.setPortfolioUrl("edit");
-		
-		editCard.setUserInfo(userInfo);
+		cards.add(this.getPortfolioCard(1));
+		cards.add(this.getPortfolioCard(2));
+		cards.add(this.getPortfolioCard(3));
 		
 		List<PortfolioCard> editCards = new ArrayList<PortfolioCard>();
-		editCards.add(editCard);
-		
-		
-		this.portfolioCardService.edit(editCards);
-			
-		// then
-		List<PortfolioCard> results = this.portfolioCardService.get(this.name);
-		
-		assertEquals(results.get(0).getUserInfo().getName(), this.name);
-		assertEquals(results.size(), 3);
-		assertEquals(results.get(0).getPortfolioUrl(), "edit");
-		assertEquals(results.get(0).getPortfolioCardStars(), 1);
-		assertEquals(results.get(0).getPortfolioCardArticle(), "edit");
-	}
-	
-	@Test
-	@Transactional
-	public void portfolioCardService_find_By_Id_Test(){
-		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(this.name);
-		userInfo.setProfileUrl("url.helloworld.com");
-		
-		PortfolioCard portfolioCard1 = new PortfolioCard();
-		portfolioCard1.setPortfolioCardArticle("article1");
-		portfolioCard1.setPortfolioCardStars(1);
-		portfolioCard1.setPortfolioUrl("portfolioUrl1");
-		
-		portfolioCard1.setUserInfo(userInfo);
-		
-		PortfolioCard portfolioCard2 = new PortfolioCard();
-		portfolioCard2.setPortfolioCardArticle("article2");
-		portfolioCard2.setPortfolioCardStars(2);
-		portfolioCard2.setPortfolioUrl("portfolioUrl2");
-		
-		portfolioCard2.setUserInfo(userInfo);
-		
-		PortfolioCard portfolioCard3 = new PortfolioCard();
-		portfolioCard3.setPortfolioCardArticle("article3");
-		portfolioCard3.setPortfolioCardStars(3);
-		portfolioCard3.setPortfolioUrl("portfolioUrl3");
-		
-		portfolioCard3.setUserInfo(userInfo);
-		
-		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
-		cards.add(portfolioCard1);
-		cards.add(portfolioCard2);
-		cards.add(portfolioCard3);
+		PortfolioCard editedCard = this.getPortfolioCard(1);
+		editedCard.setPortfolioCardArticle("edit");
+		editCards.add(editedCard);
 		
 		// when
-		this.userInfoService.save(userInfo);
-		this.portfolioCardService.save(cards);
+		given(this.portfolioCardRepository.findByName(any(String.class))).willReturn(cards);
 		
-		List<PortfolioCard> originAns = this.portfolioCardService.get(userInfo.getName());
-		PortfolioCard originCard = originAns.get(0);
-		List<PortfolioCard> ans = this.portfolioCardService.get(originCard.getId());
-		PortfolioCard card = ans.get(0);
-		
+		List<PortfolioCard> result = this.portfolioCardService.edit(editCards);
+			
 		// then
-		assertEquals(originCard.getId(), card.getId());
-		assertEquals(originCard.getPortfolioCardArticle(), card.getPortfolioCardArticle());
-		assertEquals(originCard.getPortfolioUrl(), card.getPortfolioUrl());
-		assertEquals(originCard.getPortfolioCardStars(), card.getPortfolioCardStars());
-		assertEquals(originCard.getUserInfo().getName(), card.getUserInfo().getName());
+		assertEquals(result.get(0).getUserInfo().getName(), cards.get(0).getUserInfo().getName());
+		assertEquals(result.get(0).getPortfolioCardArticle(), "edit");
 	}
 	
-	@Test
-	@AfterEach
-	@Transactional
-	public void pre_UserStatisticsService_delete_Test(){
-		// given
-		String userName = this.name;
+	private PortfolioCard getPortfolioCard(int cardCnt){
+		PortfolioCard portfolioCard = new PortfolioCard();
+		portfolioCard.setId(Long.valueOf(cardCnt));
+		portfolioCard.setPortfolioCardArticle("article"+cardCnt);
+		portfolioCard.setPortfolioCardStars(cardCnt);
+		portfolioCard.setPortfolioUrl("portfolioUrl"+cardCnt);
 		
-		// when 
-		try{
-			this.portfolioCardService.delete(userName);
-			this.userInfoService.delete(userName);
-		}catch(NonExistUserException NEU){}
-		
-		// then
-		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userName));
+		portfolioCard.setUserInfo(this.getUserInfo());
+		return portfolioCard;
 	}
 	
-	@Test
-	@BeforeEach
-	@Transactional
-	public void post_UserStatisticsService_delete_Test(){
-		// given
-		String userName = this.name;
-		
-		// when 
-		try{
-			this.portfolioCardService.delete(userName);
-			this.userInfoService.delete(userName);
-		}catch(NonExistUserException NEU){}
-		
-		// then
-		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userName));
+	private UserInfo getUserInfo(){
+		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
+		userInfo.setName("name");
+		userInfo.setProfileUrl("url.helloworld.com");
+		return userInfo;
 	}
+	
 }

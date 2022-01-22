@@ -1,113 +1,91 @@
 package com.gitofolio.api.service.user;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.BDDMockito.*;
 
 import com.gitofolio.api.domain.user.UserInfo;
 import com.gitofolio.api.service.user.*;
 import com.gitofolio.api.service.user.exception.*;
+import com.gitofolio.api.repository.user.*;
 
-@SpringBootTest
+import java.util.Optional;
+
+@ExtendWith(MockitoExtension.class)
 public class UserInfoServiceTest{
 	
-	@Autowired
-	private UserInfoService userInfoService;
+	@Mock
+	private UserInfoRepository userInfoRepository;
+	@Mock
+	private UserStatRepository userStatRepository;
+	@Mock
+	private UserStatisticsService userStatisticsService;
+	@Mock
+	private PortfolioCardRepository portfolioCardRepository;
+	@Mock
+	private EncodedProfileImageRepository encodedProfileImageRepository;
 	
-	String name = "testName";
+	@InjectMocks
+	private UserInfoService userInfoService;
 	
 	@Test
 	@Transactional
-	public void UserInfoService_Save_and_Get_Test(){
+	public void UserInfoService_GET_Test(){
 		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(name);
-		userInfo.setProfileUrl("url.helloworld.com");
-		
+		UserInfo userInfo = this.getUser();
 		// when
-		this.userInfoService.save(userInfo);
+		given(this.userInfoRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(userInfo));
+		UserInfo result = this.userInfoService.get(userInfo.getName());
 		
 		// then
-		UserInfo result = this.userInfoService.get(userInfo.getName());
-		assertEquals(result.getName(), this.name);
+		assertEquals(result.getName(), userInfo.getName());
 		assertEquals(result.getProfileUrl(), userInfo.getProfileUrl());
 	}
 	
 	@Test
 	@Transactional
-	public void UserInfoService_Get_NonExistUser_Fail_Test(){
+	public void UserInfoService_GET_NonExistUser_Fail_Test(){
 		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(name);
-		userInfo.setProfileUrl("url.helloworld.com");
+		UserInfo userInfo = this.getUser();
 		
 		// when
-		this.userInfoService.save(userInfo);
+		given(this.userInfoRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(null));
 		
 		// then
-		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(this.name+"1"));
+		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userInfo.getName()));
 	}
 	
 	@Test
 	@Transactional
-	public void UserInfo_Put_Test(){
+	public void UserInfo_EDIT_Test(){
 		// given
-		UserInfo userInfo = new UserInfo();
-		userInfo.setId(0L);
-		userInfo.setName(name);
-		userInfo.setProfileUrl("url.helloworld.com");
-		
-		UserInfo editInfo = new UserInfo();
-		editInfo.setId(0L);
-		editInfo.setName(name);
-		editInfo.setProfileUrl("edit.com");
+		UserInfo userInfo = this.getUser();
+		UserInfo editInfo = this.getUser();
+		editInfo.setName("edited!");
 		
 		// when
-		this.userInfoService.save(userInfo);
-		this.userInfoService.edit(editInfo);
+		given(this.userInfoRepository.findById(any(Long.class))).willReturn(Optional.ofNullable(userInfo));
+		given(this.userInfoRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(editInfo));
+		UserInfo result = this.userInfoService.edit(editInfo);
 		
 		// then 
-		UserInfo result = this.userInfoService.get(userInfo.getName());
-		assertEquals(result.getName(), this.name);
+		assertEquals(result.getName(), editInfo.getName());
 		assertEquals(result.getProfileUrl(), editInfo.getProfileUrl());
 	}
 	
-	@AfterEach
-	@Transactional
-	public void pre_UserInfoService_delete_Test(){
-		// given
-		String userName = this.name;
-		
-		// when 
-		try{
-			this.userInfoService.delete(userName);
-		}catch(NonExistUserException NEU){}
-		
-		// then
-		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userName));
+	private UserInfo getUser(){
+		UserInfo userInfo = new UserInfo();
+		userInfo.setId(0L);
+		userInfo.setName("name");
+		userInfo.setProfileUrl("url.helloworld.com");
+		return userInfo;
 	}
 	
-	@BeforeEach
-	@Transactional
-	public void post_UserInfoService_delete_Test(){
-		// given
-		String userName = this.name;
-		
-		// when 
-		try{
-			this.userInfoService.delete(userName);
-		}catch(NonExistUserException NEU){}
-		
-		// then
-		assertThrows(NonExistUserException.class, ()->this.userInfoService.get(userName));
-	}
 }

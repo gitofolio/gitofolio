@@ -313,10 +313,10 @@ public class PortfolioCardControllerTest {
 		try{
 			this.userInfoCrudProxy.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
-		try{
-			this.userInfoCrudProxy.create(user);
-			this.portfolioCardCrudProxy.create(user);
-		}catch(DuplicationUserException DUE){DUE.printStackTrace();}
+		// try{
+		// 	this.userInfoCrudProxy.create(user);
+		// 	this.portfolioCardCrudProxy.create(user);
+		// }catch(DuplicationUserException DUE){DUE.printStackTrace();}
 	}
 	
 	private UserDTO getUser(){

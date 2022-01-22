@@ -124,6 +124,7 @@ public class UserInfoControllerTest{
 		UserDTO user = new UserDTO();
 		user.setName(name);
 		given(tokenValidator.validateToken((TokenAble)user)).willReturn(true);
+		
 		// then
 		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound())
@@ -167,6 +168,7 @@ public class UserInfoControllerTest{
 	public void loginedUser_Get_Fail_Test() throws Exception{
 		// when
 		given(tokenValidator.currentLogined()).willThrow(UnsupportedJwtException.class);
+		
 		// then
 		mockMvc.perform(get("/user").accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isUnauthorized())
@@ -200,9 +202,6 @@ public class UserInfoControllerTest{
 		try{
 			this.crudProxy.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
-		try{
-			this.crudProxy.create(user);
-		}catch(DuplicationUserException DUE){DUE.printStackTrace();}
 	}
 	
 	private UserDTO getUser(){
