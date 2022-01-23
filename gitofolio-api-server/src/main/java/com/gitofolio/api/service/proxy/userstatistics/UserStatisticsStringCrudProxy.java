@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.proxy.userstatisics;
+package com.gitofolio.api.service.proxy.userstatistics;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;

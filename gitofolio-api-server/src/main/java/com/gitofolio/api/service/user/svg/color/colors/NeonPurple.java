@@ -11,7 +11,7 @@ public class NeonPurple extends Color{
 		this.pointColor="#FFF3C7";
 		this.textColor="#FFFFFF";
 		this.subColor="#FFFFFF";
-		this.textShadowColor="0 0 7px #FFFFFF, 0 0 10px #B58DF0, 0 0 21px #B58DF0";
+		this.textShadowColor="0 0 6px #B58DF0, 0 0 17px #B58DF0";
 	}
 	
 }
