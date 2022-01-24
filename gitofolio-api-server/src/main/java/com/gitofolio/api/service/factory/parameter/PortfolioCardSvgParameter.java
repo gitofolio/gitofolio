@@ -7,7 +7,7 @@ public class PortfolioCardSvgParameter implements ParameterAble, SvgBreakAble{
 	private String name;
 	private String encodedImage;
 	private String portfolioUrl; 
-	private Integer starNum;
+	private Integer watchedNum;
 	private String article;
 	private String colorName;
 	
@@ -33,8 +33,8 @@ public class PortfolioCardSvgParameter implements ParameterAble, SvgBreakAble{
 		return this.portfolioUrl;
 	}
 	
-	public Integer getStarNum(){
-		return this.starNum;
+	public Integer getWatchedNum(){
+		return this.watchedNum;
 	}
 	
 	public String getArticle(){
@@ -51,7 +51,7 @@ public class PortfolioCardSvgParameter implements ParameterAble, SvgBreakAble{
 		this.name = builder.name;
 		this.encodedImage = builder.encodedImage;
 		this.portfolioUrl = builder.portfolioUrl; 
-		this.starNum = builder.starNum;
+		this.watchedNum = builder.watchedNum;
 		this.article = builder.article;
 		this.colorName = builder.colorName;
 	}
@@ -60,7 +60,7 @@ public class PortfolioCardSvgParameter implements ParameterAble, SvgBreakAble{
 		private String name;
 		private String encodedImage;
 		private String portfolioUrl; 
-		private Integer starNum;
+		private Integer watchedNum;
 		private String article;
 		private String colorName;
 		
@@ -79,8 +79,8 @@ public class PortfolioCardSvgParameter implements ParameterAble, SvgBreakAble{
 			return this;
 		}
 		
-		public Builder starNum(Integer starNum){
-			this.starNum = starNum;
+		public Builder watchedNum(Integer watchedNum){
+			this.watchedNum = watchedNum;
 			return this;
 		}
 		

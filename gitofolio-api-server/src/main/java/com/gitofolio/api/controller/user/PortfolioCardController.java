@@ -100,7 +100,7 @@ public class PortfolioCardController{
 			.name(userDTO.getName())
 			.encodedImage(encodedImage)
 			.portfolioUrl(userDTO.getPortfolioCards().get(0).getPortfolioUrl())
-			.starNum(userDTO.getPortfolioCards().get(0).getPortfolioCardStars())
+			.watchedNum(userDTO.getPortfolioCards().get(0).getPortfolioCardWatched())
 			.article(userDTO.getPortfolioCards().get(0).getPortfolioCardArticle())
 			.colorName(color)
 			.build();

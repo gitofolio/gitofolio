@@ -40,6 +40,8 @@ public class PortfolioCardService{
 		PortfolioCard portfolioCard = this.portfolioCardRepository.findById(id)
 			.orElseThrow(()->new IllegalParameterException("존재 하지 않는 포트폴리오 카드 id 입니다.", "포트폴리오 카드 id값을 확인해 주세요.", "/portfoliocard/"+id));
 		
+		portfolioCard.increasePortfolioCardWatched();
+		
 		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
 		cards.add(portfolioCard);
 		
@@ -103,7 +105,7 @@ public class PortfolioCardService{
 				Object oldFieldValue = oldField.get(oldPortfolioCard);
 			
 				if(oldFieldValue == null || oldField.getName().equals("id") || oldField.getName().equals("userInfo")
-				  || oldField.getName().equals("portfolioCardStars")) continue;
+				  || oldField.getName().equals("portfolioCardWatched")) continue;
 			
 				for(Field newField : newFields){
 					newField.setAccessible(true);

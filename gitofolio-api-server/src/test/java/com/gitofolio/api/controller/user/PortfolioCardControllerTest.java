@@ -94,7 +94,7 @@ public class PortfolioCardControllerTest {
 								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 								fieldWithPath("portfolioCards.[].id").description("포트폴리오 카드의 id 입니다"),
 								fieldWithPath("portfolioCards.[].portfolioCardArticle").description("포트폴리오 카드의 본문 내용입니다."),
-								fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다."),
+								fieldWithPath("portfolioCards.[].portfolioCardWatched").description("지금까지 포트폴리오 카드가 노출된 총 횟수입니다."),
 								fieldWithPath("portfolioCards.[].portfolioUrl").description("포트폴리오 카드에 연결된 포트폴리오 링크입니다."),
 								fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
 								fieldWithPath("links.[].method").description("HTTP METHOD"),
@@ -192,7 +192,7 @@ public class PortfolioCardControllerTest {
 								fieldWithPath("name").description("저장할 유저의 이름 입니다. 매칭되는 유저에 포토폴리오 카드가 저장됩니다."),
 								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 								fieldWithPath("portfolioCards.[].portfolioCardArticle").description("포트폴리오 카드의 본문 내용입니다."),
-								fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다."),
+								fieldWithPath("portfolioCards.[].portfolioCardWatched").description("지금까지 포트폴리오 카드가 노출된 총 횟수입니다."),
 								fieldWithPath("portfolioCards.[].portfolioUrl").description("포트폴리오 카드에 연결된 포트폴리오 링크입니다.")
 							),
 							responseFields(
@@ -201,7 +201,7 @@ public class PortfolioCardControllerTest {
 								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 								fieldWithPath("portfolioCards.[].id").description("저장된 포트폴리오 카드의 id 입니다"),
 								fieldWithPath("portfolioCards.[].portfolioCardArticle").description("포트폴리오 카드의 본문 내용입니다."),
-								fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다."),
+								fieldWithPath("portfolioCards.[].portfolioCardWatched").description("지금까지 포트폴리오 카드가 노출된 총 횟수입니다."),
 								fieldWithPath("portfolioCards.[].portfolioUrl").description("포트폴리오 카드에 연결된 포트폴리오 링크입니다."),
 								fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
 								fieldWithPath("links.[].method").description("HTTP METHOD"),
@@ -234,7 +234,7 @@ public class PortfolioCardControllerTest {
 								fieldWithPath("name").description("저장할 유저의 이름 입니다. 매칭되는 유저에 포토폴리오 카드가 저장됩니다."),
 								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 								fieldWithPath("portfolioCards.[].portfolioCardArticle").description("포트폴리오 카드의 본문 내용입니다."),
-								fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다."),
+								fieldWithPath("portfolioCards.[].portfolioCardWatched").description("지금까지 포트폴리오 카드가 노출된 총 횟수입니다."),
 								fieldWithPath("portfolioCards.[].portfolioUrl").description("포트폴리오 카드에 연결된 포트폴리오 링크입니다.")
 							),
 							responseFields(
@@ -269,7 +269,7 @@ public class PortfolioCardControllerTest {
 					fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 					fieldWithPath("portfolioCards.[].id").description("수정대상 포트폴리오 카드 id 입니다. id값에 해당하는 포트폴리오 카드가 수정됩니다."),
 					fieldWithPath("portfolioCards.[].portfolioCardArticle").description("수정할 포트폴리오 카드의 본문 내용입니다."),
-					fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다. 임의로 수정 불가능 합니다."),
+					fieldWithPath("portfolioCards.[].portfolioCardWatched").description("지금까지 포트폴리오 카드가 노출된 총 횟수입니다."),
 					fieldWithPath("portfolioCards.[].portfolioUrl").description("수정할 포트폴리오 카드에 연결된 포트폴리오 링크입니다.")
 				),
 				responseFields(
@@ -278,7 +278,7 @@ public class PortfolioCardControllerTest {
 					fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 					fieldWithPath("portfolioCards.[].id").description("포트폴리오 카드의 id 입니다"),
 					fieldWithPath("portfolioCards.[].portfolioCardArticle").description("수정된 포트폴리오 카드의 본문 내용입니다."),
-					fieldWithPath("portfolioCards.[].portfolioCardStars").description("포트폴리오가 받은 스타 갯수 입니다."),
+					fieldWithPath("portfolioCards.[].portfolioCardWatched").description("지금까지 포트폴리오 카드가 노출된 총 횟수입니다."),
 					fieldWithPath("portfolioCards.[].portfolioUrl").description("수정된 포트폴리오 카드에 연결된 포트폴리오 링크입니다."),
 					fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
 					fieldWithPath("links.[].method").description("HTTP METHOD"),
@@ -334,11 +334,11 @@ public class PortfolioCardControllerTest {
 		return user;
 	}
 	
-	private PortfolioCardDTO getPortfolioCard(Long id, String article, Integer stars, String url){
+	private PortfolioCardDTO getPortfolioCard(Long id, String article, Integer watched, String url){
 		return new PortfolioCardDTO.Builder()
 			.id(id)
 			.portfolioCardArticle(article)
-			.portfolioCardStars(stars)
+			.portfolioCardWatched(watched)
 			.portfolioUrl(url)
 			.build(); 
 	}

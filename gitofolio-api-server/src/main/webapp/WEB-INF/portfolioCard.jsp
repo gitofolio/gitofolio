@@ -38,13 +38,13 @@
 			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
         }
 		 
-		.star{
+		.watched{
 			animation: delayFadeInAnimation 1.1s ease-in-out;
 		}
 		 
-        .starText {
+        .watchedText {
 			fill : ${svgDTO.getColor().getTextColor()};
-            font : 400 10px  Noto Sans KR;
+            font : 400 11px  Noto Sans KR;
 			animation: delayFadeInAnimation 1.1s ease-in-out;
 			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
 		}
@@ -85,13 +85,14 @@
     <g transform="translate(70,80)" class="article">
 		${svgDTO.getArticle()}
 	</g>
-	 
-	<g class="star">
-    	<path id="star"
-		  d="M311.524 25.4635C311.674 25.0029 312.326 25.0029 312.476 25.4635L313.908 29.8734C313.975 30.0794 314.167 30.2188 314.384 30.2188H319.021C319.505 30.2188 319.706 30.8387 319.315 31.1234L315.563 33.8488C315.388 33.9761 315.315 34.2018 315.382 34.4078L316.815 38.8176C316.964 39.2783 316.437 39.6613 316.045 39.3766L312.294 36.6512C312.119 36.5239 311.881 36.5239 311.706 36.6512L307.955 39.3766C307.563 39.6613 307.036 39.2783 307.185 38.8176L308.618 34.4078C308.685 34.2018 308.612 33.9761 308.437 33.8488L304.685 31.1234C304.294 30.8387 304.495 30.2188 304.979 30.2188H309.616C309.833 30.2188 310.025 30.0794 310.092 29.8734L311.524 25.4635Z"
-		  fill="${svgDTO.getColor().getPointColor()}" />
-    </g>
-	<text class="starText" x="322" y="37">${svgDTO.getStarNum()}</text>
+	
+	<g class="watched" transform="translate(292, 22)" clip-path="url(#watchedClip)">
+		<rect width="20" height="20" rx="10" fill="${svgDTO.getColor().getMainColor()}"/>
+		<path d="M18 20C18 24.4183 14.4183 28 10 28C5.58172 28 2 24.4183 2 20C2 15.5817 5.58172 12 10 12C14.4183 12 18 15.5817 18 20Z" fill="${svgDTO.getColor().getTextColor()}"/>
+		<circle cx="10" cy="7" r="3" fill="${svgDTO.getColor().getTextColor()}"/>
+	</g>
+		 
+	<text text-anchor="middle" class="watchedText" x="322" y="38">${svgDTO.getWatchedNum()}</text>
 	 
     <defs>
         <filter id="shadow" x="0" y="0" width="${svgDTO.getViewBoxWidth()}" height="${svgDTO.getViewBoxHeight()}" filterUnits="userSpaceOnUse"
@@ -110,7 +111,10 @@
         <pattern id="userProfileImage" patternContentUnits="objectBoundingBox" width="1" height="1">
 			<image width="1" height="1" href="data:image/jpeg;base64,${svgDTO.getBase64EncodedImage()}"/>
         </pattern>
-				
+	
+		<clipPath id="watchedClip">
+			<rect width="20" height="20" rx="10" fill="${svgDTO.getColor().getMainColor()}"/>
+		</clipPath>
     </defs>
 	 </a>
 </svg>

@@ -26,7 +26,7 @@ public class PortfolioCardSvgFactory implements Factory<PortfolioCardSvgDTO, Por
 			.portfolioUrl(parameter.getPortfolioUrl())
 			.color(color)
 			.base64EncodedImage(parameter.getEncodedImage())
-			.starNum(String.valueOf(parameter.getStarNum()))
+			.watchedNum(String.valueOf(parameter.getWatchedNum()))
 			.article(parameter.getArticle())
 			.build();
 	}

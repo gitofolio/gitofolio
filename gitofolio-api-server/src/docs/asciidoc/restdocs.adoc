@@ -10,7 +10,7 @@ endif::[]
 == 들어가며
 gitofolio rest api를 사용하여, 유저데이터, 통계, 포토폴리오 정보 등을 가져올수있습니다.
 
-image::https://api.gitofolio.com/portfoliocard/svg/23
+image::https://api.gitofolio.com/portfoliocard/svg/23?color=white[devxb's sample card]
 
 [[HATEOAS]]
 == gitofolio HATEOAS

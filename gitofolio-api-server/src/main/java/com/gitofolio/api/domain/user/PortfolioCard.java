@@ -22,12 +22,11 @@ public class PortfolioCard{
 	@Column(name="PORTFOLIO_CARD_ID")
 	private Long id;
 	
-	@Lob
-	@Column(name="PORTFOLIO_CARD_ARTICLE")
+	@Column(name="PORTFOLIO_CARD_ARTICLE", length=1005)
 	private String portfolioCardArticle;
 
-	@Column(name="PORTFOLIO_CARD_STARS", nullable=false)
-	private Integer portfolioCardStars;
+	@Column(name="PORTFOLIO_CARD_WATCHED", nullable=false)
+	private Integer portfolioCardWatched;
 	
 	@Column(name="PORTFOLIO_URL", nullable=false)
 	private String portfolioUrl;
@@ -44,8 +43,13 @@ public class PortfolioCard{
 		return this.portfolioCardArticle;
 	}
 	
-	public Integer getPortfolioCardStars(){
-		return this.portfolioCardStars;
+	public Integer getPortfolioCardWatched(){
+		return this.portfolioCardWatched;
+	}
+	
+	public void increasePortfolioCardWatched(){
+		if(this.portfolioCardWatched >= 999) return;
+		this.portfolioCardWatched++;
 	}
 	
 	public String getPortfolioUrl(){
@@ -61,11 +65,12 @@ public class PortfolioCard{
 	}
 	
 	public void setPortfolioCardArticle(String portfolioCardArticle){
+		if(portfolioCardArticle.length()>=1000) portfolioCardArticle = portfolioCardArticle.substring(0,1000);
 		this.portfolioCardArticle = portfolioCardArticle;
 	}
 	
-	public void setPortfolioCardStars(Integer portfolioCardStars){
-		this.portfolioCardStars = portfolioCardStars;
+	public void setPortfolioCardWatched(Integer portfolioCardWatched){
+		this.portfolioCardWatched = portfolioCardWatched;
 	}
 	
 	public void setPortfolioUrl(String portfolioUrl){

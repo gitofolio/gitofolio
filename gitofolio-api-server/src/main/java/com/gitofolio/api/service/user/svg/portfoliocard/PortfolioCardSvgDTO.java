@@ -10,7 +10,7 @@ public class PortfolioCardSvgDTO{
 	private String rectHeight = "78"; // viewBoxHeight-8
 	private String arrowY = "-120"; // origin = "-112"
 	private String name;
-	private String starNum;
+	private String watchedNum;
 	private String article;
 	private String base64EncodedImage;
 	private String portfolioUrl;
@@ -48,8 +48,8 @@ public class PortfolioCardSvgDTO{
 		return this.name;
 	}
 	
-	public String getStarNum(){
-		return this.starNum;
+	public String getWatchedNum(){
+		return this.watchedNum;
 	}
 	
 	public String getArticle(){
@@ -67,7 +67,7 @@ public class PortfolioCardSvgDTO{
 		this.rectHeight = builder.rectHeight;
 		this.arrowY = builder.arrowY;
 		this.name = builder.name;
-		this.starNum = builder.starNum;
+		this.watchedNum = builder.watchedNum;
 		this.base64EncodedImage = builder.base64EncodedImage;
 		this.article = builder.article;
 		this.color = builder.color;
@@ -82,7 +82,7 @@ public class PortfolioCardSvgDTO{
 		private String rectHeight = "86";
 		private String arrowY = "-120";
 		private String name;
-		private String starNum;
+		private String watchedNum;
 		private String article;
 		private String base64EncodedImage;
 		private String portfolioUrl;
@@ -98,8 +98,8 @@ public class PortfolioCardSvgDTO{
 			return this;
 		}
 		
-		public Builder starNum(String starNum){
-			this.starNum = starNum;
+		public Builder watchedNum(String watchedNum){
+			this.watchedNum = watchedNum;
 			return this;
 		}
 		

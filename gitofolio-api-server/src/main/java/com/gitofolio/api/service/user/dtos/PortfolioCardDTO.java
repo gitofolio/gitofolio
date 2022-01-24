@@ -6,9 +6,9 @@ public class PortfolioCardDTO{
 	
 	private Long id;
 	private String portfolioCardArticle;
-	private Integer portfolioCardStars;
+	private Integer portfolioCardWatched;
 	private String portfolioUrl;
-
+	
 	public void setId(Long id){
 		this.id = id;
 	}
@@ -17,8 +17,8 @@ public class PortfolioCardDTO{
 		this.portfolioCardArticle = portfolioCardArticle;
 	}
 	
-	public void setPortfolioCardStars(Integer portfolioCardStars){
-		this.portfolioCardStars = portfolioCardStars;
+	public void setPortfolioCardWatched(Integer portfolioCardWatched){
+		this.portfolioCardWatched = portfolioCardWatched;
 	}
 	
 	public void setPortfolioUrl(String portfolioUrl){
@@ -33,8 +33,8 @@ public class PortfolioCardDTO{
 		return this.portfolioCardArticle;
 	}
 	
-	public Integer getPortfolioCardStars(){
-		return this.portfolioCardStars;
+	public Integer getPortfolioCardWatched(){
+		return this.portfolioCardWatched;
 	}
 	
 	public String getPortfolioUrl(){
@@ -48,7 +48,7 @@ public class PortfolioCardDTO{
 	public PortfolioCardDTO(PortfolioCardDTO.Builder builder){
 		this.id = builder.id;
 		this.portfolioCardArticle = builder.portfolioCardArticle;
-		this.portfolioCardStars = builder.portfolioCardStars;
+		this.portfolioCardWatched = builder.portfolioCardWatched;
 		this.portfolioUrl = builder.portfolioUrl;
 	}
 	
@@ -56,7 +56,7 @@ public class PortfolioCardDTO{
 		
 		private Long id;
 		private String portfolioCardArticle;
-		private Integer portfolioCardStars;
+		private Integer portfolioCardWatched;
 		private String portfolioUrl;
 		
 		public PortfolioCardDTO.Builder id(Long id){
@@ -69,8 +69,8 @@ public class PortfolioCardDTO{
 			return this;
 		}
 		
-		public PortfolioCardDTO.Builder portfolioCardStars(Integer portfolioCardStars){
-			this.portfolioCardStars = portfolioCardStars;
+		public PortfolioCardDTO.Builder portfolioCardWatched(Integer portfolioCardWatched){
+			this.portfolioCardWatched = portfolioCardWatched;
 			return this;
 		}
 		
@@ -82,7 +82,7 @@ public class PortfolioCardDTO{
 		public PortfolioCardDTO.Builder portfolioCard(PortfolioCard portfolioCard){
 			this.id = portfolioCard.getId();
 			this.portfolioCardArticle = portfolioCard.getPortfolioCardArticle();
-			this.portfolioCardStars = portfolioCard.getPortfolioCardStars();
+			this.portfolioCardWatched = portfolioCard.getPortfolioCardWatched();
 			this.portfolioUrl = portfolioCard.getPortfolioUrl();
 			return this;
 		}

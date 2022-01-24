@@ -130,7 +130,7 @@ public class PortfolioCardCrudProxyTest{
 		PortfolioCard portfolioCard = new PortfolioCard();
 		portfolioCard.setId(Long.valueOf(cardCnt));
 		portfolioCard.setPortfolioCardArticle("article"+cardCnt);
-		portfolioCard.setPortfolioCardStars(cardCnt);
+		portfolioCard.setPortfolioCardWatched(cardCnt);
 		portfolioCard.setPortfolioUrl("portfolioUrl"+cardCnt);
 		
 		portfolioCard.setUserInfo(this.getUserInfo());

@@ -50,6 +50,27 @@ public class PortfolioCardRepositoryTest{
 	}
 	
 	@Test
+	public void PortfolioCardRepository_save_Long_Article_Test(){
+		// given
+		UserInfo userInfo = this.getUserInfo();
+		
+		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
+		cards.add(this.getPortfolioCard(1));
+		cards.get(0).setPortfolioCardArticle(this.makeLongText(2000));
+		
+		String expectedLongText = this.makeLongText(1000);
+		
+		// when
+		this.saveUserInfo(userInfo);
+		this.savePortfolioCards(cards);
+		
+		List<PortfolioCard> result = this.portfolioCardRepository.findByName(userInfo.getName());
+		
+		// then
+		assertEquals(result.get(0).getPortfolioCardArticle().length(), expectedLongText.length());
+	}
+	
+	@Test
 	@BeforeEach
 	public void beforeCleanupDB(){
 		// given
@@ -89,7 +110,7 @@ public class PortfolioCardRepositoryTest{
 		PortfolioCard portfolioCard = new PortfolioCard();
 		portfolioCard.setId(Long.valueOf(cardCnt));
 		portfolioCard.setPortfolioCardArticle("article"+cardCnt);
-		portfolioCard.setPortfolioCardStars(cardCnt);
+		portfolioCard.setPortfolioCardWatched(cardCnt);
 		portfolioCard.setPortfolioUrl("portfolioUrl"+cardCnt);
 		
 		portfolioCard.setUserInfo(this.getUserInfo());
@@ -102,6 +123,12 @@ public class PortfolioCardRepositoryTest{
 		userInfo.setName("name");
 		userInfo.setProfileUrl("url.helloworld.com");
 		return userInfo;
+	}
+	
+	private String makeLongText(int length){
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < length; i++) sb.append("a");
+		return sb.toString();
 	}
 	
 }

@@ -143,7 +143,7 @@ public class UserStatisticsControllerTest{
 		PortfolioCardDTO portfolioCardDTO1 = new PortfolioCardDTO.Builder()
 			.id(3L)
 			.portfolioCardArticle("p1")
-			.portfolioCardStars(1)
+			.portfolioCardWatched(1)
 			.portfolioUrl("pu1")
 			.build();
 		
