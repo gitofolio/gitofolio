@@ -34,7 +34,7 @@ public class PortfolioCardCrudProxy implements CrudProxy<UserDTO>{
 	}
 	
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional
 	public UserDTO read(Object ...args){
 		return this.crudProxy.read(args);
 	}

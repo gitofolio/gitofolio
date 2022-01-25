@@ -31,10 +31,8 @@ public class UserInfoService{
 	
 	public UserInfo save(UserInfo user){
 		UserInfo exist = this.userInfoRepository.findByName(user.getName()).orElseGet(()->new UserInfo());
-		if(exist.getName() == null) userInfoRepository.save(user);
-		else if(exist.getName() != null) {
-			return this.edit(user);
-		}
+		if(isNewUser(exist)) userInfoRepository.save(user);
+		else return this.edit(user);
 		
 		return this.get(user.getName());
 	}
@@ -54,10 +52,10 @@ public class UserInfoService{
 		UserInfo exist = this.userInfoRepository.findById(user.getId())
 			.orElseThrow(()->new NonExistUserException("존재하지 않는 유저에 대한 수정 요청입니다.", "유저 아이디를 확인해주세요", "/user/"+user.getId()));
 		
-		Field[] oldFields = exist.getClass().getDeclaredFields();
-		Field[] newFields = user.getClass().getDeclaredFields();
-		
 		try{
+			Field[] oldFields = exist.getClass().getDeclaredFields();
+			Field[] newFields = user.getClass().getDeclaredFields();
+			
 			for(Field oldField : oldFields){
 				oldField.setAccessible(true);
 				Object oldFieldValue = oldField.get(exist);
@@ -78,6 +76,36 @@ public class UserInfoService{
 		}
 		
 		return this.get(exist.getName());
+	}
+	
+	private void doEdit(UserInfo oldUserInfo, UserInfo newUserInfo) throws IllegalAccessException{
+		Field[] oldFields = oldUserInfo.getClass().getDeclaredFields();
+		Field[] newFields = newUserInfo.getClass().getDeclaredFields();
+			
+		for(Field oldField : oldFields){
+			oldField.setAccessible(true);
+			Object oldFieldValue = oldField.get(oldUserInfo);
+				
+			if(!isFieldEditAble(oldField) || oldFieldValue == null) continue;
+				
+			for(Field newField : newFields){
+				newField.setAccessible(true);
+				Object newFieldValue = newField.get(newUserInfo);
+				
+				if(!isFieldEditAble(newField) || newFieldValue == null) continue;
+				
+				if(oldField.getName().equals(newField.getName())) oldField.set(oldUserInfo, newFieldValue);
+			}
+		}
+	}
+	
+	private boolean isFieldEditAble(Field field){
+		if(field.getName().equals("id")) return false;
+		return true;
+	}
+	
+	private boolean isNewUser(UserInfo user){
+		return (user.getName() == null) ? true : false;
 	}
 	
 	@Autowired

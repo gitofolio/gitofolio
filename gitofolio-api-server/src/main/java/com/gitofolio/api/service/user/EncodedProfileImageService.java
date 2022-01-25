@@ -30,11 +30,6 @@ public class EncodedProfileImageService{
 		EncodedProfileImage encodedProfileImage = encodedProfileImageRepository.findByName(user.getName())
 			.orElseThrow(()->new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요."));
 		
-		if(!encodedProfileImage.getProfileUrl().equals(user.getProfileUrl())){
-			encodedProfileImage = this.getEncodedProfileImage(user);
-			encodedProfileImage.setUserInfo(user);
-		}
-		
 		return encodedProfileImage;
 	}
 	
@@ -42,14 +37,10 @@ public class EncodedProfileImageService{
 		EncodedProfileImage encodedProfileImage = this.encodedProfileImageRepository.findByName(user.getName())
 			.orElseGet(()->this.getEncodedProfileImage(user));
 		
-		if(encodedProfileImage.getUserInfo() == null){
-			encodedProfileImage.setUserInfo(user);
-			this.encodedProfileImageRepository.save(encodedProfileImage);
-		}
-		else if(!encodedProfileImage.getProfileUrl().equals(user.getProfileUrl())){
-			encodedProfileImage = this.getEncodedProfileImage(user);
-			encodedProfileImage.setUserInfo(user);
-		}
+		if(isNewEncodedProfileImage(encodedProfileImage)) this.encodedProfileImageRepository.save(encodedProfileImage);
+		
+		encodedProfileImage = this.getEncodedProfileImage(user);
+		encodedProfileImage.setUserInfo(user);
 		
 		return this.get(user);
 	}
@@ -66,6 +57,10 @@ public class EncodedProfileImageService{
 		encodedProfileImage.setProfileUrl(user.getProfileUrl());
 		encodedProfileImage.setEncodedProfileUrl(this.base64ImageEncoder.encode(user.getProfileUrl()));
 		return encodedProfileImage;
+	}
+	
+	private boolean isNewEncodedProfileImage(EncodedProfileImage encodedProfileImage){
+		return (encodedProfileImage.getUserInfo() == null) ? true : false;
 	}
 	
 	@Autowired

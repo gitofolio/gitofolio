@@ -95,7 +95,6 @@ public class UserStatRepositoryTest{
 	
 	private UserStat getUserStat(){
 		UserStat userStat = new UserStat();
-		userStat.setTotalStars(0);
 		userStat.setTotalVisitors(0);
 		userStat.setUserInfo(this.getUserInfo());
 		return userStat;

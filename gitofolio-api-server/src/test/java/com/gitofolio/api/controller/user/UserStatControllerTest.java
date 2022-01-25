@@ -99,7 +99,6 @@ public class UserStatControllerTest{
 							fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
 							fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
 							fieldWithPath("userStat.totalVisitors").description("{name}에 해당하는 유저를 방문한 사람들의 수 입니다."),
-							fieldWithPath("userStat.totalStars").description("{name}에 해당하는 유저가 받은 star수 입니다."),
 							fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
 							fieldWithPath("links.[].method").description("HTTP METHOD"),
 							fieldWithPath("links.[].href").description("다음 선택지 요청 URL 입니다.")

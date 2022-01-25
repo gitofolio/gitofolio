@@ -19,13 +19,10 @@ public class UserStatService{
 	public UserStat get(String name){
 		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
 		
-		if(userStat.getUserInfo() == null){
+		if(isNewUserStat(userStat)){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"+name));
-			userStat.setTotalStars(0);
-			userStat.setTotalVisitors(0);
-			userStat.setUserInfo(userInfo);
-			
+			userStat = this.setUpUserStat(userStat, userInfo);
 			userStatRepository.save(userStat);
 		}
 		
@@ -37,8 +34,7 @@ public class UserStatService{
 			.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
 		
 		UserStat exist = this.userStatRepository.findByName(userInfo.getName()).orElseGet(()->new UserStat());
-		if(exist.getUserInfo() == null) userStatRepository.save(userStat);
-		else userStat.addTotalStars();
+		if(isNewUserStat(exist)) userStatRepository.save(userStat);
 		
 		return exist;
 	}
@@ -51,13 +47,10 @@ public class UserStatService{
 	@Transactional
 	public void increaseTotalVisitors(String name){
 		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
-		if(userStat.getUserInfo() == null){
+		if(isNewUserStat(userStat)){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
-			userStat.setTotalStars(0);
-			userStat.setTotalVisitors(0);
-			userStat.setUserInfo(userInfo);
-			
+			userStat = this.setUpUserStat(userStat, userInfo);
 			userStatRepository.save(userStat);
 		}
 		userStat.addTotalVisitors();
@@ -67,48 +60,23 @@ public class UserStatService{
 	@Transactional
 	public void increaseTotalVisitors(Long id){
 		UserStat userStat = this.userStatRepository.findById(id).orElseGet(()->new UserStat());
-		if(userStat.getUserInfo() == null){
+		if(isNewUserStat(userStat)){
 			UserInfo userInfo = this.userInfoRepository.findById(id)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
-			userStat.setTotalStars(0);
-			userStat.setTotalVisitors(0);
-			userStat.setUserInfo(userInfo);
-			
+			userStat = this.setUpUserStat(userStat, userInfo);
 			userStatRepository.save(userStat);
 		}
 		userStat.addTotalVisitors();
 	}
 	
-	@Transactional
-	public void increaseTotalStars(String name){
-		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
-		if(userStat.getUserInfo() == null){
-			UserInfo userInfo = this.userInfoRepository.findByName(name)
-				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
-			userStat.setTotalStars(0);
-			userStat.setTotalVisitors(1);
-			userStat.setUserInfo(userInfo);
-			
-			userStatRepository.save(userStat);
-		}
-		userStat.addTotalStars();
-		return;
+	private UserStat setUpUserStat(UserStat userStat, UserInfo userInfo){
+		userStat.setTotalVisitors(0);
+		userStat.setUserInfo(userInfo);
+		return userStat;
 	}
 	
-	@Transactional
-	public void increaseTotalStars(Long id){
-		UserStat userStat = this.userStatRepository.findById(id).orElseGet(()->new UserStat());
-		if(userStat.getUserInfo() == null){
-			UserInfo userInfo = this.userInfoRepository.findById(id)
-				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
-			userStat.setTotalStars(0);
-			userStat.setTotalVisitors(1);
-			userStat.setUserInfo(userInfo);
-			
-			userStatRepository.save(userStat);
-		}
-		userStat.addTotalStars();
-		return;
+	private boolean isNewUserStat(UserStat userStat){
+		return (userStat.getUserInfo() == null) ? true : false;
 	}
 	
 	@Autowired

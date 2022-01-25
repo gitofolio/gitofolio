@@ -28,7 +28,6 @@ public class UserStatMapper implements UserMapper<UserStat>{
 	public UserStat resolveMap(UserDTO userDTO){
 		UserStat userStat = new UserStat();
 		userStat.setTotalVisitors(1);
-		userStat.setTotalStars(userDTO.getUserStat().getTotalStars());
 		
 		UserInfo userInfo = new UserInfo();
 		userInfo.setName(userDTO.getName());
