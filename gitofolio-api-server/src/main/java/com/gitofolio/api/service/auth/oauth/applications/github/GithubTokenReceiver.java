@@ -36,6 +36,12 @@ public class GithubTokenReceiver implements OauthTokenReceiver<String, String>{
 		return new HttpEntity<MultiValueMap<String, String>>(httpBody, httpHeaders);
 	}
 	
+	private HttpHeaders getHttpHeaders() throws Exception{
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add("Accept", "application/json");
+		return httpHeaders;
+	}
+	
 	private MultiValueMap<String, String> getHttpBody(String code) throws Exception{
 		MultiValueMap<String, String> httpBody = new LinkedMultiValueMap<String, String>();
 		httpBody.add("client_id", this.githubClientSecret.getId());
@@ -43,12 +49,6 @@ public class GithubTokenReceiver implements OauthTokenReceiver<String, String>{
 		httpBody.add("code", code);
 		
 		return httpBody;
-	}
-	
-	private HttpHeaders getHttpHeaders() throws Exception{
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Accept", "application/json");
-		return httpHeaders;
 	}
 	
 	@Autowired

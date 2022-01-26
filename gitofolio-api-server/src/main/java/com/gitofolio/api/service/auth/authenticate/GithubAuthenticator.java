@@ -36,14 +36,6 @@ public class GithubAuthenticator implements Authenticator<UserDTO, String>{
 		return buildLoginedUser(response);
 	}
 	
-	private UserDTO buildLoginedUser(HashMap<String, Object> response){
-		return new UserDTO.Builder()
-			.id(new Long((Integer)response.get("id")))
-			.name((String)response.get("login"))
-			.profileUrl((String)response.get("avatar_url"))
-			.build();
-	}
-	
 	private HttpHeaders getHttpHeaders(String parameter){
 		String token = this.githubTokenReceiver.receiveToken(parameter);
 		
@@ -52,6 +44,14 @@ public class GithubAuthenticator implements Authenticator<UserDTO, String>{
 		headers.add("Authorization", "token " + token);
 		
 		return headers;
+	}
+	
+	private UserDTO buildLoginedUser(HashMap<String, Object> response){
+		return new UserDTO.Builder()
+			.id(new Long((Integer)response.get("id")))
+			.name((String)response.get("login"))
+			.profileUrl((String)response.get("avatar_url"))
+			.build();
 	}
 	
 	@Autowired

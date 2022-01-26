@@ -7,7 +7,7 @@ build/
 src/main/resources/application.properties
 src/main/java/com/gitofolio/api/service/auth/oauth/GithubClientSecret.java
 src/main/java/com/gitofolio/api/service/auth/token/jwt/JwtSecret.java
-/workspace/api_server_gitofolio/goorm.manifest
+../goorm.manifest
 
 ### STS ###
 .apt_generated

@@ -38,7 +38,6 @@ public class JwtTokenGenerator implements TokenGenerator{
 			.compact();
 	}
 	
-	// constructor
 	@Autowired
 	public JwtTokenGenerator(JwtSecret jwtSecret){
 		this.jwtSecret = jwtSecret;

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 public class JwtTokenValidator implements TokenValidator{
 	
 	@Autowired
-	private HttpServletRequest httpServletRequest; // thread-safe하니 의심하지말것
+	private HttpServletRequest httpServletRequest;
 	
 	@Autowired
 	private JwtSecret jwtSecret;
@@ -45,6 +45,11 @@ public class JwtTokenValidator implements TokenValidator{
 		return true;
 	}
 	
+	private boolean validateTokenRealTask(String actual, String expected){
+		if(!expected.equals(actual)) return false;
+		return true;
+	}
+	
 	private String parseToken(){
 		try{
 			return parseTokenRealTask();
@@ -59,18 +64,12 @@ public class JwtTokenValidator implements TokenValidator{
 	
 	private String parseTokenRealTask() throws IncorrectClaimException, MissingClaimException, SignatureException{
 		String token = extractTokenInHeader();
-		
 		return Jwts.parser()
 			.setSigningKey(this.jwtSecret.getSecretKey())
 			.requireIssuer(this.jwtSecret.getIssuer())
 			.parseClaimsJws(token)
 			.getBody()
 			.get(this.jwtSecret.getId(), String.class);
-	}
-	
-	private boolean validateTokenRealTask(String actual, String expected){
-		if(!expected.equals(actual)) return false;
-		return true;
 	}
 	
 	private String extractTokenInHeader(){

@@ -51,11 +51,8 @@ public class OauthTokenPool{
 	@Async
 	@Scheduled(fixedRate=30000)
 	private void deleteOldToken(){
-		for(Map.Entry<String, Token> token : this.tokenPool.entrySet()){
-			if(token.getValue().isOldToken()){
-				tokenPool.remove(token.getKey());
-			}
-		}
+		for(Map.Entry<String, Token> token : this.tokenPool.entrySet())
+			if(token.getValue().isOldToken()) tokenPool.remove(token.getKey());
 	}
 	
 	private boolean validatePersonalAccessTokenValue(String actual, String expected) throws AuthenticateException{

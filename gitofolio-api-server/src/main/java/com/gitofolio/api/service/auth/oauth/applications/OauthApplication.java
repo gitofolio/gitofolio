@@ -9,4 +9,4 @@ public interface OauthApplication{
 	String getUrlWithQueryString(String queryString);
 	Authenticator getAuthenticator();
 	
-}
+} 
