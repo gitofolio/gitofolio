@@ -40,7 +40,7 @@ public class PersonalAccessTokenService{
 	}
 	
 	@Async
-	@Scheduled(fixedRate=86400000) // 1일마다 만료된 AccessToken 삭제. AccessToken은 30일 동안 사용하지않으면 만료됨.
+	@Scheduled(fixedRate=3600000) // 1시간 만료된 AccessToken 삭제. AccessToken은 30일 동안 사용하지않으면 만료됨.
 	public void deletePerMonth(){
 		this.deletePerMonthRealTask.task(this.personalAccessTokenRepository);
 	}
