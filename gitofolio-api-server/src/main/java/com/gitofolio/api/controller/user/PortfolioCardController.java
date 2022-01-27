@@ -50,7 +50,7 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime
-	@AuthToken(tokenType = TokenType.JWT)
+	@AuthToken(tokenType = TokenType.AUTO)
 	@HateoasSetter(hateoasType = HateoasType.PORTFOLIOCARDHATEOAS)
 	@RequestMapping(path = "/portfoliocards", method = RequestMethod.POST)
 	public ResponseEntity<UserDTO> savePortfolioCard(@RequestBody UserDTO userDTO){
@@ -61,7 +61,7 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime
-	@AuthToken(tokenType = TokenType.JWT)
+	@AuthToken(tokenType = TokenType.AUTO)
 	@RequestMapping(path = "/portfoliocards/{name}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
 													  @RequestParam(value="id", required=false) Long id){
@@ -72,7 +72,7 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime
-	@AuthToken(tokenType = TokenType.JWT)
+	@AuthToken(tokenType = TokenType.AUTO)
 	@HateoasSetter(hateoasType = HateoasType.PORTFOLIOCARDHATEOAS)
 	@RequestMapping(path = "/portfoliocards", method = RequestMethod.PUT)
 	public ResponseEntity<UserDTO> putPortfolioCard(@RequestBody UserDTO userDTO){

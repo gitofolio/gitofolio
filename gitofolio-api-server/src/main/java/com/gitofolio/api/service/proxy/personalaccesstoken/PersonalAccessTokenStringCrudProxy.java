@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class PersonalAccessTokenCrudProxy implements CrudProxy<PersonalAccessToken>{
+public class PersonalAccessTokenStringCrudProxy implements CrudProxy<PersonalAccessToken>{
 	
 	private CrudProxy<PersonalAccessToken> crudProxy = null;
 	private final PersonalAccessTokenService personalAccessTokenService;
@@ -20,6 +20,7 @@ public class PersonalAccessTokenCrudProxy implements CrudProxy<PersonalAccessTok
 	
 	@Override
 	public PersonalAccessToken read(Object ...args){
+		if(args.length==1 && args[0].getClass().equals(String.class)) return this.personalAccessTokenService.get((String)args[0]);
 		return this.crudProxy.read(args);
 	}
 	
@@ -40,7 +41,7 @@ public class PersonalAccessTokenCrudProxy implements CrudProxy<PersonalAccessTok
 	}
 	
 	@Autowired
-	public PersonalAccessTokenCrudProxy(PersonalAccessTokenService personalAccessTokenService){
+	public PersonalAccessTokenStringCrudProxy(PersonalAccessTokenService personalAccessTokenService){
 		this.personalAccessTokenService = personalAccessTokenService;
 	}
 	

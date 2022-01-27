@@ -28,7 +28,7 @@ public class EncodedProfileImageService{
 	
 	public EncodedProfileImage get(UserInfo user){
 		EncodedProfileImage encodedProfileImage = encodedProfileImageRepository.findByName(user.getName())
-			.orElseThrow(()->new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요."));
+			.orElseThrow(()->new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "encodedProfileImage "+user.getName()));
 		
 		return encodedProfileImage;
 	}
@@ -37,10 +37,13 @@ public class EncodedProfileImageService{
 		EncodedProfileImage encodedProfileImage = this.encodedProfileImageRepository.findByName(user.getName())
 			.orElseGet(()->this.getEncodedProfileImage(user));
 		
-		if(isNewEncodedProfileImage(encodedProfileImage)) this.encodedProfileImageRepository.save(encodedProfileImage);
-		
-		encodedProfileImage = this.getEncodedProfileImage(user);
-		encodedProfileImage.setUserInfo(user);
+		if(isNewEncodedProfileImage(encodedProfileImage)) {
+			encodedProfileImage.setUserInfo(user);
+			this.encodedProfileImageRepository.save(encodedProfileImage);
+		}
+		else{
+			encodedProfileImage.setEncodedProfileUrl(this.getEncodedProfileImage(user).getEncodedProfileUrl());
+		}
 		
 		return this.get(user);
 	}

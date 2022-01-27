@@ -22,4 +22,8 @@ public interface PersonalAccessTokenRepository extends JpaRepository<PersonalAcc
 	@Query("delete from PersonalAccessToken p where p.lastUsedDate<:tokenLifeCycle")
 	void deleteUnusedToken(@Param("tokenLifeCycle") LocalDate tokenLifeCycle);
 	
+	@Modifying
+	@Query(value="DELETE p FROM personal_access_token p JOIN user_info i where i.name = :name", nativeQuery=true)
+	void deleteByName(@Param("name") String name);
+	
 }

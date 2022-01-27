@@ -22,8 +22,16 @@ public class GithubApplication implements OauthApplication{
 	
 	@Override
 	public String getUrlWithQueryString(String queryString){
-		return getRealUrl()+queryString;
-		// return getTestUrl()+queryString;
+		// return getRealUrl()+queryString;
+		return getTestUrl()+queryString;
+	}
+	
+	private String getRealUrl(){
+		return this.url+"&redirect_uri=https://api.gitofolio.com/oauth/github";
+	}
+	
+	private String getTestUrl(){
+		return this.url+"&redirect_uri=https://api-server-gitofolio-qfnxv.run.goorm.io/oauth/github";
 	}
 	
 	@Override
@@ -34,10 +42,6 @@ public class GithubApplication implements OauthApplication{
 	@Override
 	public Authenticator getAuthenticator(){
 		return this.githubAuthenticator;
-	}
-	  
-	private String getRealUrl(){
-		return this.url+"&redirect_uri=http://api.gitofolio.com/oauth/github";
 	}
 	
 	@Autowired

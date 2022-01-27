@@ -10,7 +10,6 @@ import java.lang.annotation.ElementType;
 public @interface AuthToken{
 	
 	TokenType tokenType();
-	
 	int idx() default 0;
 	
 }

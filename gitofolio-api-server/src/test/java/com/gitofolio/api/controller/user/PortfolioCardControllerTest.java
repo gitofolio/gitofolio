@@ -11,13 +11,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-
+import org.springframework.http.HttpHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
-
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 
 import static org.mockito.BDDMockito.given;
@@ -132,7 +131,7 @@ public class PortfolioCardControllerTest {
 		Long id = this.portfolioCardCrudProxy.read(name).getPortfolioCards().get(0).getId();
 		
 		// then
-		mockMvc.perform(delete("/portfoliocards/{name}?id={id}", name, id).accept(MediaType.ALL))
+		mockMvc.perform(delete("/portfoliocards/{name}?id={id}", name, id).accept(MediaType.ALL).header(HttpHeaders.AUTHORIZATION, "Bearer {token}"))
 			.andExpect(status().isOk())
 			.andDo(document("portfoliocards/delete",
 							pathParameters(
@@ -153,7 +152,7 @@ public class PortfolioCardControllerTest {
 		given(tokenValidator.validateToken((TokenAble)user)).willReturn(true);
 		
 		// then
-		mockMvc.perform(delete("/portfoliocards/{name}?id={cardId}", name, 1L).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(delete("/portfoliocards/{name}?id={cardId}", name, 1L).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer {token}"))
 			.andExpect(status().isNotFound())
 			.andDo(document("portfoliocards/delete/fail",
 							pathParameters(
@@ -185,7 +184,7 @@ public class PortfolioCardControllerTest {
 		given(tokenValidator.validateToken((TokenAble)user)).willReturn(true);
 		
 		// then
-		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer {token}"))
 			.andExpect(status().isCreated())
 			.andDo(document("portfoliocards/post",
 							relaxedRequestFields(
@@ -227,7 +226,7 @@ public class PortfolioCardControllerTest {
 		given(tokenValidator.validateToken((TokenAble)user)).willReturn(true);
 		
 		// then
-		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(post("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer {token}"))
 			.andExpect(status().isNotFound())
 			.andDo(document("portfoliocards/post/fail",
 						   relaxedRequestFields(
@@ -260,7 +259,7 @@ public class PortfolioCardControllerTest {
 		given(tokenValidator.validateToken((TokenAble)editUser)).willReturn(true);
 		
 		// then
-		mockMvc.perform(put("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(put("/portfoliocards").content(content).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer {token}"))
 			.andExpect(status().isOk())
 			.andDo(document("portfoliocards/put",
 				relaxedRequestFields(
@@ -313,10 +312,6 @@ public class PortfolioCardControllerTest {
 		try{
 			this.userInfoCrudProxy.delete(user.getName());
 		} catch(NonExistUserException NEUE){}
-		// try{
-		// 	this.userInfoCrudProxy.create(user);
-		// 	this.portfolioCardCrudProxy.create(user);
-		// }catch(DuplicationUserException DUE){DUE.printStackTrace();}
 	}
 	
 	private UserDTO getUser(){

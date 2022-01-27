@@ -35,7 +35,7 @@ public class EncodedProfileImageCrudProxy implements CrudProxy<EncodedProfileIma
 	}
 	
 	@Override
-	@Transactional // get에 업데이트 로직이 포함되어 있음! 나중에 읽었을때 readOnly로 수정하지말것 
+	@Transactional 
 	public EncodedProfileImage read(Object ...args){
 		if(args.length==1 && args[0].getClass().equals(UserDTO.class)){
 			return this.encodedProfileImageService.get(

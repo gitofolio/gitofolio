@@ -39,7 +39,7 @@ public class AuthTokenAop{
 		else if(args[idx] instanceof TokenAble) res = tokenValidator.validateToken((TokenAble)args[idx]);
 		else throw new IllegalArgumentException("AuthTokenAop 에러 : "+idx+"번째 파라미터의 타입은 "+ args[idx].getClass().toString() + " 입니다.");
 		
-		if(!res) throw new AuthenticateException("jwt토큰인증 실패", "인증할 수 없는 토큰입니다.");
+		if(!res) throw new AuthenticateException("토큰인증 실패", "인증할 수 없는 토큰입니다.");
 	}
 	
 	@Autowired

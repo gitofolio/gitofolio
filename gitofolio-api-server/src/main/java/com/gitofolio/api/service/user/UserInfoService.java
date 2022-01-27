@@ -1,12 +1,8 @@
 package com.gitofolio.api.service.user;
 
-import com.gitofolio.api.service.user.exception.NonExistUserException;
-import com.gitofolio.api.service.user.exception.DuplicationUserException;
-import com.gitofolio.api.service.user.exception.EditException;
-import com.gitofolio.api.repository.user.UserInfoRepository;
-import com.gitofolio.api.repository.user.PortfolioCardRepository;
-import com.gitofolio.api.repository.user.EncodedProfileImageRepository;
-import com.gitofolio.api.repository.user.UserStatRepository;
+import com.gitofolio.api.service.user.exception.*;
+import com.gitofolio.api.repository.user.*;
+import com.gitofolio.api.repository.auth.*;
 import com.gitofolio.api.domain.user.UserInfo;
 import com.gitofolio.api.aop.log.time.annotation.ExpectedTime;
 
@@ -23,6 +19,7 @@ public class UserInfoService{
 	private UserStatisticsService userStatisticsService;
 	private PortfolioCardRepository portfolioCardRepository;
 	private EncodedProfileImageRepository encodedProfileImageRepository;
+	private PersonalAccessTokenRepository personalAccessTokenRepository;
 	
 	public UserInfo get(String name){
 		UserInfo user = this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("존재하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/"+name));
@@ -44,6 +41,7 @@ public class UserInfoService{
 		this.userStatRepository.deleteByName(name);
 		this.encodedProfileImageRepository.deleteByName(name);
 		this.userStatisticsService.delete(name);
+		this.personalAccessTokenRepository.deleteByName(name);
 		this.userInfoRepository.deleteByName(name);
 		return;
 	}
@@ -113,12 +111,14 @@ public class UserInfoService{
 						  UserStatRepository userStatRepository,
 						  UserStatisticsService userStatisticsService,
 						  PortfolioCardRepository portfolioCardRepository,
-						  EncodedProfileImageRepository encodedProfileImageRepository){
+						  EncodedProfileImageRepository encodedProfileImageRepository,
+						  PersonalAccessTokenRepository personalAccessTokenRepository){
 		this.userInfoRepository = userInfoRepository;
 		this.userStatRepository = userStatRepository;
 		this.userStatisticsService = userStatisticsService;
 		this.portfolioCardRepository = portfolioCardRepository;
 		this.encodedProfileImageRepository = encodedProfileImageRepository;
+		this.personalAccessTokenRepository = personalAccessTokenRepository;
 	}
 	
 }

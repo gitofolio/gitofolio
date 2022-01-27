@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gitofolio.api.domain.auth.PersonalAccessToken;
 import com.gitofolio.api.repository.auth.PersonalAccessTokenRepository;
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
+import com.gitofolio.api.domain.user.UserInfo;
 
 import java.time.LocalDate;
 
@@ -18,7 +19,6 @@ import java.time.LocalDate;
 public class PersonalAccessTokenService{
 	
 	private final PersonalAccessTokenRepository personalAccessTokenRepository;
-	
 	private final DeletePerMonthRealTask deletePerMonthRealTask;
 	
 	@Transactional
@@ -30,8 +30,18 @@ public class PersonalAccessTokenService{
 	}
 	
 	@Transactional
-	public PersonalAccessToken save(){
+	public PersonalAccessToken get(String value){
+		PersonalAccessToken personalAccessToken = this.personalAccessTokenRepository.findByTokenValue(value)
+			.orElseThrow(()->new AuthenticateException("PersonalAccessToken 오류", "존재하지않는 PersonalAccessToken 입니다."));
+		personalAccessToken.updateLastUsedDate();
+		return personalAccessToken;
+	}
+	
+	@Transactional
+	public PersonalAccessToken save(UserInfo userInfo){
 		PersonalAccessToken personalAccessToken = new PersonalAccessToken();
+		personalAccessToken.setUserInfo(userInfo);
+		
 		this.personalAccessTokenRepository.save(personalAccessToken);
 		
 		personalAccessToken = this.personalAccessTokenRepository.findByTokenValue(personalAccessToken.getTokenValue())
@@ -40,7 +50,7 @@ public class PersonalAccessTokenService{
 	}
 	
 	@Async
-	@Scheduled(fixedRate=3600000) // 1시간 만료된 AccessToken 삭제. AccessToken은 30일 동안 사용하지않으면 만료됨.
+	@Scheduled(fixedRate=3600000) // 1시간 만료된 AccessToken 삭제. AccessToken은 30일 동안 사용하지않으면 만료됨. 
 	public void deletePerMonth(){
 		this.deletePerMonthRealTask.task(this.personalAccessTokenRepository);
 	}

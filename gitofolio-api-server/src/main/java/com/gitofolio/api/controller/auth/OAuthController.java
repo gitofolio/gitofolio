@@ -1,17 +1,9 @@
-package com.gitofolio.api.controller.oauth;
+package com.gitofolio.api.controller.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable; 
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.*;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.auth.authenticate.Authenticator;
@@ -19,8 +11,7 @@ import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.domain.user.EncodedProfileImage;
 import com.gitofolio.api.domain.auth.PersonalAccessToken;
-import com.gitofolio.api.service.auth.token.TokenGenerator;
-import com.gitofolio.api.service.auth.token.TokenAble;
+import com.gitofolio.api.service.auth.token.*;
 import com.gitofolio.api.service.auth.oauth.applications.OauthApplicationFactory;
 import com.gitofolio.api.service.auth.oauth.OauthTokenPool;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
@@ -35,15 +26,10 @@ import javax.servlet.http.HttpServletResponse;
 public class OAuthController{
 	
 	private final CrudProxy<UserDTO> userInfoCrudProxy;
-	
 	private final CrudProxy<EncodedProfileImage> encodedProfileImageCrudProxy;
-	
 	private final CrudProxy<PersonalAccessToken> personalAccessTokenCrudProxy;
-	
-	private final TokenGenerator jwtTokenGenerator;
-	
+	private final TokenGenerator tokenGenerator;
 	private final OauthApplicationFactory oauthApplicationFactory;
-	
 	private final OauthTokenPool oauthTokenPool;
 	
 	@RequestMapping(path = "/oauth", method = RequestMethod.GET)
@@ -58,25 +44,40 @@ public class OAuthController{
 		return "redirect:" + applicationUrl;
 	}
 	
-	@RequestMapping(path = "/token/personal", method = RequestMethod.GET)
-	public Object getPersonalAccessToken(@RequestParam(value = "application", defaultValue = "github", required = false) String application,
-										 @RequestParam(value = "code", required = false) String code){
-
-		if(code == null) return "redirect:"+this.oauthApplicationFactory.get(application).getUrl() + "&redirect_uri=http://api.gitofolio.com/token/personal";
+	@RequestMapping(path = "/oauth/{application}", method = RequestMethod.GET)
+	public ResponseEntity<Object> generateAuthToken(@PathVariable(value = "application") String application,
+													@RequestParam(value = "redirect", required=false) String redirect,
+													@RequestParam(value = "code", defaultValue="invalidCode", required=false) String code,
+													HttpServletResponse httpServletResponse){
 		
-		UserDTO userDTO = this.getUserDTO(application, code);
-		PersonalAccessToken personalAccessToken = this.personalAccessTokenCrudProxy.create();
+		String[] queryStrings = this.getQueryStrings(redirect);
+		System.out.println(queryStrings[0] + " " + queryStrings[1]);
+		Long personalAccessKey = Long.valueOf(queryStrings[1]);
+		UserDTO userDTO = getUserDTO(application, code);
+		String cert = RandomKeyGenerator.generateKey(2);
+		saveTokenInPool(userDTO, cert, personalAccessKey);
+		System.out.println('!');
 		
-		return new ResponseEntity(personalAccessToken, HttpStatus.CREATED);
+		
+		redirect = queryStrings[0]; 
+		httpServletResponse.addHeader(HttpHeaders.LOCATION, redirect + "?cert=" + cert);
+			
+		this.encodedProfileImageCrudProxy.create(userDTO);
+		System.out.println("!!");
+		
+		return new ResponseEntity(HttpStatus.SEE_OTHER);
 	}
 	
-	@RequestMapping(path = "/token/personal", method = RequestMethod.HEAD)
-	public ResponseEntity<Object> isStillValidAccessToken(@RequestParam(value = "accesskey", required = false) Long personalAccesskey){
-		if(personalAccesskey == null) throw new IllegalParameterException("accesskey 오류", "accesskey 파라미터값이 비어있습니다.");
-		
-		this.personalAccessTokenCrudProxy.read(personalAccesskey);
-		
-		return new ResponseEntity(HttpStatus.OK);
+	private String[] getQueryStrings(String queryString){
+		String[] ans = queryString.split(" ");
+		if(ans.length != 2) throw new IllegalParameterException("queryString 오류", "redirect와 accesskey파라미터에 알수없는 오류가 있습니다.");
+		return ans;
+	}
+	
+	private void saveTokenInPool(UserDTO userDTO, String cert, Long personalAccessKey){
+		String token = this.tokenGenerator.generateToken((TokenAble)userDTO);
+		String personalAccessTokenValue = this.personalAccessTokenCrudProxy.read(personalAccessKey).getTokenValue();
+		this.oauthTokenPool.saveToken(cert, personalAccessTokenValue, token);
 	}
 	
 	@RequestMapping(path = "/token", method = RequestMethod.POST)
@@ -94,34 +95,6 @@ public class OAuthController{
 		return new ResponseEntity(responsePayload, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path = "/oauth/{application}", method = RequestMethod.GET)
-	public ResponseEntity<Object> authenticateOauth(@PathVariable(value = "application") String application,
-													@RequestParam(value = "redirect", required=false) String redirect,
-													@RequestParam(value = "code", defaultValue="invalidCode", required=false) String code,
-													HttpServletResponse httpServletResponse){
-		
-		String[] queryStrings = redirect.split(" ");
-		if(queryStrings.length != 2) throw new IllegalParameterException("queryString 오류", "redirect와 accesskey파라미터에 알수없는 오류가 있습니다.");
-		redirect = queryStrings[0]; 
-		Long personalAccessKey = Long.valueOf(queryStrings[1]);
-		
-		UserDTO userDTO = getUserDTO(application, code);
-		String cert = RandomKeyGenerator.generateKey(2);
-		saveTokenInPool(userDTO, cert, personalAccessKey);
-		
-		httpServletResponse.addHeader(HttpHeaders.LOCATION, redirect + "?cert=" + cert);
-			
-		this.encodedProfileImageCrudProxy.create(userDTO);
-		
-		return new ResponseEntity(HttpStatus.SEE_OTHER);
-	}
-	
-	private void saveTokenInPool(UserDTO userDTO, String cert, Long personalAccessKey){
-		String token = this.jwtTokenGenerator.generateToken((TokenAble)userDTO);
-		String personalAccessTokenValue = this.personalAccessTokenCrudProxy.read(personalAccessKey).getTokenValue();
-		this.oauthTokenPool.saveToken(cert, personalAccessTokenValue, token);
-	}
-	
 	private UserDTO getUserDTO(String application, String code){
 		Authenticator<UserDTO, String> authenticator = this.oauthApplicationFactory.get(application).getAuthenticator();
 		UserDTO userDTO = authenticator.authenticate(code);
@@ -132,13 +105,13 @@ public class OAuthController{
 	public OAuthController(@Qualifier("userInfoCrudFactory") CrudFactory<UserDTO> userInfoCrudFactory,
 						   @Qualifier("encodedProfileImageCrudFactory") CrudFactory<EncodedProfileImage> encodedProfileImageCrudFactory,
 						   @Qualifier("personalAccessTokenCrudFactory") CrudFactory<PersonalAccessToken> personalAccessTokenCrudFactory,
-						   @Qualifier("jwtTokenGenerator") TokenGenerator jwtTokenGenerator,
+						   @Qualifier("jwtTokenGenerator") TokenGenerator tokenGenerator,
 						   OauthApplicationFactory oauthApplicationFactory,
 						   OauthTokenPool oauthTokenPool){
 		this.userInfoCrudProxy = userInfoCrudFactory.get();
 		this.encodedProfileImageCrudProxy = encodedProfileImageCrudFactory.get();
 		this.personalAccessTokenCrudProxy = personalAccessTokenCrudFactory.get();
-		this.jwtTokenGenerator = jwtTokenGenerator;
+		this.tokenGenerator = tokenGenerator;
 		this.oauthApplicationFactory = oauthApplicationFactory;
 		this.oauthTokenPool = oauthTokenPool;
 	}

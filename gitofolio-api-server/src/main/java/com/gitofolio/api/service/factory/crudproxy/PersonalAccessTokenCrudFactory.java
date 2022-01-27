@@ -20,9 +20,13 @@ public class PersonalAccessTokenCrudFactory implements CrudFactory<PersonalAcces
 	
 	@Autowired
 	public PersonalAccessTokenCrudFactory(@Qualifier("personalAccessTokenCrudProxy") CrudProxy<PersonalAccessToken> personalAccessTokenCrudProxy,
-							  @Qualifier("personalAccessTokenLongCrudProxy") CrudProxy<PersonalAccessToken> personalAccessTokenLongCrudProxy){
+										  @Qualifier("personalAccessTokenLongCrudProxy") CrudProxy<PersonalAccessToken> personalAccessTokenLongCrudProxy,
+										  @Qualifier("personalAccessTokenUserDTOCrudProxy") CrudProxy<PersonalAccessToken> personalAccessTokenUserDTOCrudProxy,
+										  @Qualifier("personalAccessTokenStringCrudProxy") CrudProxy<PersonalAccessToken> personalAccessTokenStringCrudProxy){
 		this.crudProxy = personalAccessTokenCrudProxy;
 		this.crudProxy.addProxy(personalAccessTokenLongCrudProxy);
+		this.crudProxy.addProxy(personalAccessTokenUserDTOCrudProxy);
+		this.crudProxy.addProxy(personalAccessTokenStringCrudProxy);
 	}
 	
 }

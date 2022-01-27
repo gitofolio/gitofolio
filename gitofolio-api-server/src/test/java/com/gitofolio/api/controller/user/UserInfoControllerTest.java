@@ -23,8 +23,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.any;
+import static org.mockito.BDDMockito.*;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,6 +62,10 @@ public class UserInfoControllerTest{
 	@MockBean
 	@Qualifier("jwtTokenValidator")
 	private TokenValidator tokenValidator;
+	
+	@MockBean
+	@Qualifier("personalAccessTokenValidator")
+	private TokenValidator patTokenValidator;
 	
 	@Test
 	public void userInfo_GET_Test() throws Exception{
@@ -106,7 +109,7 @@ public class UserInfoControllerTest{
 		String name = this.getUser().getName();
 		
 		// then
-		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.ALL))
+		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.ALL).header(HttpHeaders.AUTHORIZATION, "Bearer {token}"))
 			.andExpect(status().isOk())
 			.andDo(document("user/delete",
 							pathParameters(
@@ -124,9 +127,10 @@ public class UserInfoControllerTest{
 		UserDTO user = new UserDTO();
 		user.setName(name);
 		given(tokenValidator.validateToken((TokenAble)user)).willReturn(true);
+		given(patTokenValidator.validateToken((TokenAble)user)).willReturn(true);
 		
 		// then
-		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(delete("/user/{name}", name).accept(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, "Bearer {token}"))
 			.andExpect(status().isNotFound())
 			.andDo(document("user/delete/fail",
 							pathParameters(

@@ -31,14 +31,13 @@ import javax.servlet.http.HttpServletRequest;
 public class UserInfoController {
 	
 	private final CrudProxy<UserDTO> userInfoCrudProxy;
-	private final TokenValidator jwtTokenValidator;
 	
 	@ExpectedTime
 	@HateoasSetter(hateoasType = HateoasType.USERINFOHATEOAS)
 	@RequestMapping(path="", method = RequestMethod.GET)
-	public ResponseEntity<UserDTO> getLoginedUser(HttpServletRequest httpServletRequest){
-		
-		String name = jwtTokenValidator.currentLogined();
+	public ResponseEntity<UserDTO> getLoginedUser(){
+		TokenValidator tokenValidator = TokenType.AUTO.getTokenValidator();
+		String name = tokenValidator.currentLogined();
 		
 		UserDTO userDTO = this.userInfoCrudProxy.read(name);
 			
@@ -56,7 +55,7 @@ public class UserInfoController {
 	}
 	
 	@ExpectedTime
-	@AuthToken(tokenType = TokenType.JWT)
+	@AuthToken(tokenType = TokenType.AUTO)
 	@RequestMapping(path = "/{name}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){
 		
@@ -66,10 +65,8 @@ public class UserInfoController {
 	}
 	
 	@Autowired
-	public UserInfoController(@Qualifier("userInfoCrudFactory") CrudFactory<UserDTO> userInfoCrudFactory,
-							  @Qualifier("jwtTokenValidator") TokenValidator jwtTokenValidator){
+	public UserInfoController(@Qualifier("userInfoCrudFactory") CrudFactory<UserDTO> userInfoCrudFactory){
 		this.userInfoCrudProxy = userInfoCrudFactory.get();
-		this.jwtTokenValidator = jwtTokenValidator;
 	}
 	
 }

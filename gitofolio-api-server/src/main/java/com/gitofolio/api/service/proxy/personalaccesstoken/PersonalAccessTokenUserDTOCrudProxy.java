@@ -1,20 +1,30 @@
 package com.gitofolio.api.service.proxy.personalaccesstoken;
 
 import com.gitofolio.api.domain.auth.PersonalAccessToken;
+import com.gitofolio.api.domain.user.UserInfo;
 import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.auth.PersonalAccessTokenService;
+import com.gitofolio.api.service.factory.mapper.UserMapper;
+import com.gitofolio.api.service.user.dtos.UserDTO;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 @Service
-public class PersonalAccessTokenCrudProxy implements CrudProxy<PersonalAccessToken>{
+public class PersonalAccessTokenUserDTOCrudProxy implements CrudProxy<PersonalAccessToken>{
 	
 	private CrudProxy<PersonalAccessToken> crudProxy = null;
 	private final PersonalAccessTokenService personalAccessTokenService;
+	private final UserMapper<UserInfo> userInfoMapper;
 	
 	@Override
 	public PersonalAccessToken create(Object ...args){
+		if(args.length==1 && args[0].getClass().equals(UserDTO.class)) {
+			return this.personalAccessTokenService.save(
+				this.userInfoMapper.resolveMap((UserDTO)args[0])
+			);
+		}
 		return this.crudProxy.create(args);
 	}
 	
@@ -40,8 +50,10 @@ public class PersonalAccessTokenCrudProxy implements CrudProxy<PersonalAccessTok
 	}
 	
 	@Autowired
-	public PersonalAccessTokenCrudProxy(PersonalAccessTokenService personalAccessTokenService){
+	public PersonalAccessTokenUserDTOCrudProxy(PersonalAccessTokenService personalAccessTokenService,
+										   @Qualifier("userInfoMapper") UserMapper<UserInfo> userInfoMapper){
 		this.personalAccessTokenService = personalAccessTokenService;
+		this.userInfoMapper = userInfoMapper;
 	}
 	
 }
