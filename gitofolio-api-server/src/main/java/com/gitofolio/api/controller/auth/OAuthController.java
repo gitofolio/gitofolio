@@ -45,25 +45,23 @@ public class OAuthController{
 	}
 	
 	@RequestMapping(path = "/oauth/{application}", method = RequestMethod.GET)
-	public ResponseEntity<Object> generateAuthToken(@PathVariable(value = "application") String application,
+	public ResponseEntity<Object> redirectWithCert(@PathVariable(value = "application") String application,
 													@RequestParam(value = "redirect", required=false) String redirect,
 													@RequestParam(value = "code", defaultValue="invalidCode", required=false) String code,
 													HttpServletResponse httpServletResponse){
 		
 		String[] queryStrings = this.getQueryStrings(redirect);
-		System.out.println(queryStrings[0] + " " + queryStrings[1]);
+		
 		Long personalAccessKey = Long.valueOf(queryStrings[1]);
 		UserDTO userDTO = getUserDTO(application, code);
 		String cert = RandomKeyGenerator.generateKey(2);
 		saveTokenInPool(userDTO, cert, personalAccessKey);
-		System.out.println('!');
 		
 		
 		redirect = queryStrings[0]; 
 		httpServletResponse.addHeader(HttpHeaders.LOCATION, redirect + "?cert=" + cert);
 			
 		this.encodedProfileImageCrudProxy.create(userDTO);
-		System.out.println("!!");
 		
 		return new ResponseEntity(HttpStatus.SEE_OTHER);
 	}
@@ -81,7 +79,7 @@ public class OAuthController{
 	}
 	
 	@RequestMapping(path = "/token", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, String>> getToken(@RequestBody Map<String, Object> payload, 
+	public ResponseEntity<Map<String, String>> getAuthToken(@RequestBody Map<String, Object> payload, 
 														HttpServletResponse httpServletResponse){
 		String cert = (String)payload.get("cert");
 		String personalAccessTokenValue = (String)payload.get("accessToken");

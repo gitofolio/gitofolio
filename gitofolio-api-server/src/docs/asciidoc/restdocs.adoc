@@ -49,32 +49,44 @@ CAUTION: "rel" 네이밍 규칙에서, 자기자신을 호출할경우는 {http 
 
 TIP: 이 목차에서 나오는 서버는 gitofolio서버를, 인증서버는 실제 인증과정이 진행되는 OAUTH 구현 서버를 뜻합니다.
 
-[[auth-flow]]
-=== Authenticate-flow
-인증의 전체 과정은 아래와 같습니다.
+인증과정은 크게 두가지 분류로 나뉩니다.
+
+- 인증을 요청한 클라이언트가 서버 일때.
+
+인증을 요청한 클라이언트가 서버 일때, 클라이언트는 OAuth애플리케이션 로그인으로 사전에 발급받아놓은 Personal Access Token을 사용해 인증 합니다.
+
+- 인증을 요청한 클라이언트가 브라우저 일때.
+
+인증을 요청한 클라이언트가 브라우저 일때는, 클라이언트는 OAuth애플리케이션 로그인으로 받은 임시토큰을 통해서 JWT를 발급받고 이 후, JWT를 이용해 인증 합니다. 이 때, 자신의 인증과정이 유효한지 보증해주는 Personal Access Token이 필요합니다.
+
+[[server-auth]]
+=== Server
+이 목차에는 인증을 요청한 클라이언트가 서버일때 취해야 할 인증과정이 기술되어있습니다.
+
+[[server-auth-flow]]
+==== Authenticate-flow
+인증을 요청한 클라이언트가 서버일때, 인증의 전체 과정은 아래와 같습니다.
 
 TIP: 클라이언트의 상호작용이 필요한 목차는 -user로 표시되어있습니다.
 
-1. 클라이언트는 사전에 personal access token을 발급받습니다. -user
+1. 클라이언트는 서버로 Personal access token 발급 요청을 보냅니다. 이때, 인증에 사용할 Oauth application을 선택해야 합니다. -user
 
-2. 클라이언트는 서버로 인증요청을 보냅니다. 이때, 인증에 사용할 application과 인증이 끝나고 임시토큰을 발급받을 url, 인증에 사용할 personal access token의 'key'를 쿼리스트링으로 보내야합니다. -user
+2. 서버는 클라이언트를 application에 해당하는 인증서버로 리다이렉트 시킵니다.
 
-3. 서버는 클라이언트를 application에 해당하는 인증서버로 리다이렉트 시킵니다.
+3. 클라이언트는 인증서버에 자신의 정보를 입력해 인증합니다. -user
 
-4. 클라이언트는 인증서버에 자신의 정보를 입력해 인증합니다. -user
+4. 서버는 Personal access token을 생성후 클라이언트에게 전달합니다.
 
-5. 서버는 인증서버로 부터 넘겨받은 유저 정보를 분석하여 임시토큰을 발급후, 1번에서 입력된 url로 임시토큰을 전달합니다. (쿼리스트링으로 전달됩니다.)
+5. 클라이언트는 인증이 필요한 api에 접근할때, 사전에 발급받은 Personal access token의 value를 인증타입 "Pat"과 함께 서버로 보냅니다. -user
 
-6. 클라이언트는 받은 임시토큰과 2번과정에서 입력한 personal access token의 key와 매칭되는 tokenvalue를 /token로 보내 실제사용할 토큰을 얻습니다. -user
+[[server-auth-detail]]
+==== Authenticate-detail
+이 목차에는 인증을 위해 클라이언트가 취해야 할 인증과정이 자세히 적혀있습니다.
 
-[[auth-do]]
-=== Authenticate-detail
+===== Personal access token 발급받기
+클라이언트는 인증이 필요한 api를 호출하기 위해 사전에 자신을 서버에 등록하고, 매칭되는 Personal access token을 발급받아야 합니다.
 
-이 목차에는 인증을 위해 클라이언트가 해야하는 과정이 자세히 적혀있습니다.
-
-==== Personal access token 발급받기
-
-인증을 시작하기 앞서 Personal access token을 발급받아야 합니다.
+TIP: 발급받은 Personal access token은 클라이언트가 브라우저일때 인증 과정에서 해당 인증과정을 보증하는데 사용할 수 있습니다.
 
 CAUTION: Personal access token은 30일동안 미사용시 자동으로 삭제됩니다. 발급받은 personal access token은 절대 다시 확인할수없으니 잘 저장해주세요.
 
@@ -84,7 +96,7 @@ link:http://api.gitofolio.com/token/personal?application=github[Personal Access 
 GET: http://api.gitofolio.com/token/personal?application={Personal Access Token 발급에 사용할 OAuth 애플리케이션}
 ----
 
-===== 현재 사용할수있는 OAuth 애플리케이션 목록
+====== 현재 사용할수있는 OAuth 애플리케이션 목록
 
 [cols=1*]
 |===
@@ -93,15 +105,60 @@ GET: http://api.gitofolio.com/token/personal?application={Personal Access Token 
 |github
 |===
 
-또한, 현재 갖고있는 personal access token이 유효한지 확인하는 메소드를 제공합니다.
+===== Request
+include::{snippets}/personal/token/http-request.adoc[]
+
+include::{snippets}/personal/token/request-parameters.adoc[]
+
+===== Response
+include::{snippets}/personal/token/http-response.adoc[]
+
+include::{snippets}/personal/token/response-fields.adoc[]
+
+또한, 서버는 현재 갖고있는 personal access token이 유효한지 확인하는 메소드를 제공합니다.
 
 ----
-HEAD: http://api.gitofolio.com/token/personal?accesskey={유효한지 확인할 accesskey}
+HEAD: http://api.gitofolio.com/token/personal?accesskey={유효한지 확인할 personal access token의 accesskey}
 ----
 
 정상적으로 200 OK를 반환한다면 유효한 personal access token 입니다.
 
-==== 서버로 인증요청 보내기
+[[client-auth]]
+=== Client
+이 목차에는 인증을 요청한 클라이언트가 브라우저일때 취해야 할 인증과정이 기술되어있습니다.
+
+[[client-auth-flow]]
+==== Authenticate-flow
+인증을 요청한 클라이언트가 브라우저일때, 인증의 전체 과정은 아래와 같습니다.
+
+TIP: 클라이언트의 상호작용이 필요한 목차는 -user로 표시되어있습니다.
+
+1. 클라이언트는 사전에 Personal access token을 발급받습니다. -user
+
+2. 클라이언트는 서버로 인증요청을 보냅니다. 이때, 인증에 사용할 Oauth application과 인증이 끝나고 임시토큰을 발급받을 url, 인증에 사용할 personal access token의 'key'를 쿼리스트링으로 보냅니다. -user
+
+3. 서버는 클라이언트를 application에 해당하는 인증서버로 리다이렉트 시킵니다.
+
+4. 클라이언트는 인증서버에 자신의 정보를 입력해 인증합니다. -user
+
+5. 서버는 인증서버로 부터 넘겨받은 유저 정보를 분석하여 임시토큰을 발급후, 1번에서 입력된 url로 임시토큰을 전달합니다. (쿼리스트링으로 전달됩니다.)
+
+6. 클라이언트는 받은 임시토큰과 2번과정에서 입력한 personal access token의 key와 매칭되는 tokenvalue를 /token로 보내 실제사용할 토큰을 얻습니다. -user
+
+[[client-auth-detail]]
+==== Authenticate-detail
+이 목차에는 인증을 위해 클라이언트가 취해야 할 인증과정이 자세히 적혀있습니다.
+
+===== Personal access token 발급받기
+클라이언트는 자신의 인증과정이 올바른지, 자신이 올바른 경로로 인증 과정을 진행했는지 등과 같이 자신의 인증과정의 유효성을 증명할 Personal access token이 필요합니다.
+
+TIP: Personal access token은 자신이 소유한 토큰이 아니여도 상관없으며, 중요한 것은 Personal access token의 key-value 매칭입니다.
+
+자세한 내용은 서버 인증 과정의 Personal access token 발급받기 과정을 참고해 주세요.
+
+<<server-auth-detail>>
+
+===== 서버로 인증요청 보내기
 
 모든 인증과정은 api서버로 인증요청을 보내며 시작되고 이때, 클라이언트는 자신이 사용할 인증서버와 임시토큰을 발급받을 url을 쿼리 파라미터로 보내야합니다.
 
@@ -123,7 +180,7 @@ api.gitofolio.com (X)
 /gitofolio (X)
 ----
 
-===== 현재 사용할수있는 OAuth 애플리케이션 목록
+====== 현재 사용할수있는 OAuth 애플리케이션 목록
 
 [cols=1*]
 |===
@@ -132,7 +189,7 @@ api.gitofolio.com (X)
 |github
 |===
 
-==== 임시토큰으로 실제 사용 토큰 발급받기
+===== 임시토큰으로 실제 사용 토큰 발급받기
 
 앞선 인증과정이 성공적으로 완료되었다면, redirect파라미터에 입력된 url의 파라미터로 임시토큰이 발급됩니다.
 
@@ -163,6 +220,56 @@ include::{snippets}/oauth/token/request-fields.adoc[]
 include::{snippets}/oauth/token/http-response.adoc[]
 
 include::{snippets}/oauth/token/response-fields.adoc[]
+
+[[auth-do]]
+=== 인증 필요 api에 접근하기
+앞선 두가지 과정(서버 인증, 브라우저 인증)중 한가지를 완료했다면, 클라이언트는 인증이 필요한 api에 접근할 수 있습니다.
+
+서버는 Http Authorization헤더 정보로 클라이언트를 인증합니다.
+
+----
+HTTP/1.1
+...
+Authorization : {인증 타입} {인증에 사용될 토큰}
+...
+----
+
+Authorization헤더의 인증타입은 클라이언트가 인증에 사용할 토큰을 표시하며, 토큰은 클라이언트의 인증 정보를 담고있습니다.
+
+클라이언트는 자신의 상황에 맞는 토큰을 사용해야하며, 서버는 인증타입에 따라서 토큰을 자동으로 식별합니다. 
+
+예를들어, 인증 타입이 Bearer이라면, 서버는 토큰을 JWT로 인식하고 처리하며, 인증 타입이 Pat이라면, 토큰을 Personal access token으로 인식합니다.
+
+아래 표는 현재 인증에 사용할수있는 토큰 정보를 나타냅니다.
+
+|===
+|사용가능 토큰|인증 타입|인증 용도
+
+|Personal access token
+|Pat
+|클라이언트가 서버일때 사용됩니다.
+
+|Json web token
+|Bearer
+|클라이언트가 브라우저 일때 사용됩니다.
+
+|===
+
+아래는 토큰을 이용해 현재 로그인된 유저 정보를 가져오는 예시입니다. 
+
+==== Request
+include::{snippets}/user/logined/http-request.adoc[]
+
+==== Response
+include::{snippets}/user/logined/http-response.adoc[]
+
+위 방법처럼 인증은, HTTP 프로토콜 Authorization 헤더에 발급받은 토큰을 알맞은 인증타입과 함께 보냄으로 진행됩니다.
+
+==== 인증 필요api 표시 방법
+
+모든 인증이 필요한 api에는 아래와 같은 문구가 붙어있습니다.
+
+CAUTION: 인증 필요
 
 [[auth-errorhandle]]
 ==== 발생할 수 있는 에러
@@ -215,13 +322,7 @@ NOTE: user에 관련된 API 목차 입니다.
 === 로그인된 유저 가져오기
 현재 로그인된 유저의 정보를 가져옵니다.
 
-인증하기 위해 사전에 발급받은 JWT가 필요하며, Http Authorization Header에 "Bearer {token}" 형태로 token을 입력하면됩니다.
-
-예시) Authorization : Bearer qwbhbefghvbrqvf2134123jk4hjksfkasdfn...
-
-이 문서에서 아래와 같은 CAUTION: JWT토큰 인증 필요... 문구는 모두 위와같은 인증방식을 따릅니다.
-
-CAUTION: JWT토큰 인증 필요
+CAUTION: 인증 필요
 
 [[logined-user-get-request]]
 ==== Request
@@ -232,7 +333,7 @@ include::{snippets}/user/logined/http-request.adoc[]
 include::{snippets}/user/logined/request-headers.adoc[]
 
 [[logined-user-get-response]]
-==== Representation
+==== Response
 로그인 되어있는 유저가 있다면, 아래 표현이 응답됩니다.
 
 include::{snippets}/user/logined/http-response.adoc[]
@@ -265,7 +366,7 @@ include::{snippets}/user/get/http-request.adoc[]
 include::{snippets}/user/get/path-parameters.adoc[]
 
 [[user-get-response]]
-==== Representation
+==== Response
 요청에 대한 서버의 표현은 다음과 같습니다.
 
 include::{snippets}/user/get/http-response.adoc[]
@@ -281,7 +382,7 @@ include::{snippets}/user/get/response-fields.adoc[]
 === 유저 삭제하기
 DB에 저장되어있는 유저를 삭제합니다.
 
-CAUTION: JWT토큰 인증 필요 자세한 내용은 인증 목차를 참고하세요.
+CAUTION: 인증 필요
 
 [[user-delete-request]]
 ==== Request
@@ -294,7 +395,7 @@ include::{snippets}/user/delete/http-request.adoc[]
 include::{snippets}/user/delete/path-parameters.adoc[]
 
 [[user-delete-response]]
-==== Representation
+==== Response
 성공적으로 삭제되었다면, 아래와 같은 표현이 응답됩니다.
 
 include::{snippets}/user/delete/http-response.adoc[]
@@ -337,7 +438,7 @@ include::{snippets}/userstat/get/http-request.adoc[]
 include::{snippets}/userstat/get/path-parameters.adoc[]
 
 [[userstat-get-response]]
-==== Representation
+==== Response
 요청에 대한 서버 응답의 표현은 아래와 같습니다.
 
 include::{snippets}/userstat/get/http-response.adoc[]
@@ -372,7 +473,7 @@ include::{snippets}/userdailystat/get/http-request.adoc[]
 include::{snippets}/userdailystat/get/path-parameters.adoc[]
 
 [[userdailystat-get-response]]
-==== Representation
+==== Response
 트랜잭션이 성공적으로 완료되었다면, 200 OK 응답과 함께 아래 표현이 응답됩니다.
 
 include::{snippets}/userdailystat/get/http-response.adoc[]
@@ -409,7 +510,7 @@ include::{snippets}/portfoliocards/get/path-parameters.adoc[]
 include::{snippets}/portfoliocards/get/request-parameters.adoc[]
 
 [[portfoliocards-get-response]]
-==== Representation
+==== Response
 트랜잭션이 성공적으로 완료되었다면, 200 OK 응답 코드와 함께 아래 표현이 응답됩니다.
 
 include::{snippets}/portfoliocards/get/http-response.adoc[]
@@ -427,7 +528,7 @@ include::{snippets}/portfoliocards/get/response-fields.adoc[]
 === 포트폴리오 카드 저장하기
 DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 저장합니다.
 
-CAUTION: JWT토큰 인증 필요 자세한 내용은 인증 목차를 참고하세요.
+CAUTION: 인증 필요
 
 [[portfoliocards-post-request]]
 ==== Request
@@ -440,7 +541,7 @@ include::{snippets}/portfoliocards/post/http-request.adoc[]
 include::{snippets}/portfoliocards/post/request-fields.adoc[]
 
 [[portfoliocards-post-response]]
-==== Representation
+==== Response
 트랜잭션이 성공적으로 완료되었다면, CREATED 응답코드와 함께 아래 표현이 응답됩니다.
 
 include::{snippets}/portfoliocards/post/http-response.adoc[]
@@ -466,7 +567,7 @@ include::{snippets}/portfoliocards/post/response-fields.adoc[]
 === 포트폴리오 카드 삭제하기
 DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 삭제합니다.
 
-CAUTION: JWT토큰 인증 필요 자세한 내용은 인증 목차를 참고하세요.
+CAUTION: 인증 필요
 
 [[portfoliocards-delete-request]]
 ==== Request
@@ -479,7 +580,7 @@ include::{snippets}/portfoliocards/delete/path-parameters.adoc[]
 include::{snippets}/portfoliocards/delete/request-parameters.adoc[]
 
 [[portfoliocards-delete-response]]
-==== Representation
+==== Response
 트랜잭션이 성공적으로 완료되었다면, 200 OK응답코드와 함께 아래 표현이 응답됩니다.
 
 include::{snippets}/portfoliocards/delete/http-response.adoc[]
@@ -507,7 +608,7 @@ DB에 저장되어있는 유저가 갖고있는 포트폴리오 카드를 수정
 
 포트폴리오 카드의 id값을 기준으로 수정됩니다.
 
-CAUTION: JWT토큰 인증 필요 자세한 내용은 인증 목차를 참고하세요.
+CAUTION: 인증 필요
 
 [[portfoliocards-put-request]]
 ==== Request
@@ -518,7 +619,7 @@ include::{snippets}/portfoliocards/put/http-request.adoc[]
 include::{snippets}/portfoliocards/put/request-fields.adoc[]
 
 [[portfoliocards-put-response]]
-==== Representation
+==== Response
 
 성공적으로 수정되었다면 200 OK와 함께 아래 표현이 응답됩니다.
 

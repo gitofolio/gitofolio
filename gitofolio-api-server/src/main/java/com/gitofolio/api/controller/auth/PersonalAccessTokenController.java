@@ -26,7 +26,7 @@ public class PersonalAccessTokenController{
 	public Object getPersonalAccessToken(@RequestParam(value = "application", defaultValue = "github", required = false) String application,
 										 @RequestParam(value = "code", required = false) String code){
 
-		if(code == null) return "redirect:"+this.oauthApplicationFactory.get(application).getUrl() + this.testAccessTokenRedirectUrl;
+		if(code == null) return "redirect:"+this.oauthApplicationFactory.get(application).getUrl() + this.accessTokenRedirectUrl;
 		
 		UserDTO userDTO = this.getUserDTO(application, code);
 		PersonalAccessToken personalAccessToken = this.personalAccessTokenCrudProxy.create(userDTO);

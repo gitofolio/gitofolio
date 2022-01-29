@@ -1,7 +1,6 @@
 package com.gitofolio.api.controller.user;
 
-import org.springframework.http.MediaType;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.*;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +8,9 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -22,23 +20,17 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-
 import static org.mockito.BDDMockito.*;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.user.exception.*;
-import com.gitofolio.api.service.auth.token.TokenValidator;
-import com.gitofolio.api.service.auth.token.TokenAble;
+import com.gitofolio.api.service.auth.token.*;
 
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;

@@ -49,6 +49,11 @@ public class PersonalAccessTokenService{
 		return personalAccessToken;
 	}
 	
+	@Transactional
+	public void delete(String name){
+		this.personalAccessTokenRepository.deleteByName(name);
+	}
+	
 	@Async
 	@Scheduled(fixedRate=3600000) // 1시간 만료된 AccessToken 삭제. AccessToken은 30일 동안 사용하지않으면 만료됨. 
 	public void deletePerMonth(){

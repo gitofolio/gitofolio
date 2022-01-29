@@ -22,8 +22,8 @@ public class GithubApplication implements OauthApplication{
 	
 	@Override
 	public String getUrlWithQueryString(String queryString){
-		// return getRealUrl()+queryString;
-		return getTestUrl()+queryString;
+		return getRealUrl()+queryString;
+		// return getTestUrl()+queryString;
 	}
 	
 	private String getRealUrl(){
