@@ -46,8 +46,8 @@ public class OAuthController{
 	
 	@RequestMapping(path = "/oauth/{application}", method = RequestMethod.GET)
 	public ResponseEntity<Object> redirectWithCert(@PathVariable(value = "application") String application,
-													@RequestParam(value = "redirect", required=false) String redirect,
-													@RequestParam(value = "code", defaultValue="invalidCode", required=false) String code,
+													@RequestParam(value = "redirect", required = false) String redirect,
+													@RequestParam(value = "code", defaultValue = "invalidCode", required=false) String code,
 													HttpServletResponse httpServletResponse){
 		
 		String[] queryStrings = this.getQueryStrings(redirect);

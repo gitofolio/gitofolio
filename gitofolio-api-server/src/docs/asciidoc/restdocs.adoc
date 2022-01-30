@@ -51,21 +51,21 @@ TIP: 이 목차에서 나오는 서버는 gitofolio서버를, 인증서버는 �
 
 인증과정은 크게 두가지 분류로 나뉩니다.
 
-- 인증을 요청한 클라이언트가 서버 일때.
+- 자신의 애플리케이션을 인증할때
 
-인증을 요청한 클라이언트가 서버 일때, 클라이언트는 OAuth애플리케이션 로그인으로 사전에 발급받아놓은 Personal Access Token을 사용해 인증 합니다.
+자신의 애플리케이션을 인증할때, 클라이언트는 OAuth애플리케이션 로그인으로 사전에 발급받아놓은 Personal Access Token을 사용해 인증 합니다.
 
-- 인증을 요청한 클라이언트가 브라우저 일때.
+- 자신의 애플리케이션을 이용하는 클라이언트를 인증할때
 
-인증을 요청한 클라이언트가 브라우저 일때는, 클라이언트는 OAuth애플리케이션 로그인으로 받은 임시토큰을 통해서 JWT를 발급받고 이 후, JWT를 이용해 인증 합니다. 이 때, 자신의 인증과정이 유효한지 보증해주는 Personal Access Token이 필요합니다.
+자신의 애플리케이션을 이용하는 클라이언트를 인증할때, 클라이언트는 OAuth애플리케이션 로그인으로 받은 임시토큰을 통해서 JWT를 발급받고 이 후, JWT를 이용해 인증 합니다. 이 때, 자신의 인증과정이 유효한지 보증해주는 Personal Access Token이 필요합니다.
 
 [[server-auth]]
-=== Server
-이 목차에는 인증을 요청한 클라이언트가 서버일때 취해야 할 인증과정이 기술되어있습니다.
+=== 자신의 애플리케이션을 인증할때
+이 목차에는 인증을 요청한 클라이언트가 자신의 애플리케이션일 때 취해야 할 인증과정이 기술되어있습니다.
 
 [[server-auth-flow]]
 ==== Authenticate-flow
-인증을 요청한 클라이언트가 서버일때, 인증의 전체 과정은 아래와 같습니다.
+인증을 요청한 클라이언트가 자신의 애플리케이션일 때, 인증의 전체 과정은 아래와 같습니다.
 
 TIP: 클라이언트의 상호작용이 필요한 목차는 -user로 표시되어있습니다.
 
@@ -124,12 +124,12 @@ HEAD: http://api.gitofolio.com/token/personal?accesskey={유효한지 확인할 
 정상적으로 200 OK를 반환한다면 유효한 personal access token 입니다.
 
 [[client-auth]]
-=== Client
-이 목차에는 인증을 요청한 클라이언트가 브라우저일때 취해야 할 인증과정이 기술되어있습니다.
+=== 자신의 애플리케이션을 이용하는 클라이언트를 인증할때
+이 목차에는 인증을 요청한 클라이언트가 자신의 애플리케이션을 이용하는 클라이언트일 때 취해야 할 인증과정이 기술되어있습니다.
 
 [[client-auth-flow]]
 ==== Authenticate-flow
-인증을 요청한 클라이언트가 브라우저일때, 인증의 전체 과정은 아래와 같습니다.
+인증을 요청한 클라이언트가 자신의 애플리케이션을 이용하는 클라이언트일 때, 인증의 전체 과정은 아래와 같습니다.
 
 TIP: 클라이언트의 상호작용이 필요한 목차는 -user로 표시되어있습니다.
 
@@ -223,7 +223,7 @@ include::{snippets}/oauth/token/response-fields.adoc[]
 
 [[auth-do]]
 === 인증 필요 api에 접근하기
-앞선 두가지 과정(서버 인증, 브라우저 인증)중 한가지를 완료했다면, 클라이언트는 인증이 필요한 api에 접근할 수 있습니다.
+앞선 두가지 과정중 한가지를 완료해 성공적으로 토큰을 발급받았다면, 클라이언트는 인증이 필요한 api에 접근할 수 있습니다.
 
 서버는 Http Authorization헤더 정보로 클라이언트를 인증합니다.
 
@@ -247,11 +247,11 @@ Authorization헤더의 인증타입은 클라이언트가 인증에 사용할 �
 
 |Personal access token
 |Pat
-|클라이언트가 서버일때 사용됩니다.
+|자신의 애플리케이션을 인증할 때 사용됩니다.
 
 |Json web token
 |Bearer
-|클라이언트가 브라우저 일때 사용됩니다.
+|자신의 애플리케이션을 사용하는 클라이언트를 인증할 때 사용됩니다.
 
 |===
 
@@ -265,28 +265,29 @@ include::{snippets}/user/logined/http-response.adoc[]
 
 위 방법처럼 인증은, HTTP 프로토콜 Authorization 헤더에 발급받은 토큰을 알맞은 인증타입과 함께 보냄으로 진행됩니다.
 
-==== 인증 필요api 표시 방법
+[[notice-auth]]
+=== 인증 필요api 표시 방법
 
 모든 인증이 필요한 api에는 아래와 같은 문구가 붙어있습니다.
 
 CAUTION: 인증 필요
 
 [[auth-errorhandle]]
-==== 발생할 수 있는 에러
+=== 발생할 수 있는 에러
 
-===== <<AuthenticateException>>
+<<AuthenticateException>>
 
-===== <<UnsupportedJwtException>>
+<<UnsupportedJwtException>>
 
-===== <<MissingClaimException>>
+<<MissingClaimException>>
 
-===== <<IncorrectClaimException>>
+<<IncorrectClaimException>>
 
-===== <<SignatureException>>
+<<SignatureException>>
 
-===== <<NonExistUserException>>
+<<NonExistUserException>>
 
-===== <<IllegalParameterException>>
+<<IllegalParameterException>>
 
 [[custom-api]]
 == 사용자 API

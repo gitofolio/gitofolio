@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Gitofolio RESTful API Docs</h1>
 <div class="details">
-<span id="revnumber">version 0.2.9</span>
+<span id="revnumber">version 0.3.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -453,13 +453,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#auth">인증</a>
 <ul class="sectlevel2">
-<li><a href="#server-auth">Server</a>
+<li><a href="#server-auth">자신의 애플리케이션을 인증할때</a>
 <ul class="sectlevel3">
 <li><a href="#server-auth-flow">Authenticate-flow</a></li>
 <li><a href="#server-auth-detail">Authenticate-detail</a></li>
 </ul>
 </li>
-<li><a href="#client-auth">Client</a>
+<li><a href="#client-auth">자신의 애플리케이션을 이용하는 클라이언트를 인증할때</a>
 <ul class="sectlevel3">
 <li><a href="#client-auth-flow">Authenticate-flow</a></li>
 <li><a href="#client-auth-detail">Authenticate-detail</a></li>
@@ -469,10 +469,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_request_3">Request</a></li>
 <li><a href="#_response_3">Response</a></li>
-<li><a href="#_인증_필요api_표시_방법">인증 필요api 표시 방법</a></li>
-<li><a href="#auth-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
+<li><a href="#notice-auth">인증 필요api 표시 방법</a></li>
+<li><a href="#auth-errorhandle">발생할 수 있는 에러</a></li>
 </ul>
 </li>
 <li><a href="#custom-api">사용자 API</a>
@@ -761,32 +761,32 @@ Content-Length: 1247
 <div class="ulist">
 <ul>
 <li>
-<p>인증을 요청한 클라이언트가 서버 일때.</p>
+<p>자신의 애플리케이션을 인증할때</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>인증을 요청한 클라이언트가 서버 일때, 클라이언트는 OAuth애플리케이션 로그인으로 사전에 발급받아놓은 Personal Access Token을 사용해 인증 합니다.</p>
+<p>자신의 애플리케이션을 인증할때, 클라이언트는 OAuth애플리케이션 로그인으로 사전에 발급받아놓은 Personal Access Token을 사용해 인증 합니다.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>인증을 요청한 클라이언트가 브라우저 일때.</p>
+<p>자신의 애플리케이션을 이용하는 클라이언트를 인증할때</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>인증을 요청한 클라이언트가 브라우저 일때는, 클라이언트는 OAuth애플리케이션 로그인으로 받은 임시토큰을 통해서 JWT를 발급받고 이 후, JWT를 이용해 인증 합니다. 이 때, 자신의 인증과정이 유효한지 보증해주는 Personal Access Token이 필요합니다.</p>
+<p>자신의 애플리케이션을 이용하는 클라이언트를 인증할때, 클라이언트는 OAuth애플리케이션 로그인으로 받은 임시토큰을 통해서 JWT를 발급받고 이 후, JWT를 이용해 인증 합니다. 이 때, 자신의 인증과정이 유효한지 보증해주는 Personal Access Token이 필요합니다.</p>
 </div>
 <div class="sect2">
-<h3 id="server-auth"><a class="link" href="#server-auth">Server</a></h3>
+<h3 id="server-auth"><a class="link" href="#server-auth">자신의 애플리케이션을 인증할때</a></h3>
 <div class="paragraph">
-<p>이 목차에는 인증을 요청한 클라이언트가 서버일때 취해야 할 인증과정이 기술되어있습니다.</p>
+<p>이 목차에는 인증을 요청한 클라이언트가 자신의 애플리케이션일 때 취해야 할 인증과정이 기술되어있습니다.</p>
 </div>
 <div class="sect3">
 <h4 id="server-auth-flow"><a class="link" href="#server-auth-flow">Authenticate-flow</a></h4>
 <div class="paragraph">
-<p>인증을 요청한 클라이언트가 서버일때, 인증의 전체 과정은 아래와 같습니다.</p>
+<p>인증을 요청한 클라이언트가 자신의 애플리케이션일 때, 인증의 전체 과정은 아래와 같습니다.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -995,14 +995,14 @@ Content-Length: 324
 </div>
 </div>
 <div class="sect2">
-<h3 id="client-auth"><a class="link" href="#client-auth">Client</a></h3>
+<h3 id="client-auth"><a class="link" href="#client-auth">자신의 애플리케이션을 이용하는 클라이언트를 인증할때</a></h3>
 <div class="paragraph">
-<p>이 목차에는 인증을 요청한 클라이언트가 브라우저일때 취해야 할 인증과정이 기술되어있습니다.</p>
+<p>이 목차에는 인증을 요청한 클라이언트가 자신의 애플리케이션을 이용하는 클라이언트일 때 취해야 할 인증과정이 기술되어있습니다.</p>
 </div>
 <div class="sect3">
 <h4 id="client-auth-flow"><a class="link" href="#client-auth-flow">Authenticate-flow</a></h4>
 <div class="paragraph">
-<p>인증을 요청한 클라이언트가 브라우저일때, 인증의 전체 과정은 아래와 같습니다.</p>
+<p>인증을 요청한 클라이언트가 자신의 애플리케이션을 이용하는 클라이언트일 때, 인증의 전체 과정은 아래와 같습니다.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1250,7 +1250,7 @@ Content-Length: 194
 <div class="sect2">
 <h3 id="auth-do"><a class="link" href="#auth-do">인증 필요 api에 접근하기</a></h3>
 <div class="paragraph">
-<p>앞선 두가지 과정(서버 인증, 브라우저 인증)중 한가지를 완료했다면, 클라이언트는 인증이 필요한 api에 접근할 수 있습니다.</p>
+<p>앞선 두가지 과정중 한가지를 완료해 성공적으로 토큰을 발급받았다면, 클라이언트는 인증이 필요한 api에 접근할 수 있습니다.</p>
 </div>
 <div class="paragraph">
 <p>서버는 Http Authorization헤더 정보로 클라이언트를 인증합니다.</p>
@@ -1292,12 +1292,12 @@ Authorization : {인증 타입} {인증에 사용될 토큰}
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Personal access token</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Pat</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">클라이언트가 서버일때 사용됩니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자신의 애플리케이션을 인증할 때 사용됩니다.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Json web token</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Bearer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">클라이언트가 브라우저 일때 사용됩니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자신의 애플리케이션을 사용하는 클라이언트를 인증할 때 사용됩니다.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1355,8 +1355,9 @@ Content-Length: 650
 <p>위 방법처럼 인증은, HTTP 프로토콜 Authorization 헤더에 발급받은 토큰을 알맞은 인증타입과 함께 보냄으로 진행됩니다.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_인증_필요api_표시_방법"><a class="link" href="#_인증_필요api_표시_방법">인증 필요api 표시 방법</a></h4>
+</div>
+<div class="sect2">
+<h3 id="notice-auth"><a class="link" href="#notice-auth">인증 필요api 표시 방법</a></h3>
 <div class="paragraph">
 <p>모든 인증이 필요한 api에는 아래와 같은 문구가 붙어있습니다.</p>
 </div>
@@ -1373,36 +1374,28 @@ Content-Length: 650
 </table>
 </div>
 </div>
-<div class="sect3">
-<h4 id="auth-errorhandle"><a class="link" href="#auth-errorhandle">발생할 수 있는 에러</a></h4>
-<div class="sect4">
-<h5 id="_authenticateexception"><a class="link" href="#_authenticateexception"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
-
+<div class="sect2">
+<h3 id="auth-errorhandle"><a class="link" href="#auth-errorhandle">발생할 수 있는 에러</a></h3>
+<div class="paragraph">
+<p><a href="#AuthenticateException">AuthenticateException</a></p>
 </div>
-<div class="sect4">
-<h5 id="_unsupportedjwtexception"><a class="link" href="#_unsupportedjwtexception"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
-
+<div class="paragraph">
+<p><a href="#UnsupportedJwtException">UnsupportedJwtException</a></p>
 </div>
-<div class="sect4">
-<h5 id="_missingclaimexception"><a class="link" href="#_missingclaimexception"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
-
+<div class="paragraph">
+<p><a href="#MissingClaimException">MissingClaimException</a></p>
 </div>
-<div class="sect4">
-<h5 id="_incorrectclaimexception"><a class="link" href="#_incorrectclaimexception"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
-
+<div class="paragraph">
+<p><a href="#IncorrectClaimException">IncorrectClaimException</a></p>
 </div>
-<div class="sect4">
-<h5 id="_signatureexception"><a class="link" href="#_signatureexception"><a href="#SignatureException">[SignatureException]</a></a></h5>
-
+<div class="paragraph">
+<p><a href="#SignatureException">SignatureException</a></p>
 </div>
-<div class="sect4">
-<h5 id="_nonexistuserexception"><a class="link" href="#_nonexistuserexception"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
-
+<div class="paragraph">
+<p><a href="#NonExistUserException">NonExistUserException</a></p>
 </div>
-<div class="sect4">
-<h5 id="_illegalparameterexception"><a class="link" href="#_illegalparameterexception"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
-
-</div>
+<div class="paragraph">
+<p><a href="#IllegalParameterException">IllegalParameterException</a></p>
 </div>
 </div>
 </div>
@@ -1634,27 +1627,27 @@ Content-Length: 650
 <div class="sect3">
 <h4 id="logined-user-get-errorhandle"><a class="link" href="#logined-user-get-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_authenticateexception_2"><a class="link" href="#_authenticateexception_2"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception"><a class="link" href="#_authenticateexception"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_2"><a class="link" href="#_unsupportedjwtexception_2"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception"><a class="link" href="#_unsupportedjwtexception"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception_2"><a class="link" href="#_missingclaimexception_2"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception"><a class="link" href="#_missingclaimexception"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception_2"><a class="link" href="#_incorrectclaimexception_2"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception"><a class="link" href="#_incorrectclaimexception"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception_2"><a class="link" href="#_signatureexception_2"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception"><a class="link" href="#_signatureexception"><a href="#SignatureException">[SignatureException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_2"><a class="link" href="#_nonexistuserexception_2"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception"><a class="link" href="#_nonexistuserexception"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 </div>
@@ -1785,7 +1778,7 @@ Content-Length: 650
 <div class="sect3">
 <h4 id="user-get-error-handle"><a class="link" href="#user-get-error-handle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_nonexistuserexception_3"><a class="link" href="#_nonexistuserexception_3"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_2"><a class="link" href="#_nonexistuserexception_2"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 </div>
@@ -1861,27 +1854,27 @@ name</code></pre>
 <div class="sect3">
 <h4 id="user-delete-errorhandle"><a class="link" href="#user-delete-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_authenticateexception_3"><a class="link" href="#_authenticateexception_3"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception_2"><a class="link" href="#_authenticateexception_2"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_3"><a class="link" href="#_unsupportedjwtexception_3"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception_2"><a class="link" href="#_unsupportedjwtexception_2"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception_3"><a class="link" href="#_missingclaimexception_3"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception_2"><a class="link" href="#_missingclaimexception_2"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception_3"><a class="link" href="#_incorrectclaimexception_3"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception_2"><a class="link" href="#_incorrectclaimexception_2"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception_3"><a class="link" href="#_signatureexception_3"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception_2"><a class="link" href="#_signatureexception_2"><a href="#SignatureException">[SignatureException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_4"><a class="link" href="#_nonexistuserexception_4"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_3"><a class="link" href="#_nonexistuserexception_3"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 </div>
@@ -2039,7 +2032,7 @@ Content-Length: 259
 <div class="sect3">
 <h4 id="userstat-get-errorhandle"><a class="link" href="#userstat-get-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_nonexistuserexception_5"><a class="link" href="#_nonexistuserexception_5"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_4"><a class="link" href="#_nonexistuserexception_4"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 </div>
@@ -2243,7 +2236,7 @@ Content-Length: 467
 <div class="sect3">
 <h4 id="userdailystat-get-errorhandle"><a class="link" href="#userdailystat-get-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_nonexistuserexception_6"><a class="link" href="#_nonexistuserexception_6"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_5"><a class="link" href="#_nonexistuserexception_5"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 </div>
@@ -2450,11 +2443,11 @@ Content-Length: 1745
 <div class="sect3">
 <h4 id="portfoliocards-get-errorhandle"><a class="link" href="#portfoliocards-get-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_illegalparameterexception_2"><a class="link" href="#_illegalparameterexception_2"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
+<h5 id="_illegalparameterexception"><a class="link" href="#_illegalparameterexception"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_7"><a class="link" href="#_nonexistuserexception_7"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_6"><a class="link" href="#_nonexistuserexception_6"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 </div>
@@ -2688,27 +2681,27 @@ Content-Length: 1925
 <div class="sect3">
 <h4 id="portfoliocards-post-errorhandle"><a class="link" href="#portfoliocards-post-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_authenticateexception_4"><a class="link" href="#_authenticateexception_4"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception_3"><a class="link" href="#_authenticateexception_3"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_4"><a class="link" href="#_unsupportedjwtexception_4"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception_3"><a class="link" href="#_unsupportedjwtexception_3"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception_4"><a class="link" href="#_missingclaimexception_4"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception_3"><a class="link" href="#_missingclaimexception_3"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception_4"><a class="link" href="#_incorrectclaimexception_4"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception_3"><a class="link" href="#_incorrectclaimexception_3"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception_4"><a class="link" href="#_signatureexception_4"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception_3"><a class="link" href="#_signatureexception_3"><a href="#SignatureException">[SignatureException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_8"><a class="link" href="#_nonexistuserexception_8"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_7"><a class="link" href="#_nonexistuserexception_7"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 </div>
@@ -2799,31 +2792,31 @@ name</code></pre>
 <div class="sect3">
 <h4 id="portfoliocards-delete-errorhandle"><a class="link" href="#portfoliocards-delete-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_authenticateexception_5"><a class="link" href="#_authenticateexception_5"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception_4"><a class="link" href="#_authenticateexception_4"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_5"><a class="link" href="#_unsupportedjwtexception_5"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception_4"><a class="link" href="#_unsupportedjwtexception_4"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception_5"><a class="link" href="#_missingclaimexception_5"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception_4"><a class="link" href="#_missingclaimexception_4"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception_5"><a class="link" href="#_incorrectclaimexception_5"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception_4"><a class="link" href="#_incorrectclaimexception_4"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception_5"><a class="link" href="#_signatureexception_5"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception_4"><a class="link" href="#_signatureexception_4"><a href="#SignatureException">[SignatureException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_9"><a class="link" href="#_nonexistuserexception_9"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_8"><a class="link" href="#_nonexistuserexception_8"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_illegalparameterexception_3"><a class="link" href="#_illegalparameterexception_3"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
+<h5 id="_illegalparameterexception_2"><a class="link" href="#_illegalparameterexception_2"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
 
 </div>
 </div>
@@ -3062,31 +3055,31 @@ Content-Length: 1745
 <div class="sect3">
 <h4 id="portfoliocards-put-errorhandle"><a class="link" href="#portfoliocards-put-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_authenticateexception_6"><a class="link" href="#_authenticateexception_6"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception_5"><a class="link" href="#_authenticateexception_5"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_6"><a class="link" href="#_unsupportedjwtexception_6"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception_5"><a class="link" href="#_unsupportedjwtexception_5"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception_6"><a class="link" href="#_missingclaimexception_6"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception_5"><a class="link" href="#_missingclaimexception_5"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception_6"><a class="link" href="#_incorrectclaimexception_6"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception_5"><a class="link" href="#_incorrectclaimexception_5"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception_6"><a class="link" href="#_signatureexception_6"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception_5"><a class="link" href="#_signatureexception_5"><a href="#SignatureException">[SignatureException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_10"><a class="link" href="#_nonexistuserexception_10"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_9"><a class="link" href="#_nonexistuserexception_9"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_illegalparameterexception_4"><a class="link" href="#_illegalparameterexception_4"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
+<h5 id="_illegalparameterexception_3"><a class="link" href="#_illegalparameterexception_3"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
 
 </div>
 </div>
@@ -3201,11 +3194,11 @@ Content-Length: 1745
 <div class="sect3">
 <h4 id="portfoliocard-get-svg-image-errorhandle"><a class="link" href="#portfoliocard-get-svg-image-errorhandle">발생할 수 있는 에러</a></h4>
 <div class="sect4">
-<h5 id="_nonexistuserexception_11"><a class="link" href="#_nonexistuserexception_11"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_10"><a class="link" href="#_nonexistuserexception_10"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_illegalparameterexception_5"><a class="link" href="#_illegalparameterexception_5"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
+<h5 id="_illegalparameterexception_4"><a class="link" href="#_illegalparameterexception_4"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
 
 </div>
 </div>
@@ -3306,8 +3299,8 @@ Content-Length: 85
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.2.9<br>
-Last updated 2022-01-29 10:22:38 UTC
+Version 0.3.0<br>
+Last updated 2022-01-30 04:46:25 UTC
 </div>
 </div>
 </body>
