@@ -27,7 +27,7 @@ public class PersonalAccessTokenValidator implements TokenValidator{
 	public String currentLogined(){
 		CrudProxy<PersonalAccessToken> crudProxy = this.personalAccessTokenCrudFactory.get();
 		return crudProxy.read(extractTokenInHeader()).token();
-	}
+	} 
 	
 	@Override
 	public boolean validateToken(String validateTarget){

@@ -37,11 +37,20 @@ public class OAuthController{
 					    					@RequestParam(value = "redirect", required = false) String redirect,
 											@RequestParam(value = "accesskey", required = false) String personalAccessKey){
 		
-		if(redirect == null) throw new IllegalParameterException("redirect url 오류", "redirect 파라미터값이 비어있습니다.");
-		if(personalAccessKey == null) throw new IllegalParameterException("accesskey 오류", "accesskey 파라미터값이 비어있습니다.");
+		if(isInvalidRedirectUrl(redirect)) throw new IllegalParameterException("redirect url 오류", "redirect 파라미터값이 비어있습니다.");
+		if(isInvalidPersonalAccessKey(personalAccessKey)) throw new IllegalParameterException("accesskey 오류", "accesskey 파라미터값이 비어있습니다.");
 		
 		String applicationUrl = this.oauthApplicationFactory.get(application).getUrlWithQueryString("?redirect=" + redirect + "+" + personalAccessKey);
 		return "redirect:" + applicationUrl;
+	}
+	
+	
+	private boolean isInvalidRedirectUrl(String redirect){
+		return redirect == null;
+	}
+	
+	private boolean isInvalidPersonalAccessKey(String personalAccessKey){
+		return personalAccessKey == null;
 	}
 	
 	@RequestMapping(path = "/oauth/{application}", method = RequestMethod.GET)

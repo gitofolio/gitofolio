@@ -51,24 +51,7 @@ public class UserInfoService{
 			.orElseThrow(()->new NonExistUserException("존재하지 않는 유저에 대한 수정 요청입니다.", "유저 아이디를 확인해주세요", "/user/"+user.getId()));
 		
 		try{
-			Field[] oldFields = exist.getClass().getDeclaredFields();
-			Field[] newFields = user.getClass().getDeclaredFields();
-			
-			for(Field oldField : oldFields){
-				oldField.setAccessible(true);
-				Object oldFieldValue = oldField.get(exist);
-				
-				if(oldField.getName().equals("id") || oldFieldValue == null) continue;
-				
-				for(Field newField : newFields){
-					newField.setAccessible(true);
-					Object newFieldValue = newField.get(user);
-					
-					if(newField.getName().equals("id") || newFieldValue == null) continue;
-					
-					if(oldField.getName().equals(newField.getName())) oldField.set(exist, newFieldValue);
-				}
-			}
+			doEdit(exist, user);
 		}catch(IllegalAccessException IAE){
 			throw new EditException("유저 정보를 수정하는데 실패했습니다.", "요청 JSON을 확인해주세요", "/user/"+user.getId());
 		}

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 public interface UserMapper<T extends Object>{
 	
 	UserDTO doMap(T parameter);
-	
 	T resolveMap(UserDTO userDTO);
 	
 }
