@@ -12,8 +12,9 @@ public enum HateoasType {
 	USERSTATHATEOAS,
 	USERSTATISTICSHATEOAS,
 	PORTFOLIOCARDHATEOAS,
-	ENDPOINTHATEOAS;
-	
+	ENDPOINTHATEOAS,
+	TODAYINTERACTIONHATEOAS;
+
 	private Hateoas hateoas = null;
 	
 	public Hateoas getHateoasInstance(){
@@ -28,12 +29,14 @@ public enum HateoasType {
 									 @Qualifier("userStatHateoas") Hateoas userStatHateoas,
 									 @Qualifier("userStatisticsHateoas") Hateoas userStatisticsHateoas,
 									 @Qualifier("portfolioCardHateoas") Hateoas portfolioCardHateoas,
-									 @Qualifier("endPointHateoas") Hateoas endPointHateoas){
+									 @Qualifier("endPointHateoas") Hateoas endPointHateoas,
+									 @Qualifier("todayInteractionHateoas") Hateoas todayInteractionHateoas){
 			USERINFOHATEOAS.hateoas = userInfoHateoas;
 			USERSTATHATEOAS.hateoas = userStatHateoas;
 			USERSTATISTICSHATEOAS.hateoas = userStatisticsHateoas;
 			PORTFOLIOCARDHATEOAS.hateoas = portfolioCardHateoas;
 			ENDPOINTHATEOAS.hateoas = endPointHateoas;
+			TODAYINTERACTIONHATEOAS.hateoas = todayInteractionHateoas;
 		}
 		
 	}

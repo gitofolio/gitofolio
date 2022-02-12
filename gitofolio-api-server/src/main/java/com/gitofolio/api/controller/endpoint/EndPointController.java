@@ -9,29 +9,39 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
+import com.gitofolio.api.service.common.*;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class EndPointController{
 	
-	private final EndPointHateoasDTO endPointHateoasDTO;
-	
+	private final TodayInteraction todayInteraction;
+
 	@RequestMapping(path = "/restdocs", method = RequestMethod.GET)
 	public String docs(){
 		return "restdocs";
 	}
-	
+
+	@ResponseBody
+	@HateoasSetter(hateoasType = HateoasType.TODAYINTERACTIONHATEOAS)
+	@RequestMapping(path = "/todayinteraction", method = RequestMethod.GET)
+	public HateoasDTO todayInteraction(){
+		Map<String, Object> todayInteractionMap = new HashMap<String, Object>();
+		todayInteractionMap.put("interact", this.todayInteraction.getInteractCount());
+		return new HateoasDTO(todayInteractionMap);
+	}
+
 	@ResponseBody
 	@HateoasSetter(hateoasType = HateoasType.ENDPOINTHATEOAS)
 	@RequestMapping(path = "", method = RequestMethod.GET)
-	public EndPointHateoasDTO endPoint(){
-		return this.endPointHateoasDTO;
+	public HateoasDTO endPoint(){
+		return new HateoasDTO();
 	}
 	
 	@Autowired
-	public EndPointController(EndPointHateoasDTO endPointHateoasDTO){
-		this.endPointHateoasDTO = endPointHateoasDTO;
+	public EndPointController(TodayInteraction todayInteraction){
+		this.todayInteraction = todayInteraction;
 	}
 	
 }

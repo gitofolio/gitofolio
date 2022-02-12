@@ -5,16 +5,16 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Component
-public class UserStatisticsHateoas extends Hateoas{
-	
-	public UserStatisticsHateoas(){
+public class TodayInteractionHateoas extends Hateoas{
+
+	public TodayInteractionHateoas(){
 		this.initLinks();
 	}
-	
+
 	@Override
 	public void initLinks(){
 		this.links = new ArrayList<Link>();
-		this.links.add(new Link("getThis", "GET", "https://api.gitofolio.com/user/dailystat/{name}"));
+		links.add(new Link("getThis", "GET", "https://api.gitofolio.com/todayinteraction"));
 	}
-	
+
 }

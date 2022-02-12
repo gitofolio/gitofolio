@@ -14,7 +14,7 @@ public class UserStatHateoas extends Hateoas{
 	@Override
 	public void initLinks(){
 		this.links = new ArrayList<Link>();
-		this.links.add(new Link("getThis", "GET", "http://api.gitofolio.com/user/stat/{name}"));
+		this.links.add(new Link("getThis", "GET", "https://api.gitofolio.com/user/stat/{name}"));
 	}
 	
 }

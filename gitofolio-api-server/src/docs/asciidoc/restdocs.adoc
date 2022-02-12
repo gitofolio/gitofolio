@@ -311,6 +311,27 @@ include::{snippets}/portfoliocards/get/http-response.adoc[]
 
 {userId}에 가장 바깥 "id"의 value를 {cardId}에 portfolioUrl과 매핑된 card "id"를 입력하면 됩니다.
 
+[[application-api]]
+== 애플리케이션 API
+이 목차에는 애플리케이션 공통 API가 기술되어있습니다.
+
+[[application-api-interact]]
+=== 애플리케이션 일일 상호작용 횟수
+애플리케이션이 오늘 유저와 상호작용한 총 횟수를 나타냅니다.
+
+[[application-api-interact-request]]
+==== Request
+요청과 응답예시는 아래와 같습니다.
+
+include::{snippets}/endpoint/todayinteraction/http-request.adoc[]
+
+[[application-api-interact-response]]
+==== Response
+
+include::{snippets}/endpoint/todayinteraction/http-response.adoc[]
+
+include::{snippets}/endpoint/todayinteraction/response-fields.adoc[]
+
 [[user]]
 == 유저
 NOTE: user에 관련된 API 목차 입니다.
