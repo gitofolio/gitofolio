@@ -70,7 +70,7 @@
     </g>
 	 
     <text class="userName" x="70" y="42"> ${svgDTO.getName()} </text>
-	<text class ="portfolio" x="70" y="60"> portfolio </text>
+	<text class ="portfolio" x="70" y="60"> Gitofolio </text>
 	 
     <g transform="translate(0, ${svgDTO.getArrowY()})" class="arrow">	
 		<g class = "arrowInner">
