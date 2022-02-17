@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.domain.auth.PersonalAccessToken;
+import com.gitofolio.api.domain.user.*;
 import com.gitofolio.api.service.auth.authenticate.Authenticator;
 import com.gitofolio.api.service.auth.oauth.applications.OauthApplicationFactory;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
@@ -18,6 +19,7 @@ public class PersonalAccessTokenController{
 	
 	private final CrudProxy<PersonalAccessToken> personalAccessTokenCrudProxy;
 	private final CrudProxy<UserDTO> userInfoCrudProxy;
+	private final CrudProxy<EncodedProfileImage> encodedProfileImageCrudProxy;
 	private final OauthApplicationFactory oauthApplicationFactory;
 	private String accessTokenRedirectUrl = "&redirect_uri=https://api.gitofolio.com/token/personal";
 	private String testAccessTokenRedirectUrl = "&redirect_uri=https://api-server-gitofolio-qfnxv.run.goorm.io/token/personal";
@@ -30,6 +32,8 @@ public class PersonalAccessTokenController{
 		
 		UserDTO userDTO = this.getUserDTO(application, code);
 		PersonalAccessToken personalAccessToken = this.personalAccessTokenCrudProxy.create(userDTO);
+		
+		this.encodedProfileImageCrudProxy.create(userDTO);
 		
 		return new ResponseEntity(personalAccessToken, HttpStatus.CREATED);
 	}
@@ -52,10 +56,12 @@ public class PersonalAccessTokenController{
 	@Autowired
 	public PersonalAccessTokenController(@Qualifier("personalAccessTokenCrudFactory") CrudFactory<PersonalAccessToken> personalAccessTokenCrudFactory,
 										 @Qualifier("userInfoCrudFactory") CrudFactory<UserDTO> userInfoCrudFactory,
-										OauthApplicationFactory oauthApplicationFactory){
+										 @Qualifier("encodedProfileImageCrudFactory") CrudFactory<EncodedProfileImage> encodedProfileImageCrudFactory,
+										 OauthApplicationFactory oauthApplicationFactory){
 		this.personalAccessTokenCrudProxy = personalAccessTokenCrudFactory.get();
 		this.userInfoCrudProxy = userInfoCrudFactory.get();
 		this.oauthApplicationFactory = oauthApplicationFactory;
+		this.encodedProfileImageCrudProxy = encodedProfileImageCrudFactory.get();
 	}
 	
 }

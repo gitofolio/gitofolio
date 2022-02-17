@@ -99,8 +99,14 @@ public class PortfolioCardSvgDTO{
 		}
 		
 		public Builder watchedNum(String watchedNum){
-			this.watchedNum = watchedNum;
+			this.watchedNum = this.convertWatchedNum(watchedNum);
 			return this;
+		}
+		
+		private String convertWatchedNum(String watchedNum){
+			if(watchedNum.length() >= 7) return watchedNum.substring(0, watchedNum.length()-6) + "M";
+			if(watchedNum.length() >= 4) return watchedNum.substring(0, watchedNum.length()-3) + "K";
+			return watchedNum;
 		}
 		
 		public Builder article(String article){

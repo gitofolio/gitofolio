@@ -48,7 +48,6 @@ public class PortfolioCard{
 	}
 	
 	public void increasePortfolioCardWatched(){
-		if(this.portfolioCardWatched >= 999) return;
 		this.portfolioCardWatched++;
 	}
 	

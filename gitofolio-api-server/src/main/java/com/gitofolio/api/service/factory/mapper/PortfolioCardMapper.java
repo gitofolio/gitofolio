@@ -49,7 +49,7 @@ public class PortfolioCardMapper implements UserMapper<List<PortfolioCard>>{
 				portfolioCard.setId(-1L);
 			}
 			portfolioCard.setPortfolioCardArticle(cardDTO.getPortfolioCardArticle());
-			portfolioCard.setPortfolioCardWatched(cardDTO.getPortfolioCardWatched());
+			portfolioCard.setPortfolioCardWatched(0);
 			portfolioCard.setPortfolioUrl(cardDTO.getPortfolioUrl());
 			
 			portfolioCard.setUserInfo(mockUserInfo);
