@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Gitofolio RESTful API Docs</h1>
 <div class="details">
-<span id="revnumber">version 0.3.3</span>
+<span id="revnumber">version 0.3.5</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -631,7 +631,6 @@ HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 �
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "0cd54a2e81bf989c6bf776690d341c495"
 Content-Length: 1381
 
 {
@@ -935,12 +934,11 @@ Host: api.gitofolio.com:80</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json
-ETag: "04343ef773b55c7e777ae61398d091063"
 Content-Length: 323
 
 {
-  "tokenKey" : 518,
-  "tokenValue" : "6e4212623a0c4224ad3ae20e68e3f5e72fbbe50f432c4bb88b675ba2602e8d38da641c0de30b422cab39e8b02c1b60432dd0e21d94aa44b795626b8be8f7bba72ccfeb5dab4c433c84e52b9551cb0feb",
+  "tokenKey" : 695,
+  "tokenValue" : "1126b77b3dde4816a3c4b4dc60c5d7180a999666ed9a4e63ae97960c73c3deb95d0c56c4ee6d466ba0631fea45b9eb3f7ca8e30d45b24b579d390cdd7d4afad2a4b259b6c2da44f888ed9b25cca4fbed",
   "lastUsedDate" : "2022-02-18",
   "userInfo" : {
     "id" : 1,
@@ -1464,7 +1462,7 @@ url파라미터의 redirect값을 false로 지정하지않으면 유입경로가
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "09fd5df4e13e8f5898ad38be5a3c5efb1"
+ETag: "01aa05e01b78a737ffa20a0577222edd2"
 Content-Length: 1746
 
 {
@@ -1472,27 +1470,27 @@ Content-Length: 1746
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 482,
+    "id" : 659,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 483,
+    "id" : 660,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 484,
+    "id" : 661,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 485,
+    "id" : 662,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 486,
+    "id" : 663,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -1562,7 +1560,6 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "05d3c15c0a337df7b4e8e2cf1e10cafaa"
 Content-Length: 167
 
 {
@@ -2414,7 +2411,7 @@ Host: api.gitofolio.com:80</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "09fd5df4e13e8f5898ad38be5a3c5efb1"
+ETag: "01aa05e01b78a737ffa20a0577222edd2"
 Content-Length: 1746
 
 {
@@ -2422,27 +2419,27 @@ Content-Length: 1746
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 482,
+    "id" : 659,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 483,
+    "id" : 660,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 484,
+    "id" : 661,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 485,
+    "id" : 662,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 486,
+    "id" : 663,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2655,32 +2652,32 @@ Content-Length: 1925
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 476,
+    "id" : 653,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 477,
+    "id" : 654,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 478,
+    "id" : 655,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 479,
+    "id" : 656,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 480,
+    "id" : 657,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
   }, {
-    "id" : 481,
+    "id" : 658,
     "portfolioCardArticle" : "this is new portfoliocard",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/6"
@@ -2838,7 +2835,7 @@ Content-Length: 1925
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=492 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=669 HTTP/1.1
 Accept: */*
 Authorization: Bearer {token}
 Host: api.gitofolio.com:80</code></pre>
@@ -2963,7 +2960,7 @@ Authorization: Bearer {token}
 Content-Length: 274
 Host: api.gitofolio.com:80
 
-{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":487,"portfolioCardArticle":"Lorem ipsum","portfolioCardWatched":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
+{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":664,"portfolioCardArticle":"Lorem ipsum","portfolioCardWatched":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3034,27 +3031,27 @@ Content-Length: 1746
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 487,
+    "id" : 664,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 488,
+    "id" : 665,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 489,
+    "id" : 666,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 490,
+    "id" : 667,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 491,
+    "id" : 668,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -3234,7 +3231,7 @@ Content-Length: 1746
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "09fd5df4e13e8f5898ad38be5a3c5efb1"
+ETag: "01aa05e01b78a737ffa20a0577222edd2"
 Content-Length: 1746
 
 {
@@ -3242,27 +3239,27 @@ Content-Length: 1746
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 482,
+    "id" : 659,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 483,
+    "id" : 660,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 484,
+    "id" : 661,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 485,
+    "id" : 662,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 486,
+    "id" : 663,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -3408,7 +3405,7 @@ Content-Length: 85
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.3.3<br>
+Version 0.3.5<br>
 Last updated 2022-02-16 10:17:50 UTC
 </div>
 </div>

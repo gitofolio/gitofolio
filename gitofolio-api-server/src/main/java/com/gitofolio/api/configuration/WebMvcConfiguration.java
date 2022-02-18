@@ -4,6 +4,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.*;
 import org.springframework.web.filter.*;
+import org.springframework.boot.web.servlet.*;
 
 import com.gitofolio.api.controller.interceptor.*;
 
@@ -22,8 +23,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer{
 	}
 	
 	@Bean
-	public ShallowEtagHeaderFilter shallowEtagHeaderFilter(){
-		return new ShallowEtagHeaderFilter();
+	public FilterRegistrationBean<ShallowEtagHeaderFilter> shallowEtagHeaderFilter(){
+		FilterRegistrationBean<ShallowEtagHeaderFilter> filterRegistrationBean = new FilterRegistrationBean<ShallowEtagHeaderFilter>(new ShallowEtagHeaderFilter());
+        filterRegistrationBean.addUrlPatterns("/user/*", "/portfoliocards/*");
+        filterRegistrationBean.setName("ETagFilter");
+        return filterRegistrationBean;
 	}
 
 }
