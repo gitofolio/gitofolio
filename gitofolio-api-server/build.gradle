@@ -30,7 +30,7 @@ dependencies {
 	// spring rest docs
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' 
 	
-	// jsp
+	// jsp 
 	implementation 'javax.servlet:jstl'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	
