@@ -5,13 +5,11 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
-public class ClearCacheSetter implements CacheSetter{
+public class Minutes10CacheSetter implements CacheSetter{
 	
 	@Override
 	public HttpServletResponse setCache(HttpServletResponse response){
-		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-		response.setHeader("Pragma", "no-cache");
-		response.setHeader("Expires", "-1");
+		response.setHeader("Cache-Control", "max-age=600");
 		return response;
 	}
 	

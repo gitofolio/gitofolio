@@ -81,7 +81,7 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime(milliSec = 500L)
-	@WebCache(cacheType = CacheType.CLEAR)
+	@WebCache(cacheType = CacheType.MINUTES_10)
 	@RequestMapping(path = "/portfoliocard/svg/{cardId}", method = RequestMethod.GET)
 	public ModelAndView getPortfolioCardSvg(@PathVariable("cardId") Long cardId, 
 											@RequestParam(value="color", defaultValue="white") String color){

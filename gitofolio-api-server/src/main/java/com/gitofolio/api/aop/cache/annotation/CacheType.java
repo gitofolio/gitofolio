@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public enum CacheType{
 	
-	CLEAR;
+	CLEAR,
+	MINUTES_10;
 	
 	private CacheSetter cacheSetter;
 	
@@ -21,8 +22,10 @@ public enum CacheType{
 	private static class CacheTypeConsistutor{
 		
 		@Autowired
-		public CacheTypeConsistutor(@Qualifier("clearCacheSetter") CacheSetter clearCacheSetter){
+		public CacheTypeConsistutor(@Qualifier("clearCacheSetter") CacheSetter clearCacheSetter,
+								   @Qualifier("minutes10CacheSetter") CacheSetter minutes10CacheSetter){
 			CLEAR.cacheSetter = clearCacheSetter;
+			MINUTES_10.cacheSetter = minutes10CacheSetter;
 		}
 		
 	}
