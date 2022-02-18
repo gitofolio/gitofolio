@@ -19,20 +19,20 @@
 		 
 		.userName {
 			fill : ${svgDTO.getColor().getTextColor()};
-            font : 700 18px Noto Sans KR, Apple SD Gothic Neo, Apple SD 산돌고딕 Neo, Nanum Gothic, sans-serif;
+            font : 700 18px Arial, Noto Sans KR, Apple SD Gothic Neo, Apple SD 산돌고딕 Neo, Nanum Gothic, sans-serif;
 			animation: delayFadeInAnimation 0.5s ease-in-out;
 			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
         }
         .portfolio {
 			fill : ${svgDTO.getColor().getSubColor()};
-            font : 200 12px Noto Sans KR, Apple SD Gothic Neo, Apple SD 산돌고딕 Neo, Nanum Gothic, sans-serif;
+            font : 100 12px Arial, Noto Sans KR, Apple SD Gothic Neo, Apple SD 산돌고딕 Neo, Nanum Gothic, sans-serif;
 			animation: delayFadeInAnimation 0.8s ease-in-out;
 			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
         }
 		 
         .article {
 			fill : ${svgDTO.getColor().getTextColor()};
-            font : 400 13px Noto Sans KR, Apple SD Gothic Neo, Apple SD 산돌고딕 Neo, Nanum Gothic, sans-serif;
+            font : 400 13px Arial, Noto Sans KR, Apple SD Gothic Neo, Apple SD 산돌고딕 Neo, Nanum Gothic, sans-serif;
 			animation: delayFadeInAnimation 1.5s ease-in-out;
 			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
         }
@@ -43,7 +43,7 @@
 		 
         .watchedText {
 			fill : ${svgDTO.getColor().getTextColor()};
-            font : 400 11px Noto Sans KR, Apple SD Gothic Neo, Apple SD 산돌고딕 Neo, Nanum Gothic, sans-serif;
+            font : 400 11px Arial, Noto Sans KR, Apple SD Gothic Neo, Apple SD 산돌고딕 Neo, Nanum Gothic, sans-serif;
 			animation: delayFadeInAnimation 1.1s ease-in-out;
 			text-shadow: ${svgDTO.getColor().getTextShadowColor()};
 		}
