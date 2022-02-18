@@ -29,11 +29,11 @@ public class HateoasSetterAop{
 		if(!isHateoasAble(aopTarget)) throw new ClassCastException(aopTarget.getClass().toString()+" HATEOAS를 적용할수 없는 리턴타입임.");
 		
 		HateoasSetter hateoasSetter = this.annotationExtractor.extractAnnotation(joinPoint, HateoasSetter.class);
-		Hateoas hateoas = hateoasSetter.hateoasType().getHateoasInstance();
+		
 		if(isResponseEntity(aopTarget)){
-			hateoas.setHateoas((HateoasAble)((ResponseEntity)aopTarget).getBody());
+			hateoasSetter.hateoasType().setHateoas((HateoasAble)((ResponseEntity)aopTarget).getBody());
 		}
-		else hateoas.setHateoas((HateoasAble)aopTarget);
+		else hateoasSetter.hateoasType().setHateoas((HateoasAble)aopTarget);
 		return aopTarget;
 	}
 	

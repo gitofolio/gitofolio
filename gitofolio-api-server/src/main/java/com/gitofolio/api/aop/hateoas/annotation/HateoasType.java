@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.gitofolio.api.service.factory.hateoas.Hateoas;
+import com.gitofolio.api.service.factory.hateoas.HateoasAble;
 
 public enum HateoasType {
 	
@@ -17,8 +18,8 @@ public enum HateoasType {
 
 	private Hateoas hateoas = null;
 	
-	public Hateoas getHateoasInstance(){
-		return this.hateoas;
+	public void setHateoas(HateoasAble hateoasTarget){
+		this.hateoas.setHateoas(hateoasTarget);
 	}
 	
 	@Component

@@ -15,14 +15,12 @@ import org.springframework.http.HttpStatus;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
-import com.gitofolio.api.aop.auth.annotation.AuthToken;
-import com.gitofolio.api.aop.auth.annotation.TokenType;
-import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
-import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
+import com.gitofolio.api.aop.auth.annotation.*;
+import com.gitofolio.api.aop.hateoas.annotation.*;
+import com.gitofolio.api.aop.cache.annotation.*;
 import com.gitofolio.api.aop.log.time.annotation.ExpectedTime;
 import com.gitofolio.api.domain.user.EncodedProfileImage;
-import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgDTO;
-import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgFactory;
+import com.gitofolio.api.service.user.svg.portfoliocard.*;
 import com.gitofolio.api.service.factory.parameter.PortfolioCardSvgParameter;
 import com.gitofolio.api.service.factory.Factory;
 
@@ -83,6 +81,7 @@ public class PortfolioCardController{
 	}
 	
 	@ExpectedTime(milliSec = 500L)
+	@WebCache(cacheType = CacheType.CLEAR)
 	@RequestMapping(path = "/portfoliocard/svg/{cardId}", method = RequestMethod.GET)
 	public ModelAndView getPortfolioCardSvg(@PathVariable("cardId") Long cardId, 
 											@RequestParam(value="color", defaultValue="white") String color){
