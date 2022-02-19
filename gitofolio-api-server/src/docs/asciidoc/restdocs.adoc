@@ -1,20 +1,47 @@
+= Gitofolio RESTdocs
+Devxb <develxb@gmail.com>
+:doctype: book
+:description: Gitofolio Rest ful api docs
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
 ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
-= Gitofolio RESTful API Docs
-:toc: left
-:toclevels: 3
-:sectlinks:
 
 [[enterence]]
-== 들어가며
-gitofolio rest api를 사용하여, 유저데이터, 통계, 포토폴리오 정보 등을 가져올수있습니다.
+== Introduction
+
+Gitofolio api를 사용하면 다음과 같은 일들을 할 수 있습니다. 
+
+* [*] 이력서 ``**유입통계**`` 및 관리
+* [*] 나만의 멋진 ``**이력서 카드 생성**``
 
 image::https://api.gitofolio.com/portfoliocard/svg/23?color=white[devxb's sample card]
+* [*] OAuth애플리케이션 ``**Proxy 인증 서버**``로, OAuth애플리케이션에 ``**연동되어있는 정보 보호**``
+
+*Gitofolio api와 함께 애플리케이션을 구축하고, 관리를 자동화해 더 큰일에 집중하세요.*
+
+NOTE: 우리의 공식 홈페이지 입니다. https://gitofolio.com[바로가기]
+
+오탈자 및 버그제보 : develxb@gmail.com
+
+.문서에 기여해주신 고마운 분 들
+[%collapsible]
+====
+* Devxb
+
+* Devxb
+
+* Devxb
+
+* Devxb
+====
 
 [[HATEOAS]]
-== gitofolio HATEOAS
-gitofolio는 HATEOAS를 지원합니다.
+== Gitofolio HATEOAS
+Gitofolio는 HATEOAS를 지원합니다.
 
 HATEOAS를 사용하여, 서버의 변화에 유연하게 대처하세요.
 
@@ -672,7 +699,7 @@ include::{snippets}/portfoliocards/put/response-fields.adoc[]
 
 image::https://api.gitofolio.com/portfoliocard/svg/23?color=black[devxb's sample card]
 
-카드는 과정은 포트폴리오 카드를 저장할때 자동으로 저장되며, 따라서 저장 관련 HTTP METHOD는 활성화 되어있지 않습니다.
+카드는 포트폴리오 카드를 저장할때 자동으로 저장되며, 저장 관련 HTTP METHOD는 지원하지 않습니다.
 
 CAUTION: 반환 MIME타입은 image/svg+xml 입니다.
 

@@ -5,7 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Gitofolio RESTful API Docs</title>
+<meta name="description" content="Gitofolio Rest ful api docs">
+<meta name="author" content="Devxb">
+<title>Gitofolio RESTdocs</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,18 +437,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article toc2 toc-left">
+<body class="book toc2 toc-left">
 <div id="header">
-<h1>Gitofolio RESTful API Docs</h1>
+<h1>Gitofolio RESTdocs</h1>
 <div class="details">
-<span id="revnumber">version 0.3.7</span>
+<span id="author" class="author">Devxb</span><br>
+<span id="email" class="email"><a href="mailto:develxb@gmail.com">develxb@gmail.com</a></span><br>
+<span id="revnumber">version 0.3.8</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#enterence">들어가며</a></li>
-<li><a href="#HATEOAS">gitofolio HATEOAS</a>
+<li><a href="#enterence">Introduction</a></li>
+<li><a href="#HATEOAS">Gitofolio HATEOAS</a>
 <ul class="sectlevel2">
 <li><a href="#HATEOAS-naming-convention">HATEOAS 네이밍 규칙</a></li>
 </ul>
@@ -591,23 +596,79 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="enterence"><a class="link" href="#enterence">들어가며</a></h2>
+<h2 id="enterence">Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>gitofolio rest api를 사용하여, 유저데이터, 통계, 포토폴리오 정보 등을 가져올수있습니다.</p>
+<p>Gitofolio api를 사용하면 다음과 같은 일들을 할 수 있습니다.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-check-square-o"></i> 이력서 <code><strong>유입통계</strong></code> 및 관리</p>
+</li>
+<li>
+<p><i class="fa fa-check-square-o"></i> 나만의 멋진 <code><strong>이력서 카드 생성</strong></code></p>
+</li>
+</ul>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="https://api.gitofolio.com/portfoliocard/svg/23?color=white" alt="devxb&#8217;s sample card">
 </div>
 </div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-check-square-o"></i> OAuth애플리케이션 <code><strong>Proxy 인증 서버</strong></code>로, OAuth애플리케이션에 <code><strong>연동되어있는 정보 보호</strong></code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Gitofolio api와 함께 애플리케이션을 구축하고, 관리를 자동화해 더 큰일에 집중하세요.</strong></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+우리의 공식 홈페이지 입니다. <a href="https://gitofolio.com">바로가기</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>오탈자 및 버그제보 : <a href="mailto:develxb@gmail.com">develxb@gmail.com</a></p>
+</div>
+<details>
+<summary class="title">문서에 기여해주신 고마운 분 들</summary>
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Devxb</p>
+</li>
+<li>
+<p>Devxb</p>
+</li>
+<li>
+<p>Devxb</p>
+</li>
+<li>
+<p>Devxb</p>
+</li>
+</ul>
+</div>
+</div>
+</details>
 </div>
 </div>
 <div class="sect1">
-<h2 id="HATEOAS"><a class="link" href="#HATEOAS">gitofolio HATEOAS</a></h2>
+<h2 id="HATEOAS">Gitofolio HATEOAS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>gitofolio는 HATEOAS를 지원합니다.</p>
+<p>Gitofolio는 HATEOAS를 지원합니다.</p>
 </div>
 <div class="paragraph">
 <p>HATEOAS를 사용하여, 서버의 변화에 유연하게 대처하세요.</p>
@@ -616,7 +677,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 기술되어 있습니다. HATEOAS의 rel값은 절대 변경되지않으며, URL은 변경될수있습니다.
@@ -629,7 +690,7 @@ HATEOAS에는 한 URL에서 다음 선택지로 선택가능한 모든 URL이 �
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 Content-Length: 1381
 
@@ -684,7 +745,7 @@ Content-Length: 1381
 </div>
 </div>
 <div class="sect2">
-<h3 id="HATEOAS-naming-convention"><a class="link" href="#HATEOAS-naming-convention">HATEOAS 네이밍 규칙</a></h3>
+<h3 id="HATEOAS-naming-convention">HATEOAS 네이밍 규칙</h3>
 <div class="paragraph">
 <p>HATEOAS는 아래와 같은 네이밍 규칙이 있습니다.</p>
 </div>
@@ -702,7 +763,7 @@ Content-Length: 1381
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 "href"가 갖고있는 값의 {     } 에는 응답으로 받은 표현의 같은 key값과 매칭됩니다. 예를들어, {name}이라면, JSON "name"키의 값과 매칭됩니다.
@@ -724,7 +785,7 @@ Content-Length: 1381
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 "rel"키 값의 명명 규칙은 변경되지 않습니다.
@@ -743,7 +804,7 @@ Content-Length: 1381
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 "rel" 네이밍 규칙에서, 자기자신을 호출할경우는 {http method}+This로 이루어집니다.
@@ -755,13 +816,13 @@ Content-Length: 1381
 </div>
 </div>
 <div class="sect1">
-<h2 id="auth"><a class="link" href="#auth">인증</a></h2>
+<h2 id="auth">인증</h2>
 <div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 이 목차에서 나오는 서버는 gitofolio서버를, 인증서버는 실제 인증과정이 진행되는 OAUTH 구현 서버를 뜻합니다.
@@ -793,12 +854,12 @@ Content-Length: 1381
 <p>자신의 애플리케이션을 이용하는 클라이언트를 인증할때, 클라이언트는 OAuth애플리케이션 로그인으로 받은 임시토큰을 통해서 JWT를 발급받고 이 후, JWT를 이용해 인증 합니다. 이 때, 자신의 인증과정이 유효한지 보증해주는 Personal Access Token이 필요합니다.</p>
 </div>
 <div class="sect2">
-<h3 id="server-auth"><a class="link" href="#server-auth">자신의 애플리케이션을 인증할때</a></h3>
+<h3 id="server-auth">자신의 애플리케이션을 인증할때</h3>
 <div class="paragraph">
 <p>이 목차에는 인증을 요청한 클라이언트가 자신의 애플리케이션일 때 취해야 할 인증과정이 기술되어있습니다.</p>
 </div>
 <div class="sect3">
-<h4 id="server-auth-flow"><a class="link" href="#server-auth-flow">Authenticate-flow</a></h4>
+<h4 id="server-auth-flow">Authenticate-flow</h4>
 <div class="paragraph">
 <p>인증을 요청한 클라이언트가 자신의 애플리케이션일 때, 인증의 전체 과정은 아래와 같습니다.</p>
 </div>
@@ -806,7 +867,7 @@ Content-Length: 1381
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 클라이언트의 상호작용이 필요한 목차는 -user로 표시되어있습니다.
@@ -835,12 +896,12 @@ Content-Length: 1381
 </div>
 </div>
 <div class="sect3">
-<h4 id="server-auth-detail"><a class="link" href="#server-auth-detail">Authenticate-detail</a></h4>
+<h4 id="server-auth-detail">Authenticate-detail</h4>
 <div class="paragraph">
 <p>이 목차에는 인증을 위해 클라이언트가 취해야 할 인증과정이 자세히 적혀있습니다.</p>
 </div>
 <div class="sect4">
-<h5 id="_personal_access_token_발급받기"><a class="link" href="#_personal_access_token_발급받기">Personal access token 발급받기</a></h5>
+<h5 id="_personal_access_token_발급받기">Personal access token 발급받기</h5>
 <div class="paragraph">
 <p>클라이언트는 인증이 필요한 api를 호출하기 위해 사전에 자신을 서버에 등록하고, 매칭되는 Personal access token을 발급받아야 합니다.</p>
 </div>
@@ -848,7 +909,7 @@ Content-Length: 1381
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 발급받은 Personal access token은 클라이언트가 브라우저일때 인증 과정에서 해당 인증과정을 보증하는데 사용할 수 있습니다.
@@ -860,7 +921,7 @@ Content-Length: 1381
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 Personal access token은 30일동안 미사용시 자동으로 삭제됩니다. 발급받은 personal access token은 절대 다시 확인할수없으니 잘 저장해주세요.
@@ -877,7 +938,7 @@ Personal access token은 30일동안 미사용시 자동으로 삭제됩니다. 
 </div>
 </div>
 <div class="sect5">
-<h6 id="_현재_사용할수있는_oauth_애플리케이션_목록"><a class="link" href="#_현재_사용할수있는_oauth_애플리케이션_목록">현재 사용할수있는 OAuth 애플리케이션 목록</a></h6>
+<h6 id="_현재_사용할수있는_oauth_애플리케이션_목록">현재 사용할수있는 OAuth 애플리케이션 목록</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -896,10 +957,10 @@ Personal access token은 30일동안 미사용시 자동으로 삭제됩니다. 
 </div>
 </div>
 <div class="sect4">
-<h5 id="_request"><a class="link" href="#_request">Request</a></h5>
+<h5 id="_request">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /token/personal?application=github&amp;code=ahdfbhjqwebfnsdbfsdahfbqwef HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /token/personal?application=github&amp;code=ahdfbhjqwebfnsdbfsdahfbqwef HTTP/1.1
 Accept: */*
 Authorization: Pat {token}
 Host: api.gitofolio.com:80</code></pre>
@@ -929,16 +990,16 @@ Host: api.gitofolio.com:80</code></pre>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_response"><a class="link" href="#_response">Response</a></h5>
+<h5 id="_response">Response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
 Content-Length: 324
 
 {
-  "tokenKey" : 1167,
-  "tokenValue" : "c14a5bf10f1e4d9e9cd25e06361b6215ac5521c84c0c4709a5a074b7ae3992a229553691b3064bcd946c6619c6a44049e7c809a927594f06817235eb5f934b73d053b06d529b4a6e9d97c9b552c86e3d",
+  "tokenKey" : 2760,
+  "tokenValue" : "2e798f1e385944b584b391c6ebc5cee68d26605a7cac45bd97f6f8e1dbe24f62605a518ae7fc41889d719f73d615a2889ac6a9a822fd409da7dc6274c8d9c4e6ca868658f2f34af6bd782eeab6306dbe",
   "lastUsedDate" : "2022-02-19",
   "userInfo" : {
     "id" : 1,
@@ -1009,12 +1070,12 @@ Content-Length: 324
 </div>
 </div>
 <div class="sect2">
-<h3 id="client-auth"><a class="link" href="#client-auth">자신의 애플리케이션을 이용하는 클라이언트를 인증할때</a></h3>
+<h3 id="client-auth">자신의 애플리케이션을 이용하는 클라이언트를 인증할때</h3>
 <div class="paragraph">
 <p>이 목차에는 인증을 요청한 클라이언트가 자신의 애플리케이션을 이용하는 클라이언트일 때 취해야 할 인증과정이 기술되어있습니다.</p>
 </div>
 <div class="sect3">
-<h4 id="client-auth-flow"><a class="link" href="#client-auth-flow">Authenticate-flow</a></h4>
+<h4 id="client-auth-flow">Authenticate-flow</h4>
 <div class="paragraph">
 <p>인증을 요청한 클라이언트가 자신의 애플리케이션을 이용하는 클라이언트일 때, 인증의 전체 과정은 아래와 같습니다.</p>
 </div>
@@ -1022,7 +1083,7 @@ Content-Length: 324
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 클라이언트의 상호작용이 필요한 목차는 -user로 표시되어있습니다.
@@ -1054,12 +1115,12 @@ Content-Length: 324
 </div>
 </div>
 <div class="sect3">
-<h4 id="client-auth-detail"><a class="link" href="#client-auth-detail">Authenticate-detail</a></h4>
+<h4 id="client-auth-detail">Authenticate-detail</h4>
 <div class="paragraph">
 <p>이 목차에는 인증을 위해 클라이언트가 취해야 할 인증과정이 자세히 적혀있습니다.</p>
 </div>
 <div class="sect4">
-<h5 id="_personal_access_token_발급받기_2"><a class="link" href="#_personal_access_token_발급받기_2">Personal access token 발급받기</a></h5>
+<h5 id="_personal_access_token_발급받기_2">Personal access token 발급받기</h5>
 <div class="paragraph">
 <p>클라이언트는 자신의 인증과정이 올바른지, 자신이 올바른 경로로 인증 과정을 진행했는지 등과 같이 자신의 인증과정의 유효성을 증명할 Personal access token이 필요합니다.</p>
 </div>
@@ -1067,7 +1128,7 @@ Content-Length: 324
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 Personal access token은 자신이 소유한 토큰이 아니여도 상관없으며, 중요한 것은 Personal access token의 key-value 매칭입니다.
@@ -1083,7 +1144,7 @@ Personal access token은 자신이 소유한 토큰이 아니여도 상관없으
 </div>
 </div>
 <div class="sect4">
-<h5 id="_서버로_인증요청_보내기"><a class="link" href="#_서버로_인증요청_보내기">서버로 인증요청 보내기</a></h5>
+<h5 id="_서버로_인증요청_보내기">서버로 인증요청 보내기</h5>
 <div class="paragraph">
 <p>모든 인증과정은 api서버로 인증요청을 보내며 시작되고 이때, 클라이언트는 자신이 사용할 인증서버와 임시토큰을 발급받을 url을 쿼리 파라미터로 보내야합니다.</p>
 </div>
@@ -1111,7 +1172,7 @@ api.gitofolio.com (X)
 </div>
 </div>
 <div class="sect5">
-<h6 id="_현재_사용할수있는_oauth_애플리케이션_목록_2"><a class="link" href="#_현재_사용할수있는_oauth_애플리케이션_목록_2">현재 사용할수있는 OAuth 애플리케이션 목록</a></h6>
+<h6 id="_현재_사용할수있는_oauth_애플리케이션_목록_2">현재 사용할수있는 OAuth 애플리케이션 목록</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
@@ -1130,7 +1191,7 @@ api.gitofolio.com (X)
 </div>
 </div>
 <div class="sect4">
-<h5 id="_임시토큰으로_실제_사용_토큰_발급받기"><a class="link" href="#_임시토큰으로_실제_사용_토큰_발급받기">임시토큰으로 실제 사용 토큰 발급받기</a></h5>
+<h5 id="_임시토큰으로_실제_사용_토큰_발급받기">임시토큰으로 실제 사용 토큰 발급받기</h5>
 <div class="paragraph">
 <p>앞선 인증과정이 성공적으로 완료되었다면, redirect파라미터에 입력된 url의 파라미터로 임시토큰이 발급됩니다.</p>
 </div>
@@ -1138,7 +1199,7 @@ api.gitofolio.com (X)
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 임시토큰은 1회성 토큰이며, 5분의 유효시간을 갖고있습니다.
@@ -1169,7 +1230,7 @@ api.gitofolio.com (X)
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 access token의 key가 아닌 value를 전송해야함에 유의하세요. 또한, 전송되는 value값은 사전에 보낸 accesskey와 매칭되는 accessvalue여야 합니다.
@@ -1179,10 +1240,10 @@ access token의 key가 아닌 value를 전송해야함에 유의하세요. 또�
 </div>
 </div>
 <div class="sect4">
-<h5 id="_request_2"><a class="link" href="#_request_2">Request</a></h5>
+<h5 id="_request_2">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /token HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 220
@@ -1219,10 +1280,10 @@ Host: api.gitofolio.com:80
 </table>
 </div>
 <div class="sect4">
-<h5 id="_response_2"><a class="link" href="#_response_2">Response</a></h5>
+<h5 id="_response_2">Response</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 Content-Length: 194
 
@@ -1262,7 +1323,7 @@ Content-Length: 194
 </div>
 </div>
 <div class="sect2">
-<h3 id="auth-do"><a class="link" href="#auth-do">인증 필요 api에 접근하기</a></h3>
+<h3 id="auth-do">인증 필요 api에 접근하기</h3>
 <div class="paragraph">
 <p>앞선 두가지 과정중 한가지를 완료해 성공적으로 토큰을 발급받았다면, 클라이언트는 인증이 필요한 api에 접근할 수 있습니다.</p>
 </div>
@@ -1319,10 +1380,10 @@ Authorization : {인증 타입} {인증에 사용될 토큰}
 <p>아래는 토큰을 이용해 현재 로그인된 유저 정보를 가져오는 예시입니다.</p>
 </div>
 <div class="sect3">
-<h4 id="_request_3"><a class="link" href="#_request_3">Request</a></h4>
+<h4 id="_request_3">Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /user HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /user HTTP/1.1
 Accept: application/json
 Authorization: Bearer {token}
 Host: api.gitofolio.com:80</code></pre>
@@ -1330,10 +1391,10 @@ Host: api.gitofolio.com:80</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_3"><a class="link" href="#_response_3">Response</a></h4>
+<h4 id="_response_3">Response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 ETag: "0ce5e00853127a8f527540c8bd836e55f"
 Content-Length: 655
@@ -1372,7 +1433,7 @@ Content-Length: 655
 </div>
 </div>
 <div class="sect2">
-<h3 id="notice-auth"><a class="link" href="#notice-auth">인증 필요api 표시 방법</a></h3>
+<h3 id="notice-auth">인증 필요api 표시 방법</h3>
 <div class="paragraph">
 <p>모든 인증이 필요한 api에는 아래와 같은 문구가 붙어있습니다.</p>
 </div>
@@ -1380,7 +1441,7 @@ Content-Length: 655
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 인증 필요
@@ -1390,7 +1451,7 @@ Content-Length: 655
 </div>
 </div>
 <div class="sect2">
-<h3 id="auth-errorhandle"><a class="link" href="#auth-errorhandle">발생할 수 있는 에러</a></h3>
+<h3 id="auth-errorhandle">발생할 수 있는 에러</h3>
 <div class="paragraph">
 <p><a href="#AuthenticateException">AuthenticateException</a></p>
 </div>
@@ -1416,18 +1477,18 @@ Content-Length: 655
 </div>
 </div>
 <div class="sect1">
-<h2 id="custom-api"><a class="link" href="#custom-api">사용자 API</a></h2>
+<h2 id="custom-api">사용자 API</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>이 목차에는 사용자가 직접 사용하기에 적합한 API가 기술되어있습니다.</p>
 </div>
 <div class="sect2">
-<h3 id="custom-api-stat"><a class="link" href="#custom-api-stat">통계</a></h3>
+<h3 id="custom-api-stat">통계</h3>
 <div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 애플리케이션에서 제작된 링크(ex.포트폴리오 카드)를 통해 유입되는 통계는 자동으로 수집되어 증가됩니다.
@@ -1447,7 +1508,7 @@ Content-Length: 655
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 url파라미터의 redirect값을 false로 지정하지않으면 유입경로가 2번 중복되서 수집될수있습니다.
@@ -1460,9 +1521,9 @@ url파라미터의 redirect값을 false로 지정하지않으면 유입경로가
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "04a251d468a290c6a534d00221d43eb39"
+ETag: "0b02bec4374afe3879eb9d81d5738025c"
 Content-Length: 1751
 
 {
@@ -1470,27 +1531,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 1131,
+    "id" : 2724,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 1132,
+    "id" : 2725,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 1133,
+    "id" : 2726,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 1134,
+    "id" : 2727,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 1135,
+    "id" : 2728,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -1531,34 +1592,34 @@ Content-Length: 1751
 </div>
 </div>
 <div class="sect1">
-<h2 id="application-api"><a class="link" href="#application-api">애플리케이션 API</a></h2>
+<h2 id="application-api">애플리케이션 API</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>이 목차에는 애플리케이션 공통 API가 기술되어있습니다.</p>
 </div>
 <div class="sect2">
-<h3 id="application-api-interact"><a class="link" href="#application-api-interact">애플리케이션 일일 상호작용 횟수</a></h3>
+<h3 id="application-api-interact">애플리케이션 일일 상호작용 횟수</h3>
 <div class="paragraph">
 <p>애플리케이션이 오늘 유저와 상호작용한 총 횟수를 나타냅니다.</p>
 </div>
 <div class="sect3">
-<h4 id="application-api-interact-request"><a class="link" href="#application-api-interact-request">Request</a></h4>
+<h4 id="application-api-interact-request">Request</h4>
 <div class="paragraph">
 <p>요청과 응답예시는 아래와 같습니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /todayinteraction HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /todayinteraction HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="application-api-interact-response"><a class="link" href="#application-api-interact-response">Response</a></h4>
+<h4 id="application-api-interact-response">Response</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 Content-Length: 167
 
@@ -1615,13 +1676,13 @@ Content-Length: 167
 </div>
 </div>
 <div class="sect1">
-<h2 id="user"><a class="link" href="#user">유저</a></h2>
+<h2 id="user">유저</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 user에 관련된 API 목차 입니다.
@@ -1636,7 +1697,7 @@ user에 관련된 API 목차 입니다.
 <p>이 목차에는 유저 가져오기, 유저 삭제하기, 현재 로그인 되어있는 유저 가져오기가 기술되어있습니다.</p>
 </div>
 <div class="sect2">
-<h3 id="logined-user-get"><a class="link" href="#logined-user-get">로그인된 유저 가져오기</a></h3>
+<h3 id="logined-user-get">로그인된 유저 가져오기</h3>
 <div class="paragraph">
 <p>현재 로그인된 유저의 정보를 가져옵니다.</p>
 </div>
@@ -1644,7 +1705,7 @@ user에 관련된 API 목차 입니다.
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 인증 필요
@@ -1653,13 +1714,13 @@ user에 관련된 API 목차 입니다.
 </table>
 </div>
 <div class="sect3">
-<h4 id="logined-user-get-request"><a class="link" href="#logined-user-get-request">Request</a></h4>
+<h4 id="logined-user-get-request">Request</h4>
 <div class="paragraph">
 <p>현재 로그인되어있는 유저의 정보를 가져옵니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /user HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /user HTTP/1.1
 Accept: application/json
 Authorization: Bearer {token}
 Host: api.gitofolio.com:80</code></pre>
@@ -1685,13 +1746,13 @@ Host: api.gitofolio.com:80</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="logined-user-get-response"><a class="link" href="#logined-user-get-response">Response</a></h4>
+<h4 id="logined-user-get-response">Response</h4>
 <div class="paragraph">
 <p>로그인 되어있는 유저가 있다면, 아래 표현이 응답됩니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 ETag: "0ce5e00853127a8f527540c8bd836e55f"
 Content-Length: 655
@@ -1726,46 +1787,46 @@ Content-Length: 655
 </div>
 </div>
 <div class="sect3">
-<h4 id="logined-user-get-errorhandle"><a class="link" href="#logined-user-get-errorhandle">발생할 수 있는 에러</a></h4>
+<h4 id="logined-user-get-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_authenticateexception"><a class="link" href="#_authenticateexception"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception"><a href="#AuthenticateException">[AuthenticateException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception"><a class="link" href="#_unsupportedjwtexception"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception"><a class="link" href="#_missingclaimexception"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception"><a class="link" href="#_incorrectclaimexception"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception"><a class="link" href="#_signatureexception"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception"><a href="#SignatureException">[SignatureException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception"><a class="link" href="#_nonexistuserexception"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="user-get"><a class="link" href="#user-get">유저 가져오기</a></h3>
+<h3 id="user-get">유저 가져오기</h3>
 <div class="paragraph">
 <p>api서버에 저장된 유저의 정보를 가져옵니다.</p>
 </div>
 <div class="sect3">
-<h4 id="user-get-request"><a class="link" href="#user-get-request">Request</a></h4>
+<h4 id="user-get-request">Request</h4>
 <div class="paragraph">
 <p>요청 시 생성되는 HTTP 헤더는 아래와 같습니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /user/name HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /user/name HTTP/1.1
 Accept: application/json
 Host: api.gitofolio.com:80</code></pre>
 </div>
@@ -1791,13 +1852,13 @@ Host: api.gitofolio.com:80</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="user-get-response"><a class="link" href="#user-get-response">Response</a></h4>
+<h4 id="user-get-response">Response</h4>
 <div class="paragraph">
 <p>요청에 대한 서버의 표현은 다음과 같습니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 ETag: "0ce5e00853127a8f527540c8bd836e55f"
 Content-Length: 655
@@ -1878,15 +1939,15 @@ Content-Length: 655
 </table>
 </div>
 <div class="sect3">
-<h4 id="user-get-error-handle"><a class="link" href="#user-get-error-handle">발생할 수 있는 에러</a></h4>
+<h4 id="user-get-error-handle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_nonexistuserexception_2"><a class="link" href="#_nonexistuserexception_2"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_2"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="user-delete"><a class="link" href="#user-delete">유저 삭제하기</a></h3>
+<h3 id="user-delete">유저 삭제하기</h3>
 <div class="paragraph">
 <p>DB에 저장되어있는 유저를 삭제합니다.</p>
 </div>
@@ -1894,7 +1955,7 @@ Content-Length: 655
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 인증 필요
@@ -1903,7 +1964,7 @@ Content-Length: 655
 </table>
 </div>
 <div class="sect3">
-<h4 id="user-delete-request"><a class="link" href="#user-delete-request">Request</a></h4>
+<h4 id="user-delete-request">Request</h4>
 <div class="paragraph">
 <p>DB에 저장되어있는 유저를 삭제하려면, DELETE메소드로 요청하세요.</p>
 </div>
@@ -1912,7 +1973,7 @@ Content-Length: 655
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /user/name HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /user/name HTTP/1.1
 Accept: */*
 Authorization: Bearer {token}
 Host: api.gitofolio.com:80</code></pre>
@@ -1939,13 +2000,13 @@ Host: api.gitofolio.com:80</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="user-delete-response"><a class="link" href="#user-delete-response">Response</a></h4>
+<h4 id="user-delete-response">Response</h4>
 <div class="paragraph">
 <p>성공적으로 삭제되었다면, 아래와 같은 표현이 응답됩니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 4
 
@@ -1954,29 +2015,29 @@ name</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="user-delete-errorhandle"><a class="link" href="#user-delete-errorhandle">발생할 수 있는 에러</a></h4>
+<h4 id="user-delete-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_authenticateexception_2"><a class="link" href="#_authenticateexception_2"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception_2"><a href="#AuthenticateException">[AuthenticateException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_2"><a class="link" href="#_unsupportedjwtexception_2"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception_2"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception_2"><a class="link" href="#_missingclaimexception_2"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception_2"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception_2"><a class="link" href="#_incorrectclaimexception_2"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception_2"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception_2"><a class="link" href="#_signatureexception_2"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception_2"><a href="#SignatureException">[SignatureException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_3"><a class="link" href="#_nonexistuserexception_3"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_3"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 </div>
@@ -1984,13 +2045,13 @@ name</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="userstat"><a class="link" href="#userstat">유저 통계</a></h2>
+<h2 id="userstat">유저 통계</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 유저 통계정보에 관한 목차입니다.
@@ -2002,7 +2063,7 @@ name</code></pre>
 <p>이 목차에는 유저 포토폴리오 총 방문자수, 총 스타수가 포함되어있습니다.</p>
 </div>
 <div class="sect2">
-<h3 id="userstat-get"><a class="link" href="#userstat-get">유저 통계 가져오기</a></h3>
+<h3 id="userstat-get">유저 통계 가져오기</h3>
 <div class="paragraph">
 <p>요청된 유저에 대한 통계 정보를 가져옵니다.</p>
 </div>
@@ -2010,7 +2071,7 @@ name</code></pre>
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 유저 통계정보는 서버에 의해 생성되며, 클라이언트가 생성에 직접적으로 관여할 수 없습니다. 따라서, GET메소드만 허용되어있습니다.
@@ -2019,7 +2080,7 @@ name</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="userstat-get-request"><a class="link" href="#userstat-get-request">Request</a></h4>
+<h4 id="userstat-get-request">Request</h4>
 <div class="paragraph">
 <p>유저 정보를 가져오기위해 GET메소드로 요청합니다.</p>
 </div>
@@ -2028,7 +2089,7 @@ name</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /user/stat/name HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /user/stat/name HTTP/1.1
 Accept: application/json
 Host: api.gitofolio.com:80</code></pre>
 </div>
@@ -2054,13 +2115,13 @@ Host: api.gitofolio.com:80</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="userstat-get-response"><a class="link" href="#userstat-get-response">Response</a></h4>
+<h4 id="userstat-get-response">Response</h4>
 <div class="paragraph">
 <p>요청에 대한 서버 응답의 표현은 아래와 같습니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 ETag: "04bdbc59386bd4f74ca5c73a94129c448"
 Content-Length: 260
@@ -2133,9 +2194,9 @@ Content-Length: 260
 </table>
 </div>
 <div class="sect3">
-<h4 id="userstat-get-errorhandle"><a class="link" href="#userstat-get-errorhandle">발생할 수 있는 에러</a></h4>
+<h4 id="userstat-get-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_nonexistuserexception_4"><a class="link" href="#_nonexistuserexception_4"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_4"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 </div>
@@ -2143,13 +2204,13 @@ Content-Length: 260
 </div>
 </div>
 <div class="sect1">
-<h2 id="userdailystat"><a class="link" href="#userdailystat">유저 날짜별 통계</a></h2>
+<h2 id="userdailystat">유저 날짜별 통계</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 유저 날짜별 통계에 관한 목차 입니다.
@@ -2161,7 +2222,7 @@ Content-Length: 260
 <p>이 목차에는 날짜별 방문자수, 날짜별 유입 경로가 저장되어 있습니다.</p>
 </div>
 <div class="sect2">
-<h3 id="userdailystat-request"><a class="link" href="#userdailystat-request">유저 날짜별 통계 가져오기</a></h3>
+<h3 id="userdailystat-request">유저 날짜별 통계 가져오기</h3>
 <div class="paragraph">
 <p>요청 된 유저에 대한 날짜별 통계 정보를 가져옵니다.</p>
 </div>
@@ -2169,7 +2230,7 @@ Content-Length: 260
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 유저 날짜별 통계정보는 서버에 의해 생성되며, 클라이언트가 생성에 직접적으로 관여할 수 없습니다. 따라서, GET메소드만 허용되어있습니다.
@@ -2178,7 +2239,7 @@ Content-Length: 260
 </table>
 </div>
 <div class="sect3">
-<h4 id="userdailystat-get-request"><a class="link" href="#userdailystat-get-request">Request</a></h4>
+<h4 id="userdailystat-get-request">Request</h4>
 <div class="paragraph">
 <p>유저 날짜별 통계정보를 가져오기위해 GET 요청을 합니다.</p>
 </div>
@@ -2187,7 +2248,7 @@ Content-Length: 260
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /user/dailystat/name HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /user/dailystat/name HTTP/1.1
 Accept: application/json
 Host: api.gitofolio.com:80</code></pre>
 </div>
@@ -2213,13 +2274,13 @@ Host: api.gitofolio.com:80</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="userdailystat-get-response"><a class="link" href="#userdailystat-get-response">Response</a></h4>
+<h4 id="userdailystat-get-response">Response</h4>
 <div class="paragraph">
 <p>트랜잭션이 성공적으로 완료되었다면, 200 OK 응답과 함께 아래 표현이 응답됩니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 ETag: "029a4904de42c6c2818e75753f31f2eb5"
 Content-Length: 468
@@ -2316,7 +2377,7 @@ Content-Length: 468
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 날짜별 방문자수 통계에 대해 최대 7개(날짜기준)를 저장하며, 초과시 오래된 순으로 자동 삭제됩니다.
@@ -2328,7 +2389,7 @@ Content-Length: 468
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 유입 경로에 대해 최대 30개 까지 저장하며, 초과시 오래된 순으로 자동 삭제됩니다.
@@ -2338,9 +2399,9 @@ Content-Length: 468
 </div>
 </div>
 <div class="sect3">
-<h4 id="userdailystat-get-errorhandle"><a class="link" href="#userdailystat-get-errorhandle">발생할 수 있는 에러</a></h4>
+<h4 id="userdailystat-get-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_nonexistuserexception_5"><a class="link" href="#_nonexistuserexception_5"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_5"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 </div>
@@ -2348,13 +2409,13 @@ Content-Length: 468
 </div>
 </div>
 <div class="sect1">
-<h2 id="portfoliocards"><a class="link" href="#portfoliocards">포트폴리오 카드</a></h2>
+<h2 id="portfoliocards">포트폴리오 카드</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 유저에 매칭되는 포트폴리오 카드 API가 기술되어있습니다.
@@ -2363,12 +2424,12 @@ Content-Length: 468
 </table>
 </div>
 <div class="sect2">
-<h3 id="portfoliocards-get"><a class="link" href="#portfoliocards-get">포트폴리오 카드 가져오기</a></h3>
+<h3 id="portfoliocards-get">포트폴리오 카드 가져오기</h3>
 <div class="paragraph">
 <p>유저에 저장된 포트폴리오 카드들을 가져옵니다.</p>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-get-request"><a class="link" href="#portfoliocards-get-request">Request</a></h4>
+<h4 id="portfoliocards-get-request">Request</h4>
 <div class="paragraph">
 <p>포트폴리오 카드들을 가져오기위해 GET 요청을 합니다.</p>
 </div>
@@ -2377,7 +2438,7 @@ Content-Length: 468
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /portfoliocards/name HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /portfoliocards/name HTTP/1.1
 Accept: application/json
 Host: api.gitofolio.com:80</code></pre>
 </div>
@@ -2403,15 +2464,15 @@ Host: api.gitofolio.com:80</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-get-response"><a class="link" href="#portfoliocards-get-response">Response</a></h4>
+<h4 id="portfoliocards-get-response">Response</h4>
 <div class="paragraph">
 <p>트랜잭션이 성공적으로 완료되었다면, 200 OK 응답 코드와 함께 아래 표현이 응답됩니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "04a251d468a290c6a534d00221d43eb39"
+ETag: "0b02bec4374afe3879eb9d81d5738025c"
 Content-Length: 1751
 
 {
@@ -2419,27 +2480,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 1131,
+    "id" : 2724,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 1132,
+    "id" : 2725,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 1133,
+    "id" : 2726,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 1134,
+    "id" : 2727,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 1135,
+    "id" : 2728,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2546,19 +2607,19 @@ Content-Length: 1751
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-get-errorhandle"><a class="link" href="#portfoliocards-get-errorhandle">발생할 수 있는 에러</a></h4>
+<h4 id="portfoliocards-get-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_illegalparameterexception"><a class="link" href="#_illegalparameterexception"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
+<h5 id="_illegalparameterexception"><a href="#IllegalParameterException">[IllegalParameterException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_6"><a class="link" href="#_nonexistuserexception_6"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_6"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="portfoliocards-post"><a class="link" href="#portfoliocards-post">포트폴리오 카드 저장하기</a></h3>
+<h3 id="portfoliocards-post">포트폴리오 카드 저장하기</h3>
 <div class="paragraph">
 <p>DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 저장합니다.</p>
 </div>
@@ -2566,7 +2627,7 @@ Content-Length: 1751
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 인증 필요
@@ -2575,7 +2636,7 @@ Content-Length: 1751
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-post-request"><a class="link" href="#portfoliocards-post-request">Request</a></h4>
+<h4 id="portfoliocards-post-request">Request</h4>
 <div class="paragraph">
 <p>포트폴리오 카드를 저장하기 위해 POST 요청을 합니다.</p>
 </div>
@@ -2584,7 +2645,7 @@ Content-Length: 1751
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /portfoliocards HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /portfoliocards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Authorization: Bearer {token}
@@ -2637,13 +2698,13 @@ Host: api.gitofolio.com:80
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-post-response"><a class="link" href="#portfoliocards-post-response">Response</a></h4>
+<h4 id="portfoliocards-post-response">Response</h4>
 <div class="paragraph">
 <p>트랜잭션이 성공적으로 완료되었다면, CREATED 응답코드와 함께 아래 표현이 응답됩니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
 Content-Length: 1931
 
@@ -2652,32 +2713,32 @@ Content-Length: 1931
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 1125,
+    "id" : 2718,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 1126,
+    "id" : 2719,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 1127,
+    "id" : 2720,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 1128,
+    "id" : 2721,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 1129,
+    "id" : 2722,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
   }, {
-    "id" : 1130,
+    "id" : 2723,
     "portfolioCardArticle" : "this is new portfoliocard",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/6"
@@ -2784,35 +2845,35 @@ Content-Length: 1931
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-post-errorhandle"><a class="link" href="#portfoliocards-post-errorhandle">발생할 수 있는 에러</a></h4>
+<h4 id="portfoliocards-post-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_authenticateexception_3"><a class="link" href="#_authenticateexception_3"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception_3"><a href="#AuthenticateException">[AuthenticateException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_3"><a class="link" href="#_unsupportedjwtexception_3"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception_3"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception_3"><a class="link" href="#_missingclaimexception_3"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception_3"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception_3"><a class="link" href="#_incorrectclaimexception_3"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception_3"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception_3"><a class="link" href="#_signatureexception_3"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception_3"><a href="#SignatureException">[SignatureException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_7"><a class="link" href="#_nonexistuserexception_7"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_7"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="portfoliocards-delete"><a class="link" href="#portfoliocards-delete">포트폴리오 카드 삭제하기</a></h3>
+<h3 id="portfoliocards-delete">포트폴리오 카드 삭제하기</h3>
 <div class="paragraph">
 <p>DB에 저장되어있는 유저에 대해서, 포트폴리오 카드를 삭제합니다.</p>
 </div>
@@ -2820,7 +2881,7 @@ Content-Length: 1931
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 인증 필요
@@ -2829,13 +2890,13 @@ Content-Length: 1931
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-delete-request"><a class="link" href="#portfoliocards-delete-request">Request</a></h4>
+<h4 id="portfoliocards-delete-request">Request</h4>
 <div class="paragraph">
 <p>요청시 생성되는 HTTP 헤더는 아래와 같습니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /portfoliocards/name?id=1141 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /portfoliocards/name?id=2734 HTTP/1.1
 Accept: */*
 Authorization: Bearer {token}
 Host: api.gitofolio.com:80</code></pre>
@@ -2880,13 +2941,13 @@ Host: api.gitofolio.com:80</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-delete-response"><a class="link" href="#portfoliocards-delete-response">Response</a></h4>
+<h4 id="portfoliocards-delete-response">Response</h4>
 <div class="paragraph">
 <p>트랜잭션이 성공적으로 완료되었다면, 200 OK응답코드와 함께 아래 표현이 응답됩니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 4
 
@@ -2895,39 +2956,39 @@ name</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-delete-errorhandle"><a class="link" href="#portfoliocards-delete-errorhandle">발생할 수 있는 에러</a></h4>
+<h4 id="portfoliocards-delete-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_authenticateexception_4"><a class="link" href="#_authenticateexception_4"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception_4"><a href="#AuthenticateException">[AuthenticateException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_4"><a class="link" href="#_unsupportedjwtexception_4"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception_4"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception_4"><a class="link" href="#_missingclaimexception_4"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception_4"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception_4"><a class="link" href="#_incorrectclaimexception_4"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception_4"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception_4"><a class="link" href="#_signatureexception_4"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception_4"><a href="#SignatureException">[SignatureException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_8"><a class="link" href="#_nonexistuserexception_8"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_8"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_illegalparameterexception_2"><a class="link" href="#_illegalparameterexception_2"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
+<h5 id="_illegalparameterexception_2"><a href="#IllegalParameterException">[IllegalParameterException]</a></h5>
 
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="portfoliocards-put"><a class="link" href="#portfoliocards-put">포트폴리오 카드 수정하기</a></h3>
+<h3 id="portfoliocards-put">포트폴리오 카드 수정하기</h3>
 <div class="paragraph">
 <p>DB에 저장되어있는 유저가 갖고있는 포트폴리오 카드를 수정할수있습니다.</p>
 </div>
@@ -2938,7 +2999,7 @@ name</code></pre>
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 인증 필요
@@ -2947,20 +3008,20 @@ name</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-put-request"><a class="link" href="#portfoliocards-put-request">Request</a></h4>
+<h4 id="portfoliocards-put-request">Request</h4>
 <div class="paragraph">
 <p>요청시 생성되는 HTTP 헤더는 아래와 같습니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /portfoliocards HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /portfoliocards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Authorization: Bearer {token}
 Content-Length: 275
 Host: api.gitofolio.com:80
 
-{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":1136,"portfolioCardArticle":"Lorem ipsum","portfolioCardWatched":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
+{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":2729,"portfolioCardArticle":"Lorem ipsum","portfolioCardWatched":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3016,13 +3077,13 @@ Host: api.gitofolio.com:80
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-put-response"><a class="link" href="#portfoliocards-put-response">Response</a></h4>
+<h4 id="portfoliocards-put-response">Response</h4>
 <div class="paragraph">
 <p>성공적으로 수정되었다면 200 OK와 함께 아래 표현이 응답됩니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
 Content-Length: 1751
 
@@ -3031,27 +3092,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 1136,
+    "id" : 2729,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 1137,
+    "id" : 2730,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 1138,
+    "id" : 2731,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 1139,
+    "id" : 2732,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 1140,
+    "id" : 2733,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -3158,39 +3219,39 @@ Content-Length: 1751
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocards-put-errorhandle"><a class="link" href="#portfoliocards-put-errorhandle">발생할 수 있는 에러</a></h4>
+<h4 id="portfoliocards-put-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_authenticateexception_5"><a class="link" href="#_authenticateexception_5"><a href="#AuthenticateException">[AuthenticateException]</a></a></h5>
+<h5 id="_authenticateexception_5"><a href="#AuthenticateException">[AuthenticateException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_5"><a class="link" href="#_unsupportedjwtexception_5"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></a></h5>
+<h5 id="_unsupportedjwtexception_5"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_missingclaimexception_5"><a class="link" href="#_missingclaimexception_5"><a href="#MissingClaimException">[MissingClaimException]</a></a></h5>
+<h5 id="_missingclaimexception_5"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_incorrectclaimexception_5"><a class="link" href="#_incorrectclaimexception_5"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></a></h5>
+<h5 id="_incorrectclaimexception_5"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_signatureexception_5"><a class="link" href="#_signatureexception_5"><a href="#SignatureException">[SignatureException]</a></a></h5>
+<h5 id="_signatureexception_5"><a href="#SignatureException">[SignatureException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_nonexistuserexception_9"><a class="link" href="#_nonexistuserexception_9"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_9"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_illegalparameterexception_3"><a class="link" href="#_illegalparameterexception_3"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
+<h5 id="_illegalparameterexception_3"><a href="#IllegalParameterException">[IllegalParameterException]</a></h5>
 
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="portfoliocard-get-svg-image"><a class="link" href="#portfoliocard-get-svg-image">포트폴리오 카드 이미지 가져오기</a></h3>
+<h3 id="portfoliocard-get-svg-image">포트폴리오 카드 이미지 가져오기</h3>
 <div class="paragraph">
 <p>서버에 저장된 포트폴리오 카드의 svg이미지를 가져옵니다.</p>
 </div>
@@ -3200,13 +3261,13 @@ Content-Length: 1751
 </div>
 </div>
 <div class="paragraph">
-<p>카드는 과정은 포트폴리오 카드를 저장할때 자동으로 저장되며, 따라서 저장 관련 HTTP METHOD는 활성화 되어있지 않습니다.</p>
+<p>카드는 포트폴리오 카드를 저장할때 자동으로 저장되며, 저장 관련 HTTP METHOD는 지원하지 않습니다.</p>
 </div>
 <div class="admonitionblock caution">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Caution</div>
+<i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
 반환 MIME타입은 image/svg+xml 입니다.
@@ -3215,7 +3276,7 @@ Content-Length: 1751
 </table>
 </div>
 <div class="sect3">
-<h4 id="portfoliocard-get-svg-image-request"><a class="link" href="#portfoliocard-get-svg-image-request">Request</a></h4>
+<h4 id="portfoliocard-get-svg-image-request">Request</h4>
 <div class="paragraph">
 <p>요청 URL은 아래와 같습니다.</p>
 </div>
@@ -3229,9 +3290,9 @@ Content-Length: 1751
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "04a251d468a290c6a534d00221d43eb39"
+ETag: "0b02bec4374afe3879eb9d81d5738025c"
 Content-Length: 1751
 
 {
@@ -3239,27 +3300,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 1131,
+    "id" : 2724,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 1132,
+    "id" : 2725,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 1133,
+    "id" : 2726,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 1134,
+    "id" : 2727,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 1135,
+    "id" : 2728,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -3298,13 +3359,13 @@ Content-Length: 1751
 </div>
 </div>
 <div class="sect3">
-<h4 id="portfoliocard-get-svg-image-errorhandle"><a class="link" href="#portfoliocard-get-svg-image-errorhandle">발생할 수 있는 에러</a></h4>
+<h4 id="portfoliocard-get-svg-image-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
-<h5 id="_nonexistuserexception_10"><a class="link" href="#_nonexistuserexception_10"><a href="#NonExistUserException">[NonExistUserException]</a></a></h5>
+<h5 id="_nonexistuserexception_10"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_illegalparameterexception_4"><a class="link" href="#_illegalparameterexception_4"><a href="#IllegalParameterException">[IllegalParameterException]</a></a></h5>
+<h5 id="_illegalparameterexception_4"><a href="#IllegalParameterException">[IllegalParameterException]</a></h5>
 
 </div>
 </div>
@@ -3312,16 +3373,16 @@ Content-Length: 1751
 </div>
 </div>
 <div class="sect1">
-<h2 id="errorhandle"><a class="link" href="#errorhandle">에러</a></h2>
+<h2 id="errorhandle">에러</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="IllegalParameterException"><a class="link" href="#IllegalParameterException">IllegalParameterException</a></h3>
+<h3 id="IllegalParameterException">IllegalParameterException</h3>
 <div class="paragraph">
 <p>잘못된 파라미터 값 혹은 타입을 입력시 발생합니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 406 Not Acceptable
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 406 Not Acceptable
 Content-Type: application/json
 Content-Length: 220
 
@@ -3334,7 +3395,7 @@ Content-Length: 220
 </div>
 </div>
 <div class="sect2">
-<h3 id="NonExistUserException"><a class="link" href="#NonExistUserException">NonExistUserException</a></h3>
+<h3 id="NonExistUserException">NonExistUserException</h3>
 <div class="paragraph">
 <p>유저를 찾을수없는 모든 경우에 발생합니다.</p>
 </div>
@@ -3343,7 +3404,7 @@ Content-Length: 220
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/json
 Content-Length: 145
 
@@ -3356,13 +3417,13 @@ Content-Length: 145
 </div>
 </div>
 <div class="sect2">
-<h3 id="AuthenticateException"><a class="link" href="#AuthenticateException">AuthenticateException</a></h3>
+<h3 id="AuthenticateException">AuthenticateException</h3>
 <div class="paragraph">
 <p>유저 인증에 실패했을때 발생합니다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 401 Unauthorized
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
 Content-Type: application/json
 Content-Length: 85
 
@@ -3377,25 +3438,25 @@ Content-Length: 85
 </div>
 </div>
 <div class="sect2">
-<h3 id="UnsupportedJwtException"><a class="link" href="#UnsupportedJwtException">UnsupportedJwtException</a></h3>
+<h3 id="UnsupportedJwtException">UnsupportedJwtException</h3>
 <div class="paragraph">
 <p>Authorization헤더의 인증타입이 'Bearer&#8217;이 아니거나 토큰의 형태가 JWT가 아닐경우 발생합니다.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="MissingClaimException"><a class="link" href="#MissingClaimException">MissingClaimException</a></h3>
+<h3 id="MissingClaimException">MissingClaimException</h3>
 <div class="paragraph">
 <p>인증에 필요한 Claim을 찾을수없을때 발생합니다.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="IncorrectClaimException"><a class="link" href="#IncorrectClaimException">IncorrectClaimException</a></h3>
+<h3 id="IncorrectClaimException">IncorrectClaimException</h3>
 <div class="paragraph">
 <p>서버에서 생산한 토큰의 Claim과 요청 헤더의 Claim이 다를경우 발생합니다.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="SignatureException"><a class="link" href="#SignatureException">SignatureException</a></h3>
+<h3 id="SignatureException">SignatureException</h3>
 <div class="paragraph">
 <p>서버에 저장된 암호화 알고리즘 Key값과 요청 헤더의 암호화 알고리즘 key값이 다를 경우 발생합니다.</p>
 </div>
@@ -3405,9 +3466,12 @@ Content-Length: 85
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.3.7<br>
-Last updated 2022-02-16 10:17:50 UTC
+Version 0.3.8<br>
+Last updated 2022-02-19 11:59:50 UTC
 </div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
 </body>
 </html>

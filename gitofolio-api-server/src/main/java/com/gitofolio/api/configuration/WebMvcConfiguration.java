@@ -25,7 +25,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer{
 	@Bean
 	public FilterRegistrationBean<ShallowEtagHeaderFilter> shallowEtagHeaderFilter(){
 		FilterRegistrationBean<ShallowEtagHeaderFilter> filterRegistrationBean = new FilterRegistrationBean<ShallowEtagHeaderFilter>(new ShallowEtagHeaderFilter());
-        filterRegistrationBean.addUrlPatterns("/user/*", "/portfoliocards/*");
+        filterRegistrationBean.addUrlPatterns("/user/*", "/portfoliocards/*", "/restdocs", "/restdocs.html");
         filterRegistrationBean.setName("ETagFilter");
         return filterRegistrationBean;
 	}
@@ -35,5 +35,5 @@ public class WebMvcConfiguration implements WebMvcConfigurer{
 		resourceHandlerRegistry.addResourceHandler("/restdocs.html")
 			.addResourceLocations("classpath:/html/docs/restdocs.html");
 	}
-
+	
 }
