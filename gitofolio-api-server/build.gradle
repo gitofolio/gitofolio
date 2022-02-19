@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.gitofolio'
-version = '0.3.5' 
+version = '0.3.7' 
 sourceCompatibility = '11'
 
 configurations {
@@ -56,7 +56,7 @@ asciidoctor {
 }
 
 asciidoctor.doFirst {
-    delete file('src/main/webapp/html/docs')
+    delete file('src/main/resources/html/docs')
 }
 
 bootWar {
@@ -70,7 +70,7 @@ bootWar {
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
     from file("build/docs/asciidoc/")
-    into file("src/main/webapp/html/docs")
+    into file("src/main/resources/html/docs")
 }
 
 bootWar {

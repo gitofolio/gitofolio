@@ -29,5 +29,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer{
         filterRegistrationBean.setName("ETagFilter");
         return filterRegistrationBean;
 	}
+	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry){
+		resourceHandlerRegistry.addResourceHandler("/restdocs.html")
+			.addResourceLocations("classpath:/html/docs/restdocs.html");
+	}
 
 }

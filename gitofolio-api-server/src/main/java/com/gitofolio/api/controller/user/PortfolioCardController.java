@@ -91,7 +91,7 @@ public class PortfolioCardController{
 		
 		PortfolioCardSvgDTO svgDTO = this.getPortfolioCardSvgDTO(userDTO, encodedImage, color);
 		
-		return new ModelAndView("portfolioCard", "svgDTO", svgDTO);
+		return new ModelAndView("/WEB-INF/portfolioCard.jsp", "svgDTO", svgDTO);
 	}
 	
 	private PortfolioCardSvgDTO getPortfolioCardSvgDTO(UserDTO userDTO, String encodedImage, String color){

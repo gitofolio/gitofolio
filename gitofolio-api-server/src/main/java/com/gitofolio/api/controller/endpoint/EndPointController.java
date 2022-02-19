@@ -20,7 +20,7 @@ public class EndPointController{
 
 	@RequestMapping(path = "/restdocs", method = RequestMethod.GET)
 	public String docs(){
-		return "restdocs";
+		return "/restdocs.html";
 	}
 
 	@ResponseBody
