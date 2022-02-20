@@ -737,6 +737,7 @@ include::{snippets}/portfoliocards/get/http-response.adoc[]
 
 [[errorhandle]]
 == 에러
+이 목차에는 api사용중 발생할 수 있는 에러가 기술되어 있습니다.
 
 [[IllegalParameterException]]
 === IllegalParameterException

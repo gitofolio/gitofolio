@@ -14,8 +14,10 @@
                 자세한 내용은 <a href="https://api.gitofolio.com/restdocs">API 문서</a> 를 참고해주세요
         </p>
         <h3> 시작하기 </h3>
-        <p> 누구나 깃허브 계정만 있다면 쉽고 빠르게 시작할 수 있어요 😎</p>
-        <a href="https://gitofolio.com"> [[Button]] </a>
+        <p> 
+			누구나 깃허브 계정만 있다면 쉽고 빠르게 시작할 수 있어요 😎<br/>
+			<a href="https://gitofolio.com"> [[Button]] </a>
+		</p>
 </div>
 
 <div align="center">  <p><b>Collaborators</b></p>

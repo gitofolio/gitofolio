@@ -104,8 +104,10 @@ public class PortfolioCardSvgDTO{
 		}
 		
 		private String convertWatchedNum(String watchedNum){
-			if(watchedNum.length() >= 7) return watchedNum.substring(0, watchedNum.length()-6) + "M";
-			if(watchedNum.length() >= 4) return watchedNum.substring(0, watchedNum.length()-3) + "K";
+			if(watchedNum.length() >= 8) return watchedNum.substring(0, watchedNum.length()-6) + "M";
+			if(watchedNum.length() == 7) return watchedNum.charAt(0) + "." + watchedNum.charAt(1) + "M";
+			if(watchedNum.length() >= 5) return watchedNum.substring(0, watchedNum.length()-3) + "K";
+			if(watchedNum.length() == 4) return watchedNum.charAt(0) + "." + watchedNum.charAt(1) + "K";
 			return watchedNum;
 		}
 		

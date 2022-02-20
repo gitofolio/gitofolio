@@ -1,5 +1,7 @@
 # Gitofolio update log
 
+> Current version : 0.3.8
+
 > Will be available soon
 >	> 포트폴리오카드 글자별 색 지정 기능
 

@@ -48,7 +48,12 @@ public class PortfolioCard{
 	}
 	
 	public void increasePortfolioCardWatched(){
+		if(this.isPortfoliocardWatchedReachedMax()) return;
 		this.portfolioCardWatched++;
+	}
+	
+	private boolean isPortfoliocardWatchedReachedMax(){
+		return (this.portfolioCardWatched >= 999999999) ? true : false;
 	}
 	
 	public String getPortfolioUrl(){
