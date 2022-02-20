@@ -3,7 +3,7 @@
 <div align="center">
 [[Gitofolio 사진 추가]]
         <p>
-        <h3> 마크업에 올리는 이력 카드<br/><img src="https://api.gitofolio.com/portfoliocard/svg/23" align="center"/></h3>
+        <h3> 마크업에 올리는 이력 카드<br/><img src="https://api.gitofolio.com/portfoliocard/svg/23?color=white" align="center"/></h3>
         자신만의 이력 카드를 만들고 사용하세요 <br/>
         카드는 <b>내용</b>과 <b>테마</b>를 자유롭게 꾸밀수 있으며, 자신의 이력서 (혹은 기술 사이트 등)와 <b>연동</b>시킬수 있어요 <br/>
         현재 인기있는 사용처 에요😊 <i>Notion</i>, <i>Github</i>, <i> Blog</i> ...<br/><br/>
