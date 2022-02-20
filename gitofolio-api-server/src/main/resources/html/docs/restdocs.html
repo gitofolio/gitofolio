@@ -451,6 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#enterence">Introduction</a></li>
+<li><a href="#Ratelimit">Rate limit</a></li>
 <li><a href="#HATEOAS">Gitofolio HATEOAS</a>
 <ul class="sectlevel2">
 <li><a href="#HATEOAS-naming-convention">HATEOAS 네이밍 규칙</a></li>
@@ -662,6 +663,39 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </details>
+</div>
+</div>
+<div class="sect1">
+<h2 id="Ratelimit">Rate limit</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>이 목차는 Gitofolio 애플리케이션의 요청량 제한이 기술되어 있습니다.</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-check-square-o"></i> api server : 공유되는 <code><strong>분당 100회의 요청량</strong></code>이 제공되며, 추가로 <code><strong>언제든 사용가능한 50회의 요청량</strong></code>이 제공됩니다.</p>
+</li>
+<li>
+<p><i class="fa fa-check-square-o"></i> front server : 공유되는 <code><strong>분당 100회의 요청량</strong></code>이 제공됩니다.</p>
+</li>
+<li>
+<p><i class="fa fa-check-square-o"></i> image server : 공유되는 <code><strong>분당 10회의 요청량</strong></code>이 제공되며, 추가로 <code><strong>언제든 사용가능한 10회의 요청량</strong></code>이 제공됩니다.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+모든 추가되는 요청량은 리셋되는 공유 요청량에서 차감됩니다.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -998,9 +1032,9 @@ Content-Type: application/json
 Content-Length: 324
 
 {
-  "tokenKey" : 2760,
-  "tokenValue" : "2e798f1e385944b584b391c6ebc5cee68d26605a7cac45bd97f6f8e1dbe24f62605a518ae7fc41889d719f73d615a2889ac6a9a822fd409da7dc6274c8d9c4e6ca868658f2f34af6bd782eeab6306dbe",
-  "lastUsedDate" : "2022-02-19",
+  "tokenKey" : 3056,
+  "tokenValue" : "f650f8ad081c48bda2f537e385c338a4a81193503ada41ccb6698865ec0d09ab72e7de0a27a94b93ac5fee5c150fcf389a148e6042b74ba8957a14479bac0ab729a18d1889564cad8c560d7b9ac07313",
+  "lastUsedDate" : "2022-02-20",
   "userInfo" : {
     "id" : 1,
     "name" : "name",
@@ -1523,7 +1557,7 @@ url파라미터의 redirect값을 false로 지정하지않으면 유입경로가
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "0b02bec4374afe3879eb9d81d5738025c"
+ETag: "09ddb5c32a9cb5cba6f90efd28265ad2b"
 Content-Length: 1751
 
 {
@@ -1531,27 +1565,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 2724,
+    "id" : 3020,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 2725,
+    "id" : 3021,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 2726,
+    "id" : 3022,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 2727,
+    "id" : 3023,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 2728,
+    "id" : 3024,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2282,7 +2316,7 @@ Host: api.gitofolio.com:80</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "029a4904de42c6c2818e75753f31f2eb5"
+ETag: "055f6bdbc23aaa812264aadc494a27fd4"
 Content-Length: 468
 
 {
@@ -2296,12 +2330,12 @@ Content-Length: 468
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2022-02-19",
+      "visitDate" : "2022-02-20",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2022-02-19"
+      "refferingDate" : "2022-02-20"
     } ]
   }
 }</code></pre>
@@ -2472,7 +2506,7 @@ Host: api.gitofolio.com:80</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "0b02bec4374afe3879eb9d81d5738025c"
+ETag: "09ddb5c32a9cb5cba6f90efd28265ad2b"
 Content-Length: 1751
 
 {
@@ -2480,27 +2514,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 2724,
+    "id" : 3020,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 2725,
+    "id" : 3021,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 2726,
+    "id" : 3022,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 2727,
+    "id" : 3023,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 2728,
+    "id" : 3024,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2713,32 +2747,32 @@ Content-Length: 1931
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 2718,
+    "id" : 3014,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 2719,
+    "id" : 3015,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 2720,
+    "id" : 3016,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 2721,
+    "id" : 3017,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 2722,
+    "id" : 3018,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
   }, {
-    "id" : 2723,
+    "id" : 3019,
     "portfolioCardArticle" : "this is new portfoliocard",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/6"
@@ -2896,7 +2930,7 @@ Content-Length: 1931
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /portfoliocards/name?id=2734 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /portfoliocards/name?id=3030 HTTP/1.1
 Accept: */*
 Authorization: Bearer {token}
 Host: api.gitofolio.com:80</code></pre>
@@ -3021,7 +3055,7 @@ Authorization: Bearer {token}
 Content-Length: 275
 Host: api.gitofolio.com:80
 
-{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":2729,"portfolioCardArticle":"Lorem ipsum","portfolioCardWatched":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
+{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":3025,"portfolioCardArticle":"Lorem ipsum","portfolioCardWatched":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3092,27 +3126,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 2729,
+    "id" : 3025,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 2730,
+    "id" : 3026,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 2731,
+    "id" : 3027,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 2732,
+    "id" : 3028,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 2733,
+    "id" : 3029,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -3292,7 +3326,7 @@ Content-Length: 1751
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "0b02bec4374afe3879eb9d81d5738025c"
+ETag: "09ddb5c32a9cb5cba6f90efd28265ad2b"
 Content-Length: 1751
 
 {
@@ -3300,27 +3334,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 2724,
+    "id" : 3020,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 2725,
+    "id" : 3021,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 2726,
+    "id" : 3022,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 2727,
+    "id" : 3023,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 2728,
+    "id" : 3024,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -3467,7 +3501,7 @@ Content-Length: 85
 <div id="footer">
 <div id="footer-text">
 Version 0.3.8<br>
-Last updated 2022-02-19 11:59:50 UTC
+Last updated 2022-02-20 04:58:54 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
