@@ -33,14 +33,6 @@
         </table>
 </div>
 
-<div align="center">
-        <h3>도움 주신 분들</h3>
-        <br/>
-        <br/>
-        <br/>
-        <h3>우리는 찾고있어요</h3>
-</div>
-
 <h2></h2>
 <div align="center">
         라이센스 : <a><i>MIT</i></a> / 문의 : <i>develxb@gmail.com</i> / <a href="https://gitofolio.com"><i>홈페이지</i></a> / <a href="https://api.gitofolio.com/restdocs"><i>Docs</i></a> / <a>Update log</a>
