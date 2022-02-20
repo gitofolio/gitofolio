@@ -3,13 +3,9 @@ package com.gitofolio.api.service.auth.token.jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gitofolio.api.service.auth.token.TokenAble;
-import com.gitofolio.api.service.auth.token.TokenGenerator;
+import com.gitofolio.api.service.auth.token.*;
 
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.Header;
+import io.jsonwebtoken.*;
 
 import java.util.Date;
 
@@ -34,6 +30,7 @@ public class JwtTokenGenerator implements TokenGenerator{
 			.signWith(SignatureAlgorithm.HS256, this.jwtSecret.getSecretKey())
 			.setIssuer(this.jwtSecret.getIssuer())
 			.setIssuedAt(new Date())
+			.setExpiration(new Date(System.currentTimeMillis() + 3600000))
 			.claim(this.jwtSecret.getId(), target)
 			.compact();
 	}

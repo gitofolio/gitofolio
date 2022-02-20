@@ -1,19 +1,13 @@
 package com.gitofolio.api.service.auth.token.jwt;
 
-import com.gitofolio.api.service.auth.token.TokenValidator;
-import com.gitofolio.api.service.auth.token.TokenAble;
+import com.gitofolio.api.service.auth.token.*;
 import com.gitofolio.api.service.auth.exception.AuthenticateException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.MissingClaimException;
-import io.jsonwebtoken.IncorrectClaimException;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,10 +53,12 @@ public class JwtTokenValidator implements TokenValidator{
 			throw new MissingClaimException(MCE.getHeader(), MCE.getClaims(), "유효하지 않은 토큰입니다.");
 		}catch(SignatureException SE){
 			throw new SignatureException("유효하지 않은 sign을 갖고있는 토큰입니다.");
+		}catch(ExpiredJwtException EJE){
+			throw new ExpiredJwtException(EJE.getHeader(), EJE.getClaims(), "만료된 토큰입니다.");
 		}
 	}
 	
-	private String parseTokenRealTask() throws IncorrectClaimException, MissingClaimException, SignatureException{
+	private String parseTokenRealTask() throws IncorrectClaimException, MissingClaimException, SignatureException, ExpiredJwtException{
 		String token = extractTokenInHeader();
 		return Jwts.parser()
 			.setSigningKey(this.jwtSecret.getSecretKey())

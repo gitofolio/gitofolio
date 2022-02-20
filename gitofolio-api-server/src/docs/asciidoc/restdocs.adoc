@@ -259,6 +259,8 @@ include::{snippets}/oauth/token/http-response.adoc[]
 
 include::{snippets}/oauth/token/response-fields.adoc[]
 
+NOTE: 최종적으로 얻는 실제 토큰은 1시간의 유효시간을 갖고있습니다.
+
 [[auth-do]]
 === 인증 필요 api에 접근하기
 앞선 두가지 과정중 한가지를 완료해 성공적으로 토큰을 발급받았다면, 클라이언트는 인증이 필요한 api에 접근할 수 있습니다.
