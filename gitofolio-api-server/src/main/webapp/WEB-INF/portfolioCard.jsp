@@ -67,8 +67,7 @@
     <g filter="url(#shadow)">
         <rect x="4" y="4" width="${svgDTO.getRectWidth()}" height="${svgDTO.getRectHeight()}" rx="5" fill="${svgDTO.getColor().getMainColor()}"/>
     </g>
-	 
-    <text class="userName" x="70" y="42"> ${svgDTO.getName()} </text>
+ 	<text class="userName" x="70" y="42" clip-path="url(#nameClip)"> ${svgDTO.getName()} </text>
 	<text class ="portfolio" x="70" y="60"> Gitofolio </text>
 	 
     <g transform="translate(0, ${svgDTO.getArrowY()})" class="arrow">	
@@ -114,6 +113,11 @@
 		<clipPath id="watchedClip">
 			<rect width="20" height="20" rx="10" fill="${svgDTO.getColor().getMainColor()}"/>
 		</clipPath>
+		
+		<clipPath id="nameClip">
+    	    <rect x="0" y="0" width="291" height="200"/>
+    	</clipPath>
+		
     </defs>
 	 </a>
 </svg>

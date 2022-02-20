@@ -94,8 +94,13 @@ public class PortfolioCardSvgDTO{
 		}
 		
 		public Builder name(String name){
-			this.name = name;
+			this.name = this.ellipsisName(name);
 			return this;
+		}
+		
+		private String ellipsisName(String name){
+			if(name.length() > 22) return name.substring(0, 21) + "...";
+			return name;
 		}
 		
 		public Builder watchedNum(String watchedNum){
