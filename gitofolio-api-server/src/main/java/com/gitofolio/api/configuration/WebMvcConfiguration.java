@@ -32,8 +32,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer{
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry){
-		resourceHandlerRegistry.addResourceHandler("/restdocs.html")
-			.addResourceLocations("classpath:/html/docs/restdocs.html");
+		resourceHandlerRegistry.addResourceHandler("/restdocs.html","/*.ico")
+			.addResourceLocations("classpath:/html/docs/");
 	}
 	
 }
