@@ -24,7 +24,7 @@
         <p> 
 		누구나 깃허브 계정만 있다면 쉽고 빠르게 <a href="https://gitofolio.com">시작</a>할 수 있어요 😎
 		</p>
-			<a href="https://gitofolio.com"> <img src="https://user-images.githubusercontent.com/62425964/154962375-0a928b90-ea4c-402c-9551-af39181f7b8d.png"/> </a>
+			<a href="https://gitofolio.com"> <img src="https://user-images.githubusercontent.com/62425964/154962396-cbc852af-d5a6-4721-a14d-6604a2126203.jpg"/> </a>
 </div>
 
 <h2></h2>
