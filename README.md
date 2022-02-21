@@ -1,5 +1,6 @@
 <div align="center">
-	<img src="https://user-images.githubusercontent.com/62425964/154943796-6c95b0b8-ce78-4aa4-a22f-7669464137df.jpg"/>
+<br/>
+	<img src="https://user-images.githubusercontent.com/62425964/154962331-dd038428-4b7e-4fc3-974c-4200075bfb3c.png"/>
 </div>
 
 <h2></h2>
@@ -10,7 +11,7 @@
         자신만의 이력 카드를 만들고 사용하세요 <br/>
         카드는 <b>내용</b>과 <b>테마</b>를 자유롭게 꾸밀수 있으며, 자신의 이력서 (혹은 기술 사이트 등)와 <b>연동</b>시킬수 있어요 <br/>
         현재 인기있는 사용처 에요😊 <i>Notion</i>, <i>Github</i>, <i> Blog</i> ...<br/><br/>
-		<a href="#cardExample">카드 예시와 구조</a>
+		<a href="#카드-구조와-예시">카드 구조와 예시</a>
 		<br/><br/>
         <i>*타인에게 불쾌감을 주는 카드는 무통보 삭제될 수 있으며, 정도에 따라 계정이 정지 될 수 있습니다.*</i>
         <h3> 이력서 유입경로와 날짜별 유입인원 통계 제공</h3>
@@ -18,12 +19,12 @@
                 링크 한 줄 추가로 모든 경로에 대한 통계를 얻을수도 있어요 :) <br/>
                 자세한 내용은 <a href="https://api.gitofolio.com/restdocs">📓 API 문서</a> 를 참고해주세요
         </p>
-		<a href="https://api.gitofolio.com/restdocs"><img src="https://user-images.githubusercontent.com/62425964/154950632-3e8de06a-66a0-4f47-b34e-59d33fbc69e5.png"/></a>
+		<a href="https://api.gitofolio.com/restdocs"><img src="https://user-images.githubusercontent.com/62425964/154962375-0a928b90-ea4c-402c-9551-af39181f7b8d.png"/></a>
         <h3> 시작하기 </h3>
         <p> 
 		누구나 깃허브 계정만 있다면 쉽고 빠르게 <a href="https://gitofolio.com">시작</a>할 수 있어요 😎
 		</p>
-			<a href="https://gitofolio.com"> <img src="https://user-images.githubusercontent.com/62425964/154945501-1fc350d3-4d9b-4812-8350-16a080d5ff40.jpg"/> </a>
+			<a href="https://gitofolio.com"> <img src="https://user-images.githubusercontent.com/62425964/154962375-0a928b90-ea4c-402c-9551-af39181f7b8d.png"/> </a>
 </div>
 
 <h2></h2>
@@ -46,8 +47,8 @@
 <h2></h2>
 
 <div align="center">
-<h3><a name="#cardExample">카드 예시와 구조</a></h3>
-<img src="https://user-images.githubusercontent.com/62425964/154948680-aa642699-f2cc-42fa-a776-cc0c09fd9eb9.png"/>
+<h3>카드 구조와 예시</h3>
+<img src="https://user-images.githubusercontent.com/62425964/154962384-c9e424b5-447c-4465-8d52-db03423c2386.png"/>
 <br/><br/>
 		<img src="https://api.gitofolio.com/portfoliocard/svg/23?color=black"/>
 		<img src="https://api.gitofolio.com/portfoliocard/svg/955?color=white"/>
