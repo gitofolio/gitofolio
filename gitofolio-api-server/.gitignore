@@ -7,8 +7,10 @@ build/
 src/main/resources/application.properties
 src/main/java/com/gitofolio/api/service/auth/oauth/GithubClientSecret.java
 src/main/java/com/gitofolio/api/service/auth/token/jwt/JwtSecret.java
-src/main/resources/
-src/main/webapp/
+src/main/resources/html/docs/index.html
+src/main/resources/html/docs/restdocs.html
+src/main/resources/html/docs/user.html
+src/main/webapp/WEB-INF/portfolioCard.jsp
 
 ### STS ###
 .apt_generated
