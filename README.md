@@ -5,7 +5,8 @@
 <h2></h2>
 <div align="center">
         <p>
-        <h3> 마크업 문서에 올리는 이력 카드<br/><img src="https://api.gitofolio.com/portfoliocard/svg/23?color=white" align="center"/></h3>
+        <h3> 마크업 문서에 올리는 이력 카드</h3>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/23?color=white" align="center"/><br/><br/>
         자신만의 이력 카드를 만들고 사용하세요 <br/>
         카드는 <b>내용</b>과 <b>테마</b>를 자유롭게 꾸밀수 있으며, 자신의 이력서 (혹은 기술 사이트 등)와 <b>연동</b>시킬수 있어요 <br/>
         현재 인기있는 사용처 에요😊 <i>Notion</i>, <i>Github</i>, <i> Blog</i> ...<br/><br/>
@@ -48,22 +49,13 @@
 <h3><a name="#cardExample">카드 예시와 구조</a></h3>
 <img src="https://user-images.githubusercontent.com/62425964/154948680-aa642699-f2cc-42fa-a776-cc0c09fd9eb9.png"/>
 <br/><br/>
-<table>
-	<tr align="center">
-		<td><img src="https://api.gitofolio.com/portfoliocard/svg/23?color=black"/></td>
-		<td><img src="https://api.gitofolio.com/portfoliocard/svg/955?color=white"/></td>
-	</tr>
-	<tr align="center">
-		<td>Devxb</td>
-		<td>st-minju</td>
-		<td>beni1026</td>
-	</tr>
-</table>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/23?color=black"/>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/955?color=white"/>
 </div>
 
 <h2></h2>
 
 <div align="center">
         라이센스 : <a><i>MIT</i></a> / 문의 : <i>develxb@gmail.com</i> / <a href="https://gitofolio.com"><i>홈페이지</i></a> / <a href="https://api.gitofolio.com/restdocs"><i>API Docs</i></a> / <a>Update log</a>
-        <br/><div align="right">This is api server repository <br/>@author : <a href="https://github.com/devxb"><i>devxb</i></a></div>
+		<br/><div align="right"> <i>This is api server repository</i> <br/> @author : <a href="https://github.com/devxb"><i>devxb</i></a></div>
 </div>
