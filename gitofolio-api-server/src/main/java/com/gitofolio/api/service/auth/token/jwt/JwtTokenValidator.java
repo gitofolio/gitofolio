@@ -48,13 +48,13 @@ public class JwtTokenValidator implements TokenValidator{
 		try{
 			return parseTokenRealTask();
 		}catch(IncorrectClaimException ICE){
-			throw new IncorrectClaimException(ICE.getHeader(), ICE.getClaims(), "유효하지 않은 토큰입니다.");
+			throw new AuthenticateException("유효하지 않은 토큰입니다.", "토큰이 포함하고있는 정보가 유효하지 않습니다.");
 		}catch(MissingClaimException MCE){
-			throw new MissingClaimException(MCE.getHeader(), MCE.getClaims(), "유효하지 않은 토큰입니다.");
+			throw new AuthenticateException("유효하지 않은 토큰입니다.", "토큰에 제외된 구문이 있습니다.");
 		}catch(SignatureException SE){
-			throw new SignatureException("유효하지 않은 sign을 갖고있는 토큰입니다.");
+			throw new AuthenticateException("유효하지 않은 토큰입니다.", "토큰의 서명값이 올바르지 않습니다.");
 		}catch(ExpiredJwtException EJE){
-			throw new ExpiredJwtException(EJE.getHeader(), EJE.getClaims(), "만료된 토큰입니다.");
+			throw new AuthenticateException("유효하지 않은 토큰입니다.", "만료(Time out)된 토큰입니다.");
 		}
 	}
 	

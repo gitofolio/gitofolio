@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Devxb</span><br>
 <span id="email" class="email"><a href="mailto:develxb@gmail.com">develxb@gmail.com</a></span><br>
-<span id="revnumber">version 0.4.1</span>
+<span id="revnumber">version 0.4.2</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -585,11 +585,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#IllegalParameterException">IllegalParameterException</a></li>
 <li><a href="#NonExistUserException">NonExistUserException</a></li>
-<li><a href="#AuthenticateException">AuthenticateException</a></li>
+<li><a href="#AuthenticateException">AuthenticateException</a>
+<ul class="sectlevel3">
 <li><a href="#UnsupportedJwtException">UnsupportedJwtException</a></li>
 <li><a href="#MissingClaimException">MissingClaimException</a></li>
 <li><a href="#IncorrectClaimException">IncorrectClaimException</a></li>
 <li><a href="#SignatureException">SignatureException</a></li>
+<li><a href="#TokenExpirationException">TokenExpirationException</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -650,15 +654,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Devxb</p>
 </li>
-<li>
-<p>Devxb</p>
-</li>
-<li>
-<p>Devxb</p>
-</li>
-<li>
-<p>Devxb</p>
-</li>
 </ul>
 </div>
 </div>
@@ -677,7 +672,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><i class="fa fa-check-square-o"></i> api server : 공유되는 <code><strong>분당 100회의 요청량</strong></code>이 제공되며, 추가로 <code><strong>언제든 사용가능한 50회의 요청량</strong></code>이 제공됩니다.</p>
 </li>
 <li>
-<p><i class="fa fa-check-square-o"></i> front server : 공유되는 <code><strong>분당 100회의 요청량</strong></code>이 제공됩니다.</p>
+<p><i class="fa fa-check-square-o"></i> front server : 공유되는 <code><strong>분당 100회의 요청량</strong></code>이 제공되며, 추가로 <code><strong>언제든 사용가능한 10회의 요청량</strong></code>이 제공됩니다.</p>
 </li>
 <li>
 <p><i class="fa fa-check-square-o"></i> image server : 공유되는 <code><strong>분당 10회의 요청량</strong></code>이 제공되며, 추가로 <code><strong>언제든 사용가능한 10회의 요청량</strong></code>이 제공됩니다.</p>
@@ -928,6 +923,9 @@ Content-Length: 1381
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p><a href="https://image.gitofolio.com/auth-flow-4actor.png">인증 flow 전체사진 보러가기</a></p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="server-auth-detail">Authenticate-detail</h4>
@@ -1032,9 +1030,9 @@ Content-Type: application/json
 Content-Length: 324
 
 {
-  "tokenKey" : 3410,
-  "tokenValue" : "6ae20416c95a499e8b29a826e26f8c851a2e1ceb5a6942fc973863d568911033eb7525ad5bd74e4bac853bd955786247cdb8bcf1a53e46aca21318c92b674af266e5110fa8ce4055af2060d9d01fdbe4",
-  "lastUsedDate" : "2022-02-20",
+  "tokenKey" : 3646,
+  "tokenValue" : "47524306339a46179321d00dead36b5f598475e48d0c4f2ab1ad2b4e818af4b78fe7e8eccbe44a6db9f7740e576aeefbab2587f164f8476da3fac1eb28bda2c4ed36e765f3724feba1e14d258bec942b",
+  "lastUsedDate" : "2022-02-21",
   "userInfo" : {
     "id" : 1,
     "name" : "name",
@@ -1146,6 +1144,9 @@ Content-Length: 324
 <p>클라이언트는 받은 임시토큰과 2번과정에서 입력한 personal access token의 key와 매칭되는 tokenvalue를 /token로 보내 실제사용할 토큰을 얻습니다. -user</p>
 </li>
 </ol>
+</div>
+<div class="paragraph">
+<p><a href="https://image.gitofolio.com/auth-flow-4actor.png">인증 flow 전체사진 보러가기</a></p>
 </div>
 </div>
 <div class="sect3">
@@ -1502,18 +1503,6 @@ Content-Length: 655
 <p><a href="#AuthenticateException">AuthenticateException</a></p>
 </div>
 <div class="paragraph">
-<p><a href="#UnsupportedJwtException">UnsupportedJwtException</a></p>
-</div>
-<div class="paragraph">
-<p><a href="#MissingClaimException">MissingClaimException</a></p>
-</div>
-<div class="paragraph">
-<p><a href="#IncorrectClaimException">IncorrectClaimException</a></p>
-</div>
-<div class="paragraph">
-<p><a href="#SignatureException">SignatureException</a></p>
-</div>
-<div class="paragraph">
 <p><a href="#NonExistUserException">NonExistUserException</a></p>
 </div>
 <div class="paragraph">
@@ -1569,7 +1558,7 @@ url파라미터의 redirect값을 false로 지정하지않으면 유입경로가
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "03ecb96910e95017b36b10d1d872bcc7d"
+ETag: "0bd8d26393128195d613a8a5a1e02dd55"
 Content-Length: 1751
 
 {
@@ -1577,27 +1566,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3374,
+    "id" : 3610,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3375,
+    "id" : 3611,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3376,
+    "id" : 3612,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3377,
+    "id" : 3613,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3378,
+    "id" : 3614,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -1839,22 +1828,6 @@ Content-Length: 655
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_missingclaimexception"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_incorrectclaimexception"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_signatureexception"><a href="#SignatureException">[SignatureException]</a></h5>
-
-</div>
-<div class="sect4">
 <h5 id="_nonexistuserexception"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
@@ -2064,22 +2037,6 @@ name</code></pre>
 <h4 id="user-delete-errorhandle">발생할 수 있는 에러</h4>
 <div class="sect4">
 <h5 id="_authenticateexception_2"><a href="#AuthenticateException">[AuthenticateException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_unsupportedjwtexception_2"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_missingclaimexception_2"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_incorrectclaimexception_2"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_signatureexception_2"><a href="#SignatureException">[SignatureException]</a></h5>
 
 </div>
 <div class="sect4">
@@ -2328,7 +2285,7 @@ Host: api.gitofolio.com:80</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "055f6bdbc23aaa812264aadc494a27fd4"
+ETag: "022f646ca9c6060fef167dc61c8b50b54"
 Content-Length: 468
 
 {
@@ -2342,12 +2299,12 @@ Content-Length: 468
   } ],
   "userDailyStat" : {
     "visitorStatistics" : [ {
-      "visitDate" : "2022-02-20",
+      "visitDate" : "2022-02-21",
       "visitorCount" : 1
     } ],
     "refferingSites" : [ {
       "refferingSiteName" : "https://example.com",
-      "refferingDate" : "2022-02-20"
+      "refferingDate" : "2022-02-21"
     } ]
   }
 }</code></pre>
@@ -2518,7 +2475,7 @@ Host: api.gitofolio.com:80</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "03ecb96910e95017b36b10d1d872bcc7d"
+ETag: "0bd8d26393128195d613a8a5a1e02dd55"
 Content-Length: 1751
 
 {
@@ -2526,27 +2483,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3374,
+    "id" : 3610,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3375,
+    "id" : 3611,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3376,
+    "id" : 3612,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3377,
+    "id" : 3613,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3378,
+    "id" : 3614,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -2759,32 +2716,32 @@ Content-Length: 1931
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3368,
+    "id" : 3604,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3369,
+    "id" : 3605,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3370,
+    "id" : 3606,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3371,
+    "id" : 3607,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3372,
+    "id" : 3608,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
   }, {
-    "id" : 3373,
+    "id" : 3609,
     "portfolioCardArticle" : "this is new portfoliocard",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/6"
@@ -2897,22 +2854,6 @@ Content-Length: 1931
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_3"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_missingclaimexception_3"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_incorrectclaimexception_3"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_signatureexception_3"><a href="#SignatureException">[SignatureException]</a></h5>
-
-</div>
-<div class="sect4">
 <h5 id="_nonexistuserexception_7"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
@@ -2942,7 +2883,7 @@ Content-Length: 1931
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /portfoliocards/name?id=3384 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /portfoliocards/name?id=3620 HTTP/1.1
 Accept: */*
 Authorization: Bearer {token}
 Host: api.gitofolio.com:80</code></pre>
@@ -3008,22 +2949,6 @@ name</code></pre>
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_4"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_missingclaimexception_4"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_incorrectclaimexception_4"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_signatureexception_4"><a href="#SignatureException">[SignatureException]</a></h5>
-
-</div>
-<div class="sect4">
 <h5 id="_nonexistuserexception_8"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
@@ -3067,7 +2992,7 @@ Authorization: Bearer {token}
 Content-Length: 275
 Host: api.gitofolio.com:80
 
-{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":3379,"portfolioCardArticle":"Lorem ipsum","portfolioCardWatched":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
+{"id":0,"name":"name","profileUrl":"https://example.profileUrl.com?pct","portfolioCards":[{"id":3615,"portfolioCardArticle":"Lorem ipsum","portfolioCardWatched":0,"portfolioUrl":"https://api.gitofolio.com/portfolio/name/1"}],"userStat":null,"links":null,"userDailyStat":null}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3138,27 +3063,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3379,
+    "id" : 3615,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3380,
+    "id" : 3616,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3381,
+    "id" : 3617,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3382,
+    "id" : 3618,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3383,
+    "id" : 3619,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -3271,22 +3196,6 @@ Content-Length: 1751
 
 </div>
 <div class="sect4">
-<h5 id="_unsupportedjwtexception_5"><a href="#UnsupportedJwtException">[UnsupportedJwtException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_missingclaimexception_5"><a href="#MissingClaimException">[MissingClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_incorrectclaimexception_5"><a href="#IncorrectClaimException">[IncorrectClaimException]</a></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_signatureexception_5"><a href="#SignatureException">[SignatureException]</a></h5>
-
-</div>
-<div class="sect4">
 <h5 id="_nonexistuserexception_9"><a href="#NonExistUserException">[NonExistUserException]</a></h5>
 
 </div>
@@ -3338,7 +3247,7 @@ Content-Length: 1751
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-ETag: "03ecb96910e95017b36b10d1d872bcc7d"
+ETag: "0bd8d26393128195d613a8a5a1e02dd55"
 Content-Length: 1751
 
 {
@@ -3346,27 +3255,27 @@ Content-Length: 1751
   "name" : "name",
   "profileUrl" : "https://example.profileUrl.com?pct",
   "portfolioCards" : [ {
-    "id" : 3374,
+    "id" : 3610,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/1"
   }, {
-    "id" : 3375,
+    "id" : 3611,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/2"
   }, {
-    "id" : 3376,
+    "id" : 3612,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/3"
   }, {
-    "id" : 3377,
+    "id" : 3613,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/4"
   }, {
-    "id" : 3378,
+    "id" : 3614,
     "portfolioCardArticle" : "Lorem ipsum",
     "portfolioCardWatched" : 0,
     "portfolioUrl" : "https://api.gitofolio.com/portfolio/name/5"
@@ -3483,31 +3392,37 @@ Content-Length: 85
 </div>
 </div>
 <div class="paragraph">
-<p>인증실패에 연관된 예외로 아래 4개 목차가 있습니다.</p>
+<p>인증실패에 연관된 예외로 아래 5개 목차가 있습니다.</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="UnsupportedJwtException">UnsupportedJwtException</h3>
+<div class="sect3">
+<h4 id="UnsupportedJwtException">UnsupportedJwtException</h4>
 <div class="paragraph">
 <p>Authorization헤더의 인증타입이 'Bearer&#8217;이 아니거나 토큰의 형태가 JWT가 아닐경우 발생합니다.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="MissingClaimException">MissingClaimException</h3>
+<div class="sect3">
+<h4 id="MissingClaimException">MissingClaimException</h4>
 <div class="paragraph">
 <p>인증에 필요한 Claim을 찾을수없을때 발생합니다.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="IncorrectClaimException">IncorrectClaimException</h3>
+<div class="sect3">
+<h4 id="IncorrectClaimException">IncorrectClaimException</h4>
 <div class="paragraph">
 <p>서버에서 생산한 토큰의 Claim과 요청 헤더의 Claim이 다를경우 발생합니다.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="SignatureException">SignatureException</h3>
+<div class="sect3">
+<h4 id="SignatureException">SignatureException</h4>
 <div class="paragraph">
 <p>서버에 저장된 암호화 알고리즘 Key값과 요청 헤더의 암호화 알고리즘 key값이 다를 경우 발생합니다.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="TokenExpirationException">TokenExpirationException</h4>
+<div class="paragraph">
+<p>토큰이 만료(Timeout)된 경우 발생합니다. 토큰 지속시간은 인증 목차를 참고해주세요</p>
+</div>
 </div>
 </div>
 </div>
@@ -3515,8 +3430,8 @@ Content-Length: 85
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.4.1<br>
-Last updated 2022-02-20 11:33:28 UTC
+Version 0.4.2<br>
+Last updated 2022-02-21 10:38:26 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

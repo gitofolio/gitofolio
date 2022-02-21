@@ -31,12 +31,6 @@ NOTE: 우리의 공식 홈페이지 입니다. https://gitofolio.com[바로가�
 [%collapsible]
 ====
 * Devxb
-
-* Devxb
-
-* Devxb
-
-* Devxb
 ====
 
 
@@ -117,6 +111,8 @@ TIP: 클라이언트의 상호작용이 필요한 목차는 -user로 표시되�
 
 5. 클라이언트는 인증이 필요한 api에 접근할때, 사전에 발급받은 Personal access token의 value를 인증타입 "Pat"과 함께 서버로 보냅니다. -user
 
+https://image.gitofolio.com/auth-flow-4actor.png[인증 flow 전체사진 보러가기]
+
 [[server-auth-detail]]
 ==== Authenticate-detail
 이 목차에는 인증을 위해 클라이언트가 취해야 할 인증과정이 자세히 적혀있습니다.
@@ -182,6 +178,8 @@ TIP: 클라이언트의 상호작용이 필요한 목차는 -user로 표시되�
 5. 서버는 인증서버로 부터 넘겨받은 유저 정보를 분석하여 임시토큰을 발급후, 1번에서 입력된 url로 임시토큰을 전달합니다. (쿼리스트링으로 전달됩니다.)
 
 6. 클라이언트는 받은 임시토큰과 2번과정에서 입력한 personal access token의 key와 매칭되는 tokenvalue를 /token로 보내 실제사용할 토큰을 얻습니다. -user
+
+https://image.gitofolio.com/auth-flow-4actor.png[인증 flow 전체사진 보러가기]
 
 [[client-auth-detail]]
 ==== Authenticate-detail
@@ -317,14 +315,6 @@ CAUTION: 인증 필요
 
 <<AuthenticateException>>
 
-<<UnsupportedJwtException>>
-
-<<MissingClaimException>>
-
-<<IncorrectClaimException>>
-
-<<SignatureException>>
-
 <<NonExistUserException>>
 
 <<IllegalParameterException>>
@@ -405,14 +395,6 @@ include::{snippets}/user/logined/http-response.adoc[]
 
 ===== <<AuthenticateException>>
 
-===== <<UnsupportedJwtException>>
-
-===== <<MissingClaimException>>
-
-===== <<IncorrectClaimException>>
-
-===== <<SignatureException>>
-
 ===== <<NonExistUserException>>
 
 [[user-get]]
@@ -466,14 +448,6 @@ include::{snippets}/user/delete/http-response.adoc[]
 ==== 발생할 수 있는 에러
 
 ===== <<AuthenticateException>>
-
-===== <<UnsupportedJwtException>>
-
-===== <<MissingClaimException>>
-
-===== <<IncorrectClaimException>>
-
-===== <<SignatureException>>
 
 ===== <<NonExistUserException>>
 
@@ -615,14 +589,6 @@ include::{snippets}/portfoliocards/post/response-fields.adoc[]
 
 ===== <<AuthenticateException>>
 
-===== <<UnsupportedJwtException>>
-
-===== <<MissingClaimException>>
-
-===== <<IncorrectClaimException>>
-
-===== <<SignatureException>>
-
 ===== <<NonExistUserException>>
 
 [[portfoliocards-delete]]
@@ -651,14 +617,6 @@ include::{snippets}/portfoliocards/delete/http-response.adoc[]
 ==== 발생할 수 있는 에러
 
 ===== <<AuthenticateException>>
-
-===== <<UnsupportedJwtException>>
-
-===== <<MissingClaimException>>
-
-===== <<IncorrectClaimException>>
-
-===== <<SignatureException>>
 
 ===== <<NonExistUserException>>
 
@@ -693,14 +651,6 @@ include::{snippets}/portfoliocards/put/response-fields.adoc[]
 ==== 발생할 수 있는 에러
 
 ===== <<AuthenticateException>>
-
-===== <<UnsupportedJwtException>>
-
-===== <<MissingClaimException>>
-
-===== <<IncorrectClaimException>>
-
-===== <<SignatureException>>
 
 ===== <<NonExistUserException>>
 
@@ -761,19 +711,23 @@ include::{snippets}/user/get/fail/http-response.adoc[]
 
 include::{snippets}/user/logined/fail/http-response.adoc[]
 
-인증실패에 연관된 예외로 아래 4개 목차가 있습니다.
+인증실패에 연관된 예외로 아래 5개 목차가 있습니다.
 [[UnsupportedJwtException]]
-=== UnsupportedJwtException
+==== UnsupportedJwtException
 Authorization헤더의 인증타입이 'Bearer'이 아니거나 토큰의 형태가 JWT가 아닐경우 발생합니다.
 
 [[MissingClaimException]]
-=== MissingClaimException
+==== MissingClaimException
 인증에 필요한 Claim을 찾을수없을때 발생합니다.
 
 [[IncorrectClaimException]]
-=== IncorrectClaimException
+==== IncorrectClaimException
 서버에서 생산한 토큰의 Claim과 요청 헤더의 Claim이 다를경우 발생합니다.
 
 [[SignatureException]]
-=== SignatureException
+==== SignatureException
 서버에 저장된 암호화 알고리즘 Key값과 요청 헤더의 암호화 알고리즘 key값이 다를 경우 발생합니다.
+
+[[TokenExpirationException]]
+==== TokenExpirationException 
+토큰이 만료(Timeout)된 경우 발생합니다. 토큰 지속시간은 인증 목차를 참고해주세요
