@@ -1,7 +1,7 @@
 = Gitofolio RESTdocs
 Devxb <develxb@gmail.com>
 :doctype: book
-:description: Gitofolio Restdocs
+:description: Gitofolio RestDocs
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
