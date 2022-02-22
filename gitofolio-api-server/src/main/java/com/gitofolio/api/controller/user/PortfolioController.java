@@ -25,7 +25,7 @@ public class PortfolioController{
 	@RequestMapping(path = "/portfolio/{userId}/{cardId}", method = RequestMethod.GET)
 	public String redirectPortfolio(@PathVariable("userId") Long userId,
 									@PathVariable("cardId") Long cardId,
-								    @RequestParam(value="redirect", required=false) boolean redirect){
+								    @RequestParam(value="redirect", defaultValue="true", required=false) boolean redirect){
 		
 		UserDTO userDTO = this.portfolioCardCrudProxy.read(cardId);
 		if(!userDTO.getId().equals(userId)) throw new NonExistUserException("유저 매칭 에러", "유저id와 포트폴리오카드id가 매칭되지 않습니다.", "/portfoliocard/"+userId+"/"+cardId);

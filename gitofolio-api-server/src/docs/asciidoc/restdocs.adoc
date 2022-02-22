@@ -124,11 +124,15 @@ TIP: 발급받은 Personal access token은 클라이언트가 브라우저일때
 
 CAUTION: Personal access token은 30일동안 미사용시 자동으로 삭제됩니다. 발급받은 personal access token은 절대 다시 확인할수없으니 잘 저장해주세요.
 
-link:http://api.gitofolio.com/token/personal?application=github[Personal Access Token 발급받기]
+Personal access token을 발급받기 위해 아래 링크로 요청을 보내거나, 링크를 클릭하세요.
+
+link:http://api.gitofolio.com/token/personal?application=github[Personal access token 발급받기]
 
 ----
 GET: http://api.gitofolio.com/token/personal?application={Personal Access Token 발급에 사용할 OAuth 애플리케이션}
 ----
+
+application파라미터값으로 Personal access token을 발급받는과정에 사용할 OAuth 애플리케이션을 함께 보냅니다. 아래 표는 현재 사용가능한 OAuth 애플리케이션입니다.
 
 ====== 현재 사용할수있는 OAuth 애플리케이션 목록
 
@@ -140,6 +144,8 @@ GET: http://api.gitofolio.com/token/personal?application={Personal Access Token 
 |===
 
 ===== Request
+Personal access token요청시 생성되는 HTTP 헤더 예시는 아래와 같습니다.
+
 include::{snippets}/personal/token/http-request.adoc[]
 
 include::{snippets}/personal/token/request-parameters.adoc[]
@@ -149,7 +155,10 @@ include::{snippets}/personal/token/http-response.adoc[]
 
 include::{snippets}/personal/token/response-fields.adoc[]
 
+===== Personal access token이 유효한지 확인하기
 또한, 서버는 현재 갖고있는 personal access token이 유효한지 확인하는 메소드를 제공합니다.
+
+personal access token이 유효한지 확인하기위해서 아래의 링크로 HEAD요청을 보냅니다.
 
 ----
 HEAD: http://api.gitofolio.com/token/personal?accesskey={유효한지 확인할 personal access token의 accesskey}
