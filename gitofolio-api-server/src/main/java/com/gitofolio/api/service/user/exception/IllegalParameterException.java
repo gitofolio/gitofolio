@@ -1,6 +1,8 @@
 package com.gitofolio.api.service.user.exception;
 
-public class IllegalParameterException extends RuntimeException{
+import com.gitofolio.api.service.common.UnCaughtException;
+
+public class IllegalParameterException extends UnCaughtException{
 	
 	private String request;
 	private String title;

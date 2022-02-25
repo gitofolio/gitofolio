@@ -44,6 +44,7 @@ import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgFactory;
 import com.gitofolio.api.service.user.svg.portfoliocard.PortfolioCardSvgDTO;
 import com.gitofolio.api.service.factory.Factory;
 import com.gitofolio.api.service.factory.parameter.PortfolioCardSvgParameter;
+import com.gitofolio.api.service.common.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -69,7 +70,7 @@ public class PortfolioCardControllerTest {
 	
 	private CrudProxy<UserDTO> userInfoCrudProxy;
 	
-	private ObjectMapper objectMapper = new ObjectMapper();
+	private ObjectMapper objectMapper = ApplicationContextProvider.getApplicationContext().getBean("prettyObjectMapper", ObjectMapper.class);
 	
 	@MockBean
 	@Qualifier("jwtTokenValidator")

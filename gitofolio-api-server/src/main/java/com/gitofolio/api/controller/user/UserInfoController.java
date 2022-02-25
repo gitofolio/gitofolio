@@ -20,7 +20,7 @@ import com.gitofolio.api.aop.auth.annotation.AuthToken;
 import com.gitofolio.api.aop.auth.annotation.TokenType;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
-import com.gitofolio.api.aop.log.time.annotation.ExpectedTime;
+import com.gitofolio.api.aop.log.datacollector.annotation.RequestDataCollector;
 
 import io.jsonwebtoken.Jwts;
 
@@ -32,7 +32,7 @@ public class UserInfoController {
 	
 	private final CrudProxy<UserDTO> userInfoCrudProxy;
 	
-	@ExpectedTime
+	@RequestDataCollector(path="/user")
 	@HateoasSetter(hateoasType = HateoasType.USERINFOHATEOAS)
 	@RequestMapping(path="", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getLoginedUser(){
@@ -44,7 +44,7 @@ public class UserInfoController {
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
-	@ExpectedTime
+	@RequestDataCollector(path="/user/{name}")
 	@HateoasSetter(hateoasType = HateoasType.USERINFOHATEOAS)
 	@RequestMapping(path="/{name}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUser(@PathVariable("name") String name){
@@ -54,7 +54,7 @@ public class UserInfoController {
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
-	@ExpectedTime
+	@RequestDataCollector(path="/user/{name}")
 	@AuthToken(tokenType = TokenType.AUTO)
 	@RequestMapping(path = "/{name}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("name") String name){

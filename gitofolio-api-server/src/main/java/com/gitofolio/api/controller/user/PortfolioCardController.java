@@ -18,7 +18,7 @@ import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.aop.auth.annotation.*;
 import com.gitofolio.api.aop.hateoas.annotation.*;
 import com.gitofolio.api.aop.cache.annotation.*;
-import com.gitofolio.api.aop.log.time.annotation.ExpectedTime;
+import com.gitofolio.api.aop.log.datacollector.annotation.RequestDataCollector;
 import com.gitofolio.api.domain.user.EncodedProfileImage;
 import com.gitofolio.api.service.user.svg.portfoliocard.*;
 import com.gitofolio.api.service.factory.parameter.PortfolioCardSvgParameter;
@@ -34,7 +34,7 @@ public class PortfolioCardController{
 	
 	private final Factory<PortfolioCardSvgDTO, PortfolioCardSvgParameter> portfolioCardSvgFactory;
 	
-	@ExpectedTime
+	@RequestDataCollector(path="/portfoliocards/{name}")
 	@HateoasSetter(hateoasType = HateoasType.PORTFOLIOCARDHATEOAS)
 	@RequestMapping(path = "/portfoliocards/{name}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getPortfolioCard(
@@ -47,7 +47,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(userDTO, HttpStatus.OK);
 	}
 	
-	@ExpectedTime
+	@RequestDataCollector(path="/portfoliocards")
 	@AuthToken(tokenType = TokenType.AUTO)
 	@HateoasSetter(hateoasType = HateoasType.PORTFOLIOCARDHATEOAS)
 	@RequestMapping(path = "/portfoliocards", method = RequestMethod.POST)
@@ -58,7 +58,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(result, HttpStatus.CREATED);
 	}
 	
-	@ExpectedTime
+	@RequestDataCollector(path="/portfoliocards/{name}")
 	@AuthToken(tokenType = TokenType.AUTO)
 	@RequestMapping(path = "/portfoliocards/{name}", method = RequestMethod.DELETE)
 	public ResponseEntity<UserDTO> deletePortfolioCard(@PathVariable("name") String name,
@@ -69,7 +69,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(name, HttpStatus.OK);
 	}
 	
-	@ExpectedTime
+	@RequestDataCollector(path="/portfoliocards")
 	@AuthToken(tokenType = TokenType.AUTO)
 	@HateoasSetter(hateoasType = HateoasType.PORTFOLIOCARDHATEOAS)
 	@RequestMapping(path = "/portfoliocards", method = RequestMethod.PUT)
@@ -80,7 +80,7 @@ public class PortfolioCardController{
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
 	
-	@ExpectedTime(milliSec = 500L)
+	@RequestDataCollector(path="/portfoliocards/svg/{cardId}")
 	@WebCache(cacheType = CacheType.MINUTES_10)
 	@RequestMapping(path = "/portfoliocard/svg/{cardId}", method = RequestMethod.GET)
 	public ModelAndView getPortfolioCardSvg(@PathVariable("cardId") Long cardId, 

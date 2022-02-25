@@ -1,15 +1,12 @@
 package com.gitofolio.api.controller.endpoint;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.*;
 
-import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
-import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
+import com.gitofolio.api.aop.hateoas.annotation.*;
 import com.gitofolio.api.service.common.*;
+import com.gitofolio.api.aop.log.datacollector.annotation.RequestDataCollector;
 
 import java.util.*;
 
@@ -17,13 +14,15 @@ import java.util.*;
 public class EndPointController{
 	
 	private final TodayInteraction todayInteraction;
-
+	
+	@RequestDataCollector(path="/restdocs")
 	@RequestMapping(path = "/restdocs", method = RequestMethod.GET)
 	public String docs(){
 		return "/restdocs.html";
 	}
 
 	@ResponseBody
+	@RequestDataCollector(path="/todayinteraction")
 	@HateoasSetter(hateoasType = HateoasType.TODAYINTERACTIONHATEOAS)
 	@RequestMapping(path = "/todayinteraction", method = RequestMethod.GET)
 	public HateoasDTO todayInteraction(){
@@ -33,6 +32,7 @@ public class EndPointController{
 	}
 
 	@ResponseBody
+	@RequestDataCollector(path="")
 	@HateoasSetter(hateoasType = HateoasType.ENDPOINTHATEOAS)
 	@RequestMapping(path = "", method = RequestMethod.GET)
 	public HateoasDTO endPoint(){

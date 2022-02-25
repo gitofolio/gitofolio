@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.gitofolio'
-version = '0.4.3' 
+version = '0.4.4' 
 sourceCompatibility = '11'
 
 configurations {
@@ -26,6 +26,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	//json module
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.3.0-rc1'
 	
 	// spring rest docs
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' 

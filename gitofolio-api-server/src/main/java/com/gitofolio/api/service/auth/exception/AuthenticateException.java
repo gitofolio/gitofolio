@@ -1,6 +1,8 @@
 package com.gitofolio.api.service.auth.exception;
 
-public class AuthenticateException extends RuntimeException{
+import com.gitofolio.api.service.common.UnCaughtException;
+
+public class AuthenticateException extends UnCaughtException{
 	
 	private String request;
 	private String title;

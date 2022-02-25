@@ -1,8 +1,7 @@
 package com.gitofolio.api.configuration;
 
 import org.springframework.web.client.RestTemplate;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*; 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 import org.apache.http.client.HttpClient;

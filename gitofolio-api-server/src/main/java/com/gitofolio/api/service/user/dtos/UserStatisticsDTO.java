@@ -8,6 +8,8 @@ import com.gitofolio.api.domain.user.UserStatistics;
 import com.gitofolio.api.domain.user.VisitorStatistics;
 import com.gitofolio.api.domain.user.RefferingSite;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class UserStatisticsDTO{
 	
 	public static class RefferingSiteDTO{

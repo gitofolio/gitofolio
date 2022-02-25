@@ -15,7 +15,7 @@ import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasSetter;
 import com.gitofolio.api.aop.hateoas.annotation.HateoasType;
-import com.gitofolio.api.aop.log.time.annotation.ExpectedTime;
+import com.gitofolio.api.aop.log.datacollector.annotation.RequestDataCollector;
 
 @RestController
 @RequestMapping(path="/user/stat")
@@ -23,7 +23,7 @@ public class UserStatController{
 	
 	private final CrudProxy<UserDTO> userStatCrudProxy;
 	
-	@ExpectedTime
+	@RequestDataCollector(path="/user/stat/{name}")
 	@HateoasSetter(hateoasType = HateoasType.USERSTATHATEOAS)
 	@RequestMapping(path = "/{name}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUserStat(@PathVariable("name") String name){

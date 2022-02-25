@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.method.annotation.*;
 
 import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
@@ -35,6 +36,13 @@ public class UserExceptionController{
 										, duplicateUserException.getMessage()
 										, duplicateUserException.getRequest());
 		return new ResponseEntity(errorDTO, HttpStatus.CONFLICT);
+	}
+	
+	@ExceptionHandler({MethodArgumentTypeMismatchException.class})
+	public ResponseEntity<ErrorDTO> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException methodArgumentTypeMismatchException){
+		ErrorDTO errorDTO = new ErrorDTO("ILLEGALPARAMETERERROR", "잘못된 파라미터 타입을 입력하셨습니다.");
+		
+		return new ResponseEntity(errorDTO, HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler({Exception.class})

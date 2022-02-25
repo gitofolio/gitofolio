@@ -15,6 +15,7 @@ import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.service.user.exception.NonExistUserException;
 import com.gitofolio.api.aop.stat.annotation.UserStatGenerator; 
+import com.gitofolio.api.aop.log.datacollector.annotation.RequestDataCollector;
 
 @Controller
 public class PortfolioController{
@@ -22,6 +23,7 @@ public class PortfolioController{
 	private final CrudProxy<UserDTO> portfolioCardCrudProxy;
 	
 	@UserStatGenerator
+	@RequestDataCollector(path="/portfolio/{userId}/{cardId}")
 	@RequestMapping(path = "/portfolio/{userId}/{cardId}", method = RequestMethod.GET)
 	public String redirectPortfolio(@PathVariable("userId") Long userId,
 									@PathVariable("cardId") Long cardId,

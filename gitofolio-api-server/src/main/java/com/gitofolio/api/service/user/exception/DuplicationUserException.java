@@ -1,6 +1,8 @@
 package com.gitofolio.api.service.user.exception;
 
-public class DuplicationUserException extends RuntimeException{
+import com.gitofolio.api.service.common.UnCaughtException;
+
+public class DuplicationUserException extends UnCaughtException{
 	
 	private String title;
 	private String request;

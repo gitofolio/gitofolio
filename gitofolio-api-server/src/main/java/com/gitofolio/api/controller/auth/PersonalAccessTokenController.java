@@ -13,6 +13,7 @@ import com.gitofolio.api.service.auth.authenticate.Authenticator;
 import com.gitofolio.api.service.auth.oauth.applications.OauthApplicationFactory;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
 import com.gitofolio.api.service.user.dtos.*;
+import com.gitofolio.api.aop.log.datacollector.annotation.RequestDataCollector;
 
 @Controller
 public class PersonalAccessTokenController{
@@ -24,7 +25,8 @@ public class PersonalAccessTokenController{
 	private String accessTokenRedirectUrl = "&redirect_uri=https://api.gitofolio.com/token/personal";
 	private String testAccessTokenRedirectUrl = "&redirect_uri=https://api-server-gitofolio-qfnxv.run.goorm.io/token/personal";
 	
-	@RequestMapping(path = "/token/personal", method = RequestMethod.GET)
+	@RequestDataCollector(path="/token/personal")
+	@RequestMapping(path="/token/personal", method = RequestMethod.GET)
 	public Object getPersonalAccessToken(@RequestParam(value = "application", defaultValue = "github", required = false) String application,
 										 @RequestParam(value = "code", required = false) String code){
 
@@ -44,6 +46,7 @@ public class PersonalAccessTokenController{
 		return this.userInfoCrudProxy.create(userDTO);
 	}
 	
+	@RequestDataCollector(path="/token/personal")
 	@RequestMapping(path = "/token/personal", method = RequestMethod.HEAD)
 	public ResponseEntity<Object> isStillValidAccessToken(@RequestParam(value = "accesskey", required = false) Long personalAccesskey){
 		if(personalAccesskey == null) throw new IllegalParameterException("accesskey 오류", "accesskey 파라미터값이 비어있습니다.");

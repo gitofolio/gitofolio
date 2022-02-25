@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 
 import com.gitofolio.api.service.auth.oauth.OauthTokenPool;
 import com.gitofolio.api.service.auth.oauth.applications.OauthApplicationFactory;
+import com.gitofolio.api.service.common.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -54,7 +55,7 @@ public class OauthControllerTest{
 	@MockBean
 	private OauthTokenPool oauthTokenPool;
 	
-	private ObjectMapper objectMapper = new ObjectMapper();
+	private ObjectMapper objectMapper = ApplicationContextProvider.getApplicationContext().getBean("prettyObjectMapper", ObjectMapper.class);
 	
 	@Test
 	public void getToken() throws Exception{

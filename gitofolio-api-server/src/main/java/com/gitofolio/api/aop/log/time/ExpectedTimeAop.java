@@ -39,16 +39,16 @@ public class ExpectedTimeAop{
 		String methodName = proceedingJoinPoint.getSignature().getName();
 		Class targetClass = proceedingJoinPoint.getTarget().getClass();
 		
-		doLog(targetClass.toString()+"."+methodName, endMilliSec-startMilliSec, expectedMilliSec);
+		this.doLog(targetClass.toString()+"."+methodName, endMilliSec-startMilliSec, expectedMilliSec);
 		
 		return result;
 	}
 	
 	private void doLog(String triggerInfo, long excutionMilliSec, long expectedMillisec){
 		if(excutionMilliSec > expectedMillisec){
-			this.logger.warn(triggerInfo + " Timeout / Expected time : " + expectedMillisec + ", Excution time : " + excutionMilliSec);
+			this.logger.warn("{} Timeout / Expected time : {} Excution time : {}", triggerInfo, expectedMillisec, excutionMilliSec);
 		}else{
-			this.logger.info(triggerInfo + " Expected time : " + expectedMillisec + ", Excution time : " + excutionMilliSec);
+			this.logger.info("{} Expected time : {} Excution time : {}", triggerInfo, expectedMillisec, excutionMilliSec);
 		}
 	}
 	

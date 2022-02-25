@@ -16,6 +16,7 @@ import com.gitofolio.api.service.auth.oauth.applications.OauthApplicationFactory
 import com.gitofolio.api.service.auth.oauth.OauthTokenPool;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
 import com.gitofolio.api.service.common.random.RandomKeyGenerator;
+import com.gitofolio.api.aop.log.datacollector.annotation.RequestDataCollector;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -32,7 +33,8 @@ public class OAuthController{
 	private final OauthApplicationFactory oauthApplicationFactory;
 	private final OauthTokenPool oauthTokenPool;
 	
-	@RequestMapping(path = "/oauth", method = RequestMethod.GET)
+	@RequestDataCollector(path="/oauth")
+	@RequestMapping(path="/oauth", method = RequestMethod.GET)
 	public String redirectToOauthApplication(@RequestParam(value = "application", defaultValue = "github", required=true) String application,
 					    					@RequestParam(value = "redirect", required = false) String redirect,
 											@RequestParam(value = "accesskey", required = false) String personalAccessKey){
@@ -53,6 +55,7 @@ public class OAuthController{
 		return personalAccessKey == null;
 	}
 	
+	@RequestDataCollector(path="/oauth/{application}")
 	@RequestMapping(path = "/oauth/{application}", method = RequestMethod.GET)
 	public ResponseEntity<Object> redirectWithCert(@PathVariable(value = "application") String application,
 													@RequestParam(value = "redirect", required = false) String redirect,
@@ -87,6 +90,7 @@ public class OAuthController{
 		this.oauthTokenPool.saveToken(cert, personalAccessTokenValue, token);
 	}
 	
+	@RequestDataCollector(path="/token")
 	@RequestMapping(path = "/token", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, String>> getAuthToken(@RequestBody Map<String, Object> payload, 
 														HttpServletResponse httpServletResponse){
