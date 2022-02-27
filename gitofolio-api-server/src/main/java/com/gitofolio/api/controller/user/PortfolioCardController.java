@@ -37,14 +37,18 @@ public class PortfolioCardController{
 	@RequestDataCollector(path="/portfoliocards/{name}")
 	@HateoasSetter(hateoasType = HateoasType.PORTFOLIOCARDHATEOAS)
 	@RequestMapping(path = "/portfoliocards/{name}", method = RequestMethod.GET)
-	public ResponseEntity<UserDTO> getPortfolioCard(
-		@PathVariable("name") String name,
-		@RequestParam(value="page", required = false) String page,
-		@RequestParam(value="id", required = false) Long id){
+	public ResponseEntity<UserDTO> getPortfolioCard(@PathVariable("name") String name,
+													@RequestParam(value="id", required=false) Long id){
 		
-		UserDTO userDTO = portfolioCardCrudProxy.read(name);
+		UserDTO userDTO = null;
+		if(!isCardIdNull(id)) userDTO = portfolioCardCrudProxy.read(name, id);
+		else userDTO = portfolioCardCrudProxy.read(name);
 		
 		return new ResponseEntity(userDTO, HttpStatus.OK);
+	}
+	
+	private boolean isCardIdNull(Long id){
+		return id == null ? true : false;
 	}
 	
 	@RequestDataCollector(path="/portfoliocards")

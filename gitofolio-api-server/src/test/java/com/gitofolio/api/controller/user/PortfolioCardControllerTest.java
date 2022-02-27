@@ -105,6 +105,39 @@ public class PortfolioCardControllerTest {
 	}
 	
 	@Test
+	public void PortfolioCard_GET_WithId_테스트() throws Exception{
+		// when
+		String name = "name";
+		
+		Long id = this.portfolioCardCrudProxy.read(name).getPortfolioCards().get(0).getId();
+		
+		// then
+		mockMvc.perform(get("/portfoliocards/{name}?id={id}", name, id).accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andDo(document("portfoliocards/get/id",
+							pathParameters(
+								parameterWithName("name").description("포트폴리오 카드를 가져올 유저 이름입니다.")
+							),
+							requestParameters(
+								parameterWithName("id").description("name에 해당하는 유저가 소유한 포트폴리오 카드들중에 가져올 포트폴리오 카드의 id 입니다. 이 필드가 존재하면 반환값이 하나로 고정됩니다.")
+							),
+							responseFields(
+								fieldWithPath("id").description("요청한 유저의 id입니다. 깃허브 id와 동일합니다"),
+								fieldWithPath("name").description("요청한 유저의 이름 입니다. 경로 파라미터값과 동일해야합니다."),
+								fieldWithPath("profileUrl").description("유저의 프로필 URL입니다."),
+								fieldWithPath("portfolioCards.[].id").description("포트폴리오 카드의 id 입니다"),
+								fieldWithPath("portfolioCards.[].portfolioCardArticle").description("포트폴리오 카드의 본문 내용입니다."),
+								fieldWithPath("portfolioCards.[].portfolioCardWatched").description("지금까지 포트폴리오 카드가 노출된 총 횟수입니다."),
+								fieldWithPath("portfolioCards.[].portfolioUrl").description("포트폴리오 카드에 연결된 포트폴리오 링크입니다."),
+								fieldWithPath("links.[].rel").description("선택가능한 다음 선택지에 대한 key 입니다."),
+								fieldWithPath("links.[].method").description("HTTP METHOD"),
+								fieldWithPath("links.[].href").description("다음 선택지 요청 URL 입니다."),
+								fieldWithPath("links.[].parameter").description("요청 가능한 파라미터들 입니다.").optional()
+							)
+						));
+	}
+	
+	@Test
 	public void PortfolioCard_GET_Fail_테스트() throws Exception{
 		// when
 		String name = "nonExistUser";

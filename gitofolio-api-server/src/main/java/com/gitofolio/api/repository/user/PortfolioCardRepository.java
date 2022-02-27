@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.gitofolio.api.domain.user.PortfolioCard;
 
-import java.util.List;
+import java.util.*;
 
 public interface PortfolioCardRepository extends JpaRepository<PortfolioCard, Long>{
 	
@@ -18,4 +18,5 @@ public interface PortfolioCardRepository extends JpaRepository<PortfolioCard, Lo
 	@Modifying
 	@Query(value = "DELETE p FROM portfolio_card p JOIN user_info i WHERE i.name = :name", nativeQuery = true)
 	void deleteByName(@Param("name") String name);
+	
 }

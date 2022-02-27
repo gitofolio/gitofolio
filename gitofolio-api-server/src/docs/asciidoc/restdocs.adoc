@@ -23,7 +23,7 @@ image::https://api.gitofolio.com/portfoliocard/svg/23?color=white[devxb's sample
 
 *Gitofolio api와 함께 애플리케이션을 구축하고, 관리를 자동화해 더 큰일에 집중하세요.*
 
-NOTE: 우리의 공식 홈페이지 입니다. https://gitofolio.com[바로가기]
+NOTE: 우리의 공식 홈페이지 입니다. https://gitofolio.com[바로가기] / api서버 깃허브 링크입니다. https://github.com/gitofolio/gitofolio[바로가기]
 
 오탈자 및 버그제보 : develxb@gmail.com
 
@@ -561,6 +561,12 @@ include::{snippets}/portfoliocards/get/request-parameters.adoc[]
 include::{snippets}/portfoliocards/get/http-response.adoc[]
 
 include::{snippets}/portfoliocards/get/response-fields.adoc[]
+
+또한, 포트폴리오 카드 id에 해당하는 하나의 포트폴리오 카드만 가져오고 싶을경우, 아래와 같이 request 파라미터에 id값을 명시하며 요청할 수 있습니다.
+
+include::{snippets}/portfoliocards/get/id/http-request.adoc[]
+
+include::{snippets}/portfoliocards/get/id/http-response.adoc[]
 
 [[portfoliocards-get-errorhandle]]
 ==== 발생할 수 있는 에러

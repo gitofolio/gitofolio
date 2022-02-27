@@ -47,6 +47,10 @@ public class PortfolioCard{
 		return this.portfolioCardWatched;
 	}
 	
+	public boolean isPortfolioCardOwner(String name){
+		return this.userInfo.getName().equals(name);
+	}
+	
 	public void increasePortfolioCardWatched(){
 		if(this.isPortfoliocardWatchedReachedMax()) return;
 		this.portfolioCardWatched++;

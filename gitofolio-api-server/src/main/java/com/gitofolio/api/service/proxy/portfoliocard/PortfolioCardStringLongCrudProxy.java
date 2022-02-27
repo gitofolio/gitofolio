@@ -26,6 +26,11 @@ public class PortfolioCardStringLongCrudProxy implements CrudProxy<UserDTO>{
 	
 	@Override
 	public UserDTO read(Object ...args){
+		if(args.length==2 && (args[0].getClass().equals(String.class) && args[1].getClass().equals(Long.class))){
+			return this.portfolioCardMapper.doMap(
+					this.portfolioCardService.get((String)args[0], (Long)args[1])
+			);
+		}
 		return this.crudProxy.read(args);
 	}
 	

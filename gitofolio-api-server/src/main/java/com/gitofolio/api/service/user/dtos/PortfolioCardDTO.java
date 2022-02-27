@@ -1,6 +1,7 @@
 package com.gitofolio.api.service.user.dtos;
 
 import com.gitofolio.api.domain.user.PortfolioCard;
+import com.gitofolio.api.service.user.exception.*;
 
 public class PortfolioCardDTO{
 	
@@ -14,7 +15,12 @@ public class PortfolioCardDTO{
 	}
 	
 	public void setPortfolioCardArticle(String portfolioCardArticle){
-		this.portfolioCardArticle = portfolioCardArticle;
+		if(this.isPortfolioCardArticleNull(portfolioCardArticle)) this.portfolioCardArticle = " ";
+		else this.portfolioCardArticle = portfolioCardArticle;
+	}
+	
+	private boolean isPortfolioCardArticleNull(String portfolioCardArticle){
+		return portfolioCardArticle == null ? true : false;
 	}
 	
 	public void setPortfolioCardWatched(Integer portfolioCardWatched){
@@ -22,7 +28,12 @@ public class PortfolioCardDTO{
 	}
 	
 	public void setPortfolioUrl(String portfolioUrl){
+		if(this.isPortfolioUrlNull(portfolioUrl)) throw new IllegalParameterException("잘못된 파라미터가 전달되었습니다.", "portfolioCard내부의 portfolio url이 비어있습니다.");
 		this.portfolioUrl = portfolioUrl;
+	}
+	
+	private boolean isPortfolioUrlNull(String portfolioUrl){
+		return portfolioUrl == null ? true : false;
 	}
 	
 	public Long getId(){

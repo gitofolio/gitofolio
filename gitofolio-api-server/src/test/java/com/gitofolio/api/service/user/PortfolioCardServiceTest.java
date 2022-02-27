@@ -50,6 +50,23 @@ public class PortfolioCardServiceTest{
 		assertEquals(result.size(), 3);
 	}
 	
+	// @Test
+	// @Transactional
+	// public void portfolioCardService_GET_STRING_AND_LONG_TEST(){
+	// 	// given
+	// 	List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
+	// 	cards.add(this.getPortfolioCard(1));
+		
+	// 	// when
+	// 	given(this.portfolioCardRepository.findByNameAndId(any(String.class), any(Long.class))).willReturn(Optional.of(cards.get(0)));
+		
+	// 	List<PortfolioCard> result = this.portfolioCardService.get(cards.get(0).getUserInfo().getName(), 1L);
+		
+	// 	// then
+	// 	assertEquals(result.get(0).getUserInfo().getName(), cards.get(0).getUserInfo().getName());
+	// 	assertEquals(result.size(), 1);
+	// }
+	
 	@Test
 	@Transactional
 	public void portfolioCard_NonExistUser_Fail_Test(){
