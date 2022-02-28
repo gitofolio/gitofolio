@@ -12,6 +12,13 @@ import com.gitofolio.api.controller.interceptor.*;
 public class WebMvcConfiguration implements WebMvcConfigurer{
 	
 	@Override
+	public void addCorsMappings(CorsRegistry corsRegistry){
+		corsRegistry.addMapping("**")
+			.allowedOrigins("*")
+			.maxAge(3600);
+	}
+	
+	@Override
 	public void addInterceptors(InterceptorRegistry interceptorRegistry){
 		interceptorRegistry.addInterceptor(this.todayInteractionInterceptor())
 			.addPathPatterns("/**");

@@ -90,7 +90,6 @@ public class OAuthController{
 		this.oauthTokenPool.saveToken(cert, personalAccessTokenValue, token);
 	}
 	
-	@RequestDataCollector(path="/token")
 	@RequestMapping(path = "/token", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, String>> getAuthToken(@RequestBody Map<String, Object> payload, 
 														HttpServletResponse httpServletResponse){
