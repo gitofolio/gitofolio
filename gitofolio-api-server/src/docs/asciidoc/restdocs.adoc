@@ -18,7 +18,7 @@ Gitofolio api를 사용하면 다음과 같은 일들을 할 수 있습니다.
 * [*] 이력서 ``**유입통계**`` 및 관리
 * [*] 나만의 멋진 ``**이력서 카드 생성**``
 
-image::https://api.gitofolio.com/portfoliocard/svg/23?color=white[devxb's sample card]
+image::https://api.gitofolio.com/portfoliocard/svg/5?color=white[devxb's sample card]
 * [*] OAuth애플리케이션 ``**Proxy 인증 서버**``로, OAuth애플리케이션에 ``**연동되어있는 정보 보호**``
 
 *Gitofolio api와 함께 애플리케이션을 구축하고, 관리를 자동화해 더 큰일에 집중하세요.*
@@ -675,7 +675,7 @@ include::{snippets}/portfoliocards/put/response-fields.adoc[]
 === 포트폴리오 카드 이미지 가져오기
 서버에 저장된 포트폴리오 카드의 svg이미지를 가져옵니다.
 
-image::https://api.gitofolio.com/portfoliocard/svg/23?color=black[devxb's sample card]
+image::https://api.gitofolio.com/portfoliocard/svg/5?color=black[devxb's sample card]
 
 카드는 포트폴리오 카드를 저장할때 자동으로 저장되며, 저장 관련 HTTP METHOD는 지원하지 않습니다.
 

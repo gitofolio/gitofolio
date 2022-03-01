@@ -28,8 +28,8 @@ public class UserStatRepositoryTest{
 	@Test
 	public void userStatRepository_findByName_Test(){
 		// given
-		UserInfo userInfo = this.getUserInfo();
-		UserStat userStat = this.getUserStat();
+		UserInfo userInfo = this.getUserInfo(1L, "name");
+		UserStat userStat = this.getUserStat(userInfo);
 		
 		// when
 		this.saveUserInfo(userInfo);
@@ -44,8 +44,8 @@ public class UserStatRepositoryTest{
 	@Test
 	public void userStatRepository_findById_Test(){
 		// given
-		UserInfo userInfo = this.getUserInfo();
-		UserStat userStat = this.getUserStat();
+		UserInfo userInfo = this.getUserInfo(1L, "name");
+		UserStat userStat = this.getUserStat(userInfo);
 		
 		// when
 		this.saveUserInfo(userInfo);
@@ -58,31 +58,49 @@ public class UserStatRepositoryTest{
 	}
 	
 	@Test
-	@BeforeEach
-	public void beforeCleanupDB(){
+	public void ColumnA_was_DELETE_BUT_Is_ColumnB_was_still_survive(){
 		// given
-		UserInfo userInfo = this.getUserInfo();
+		UserInfo columnA = this.getUserInfo(1L, "columnA");
+		UserStat aStat = this.getUserStat(columnA);
+		
+		UserInfo columnB = this.getUserInfo(2L, "columnB");
+		UserStat bStat = this.getUserStat(columnB);
 		
 		// when
-		this.userStatRepository.deleteByName(userInfo.getName());
-		this.userInfoRepository.deleteByName(userInfo.getName());
+		this.saveUserInfo(columnA);
+		this.saveUserStat(aStat);
+		this.saveUserInfo(columnB);
+		this.saveUserStat(bStat);
+		
+		this.userStatRepository.deleteByName(columnA.getName());
+		
+		UserStat result = this.userStatRepository.findByName(columnB.getName()).get();
 		
 		// then
-		assertThrows(NoSuchElementException.class, ()->this.userInfoRepository.findByName(userInfo.getName()).get());
+		assertEquals(result.getUserInfo().getName(), columnB.getName());
+		assertThrows(NoSuchElementException.class, ()->this.userStatRepository.findByName(columnA.getName()).orElseThrow(()->new NoSuchElementException("")));
+	}
+	
+	@Test
+	@BeforeEach
+	public void beforeCleanupDB(){
+		// when
+		this.userStatRepository.deleteAll();
+		this.userInfoRepository.deleteAll();
+		
+		// then
+		assertTrue(this.userInfoRepository.findAll().isEmpty());
 	}
 	
 	@Test
 	@AfterEach
 	public void afterCleanupDB(){
-		// given
-		UserInfo userInfo = this.getUserInfo();
-		
 		// when
-		this.userStatRepository.deleteByName(userInfo.getName());
-		this.userInfoRepository.deleteByName(userInfo.getName());
+		this.userStatRepository.deleteAll();
+		this.userInfoRepository.deleteAll();
 		
 		// then
-		assertThrows(NoSuchElementException.class, ()->this.userInfoRepository.findByName(userInfo.getName()).get());
+		assertTrue(this.userInfoRepository.findAll().isEmpty());
 	}
 	
 	private void saveUserStat(UserStat userStat){
@@ -93,17 +111,17 @@ public class UserStatRepositoryTest{
 		this.userInfoRepository.saveAndFlush(userInfo);
 	}
 	
-	private UserStat getUserStat(){
+	private UserStat getUserStat(UserInfo userInfo){
 		UserStat userStat = new UserStat();
 		userStat.setTotalVisitors(0);
-		userStat.setUserInfo(this.getUserInfo());
+		userStat.setUserInfo(userInfo);
 		return userStat;
 	}
 	
-	private UserInfo getUserInfo(){
+	private UserInfo getUserInfo(Long id, String name){
 		UserInfo userInfo = new UserInfo();
-		userInfo.setId(789L);
-		userInfo.setName("name");
+		userInfo.setId(id);
+		userInfo.setName(name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		return userInfo;
 	}

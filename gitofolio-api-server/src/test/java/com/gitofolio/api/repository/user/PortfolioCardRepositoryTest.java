@@ -31,12 +31,12 @@ public class PortfolioCardRepositoryTest{
 	@Test
 	public void PortfolioCardRepository_findByName_Test(){
 		// given
-		UserInfo userInfo = this.getUserInfo();
+		UserInfo userInfo = this.getUserInfo(1L, "name");
 		
 		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
-		cards.add(this.getPortfolioCard(1));
-		cards.add(this.getPortfolioCard(2));
-		cards.add(this.getPortfolioCard(3));
+		cards.add(this.getPortfolioCard(1, userInfo));
+		cards.add(this.getPortfolioCard(2, userInfo));
+		cards.add(this.getPortfolioCard(3, userInfo));
 		
 		// when
 		this.saveUserInfo(userInfo);
@@ -52,10 +52,10 @@ public class PortfolioCardRepositoryTest{
 	@Test
 	public void PortfolioCardRepository_save_Long_Article_Test(){
 		// given
-		UserInfo userInfo = this.getUserInfo();
+		UserInfo userInfo = this.getUserInfo(1L, "name");
 		
 		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
-		cards.add(this.getPortfolioCard(1));
+		cards.add(this.getPortfolioCard(1, userInfo));
 		cards.get(0).setPortfolioCardArticle(this.makeLongText(2000));
 		
 		String expectedLongText = this.makeLongText(1000);
@@ -71,56 +71,86 @@ public class PortfolioCardRepositoryTest{
 	}
 	
 	@Test
-	@BeforeEach
-	public void beforeCleanupDB(){
+	public void ColumnA_was_DELETE_BUT_Is_ColumnB_was_still_survive(){
 		// given
-		UserInfo userInfo = this.getUserInfo();
+		UserInfo columnA = this.getUserInfo(1L, "columnA");
+		List<PortfolioCard> aCards = new ArrayList<PortfolioCard>();
+		aCards.add(this.getPortfolioCard(1, columnA));
+		aCards.add(this.getPortfolioCard(2, columnA));
+		aCards.add(this.getPortfolioCard(3, columnA));
+		
+		UserInfo columnB = this.getUserInfo(2L, "columnB");
+		List<PortfolioCard> bCards = new ArrayList<PortfolioCard>();
+		bCards.add(this.getPortfolioCard(4, columnB));
+		bCards.add(this.getPortfolioCard(5, columnB));
+		bCards.add(this.getPortfolioCard(6, columnB));
 		
 		// when
-		this.portfolioCardRepository.deleteByName(userInfo.getName());
-		this.userInfoRepository.deleteByName(userInfo.getName());
+		this.saveUserInfo(columnA);
+		this.savePortfolioCards(aCards);
+		this.saveUserInfo(columnB);
+		this.savePortfolioCards(bCards);
+		
+		this.portfolioCardRepository.deleteByName(columnA.getName());
+		
+		List<PortfolioCard> resultA = this.portfolioCardRepository.findByName(columnA.getName());
+		List<PortfolioCard> resultB = this.portfolioCardRepository.findByName(columnB.getName());
 		
 		// then
-		assertThrows(NoSuchElementException.class, ()->this.userInfoRepository.findByName(userInfo.getName()).get());
+		assertTrue(resultA.isEmpty());
+		assertEquals(resultB.size(), bCards.size());
+	}
+	
+	private void deleteByName(String name){
+		this.portfolioCardRepository.deleteByName(name);
+	}
+	
+	@Test
+	@BeforeEach
+	public void beforeCleanupDB(){
+		// when
+		this.portfolioCardRepository.deleteAll();
+		this.userInfoRepository.deleteAll();
+		
+		// then
+		assertTrue(this.userInfoRepository.findAll().isEmpty());
 	}
 	
 	@Test
 	@AfterEach
 	public void afterCleanupDB(){
-		// given
-		UserInfo userInfo = this.getUserInfo();
-		
 		// when
-		this.portfolioCardRepository.deleteByName(userInfo.getName());
-		this.userInfoRepository.deleteByName(userInfo.getName());
+		this.portfolioCardRepository.deleteAll();
+		this.userInfoRepository.deleteAll();
 		
 		// then
-		assertThrows(NoSuchElementException.class, ()->this.userInfoRepository.findByName(userInfo.getName()).get());
+		assertTrue(this.userInfoRepository.findAll().isEmpty());
 	}
 	
 	private void savePortfolioCards(List<PortfolioCard> cards){
 		for(PortfolioCard card : cards) this.portfolioCardRepository.save(card);
+		this.portfolioCardRepository.flush();
 	}
 	
 	private void saveUserInfo(UserInfo userInfo){
-		this.userInfoRepository.save(userInfo);
+		this.userInfoRepository.saveAndFlush(userInfo);
 	}
 	
-	private PortfolioCard getPortfolioCard(int cardCnt){
+	private PortfolioCard getPortfolioCard(int cardCnt, UserInfo userInfo){
 		PortfolioCard portfolioCard = new PortfolioCard();
 		portfolioCard.setId(Long.valueOf(cardCnt));
 		portfolioCard.setPortfolioCardArticle("article"+cardCnt);
 		portfolioCard.setPortfolioCardWatched(cardCnt);
 		portfolioCard.setPortfolioUrl("portfolioUrl"+cardCnt);
 		
-		portfolioCard.setUserInfo(this.getUserInfo());
+		portfolioCard.setUserInfo(userInfo);
 		return portfolioCard;
 	}
 	
-	private UserInfo getUserInfo(){
+	private UserInfo getUserInfo(Long id, String name){
 		UserInfo userInfo = new UserInfo();
-		userInfo.setId(789L);
-		userInfo.setName("name");
+		userInfo.setId(id);
+		userInfo.setName(name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		return userInfo;
 	}

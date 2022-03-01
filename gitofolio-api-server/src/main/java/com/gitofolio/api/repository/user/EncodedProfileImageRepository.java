@@ -17,7 +17,7 @@ public interface EncodedProfileImageRepository extends JpaRepository<EncodedProf
 	Optional<EncodedProfileImage> findByName(@Param("name") String name);
 	
 	@Modifying
-	@Query(value = "DELETE e FROM encoded_profile_image e JOIN user_info i WHERE i.name = :name", nativeQuery = true)
+	@Query(value = "DELETE e FROM encoded_profile_image as e WHERE e.user_info_id = (SELECT user_info_id FROM user_info as u WHERE u.name = :name)", nativeQuery = true)
 	void deleteByName(@Param("name") String name);
 	
 }

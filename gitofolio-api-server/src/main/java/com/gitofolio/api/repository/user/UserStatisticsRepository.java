@@ -21,7 +21,7 @@ public interface UserStatisticsRepository extends JpaRepository<UserStatistics, 
 	Optional<UserStatistics> findById(@Param("id") Long id);
 	
 	@Modifying
-	@Query(value = "DELETE s FROM user_statistics s JOIN user_info i WHERE i.name = :name", nativeQuery = true)
+	@Query(value = "DELETE s FROM user_statistics as s WHERE s.user_info_id = (SELECT user_info_id FROM user_info as u WHERE u.name = :name)", nativeQuery = true)
 	void deleteByName(@Param("name") String name);
 	
 }

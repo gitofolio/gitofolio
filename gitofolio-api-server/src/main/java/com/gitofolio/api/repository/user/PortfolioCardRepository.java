@@ -16,7 +16,7 @@ public interface PortfolioCardRepository extends JpaRepository<PortfolioCard, Lo
 	List<PortfolioCard> findByName(@Param("name") String name);
 	
 	@Modifying
-	@Query(value = "DELETE p FROM portfolio_card p JOIN user_info i WHERE i.name = :name", nativeQuery = true)
+	@Query(value = "DELETE p FROM portfolio_card as p WHERE p.user_info_id = (SELECT user_info_id FROM user_info as u WHERE u.name = :name)", nativeQuery = true)
 	void deleteByName(@Param("name") String name);
 	
 }
