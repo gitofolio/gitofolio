@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.gitofolio'
-version = '0.4.7.2' 
+version = '0.4.7.5' 
 sourceCompatibility = '11'
 
 configurations {

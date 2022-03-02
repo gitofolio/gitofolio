@@ -7,7 +7,7 @@
 <div align="center">
         <p>
         <h3> 마크업 문서에 올리는 이력 카드</h3>
-		<img src="https://api.gitofolio.com/portfoliocard/svg/5?color=white" align="center"/><br/><br/>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/742?color=white" align="center"/><br/><br/>
         자신만의 이력 카드를 만들고 사용하세요 <br/>
         카드는 <b>내용</b>과 <b>테마</b>를 자유롭게 꾸밀수 있으며, 자신의 이력서 (혹은 기술 사이트 등)와 <b>연동</b>시킬수 있어요 <br/>
         현재 인기있는 사용처 에요😊 <i>Notion</i>, <i>Github</i>, <i> Blog</i> ...<br/><br/>
@@ -50,11 +50,27 @@
 <h3>카드 구조와 예시</h3>
 <img src="https://user-images.githubusercontent.com/62425964/154962384-c9e424b5-447c-4465-8d52-db03423c2386.png"/>
 <br/><br/>
-		<img src="https://api.gitofolio.com/portfoliocard/svg/5?color=black"/>
-		<img src="https://api.gitofolio.com/portfoliocard/svg/1118?color=white"/>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/742?color=black"/>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/628?color=white"/>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/792?color=neonpurple"/>
 </div>
 
 <h2></h2>
+
+<div>
+<p> Gitofolio는 무료로 서비스되는 오픈소스 프로젝트로 양질의 서비스를 제공하기위해 후원을 받고있습니다. </p>
+
+<img src="https://user-images.githubusercontent.com/62425964/156378298-d559ee86-a1f1-4c6e-b41d-c9c5845a7ce8.png"/>
+
+<p><i> *모든 후원금은 Gitofolio개발 및 서버비로 사용됩니다. </i></p>
+
+<p>후원자 혜택 <br/>
+- 원하는 색상 테마의 포트폴리오 카드 제작 <br/>
+- 메인페이지 배경에 후원자 포트폴리오 카드 노출 가능 (추가 예정) <br/>
+혜택관련 문의 : develxb@gmail.com 
+</p>
+
+</div>
 
 <div align="center">
         라이센스 : <a><i>MIT</i></a> / 문의 : <i>develxb@gmail.com</i> / <a href="https://gitofolio.com"><i>홈페이지</i></a> / <a href="https://api.gitofolio.com/restdocs"><i>API Docs</i></a> / <a>Update log</a>
