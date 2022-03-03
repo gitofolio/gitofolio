@@ -41,7 +41,6 @@ public class PersonalAccessTokenRepositoryTest{
 		
 		// then
 		assertEquals(result.getTokenValue(), token.getTokenValue());
-		assertEquals(result.getUserInfo().getId(), userInfo.getId());
 	}
 	
 	@Test
@@ -74,7 +73,6 @@ public class PersonalAccessTokenRepositoryTest{
 	
 	private UserInfo getUserInfo(){
 		UserInfo userInfo = new UserInfo();
-		userInfo.setId(1L);
 		userInfo.setName("test");
 		userInfo.setProfileUrl("hello.world");
 		return userInfo;

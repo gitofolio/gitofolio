@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class UserInfo{
 	
 	@Id
+	@GeneratedValue
 	@Column(name="USER_INFO_ID")
 	private Long id;
 	

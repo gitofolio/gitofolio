@@ -28,7 +28,7 @@ public class UserStatRepositoryTest{
 	@Test
 	public void userStatRepository_findByName_Test(){
 		// given
-		UserInfo userInfo = this.getUserInfo(1L, "name");
+		UserInfo userInfo = this.getUserInfo("name");
 		UserStat userStat = this.getUserStat(userInfo);
 		
 		// when
@@ -42,28 +42,12 @@ public class UserStatRepositoryTest{
 	}
 	
 	@Test
-	public void userStatRepository_findById_Test(){
-		// given
-		UserInfo userInfo = this.getUserInfo(1L, "name");
-		UserStat userStat = this.getUserStat(userInfo);
-		
-		// when
-		this.saveUserInfo(userInfo);
-		this.saveUserStat(userStat);
-		
-		UserStat result = this.userStatRepository.findById(userInfo.getId()).orElseGet(()->new UserStat());
-		
-		// then
-		assertEquals(result.getUserInfo().getName(), userStat.getUserInfo().getName());
-	}
-	
-	@Test
 	public void ColumnA_was_DELETE_BUT_Is_ColumnB_was_still_survive(){
 		// given
-		UserInfo columnA = this.getUserInfo(1L, "columnA");
+		UserInfo columnA = this.getUserInfo("columnA");
 		UserStat aStat = this.getUserStat(columnA);
 		
-		UserInfo columnB = this.getUserInfo(2L, "columnB");
+		UserInfo columnB = this.getUserInfo("columnB");
 		UserStat bStat = this.getUserStat(columnB);
 		
 		// when
@@ -118,9 +102,8 @@ public class UserStatRepositoryTest{
 		return userStat;
 	}
 	
-	private UserInfo getUserInfo(Long id, String name){
+	private UserInfo getUserInfo(String name){
 		UserInfo userInfo = new UserInfo();
-		userInfo.setId(id);
 		userInfo.setName(name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		return userInfo;

@@ -30,28 +30,13 @@ public class UserStatisticsRepositoryTest{
 		// given
 		UserInfo userInfo = this.getUserInfo();
 		UserStatistics userStatistics = this.getUserStatistics();
+		userStatistics.setUserInfo(userInfo);
 		
 		// when
 		this.saveUserInfo(userInfo);
 		this.saveUserStatistics(userStatistics);
 		
 		UserStatistics result = this.userStatisticsRepository.findByName(userInfo.getName()).orElseGet(()->new UserStatistics());
-		
-		// then
-		assertEquals(result.getUserInfo().getName(), userStatistics.getUserInfo().getName());
-	}
-	
-	@Test
-	public void UserStatistics_findById_Test(){
-		// given
-		UserInfo userInfo = this.getUserInfo();
-		UserStatistics userStatistics = this.getUserStatistics();
-		
-		// when
-		this.saveUserInfo(userInfo);
-		this.saveUserStatistics(userStatistics);
-		
-		UserStatistics result = this.userStatisticsRepository.findById(userInfo.getId()).orElseGet(()->new UserStatistics());
 		
 		// then
 		assertEquals(result.getUserInfo().getName(), userStatistics.getUserInfo().getName());
@@ -104,7 +89,6 @@ public class UserStatisticsRepositoryTest{
 	
 	private UserStatistics getUserStatistics(){
 		UserStatistics userStatistics = new UserStatistics();
-		userStatistics.setUserInfo(this.getUserInfo());
 		userStatistics.setRefferingSite("reffering_site_1");
 		userStatistics.addVisitorStatistics();
 		return userStatistics;
@@ -112,7 +96,6 @@ public class UserStatisticsRepositoryTest{
 	
 	private UserInfo getUserInfo(){
 		UserInfo userInfo = new UserInfo();
-		userInfo.setId(789L);
 		userInfo.setName("name");
 		userInfo.setProfileUrl("url.helloworld.com");
 		return userInfo;

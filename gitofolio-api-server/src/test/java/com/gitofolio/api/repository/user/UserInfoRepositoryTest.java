@@ -33,21 +33,6 @@ public class UserInfoRepositoryTest{
 		
 		// then
 		assertEquals(result.getName(), userInfo.getName());
-		assertEquals(result.getId(), userInfo.getId());
-	}
-	
-	@Test
-	public void UserInfoRepository_findById_test(){
-		// given
-		UserInfo userInfo = this.getUserInfo();
-		
-		// when
-		saveUserInfo(userInfo);
-		UserInfo result = this.userInfoRepository.findById(userInfo.getId()).orElseGet(()->new UserInfo());
-		
-		// then
-		assertEquals(result.getName(), userInfo.getName());
-		assertEquals(result.getId(), userInfo.getId());
 	}
 	
 	@Test
@@ -82,7 +67,6 @@ public class UserInfoRepositoryTest{
 	
 	private UserInfo getUserInfo(){
 		UserInfo userInfo = new UserInfo();
-		userInfo.setId(789L);
 		userInfo.setName("name");
 		userInfo.setProfileUrl("url.helloworld.com");
 		return userInfo;

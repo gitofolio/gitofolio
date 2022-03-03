@@ -31,7 +31,7 @@ public class PortfolioCardRepositoryTest{
 	@Test
 	public void PortfolioCardRepository_findByName_Test(){
 		// given
-		UserInfo userInfo = this.getUserInfo(1L, "name");
+		UserInfo userInfo = this.getUserInfo("name");
 		
 		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
 		cards.add(this.getPortfolioCard(1, userInfo));
@@ -52,7 +52,7 @@ public class PortfolioCardRepositoryTest{
 	@Test
 	public void PortfolioCardRepository_save_Long_Article_Test(){
 		// given
-		UserInfo userInfo = this.getUserInfo(1L, "name");
+		UserInfo userInfo = this.getUserInfo("name");
 		
 		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
 		cards.add(this.getPortfolioCard(1, userInfo));
@@ -73,13 +73,13 @@ public class PortfolioCardRepositoryTest{
 	@Test
 	public void ColumnA_was_DELETE_BUT_Is_ColumnB_was_still_survive(){
 		// given
-		UserInfo columnA = this.getUserInfo(1L, "columnA");
+		UserInfo columnA = this.getUserInfo("columnA");
 		List<PortfolioCard> aCards = new ArrayList<PortfolioCard>();
 		aCards.add(this.getPortfolioCard(1, columnA));
 		aCards.add(this.getPortfolioCard(2, columnA));
 		aCards.add(this.getPortfolioCard(3, columnA));
 		
-		UserInfo columnB = this.getUserInfo(2L, "columnB");
+		UserInfo columnB = this.getUserInfo("columnB");
 		List<PortfolioCard> bCards = new ArrayList<PortfolioCard>();
 		bCards.add(this.getPortfolioCard(4, columnB));
 		bCards.add(this.getPortfolioCard(5, columnB));
@@ -147,9 +147,8 @@ public class PortfolioCardRepositoryTest{
 		return portfolioCard;
 	}
 	
-	private UserInfo getUserInfo(Long id, String name){
+	private UserInfo getUserInfo(String name){
 		UserInfo userInfo = new UserInfo();
-		userInfo.setId(id);
 		userInfo.setName(name);
 		userInfo.setProfileUrl("url.helloworld.com");
 		return userInfo;

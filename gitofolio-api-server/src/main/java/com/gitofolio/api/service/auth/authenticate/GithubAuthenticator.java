@@ -48,7 +48,6 @@ public class GithubAuthenticator implements Authenticator<UserDTO, String>{
 	
 	private UserDTO buildLoginedUser(HashMap<String, Object> response){
 		return new UserDTO.Builder()
-			.id(new Long((Integer)response.get("id")))
 			.name((String)response.get("login"))
 			.profileUrl((String)response.get("avatar_url"))
 			.build();

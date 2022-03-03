@@ -56,7 +56,7 @@ public class OAuthController{
 	}
 	
 	@RequestDataCollector(path="/oauth/{application}")
-	@RequestMapping(path = "/oauth/{application}", method = RequestMethod.GET)
+	@RequestMapping(path="/oauth/{application}", method = RequestMethod.GET)
 	public ResponseEntity<Object> redirectWithCert(@PathVariable(value = "application") String application,
 													@RequestParam(value = "redirect", required = false) String redirect,
 													@RequestParam(value = "code", defaultValue = "invalidCode", required=false) String code,
@@ -65,7 +65,7 @@ public class OAuthController{
 		String[] queryStrings = this.getQueryStrings(redirect);
 		
 		Long personalAccessKey = Long.valueOf(queryStrings[1]);
-		UserDTO userDTO = getUserDTO(application, code);
+		UserDTO userDTO = this.getUserDTO(application, code);
 		String cert = RandomKeyGenerator.generateKey(2);
 		saveTokenInPool(userDTO, cert, personalAccessKey);
 		
@@ -82,6 +82,12 @@ public class OAuthController{
 		String[] ans = queryString.split(" ");
 		if(ans.length != 2) throw new IllegalParameterException("queryString 오류", "redirect와 accesskey파라미터에 알수없는 오류가 있습니다.");
 		return ans;
+	}
+	
+	private UserDTO getUserDTO(String application, String code){
+		Authenticator<UserDTO, String> authenticator = this.oauthApplicationFactory.get(application).getAuthenticator();
+		UserDTO userDTO = authenticator.authenticate(code);
+		return this.userInfoCrudProxy.create(userDTO);
 	}
 	
 	private void saveTokenInPool(UserDTO userDTO, String cert, Long personalAccessKey){
@@ -103,12 +109,6 @@ public class OAuthController{
 		this.oauthTokenPool.deleteToken(cert);
 		
 		return new ResponseEntity(responsePayload, HttpStatus.OK);
-	}
-	
-	private UserDTO getUserDTO(String application, String code){
-		Authenticator<UserDTO, String> authenticator = this.oauthApplicationFactory.get(application).getAuthenticator();
-		UserDTO userDTO = authenticator.authenticate(code);
-		return this.userInfoCrudProxy.create(userDTO);
 	}
 	
 	@Autowired

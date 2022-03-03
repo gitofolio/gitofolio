@@ -7,7 +7,7 @@
 <div align="center">
         <p>
         <h3> 마크업 문서에 올리는 이력 카드</h3>
-		<img src="https://api.gitofolio.com/portfoliocard/svg/742?color=white" align="center"/><br/><br/>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/4?color=white" align="center"/><br/><br/>
         자신만의 이력 카드를 만들고 사용하세요 <br/>
         카드는 <b>내용</b>과 <b>테마</b>를 자유롭게 꾸밀수 있으며, 자신의 이력서 (혹은 기술 사이트 등)와 <b>연동</b>시킬수 있어요 <br/>
         현재 인기있는 사용처 에요😊 <i>Notion</i>, <i>Github</i>, <i> Blog</i> ...<br/><br/>
@@ -50,7 +50,7 @@
 <h3>카드 구조와 예시</h3>
 <img src="https://user-images.githubusercontent.com/62425964/154962384-c9e424b5-447c-4465-8d52-db03423c2386.png"/>
 <br/><br/>
-		<img src="https://api.gitofolio.com/portfoliocard/svg/742?color=black"/>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/4?color=black"/>
 		<img src="https://api.gitofolio.com/portfoliocard/svg/628?color=white"/>
 		<img src="https://api.gitofolio.com/portfoliocard/svg/792?color=neonpurple"/>
 </div>
