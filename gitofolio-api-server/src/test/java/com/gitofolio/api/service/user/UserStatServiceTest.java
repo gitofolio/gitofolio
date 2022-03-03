@@ -34,10 +34,11 @@ public class UserStatServiceTest{
 	@Transactional
 	public void UserStatService_GET_Test(){
 		// given
-		UserStat userStat = this.getUserStat();
+		UserInfo userInfo = this.getUserInfo();
+		UserStat userStat = this.getUserStat(userInfo);
 		
 		// when
-		given(this.userStatRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(this.getUserStat()));
+		given(this.userStatRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(this.getUserStat(userInfo)));
 		
 		UserStat result = this.userStatService.get(userStat.getUserInfo().getName());
 		
@@ -49,7 +50,8 @@ public class UserStatServiceTest{
 	@Transactional
 	public void UserStatService_Get_NonExistUser_Fail_Test(){
 		// given
-		UserStat userStat = this.getUserStat();
+		UserInfo userInfo = this.getUserInfo();
+		UserStat userStat = this.getUserStat(userInfo);
 		
 		// when
 		given(this.userInfoRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(null));
@@ -60,10 +62,10 @@ public class UserStatServiceTest{
 		assertThrows(NonExistUserException.class, ()->this.userStatService.get(userStat.getUserInfo().getName()));
 	}
 	
-	private UserStat getUserStat(){
+	private UserStat getUserStat(UserInfo userInfo){
 		UserStat userStat = new UserStat();
 		userStat.setTotalVisitors(0);
-		userStat.setUserInfo(this.getUserInfo());
+		userStat.setUserInfo(userInfo);
 		
 		return userStat;
 	}

@@ -4,27 +4,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gitofolio.api.service.user.dtos.PortfolioCardDTO;
-import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.user.exception.NonExistUserException;
-import com.gitofolio.api.service.user.exception.IllegalParameterException;
-import com.gitofolio.api.service.user.exception.EditException;
-import com.gitofolio.api.repository.user.PortfolioCardRepository;
-import com.gitofolio.api.repository.user.UserInfoRepository;
-import com.gitofolio.api.domain.user.PortfolioCard;
-import com.gitofolio.api.domain.user.UserInfo;
+import com.gitofolio.api.service.user.dtos.*;
+import com.gitofolio.api.service.user.exception.*;
+import com.gitofolio.api.repository.user.*;
+import com.gitofolio.api.domain.user.*;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.lang.reflect.Field;
 
 @Service
 public class PortfolioCardService{
 	
 	private PortfolioCardRepository portfolioCardRepository;
-	
 	private UserInfoRepository userInfoRepository;
+	private int portfolioCardLimitCnt = 5;
 	
 	public List<PortfolioCard> get(String name){
 		List<PortfolioCard> portfolioCards = this.portfolioCardRepository.findByName(name);
@@ -63,6 +56,8 @@ public class PortfolioCardService{
 		UserInfo userInfo = this.userInfoRepository.findByName(portfolioCards.get(0).getUserInfo().getName())
 			.orElseThrow(()->new NonExistUserException("NonExistUserException", "존재 하지 않는 유저 입니다 유저이름을 확인해 주세요.", "/portfoliocards/"));
 		
+		if(this.isPortfolioCardCntReachedLimit(userInfo.getName())) throw new EditException("EditException", "포트폴리오카드 최대 생성 가능 갯수에 도달했습니다.");
+		
 		for(PortfolioCard portfolioCard : portfolioCards){
 			portfolioCard.setUserInfo(userInfo);
 			portfolioCardRepository.save(portfolioCard);
@@ -70,7 +65,13 @@ public class PortfolioCardService{
 		
 		return get(portfolioCards.get(0).getUserInfo().getName());
 	}
-
+	
+	private boolean isPortfolioCardCntReachedLimit(String name){
+		List<PortfolioCard> portfolioCards = this.portfolioCardRepository.findByName(name);
+		if(portfolioCards.size() >= this.portfolioCardLimitCnt) return true;
+		return false;
+	}
+	
 	public void delete(String name){
 		this.userInfoRepository.findByName(name).orElseThrow(()->new NonExistUserException("NonExistUserException", "존재 하지 않는 유저 입니다 유저이름을 확인해 주세요.", "/portfoliocards/"+name));
 		this.portfolioCardRepository.deleteByName(name);

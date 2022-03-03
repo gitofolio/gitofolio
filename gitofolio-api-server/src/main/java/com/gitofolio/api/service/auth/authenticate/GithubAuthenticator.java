@@ -23,7 +23,7 @@ public class GithubAuthenticator implements Authenticator<UserDTO, String>{
 	
 	@Override
 	public UserDTO authenticate(String parameter){
-		HttpHeaders headers = getHttpHeaders(parameter);
+		HttpHeaders headers = this.getHttpHeaders(parameter);
 		HttpEntity httpEntity = new HttpEntity<>(headers);
 		
 		HashMap<String, Object> response = null;
@@ -33,7 +33,7 @@ public class GithubAuthenticator implements Authenticator<UserDTO, String>{
 			throw new AuthenticateException("깃허브 인증 오류","토큰에 해당하는 유저를 찾을 수 없습니다.");
 		}
 		
-		return buildLoginedUser(response);
+		return this.buildLoginedUser(response);
 	}
 	
 	private HttpHeaders getHttpHeaders(String parameter){

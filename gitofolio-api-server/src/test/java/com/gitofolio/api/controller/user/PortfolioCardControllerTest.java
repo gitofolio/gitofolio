@@ -357,7 +357,6 @@ public class PortfolioCardControllerTest {
 			.portfolioCardDTO(this.getPortfolioCard(1L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/2"))
 			.portfolioCardDTO(this.getPortfolioCard(2L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/3"))
 			.portfolioCardDTO(this.getPortfolioCard(3L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/4"))
-			.portfolioCardDTO(this.getPortfolioCard(4L, "Lorem ipsum", 0, "https://api.gitofolio.com/portfolio/name/5"))
 			.build();
 		
 		return user;

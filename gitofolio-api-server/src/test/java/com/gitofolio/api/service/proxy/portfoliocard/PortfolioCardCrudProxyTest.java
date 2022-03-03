@@ -58,7 +58,7 @@ public class PortfolioCardCrudProxyTest{
 		
 		// when
 		given(this.portfolioCardMapper.resolveMap(any(UserDTO.class))).willReturn(Arrays.asList(this.getPortfolioCard(1)));
-		given(this.portfolioCardMapper.doMap(any(List.class))).willReturn(this.getUserDTO());
+		given(this.portfolioCardMapper.doMap(any(List.class))).willReturn(userDTO);
 		given(this.portfolioCardService.save(any(List.class))).willReturn(Arrays.asList(this.getPortfolioCard(1)));
 		
 		UserDTO result = this.portfolioCardCrudProxy.create(userDTO);
@@ -74,7 +74,7 @@ public class PortfolioCardCrudProxyTest{
 		
 		// when
 		given(this.portfolioCardMapper.resolveMap(any(UserDTO.class))).willReturn(Arrays.asList(this.getPortfolioCard(1)));
-		given(this.portfolioCardMapper.doMap(any(List.class))).willReturn(this.getUserDTO());
+		given(this.portfolioCardMapper.doMap(any(List.class))).willReturn(userDTO);
 		given(this.portfolioCardService.edit(any(List.class))).willReturn(Arrays.asList(this.getPortfolioCard(1)));
 		
 		UserDTO result = this.portfolioCardCrudProxy.update(userDTO);
@@ -90,7 +90,7 @@ public class PortfolioCardCrudProxyTest{
 		
 		// when
 		given(this.portfolioCardService.get(any(Long.class))).willReturn(Arrays.asList(this.getPortfolioCard(1)));
-		given(this.portfolioCardMapper.doMap(any(List.class))).willReturn(this.getUserDTO());
+		given(this.portfolioCardMapper.doMap(any(List.class))).willReturn(userDTO);
 		
 		UserDTO result = this.portfolioCardCrudProxy.read(userDTO.getId());
 		
@@ -105,7 +105,7 @@ public class PortfolioCardCrudProxyTest{
 		
 		// when
 		given(this.portfolioCardService.get(any(String.class))).willReturn(Arrays.asList(this.getPortfolioCard(1)));
-		given(this.portfolioCardMapper.doMap(any(List.class))).willReturn(this.getUserDTO());
+		given(this.portfolioCardMapper.doMap(any(List.class))).willReturn(userDTO);
 		
 		UserDTO result = this.portfolioCardCrudProxy.read(userDTO.getName());
 		

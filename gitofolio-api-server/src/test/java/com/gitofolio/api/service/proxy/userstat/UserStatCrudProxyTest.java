@@ -46,7 +46,7 @@ public class UserStatCrudProxyTest{
 		
 		// when
 		given(this.userStatService.edit(any(UserStat.class))).willReturn(this.getUserStat());
-		given(this.userStatMapper.doMap(any(UserStat.class))).willReturn(this.getUserDTO());
+		given(this.userStatMapper.doMap(any(UserStat.class))).willReturn(userDTO);
 		given(this.userStatMapper.resolveMap(any(UserDTO.class))).willReturn(this.getUserStat());
 		
 		UserDTO result = this.userStatCrudProxy.update(userDTO);
@@ -62,7 +62,7 @@ public class UserStatCrudProxyTest{
 		
 		// when
 		given(this.userStatService.get(any(String.class))).willReturn(this.getUserStat());
-		given(this.userStatMapper.doMap(any(UserStat.class))).willReturn(this.getUserDTO());
+		given(this.userStatMapper.doMap(any(UserStat.class))).willReturn(userDTO);
 		
 		UserDTO result = this.userStatCrudProxy.read(userDTO.getName());
 		

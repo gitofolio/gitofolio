@@ -34,7 +34,8 @@ public class UserStatisticsServiceTest{
 	@Transactional
 	public void UserStatisticsService_Get_Test(){
 		// given
-		UserStatistics userStatistics = this.getUserStatistics();
+		UserInfo userInfo = this.getUserInfo();
+		UserStatistics userStatistics = this.getUserStatistics(userInfo);
 		
 		// when
 		given(this.userStatisticsRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(userStatistics));
@@ -51,7 +52,8 @@ public class UserStatisticsServiceTest{
 	@Transactional
 	public void UserStatisticsService_Get_Fail_Test(){
 		// given
-		UserStatistics userStatistics = this.getUserStatistics();
+		UserInfo userInfo = this.getUserInfo();
+		UserStatistics userStatistics = this.getUserStatistics(userInfo);
 		
 		// when
 		given(this.userStatisticsRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(null));
@@ -61,9 +63,9 @@ public class UserStatisticsServiceTest{
 		assertThrows(NonExistUserException.class, ()->this.userStatisticsService.get(userStatistics.getUserInfo().getName()));
 	}
 
-	private UserStatistics getUserStatistics(){
+	private UserStatistics getUserStatistics(UserInfo userInfo){
 		UserStatistics userStatistics = new UserStatistics();
-		userStatistics.setUserInfo(this.getUserInfo());
+		userStatistics.setUserInfo(userInfo);
 		userStatistics.setRefferingSite("reffering_site_1");
 		userStatistics.addVisitorStatistics();
 		return userStatistics;

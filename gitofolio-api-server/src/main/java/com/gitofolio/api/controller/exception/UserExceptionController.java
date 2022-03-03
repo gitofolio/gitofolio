@@ -37,6 +37,13 @@ public class UserExceptionController{
 		return new ResponseEntity(errorDTO, this.headers, HttpStatus.CONFLICT);
 	}
 	
+	@ExceptionHandler({EditException.class})
+	public ResponseEntity<ErrorDTO> editException(EditException editException){
+		ErrorDTO errorDTO = new ErrorDTO(editException.getTitle()
+										, editException.getMessage());
+		return new ResponseEntity(errorDTO, this.headers, HttpStatus.NOT_ACCEPTABLE);
+	}
+	
 	@ExceptionHandler({MethodArgumentTypeMismatchException.class})
 	public ResponseEntity<ErrorDTO> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException methodArgumentTypeMismatchException){
 		ErrorDTO errorDTO = new ErrorDTO("ILLEGALPARAMETERERROR", "잘못된 파라미터 타입을 입력하셨습니다.");

@@ -45,7 +45,7 @@ public class UserInfoCrudProxyTest{
 		
 		// when
 		given(this.userInfoService.save(any(UserInfo.class))).willReturn(this.getUserInfo());
-		given(this.userInfoMapper.doMap(any(UserInfo.class))).willReturn(this.getUserDTO());
+		given(this.userInfoMapper.doMap(any(UserInfo.class))).willReturn(userDTO);
 		given(this.userInfoMapper.resolveMap(any(UserDTO.class))).willReturn(this.getUserInfo());
 		
 		UserDTO result = this.userInfoCrudProxy.create(userDTO);
@@ -61,7 +61,7 @@ public class UserInfoCrudProxyTest{
 		
 		// when
 		given(this.userInfoService.edit(any(UserInfo.class))).willReturn(this.getUserInfo());
-		given(this.userInfoMapper.doMap(any(UserInfo.class))).willReturn(this.getUserDTO());
+		given(this.userInfoMapper.doMap(any(UserInfo.class))).willReturn(userDTO);
 		given(this.userInfoMapper.resolveMap(any(UserDTO.class))).willReturn(this.getUserInfo());
 		
 		UserDTO result = this.userInfoCrudProxy.update(userDTO);
@@ -77,7 +77,7 @@ public class UserInfoCrudProxyTest{
 		
 		// when
 		given(this.userInfoService.get(any(String.class))).willReturn(this.getUserInfo());
-		given(this.userInfoMapper.doMap(any(UserInfo.class))).willReturn(this.getUserDTO());
+		given(this.userInfoMapper.doMap(any(UserInfo.class))).willReturn(userDTO);
 		
 		UserDTO result = this.userInfoCrudProxy.read(userDTO.getName());
 		

@@ -35,10 +35,11 @@ public class PortfolioCardServiceTest{
 	@Transactional
 	public void portfolioCardService_Get_Test(){
 		// given
+		UserInfo userInfo = this.getUserInfo();
 		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
-		cards.add(this.getPortfolioCard(1));
-		cards.add(this.getPortfolioCard(2));
-		cards.add(this.getPortfolioCard(3));
+		cards.add(this.getPortfolioCard(1, userInfo));
+		cards.add(this.getPortfolioCard(2, userInfo));
+		cards.add(this.getPortfolioCard(3, userInfo));
 		
 		// when
 		given(this.portfolioCardRepository.findByName(any(String.class))).willReturn(cards);
@@ -50,22 +51,25 @@ public class PortfolioCardServiceTest{
 		assertEquals(result.size(), 3);
 	}
 	
-	// @Test
-	// @Transactional
-	// public void portfolioCardService_GET_STRING_AND_LONG_TEST(){
-	// 	// given
-	// 	List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
-	// 	cards.add(this.getPortfolioCard(1));
+	@Test
+	@Transactional
+	public void portfolioCardService_portfolioCard_reached_limit_TEST(){
+		// given
+		UserInfo userInfo = this.getUserInfo();
+		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
+		cards.add(this.getPortfolioCard(1, userInfo));
+		cards.add(this.getPortfolioCard(2, userInfo));
+		cards.add(this.getPortfolioCard(3, userInfo));
+		cards.add(this.getPortfolioCard(4, userInfo));
+		cards.add(this.getPortfolioCard(5, userInfo));
 		
-	// 	// when
-	// 	given(this.portfolioCardRepository.findByNameAndId(any(String.class), any(Long.class))).willReturn(Optional.of(cards.get(0)));
+		// when
+		given(this.portfolioCardRepository.findByName(any(String.class))).willReturn(cards);
+		given(this.userInfoRepository.findByName(any(String.class))).willReturn(Optional.ofNullable(userInfo));
 		
-	// 	List<PortfolioCard> result = this.portfolioCardService.get(cards.get(0).getUserInfo().getName(), 1L);
-		
-	// 	// then
-	// 	assertEquals(result.get(0).getUserInfo().getName(), cards.get(0).getUserInfo().getName());
-	// 	assertEquals(result.size(), 1);
-	// }
+		// then
+		assertThrows(EditException.class, ()->this.portfolioCardService.save(cards));
+	}
 	
 	@Test
 	@Transactional
@@ -99,13 +103,14 @@ public class PortfolioCardServiceTest{
 	@Transactional
 	public void portfolioCardService_Edit_Test(){
 		// given
+		UserInfo userInfo = this.getUserInfo();
 		List<PortfolioCard> cards = new ArrayList<PortfolioCard>();
-		cards.add(this.getPortfolioCard(1));
-		cards.add(this.getPortfolioCard(2));
-		cards.add(this.getPortfolioCard(3));
+		cards.add(this.getPortfolioCard(1, userInfo));
+		cards.add(this.getPortfolioCard(2, userInfo));
+		cards.add(this.getPortfolioCard(3, userInfo));
 		
 		List<PortfolioCard> editCards = new ArrayList<PortfolioCard>();
-		PortfolioCard editedCard = this.getPortfolioCard(1);
+		PortfolioCard editedCard = this.getPortfolioCard(1, userInfo);
 		editedCard.setPortfolioCardArticle("edit");
 		editCards.add(editedCard);
 		
@@ -119,14 +124,14 @@ public class PortfolioCardServiceTest{
 		assertEquals(result.get(0).getPortfolioCardArticle(), "edit");
 	}
 	
-	private PortfolioCard getPortfolioCard(int cardCnt){
+	private PortfolioCard getPortfolioCard(int cardCnt, UserInfo userInfo){
 		PortfolioCard portfolioCard = new PortfolioCard();
 		portfolioCard.setId(Long.valueOf(cardCnt));
 		portfolioCard.setPortfolioCardArticle("article"+cardCnt);
 		portfolioCard.setPortfolioCardWatched(cardCnt);
 		portfolioCard.setPortfolioUrl("portfolioUrl"+cardCnt);
 		
-		portfolioCard.setUserInfo(this.getUserInfo());
+		portfolioCard.setUserInfo(userInfo);
 		return portfolioCard;
 	}
 	

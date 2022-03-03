@@ -45,7 +45,7 @@ public class UserStatisticsCrudProxyTest{
 		
 		// when
 		given(this.userStatisticsService.get(any(String.class))).willReturn(this.getUserStatistics());
-		given(this.userStatisticsMapper.doMap(any(UserStatistics.class))).willReturn(this.getUserDTO());
+		given(this.userStatisticsMapper.doMap(any(UserStatistics.class))).willReturn(userDTO);
 		
 		UserDTO result = this.userStatisticsCrudProxy.read(userDTO.getName());
 		

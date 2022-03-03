@@ -13,6 +13,11 @@ public class EditException extends UnCaughtException{
 		this.request = request;
 	}
 	
+	public EditException(String title, String message){
+		super(message);
+		this.title = title;
+	}
+	
 	public String getTitle(){
 		return this.title;
 	}
