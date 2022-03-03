@@ -60,13 +60,11 @@
 <div align="center">
 <p> Gitofolio는 무료로 서비스되는 오픈소스 프로젝트로 양질의 서비스를 제공하기위해 후원을 받고있습니다. </p>
 
-<img src="https://user-images.githubusercontent.com/62425964/156378298-d559ee86-a1f1-4c6e-b41d-c9c5845a7ce8.png"/>
+<br/><p><a href="">후원링크</a></p><br/>
 
 <p><i> *모든 후원금은 Gitofolio개발 및 서버비로 사용됩니다. </i></p>
 
-<p>후원자 혜택 <br/>
-- 원하는 색상 테마의 포트폴리오 카드 제작 <br/>
-- 메인페이지 배경에 후원자 포트폴리오 카드 노출 가능 (추가 예정) <br/>
+<p>
 혜택관련 문의 : develxb@gmail.com 
 </p>
 
