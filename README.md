@@ -58,21 +58,6 @@
 <h2></h2>
 
 <div align="center">
-<p> Gitofolio는 무료로 서비스되는 오픈소스 프로젝트로 양질의 서비스를 제공하기위해 후원을 받고있습니다. </p>
-
-<br/><p><a href="">후원링크</a></p><br/>
-
-<p><i> *모든 후원금은 Gitofolio개발 및 서버비로 사용됩니다. </i></p>
-
-<p>
-혜택관련 문의 : develxb@gmail.com 
-</p>
-
-</div>
-
-<h2></h2>
-
-<div align="center">
         라이센스 : <a><i>MIT</i></a> / 문의 : <i>develxb@gmail.com</i> / <a href="https://gitofolio.com"><i>홈페이지</i></a> / <a href="https://api.gitofolio.com/restdocs"><i>API Docs</i></a> / <a>Update log</a>
 		<br/><div align="right"> <i>This is api server repository</i> <br/> @author : <a href="https://github.com/devxb"><i>devxb</i></a></div>
 </div>
