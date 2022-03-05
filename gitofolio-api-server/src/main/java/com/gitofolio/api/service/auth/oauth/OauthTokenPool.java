@@ -40,6 +40,11 @@ public class OauthTokenPool{
 		return ans.token;
 	} 
 	
+	private boolean validatePersonalAccessTokenValue(String actual, String expected) throws AuthenticateException{
+		if(actual.equals(expected)) return true;
+		else throw new AuthenticateException("personal access token 오류", "유효하지않은 personal access token입니다.");
+	}
+	
 	public void deleteToken(String cert){
 		try{
 			this.tokenPool.remove(cert);
@@ -53,11 +58,6 @@ public class OauthTokenPool{
 	private void deleteOldToken(){
 		for(Map.Entry<String, Token> token : this.tokenPool.entrySet())
 			if(token.getValue().isOldToken()) tokenPool.remove(token.getKey());
-	}
-	
-	private boolean validatePersonalAccessTokenValue(String actual, String expected) throws AuthenticateException{
-		if(actual.equals(expected)) return true;
-		else throw new AuthenticateException("personal access token 오류", "유효하지않은 personal access token입니다.");
 	}
 	
 	private static class Token{

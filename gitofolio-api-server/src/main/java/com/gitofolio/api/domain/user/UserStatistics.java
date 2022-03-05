@@ -1,19 +1,8 @@
 package com.gitofolio.api.domain.user;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.FetchType;
-import javax.persistence.CascadeType;
-import javax.persistence.OrderBy;
+import javax.persistence.*;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 import java.time.LocalDate;
 
@@ -54,48 +43,6 @@ public class UserStatistics{
 		return this.userInfo;
 	}
 	
-	public void setVisitorStatistics(){
-		if(visitorStatistics.size() > 7) visitorStatistics.remove(0);
-		VisitorStatistics newVs = null;
-		for(VisitorStatistics vs : visitorStatistics){
-			if(vs.getVisitDate().toString().equals(LocalDate.now().toString())) newVs = vs;
-		}
-		if(newVs == null) {
-			while(visitorStatistics.size() >= 7) visitorStatistics.remove(0);
-			newVs = new VisitorStatistics(this);
-			this.visitorStatistics.add(newVs);
-		}
-		newVs.setVisitorCount(newVs.getVisitorCount()+1);
-	}
-	
-	public void setVisitorStatistics(int visitorCount){
-		if(visitorStatistics.size() > 7) visitorStatistics.remove(0);
-		VisitorStatistics newVs = null;
-		for(VisitorStatistics vs : visitorStatistics){
-			if(vs.getVisitDate().toString().equals(LocalDate.now().toString())) newVs = vs;
-		}
-		if(newVs == null) {
-			while(visitorStatistics.size() >= 7) visitorStatistics.remove(0);
-			newVs = new VisitorStatistics(this);
-			this.visitorStatistics.add(newVs);
-		}
-		newVs.setVisitorCount(visitorCount);
-	}
-	
-	public void addVisitorStatistics(){
-		if(visitorStatistics.size() > 7) visitorStatistics.remove(0);
-		VisitorStatistics newVs = null;
-		for(VisitorStatistics vs : visitorStatistics){
-			if(vs.getVisitDate().toString().equals(LocalDate.now().toString())) newVs = vs;
-		}
-		if(newVs == null) {
-			while(visitorStatistics.size() >= 7) visitorStatistics.remove(0);
-			newVs = new VisitorStatistics(this);
-			newVs.setVisitorCount(1);
-			this.visitorStatistics.add(newVs);
-		}
-		else newVs.setVisitorCount(newVs.getVisitorCount()+1);
-	}
 	
 	public void setRefferingSite(String refferingSite){
 		while(refferingSites.size() > 30) refferingSites.remove(0);
@@ -103,6 +50,43 @@ public class UserStatistics{
 			if(rfs.getRefferingSiteName().equals(refferingSite)) return;
 		}
 		this.refferingSites.add(new RefferingSite(refferingSite, this));
+	}
+	
+	public void addVisitorStatistics(){
+		Collections.sort(this.visitorStatistics);
+		VisitorStatistics todayVisitorStatistics = this.getTodayVisitorStatistics();
+		todayVisitorStatistics.addVisitorCount();
+	}
+	
+	private VisitorStatistics getTodayVisitorStatistics(){
+		if(this.visitorStatistics.isEmpty()) return this.createVisitorStatistics();
+		if(this.visitorStatistics.size()==7){
+			if(this.isVisitorStatisticsUpdated()) return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics());
+			this.updateOldestVisitorStatistics();
+			Collections.sort(this.visitorStatistics);
+			return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics());
+		}
+		if(this.isVisitorStatisticsUpdated()) return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics());
+		return this.createVisitorStatistics();
+	}
+	
+	private VisitorStatistics createVisitorStatistics(){
+		VisitorStatistics newVs = new VisitorStatistics(this);
+		this.visitorStatistics.add(newVs);
+		Collections.sort(this.visitorStatistics);
+		return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics());
+	}
+	
+	private boolean isVisitorStatisticsUpdated(){
+		return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics()).isVisitDateToday();
+	}
+	
+	private int getLastIndexOfVisitorStatistics(){
+		return this.visitorStatistics.size()-1;
+	}
+	
+	private void updateOldestVisitorStatistics(){
+		this.visitorStatistics.get(0).updateVisitDate();
 	}
 	
 	public void setUserInfo(UserInfo userInfo){

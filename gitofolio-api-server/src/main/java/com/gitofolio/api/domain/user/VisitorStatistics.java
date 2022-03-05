@@ -1,19 +1,12 @@
 package com.gitofolio.api.domain.user;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name="VISITOR_STATISTICS")
-public class VisitorStatistics{
+public class VisitorStatistics implements Comparable<VisitorStatistics>{
 	
 	@Id
 	@GeneratedValue
@@ -30,6 +23,14 @@ public class VisitorStatistics{
 	@JoinColumn(name="USER_STATISTICS_ID")
 	private UserStatistics userStatistics;
 	
+	@Override
+	public int compareTo(VisitorStatistics vs){
+		boolean result = this.visitDate.isAfter(vs.getVisitDate());
+		if(result) return 1;
+		if(!result) return -1;
+		return 0;
+	}
+	
 	public VisitorStatistics(){}
 	
 	public VisitorStatistics(UserStatistics userStatistics){
@@ -44,8 +45,21 @@ public class VisitorStatistics{
 		this.userStatistics = userStatistics;
 	}
 	
+	public boolean isVisitDateToday(){
+		return this.visitDate.isEqual(LocalDate.now());
+	}
+	
+	public void updateVisitDate(){
+		this.visitDate = LocalDate.now();
+		this.visitorCount = 0;
+	}
+	
 	public LocalDate getVisitDate(){
 		return this.visitDate;
+	}
+	
+	public void addVisitorCount(){
+		this.visitorCount++;
 	}
 	
 	public int getVisitorCount(){

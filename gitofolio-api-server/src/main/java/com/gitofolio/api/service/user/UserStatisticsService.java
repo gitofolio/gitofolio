@@ -4,16 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gitofolio.api.service.user.dtos.UserStatisticsDTO.RefferingSiteDTO;
-import com.gitofolio.api.service.user.dtos.UserStatisticsDTO.VisitorStatisticsDTO;
+import com.gitofolio.api.service.user.dtos.UserStatisticsDTO.*;
 import com.gitofolio.api.service.user.exception.NonExistUserException;
-import com.gitofolio.api.repository.user.UserStatisticsRepository;
-import com.gitofolio.api.repository.user.UserInfoRepository;
-import com.gitofolio.api.domain.user.UserStatistics;
-import com.gitofolio.api.domain.user.RefferingSite;
-import com.gitofolio.api.domain.user.VisitorStatistics;
-import com.gitofolio.api.domain.user.UserInfo;
-import com.gitofolio.api.domain.user.UserStatistics;
+import com.gitofolio.api.repository.user.*;
+import com.gitofolio.api.domain.user.*;
 
 import java.time.LocalDate;
 import java.util.List;
