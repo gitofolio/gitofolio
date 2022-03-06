@@ -29,7 +29,10 @@ public class UserInfoService{
 	public UserInfo save(UserInfo user){
 		UserInfo exist = this.userInfoRepository.findByName(user.getName()).orElseGet(()->new UserInfo());
 		if(isNewUser(exist)) userInfoRepository.save(user);
-		else return this.edit(user);
+		else {
+			user.setId(exist.getId());
+			return this.edit(user);
+		}
 		
 		return this.get(user.getName());
 	}
