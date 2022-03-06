@@ -264,7 +264,7 @@ public class SvgStringLineBreakerAop{
 		ascii[(int)'t'] = 4;
 		ascii[(int)'u'] = 8;
 		ascii[(int)'v'] = 6;
-		ascii[(int)'w'] = 11;
+		ascii[(int)'w'] = 10; // 11 -> 10
 		ascii[(int)'x'] = 6;
 		ascii[(int)'y'] = 6;
 		ascii[(int)'z'] = 6;
