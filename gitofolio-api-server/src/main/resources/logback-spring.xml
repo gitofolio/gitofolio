@@ -49,6 +49,5 @@
 		<appender-ref ref="INFO_LOG"/> 
 		<appender-ref ref="WARN_LOG"/> 
 	</root>
-
 	
 </configuration>

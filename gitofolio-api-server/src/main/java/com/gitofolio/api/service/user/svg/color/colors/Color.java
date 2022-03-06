@@ -13,6 +13,7 @@ public abstract class Color{
 	protected String textColor = "";
 	protected String subColor = "";
 	protected String textShadowColor = "";
+	protected String backgroundImage = "none";
 	
 	public String getName(){
 		return this.name;
@@ -36,6 +37,10 @@ public abstract class Color{
 	
 	public String getTextShadowColor(){
 		return this.textShadowColor;
+	}
+	
+	public String getBackgroundImage(){
+		return this.backgroundImage;
 	}
 	
 }
