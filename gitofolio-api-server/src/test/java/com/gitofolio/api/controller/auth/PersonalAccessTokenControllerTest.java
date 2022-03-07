@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.domain.auth.PersonalAccessToken;
-import com.gitofolio.api.service.auth.authenticate.Authenticator;
+import com.gitofolio.api.service.auth.oauth.authenticate.Authenticator;
 import com.gitofolio.api.service.auth.oauth.applications.*;
 import com.gitofolio.api.service.auth.oauth.OauthTokenPool;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;

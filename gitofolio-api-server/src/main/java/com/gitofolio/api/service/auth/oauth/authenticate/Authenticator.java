@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.auth.authenticate;
+package com.gitofolio.api.service.auth.oauth.authenticate;
 
 public interface Authenticator<V, T>{
 	

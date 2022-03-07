@@ -7,8 +7,8 @@
 <div align="center">
 	<br/>
         <p>
-			⭐ 스타를 눌러주세요. 개발에 큰 도움이 됩니다. <br/>
-			⭐ Press the star. It motivates us to improve our services.
+			⭐ 스타를 눌러주세요. 😎 개발에 큰 도움이 됩니다. ⭐<br/>
+			⭐ Press the star. 😎 It motivates us to improve our services. ⭐
 		</p>
 		<p>
         <h3> 마크업 문서에 올리는 이력 카드</h3>

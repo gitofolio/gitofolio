@@ -1,7 +1,7 @@
 package com.gitofolio.api.service.auth.oauth.applications.github;
 
 import com.gitofolio.api.service.auth.oauth.applications.OauthApplication;
-import com.gitofolio.api.service.auth.authenticate.Authenticator;
+import com.gitofolio.api.service.auth.oauth.authenticate.Authenticator;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;

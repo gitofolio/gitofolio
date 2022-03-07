@@ -1,4 +1,4 @@
-package com.gitofolio.api.service.auth.authenticate;
+package com.gitofolio.api.service.auth.oauth.authenticate;
 
 import org.springframework.web.client.RestTemplate;
 import org.springframework.stereotype.Service;

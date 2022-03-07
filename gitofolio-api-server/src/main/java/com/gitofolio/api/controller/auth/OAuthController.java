@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.http.*;
 
 import com.gitofolio.api.service.user.dtos.UserDTO;
-import com.gitofolio.api.service.auth.authenticate.Authenticator;
+import com.gitofolio.api.service.auth.oauth.authenticate.Authenticator;
 import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.domain.user.EncodedProfileImage;
