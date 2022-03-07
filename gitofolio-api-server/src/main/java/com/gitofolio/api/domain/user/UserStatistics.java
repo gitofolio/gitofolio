@@ -2,6 +2,8 @@ package com.gitofolio.api.domain.user;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.BatchSize;
+	
 import java.util.*;
 
 import java.time.LocalDate;
@@ -15,10 +17,12 @@ public class UserStatistics{
 	@Column(name="USER_STATISTICS_ID")
 	private Long id;
 	
-	@OneToMany(mappedBy="userStatistics" ,fetch=FetchType.LAZY, orphanRemoval=true, cascade=CascadeType.ALL)
+	@BatchSize(size=30)
+	@OneToMany(mappedBy="userStatistics", fetch=FetchType.LAZY, orphanRemoval=true, cascade=CascadeType.ALL)
 	@OrderBy("visitDate asc")
 	private List<VisitorStatistics> visitorStatistics = new ArrayList<VisitorStatistics>();
 	
+	@BatchSize(size=50)
 	@OneToMany(mappedBy="userStatistics", fetch=FetchType.EAGER, orphanRemoval=true, cascade=CascadeType.ALL)
 	@OrderBy("refferingDate asc")
 	private List<RefferingSite> refferingSites = new ArrayList<RefferingSite>();
@@ -45,7 +49,6 @@ public class UserStatistics{
 	
 	
 	public void setRefferingSite(String refferingSiteName){
-		Collections.sort(this.refferingSites);
 		if(this.isRefferingSiteAlreadyExist(refferingSiteName)) return;
 		if(this.isRefferingSiteTableFull()){
 			RefferingSite refferingSite = this.refferingSites.get(0);
@@ -66,7 +69,6 @@ public class UserStatistics{
 	}
 	
 	public void addVisitorStatistics(){
-		Collections.sort(this.visitorStatistics);
 		VisitorStatistics todayVisitorStatistics = this.getTodayVisitorStatistics();
 		todayVisitorStatistics.addVisitorCount();
 	}
@@ -76,7 +78,6 @@ public class UserStatistics{
 		if(this.visitorStatistics.size()>=7){
 			if(this.isVisitorStatisticsUpdated()) return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics());
 			this.updateOldestVisitorStatistics();
-			Collections.sort(this.visitorStatistics);
 			return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics());
 		}
 		if(this.isVisitorStatisticsUpdated()) return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics());
@@ -86,7 +87,6 @@ public class UserStatistics{
 	private VisitorStatistics createVisitorStatistics(){
 		VisitorStatistics newVs = new VisitorStatistics(this);
 		this.visitorStatistics.add(newVs);
-		Collections.sort(this.visitorStatistics);
 		return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics());
 	}
 	

@@ -50,4 +50,8 @@
 		<appender-ref ref="WARN_LOG"/> 
 	</root>
 	
+	<root level="ERROR">
+		<appender-ref ref="STDOUT"/>
+	</root>
+	
 </configuration>

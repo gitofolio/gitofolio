@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface EncodedProfileImageRepository extends JpaRepository<EncodedProfileImage, Long>{
 	
-	@Query("select e from EncodedProfileImage e inner join e.userInfo i where i.name = :name")
+	@Query("select e from EncodedProfileImage e inner join fetch e.userInfo i where i.name = :name")
 	Optional<EncodedProfileImage> findByName(@Param("name") String name);
 	
 	@Modifying

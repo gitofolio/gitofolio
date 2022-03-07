@@ -19,11 +19,11 @@ public class UserStatService{
 	public UserStat get(String name){
 		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
 		
-		if(isNewUserStat(userStat)){
+		if(this.isNewUserStat(userStat)){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"+name));
 			userStat = this.setUpUserStat(userStat, userInfo);
-			userStatRepository.save(userStat);
+			this.userStatRepository.save(userStat);
 		}
 		
 		return userStat;
@@ -34,7 +34,7 @@ public class UserStatService{
 			.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
 		
 		UserStat exist = this.userStatRepository.findByName(userInfo.getName()).orElseGet(()->new UserStat());
-		if(isNewUserStat(exist)) userStatRepository.save(userStat);
+		if(this.isNewUserStat(exist)) userStatRepository.save(userStat);
 		
 		return exist;
 	}
@@ -47,11 +47,11 @@ public class UserStatService{
 	@Transactional
 	public void increaseTotalVisitors(String name){
 		UserStat userStat = this.userStatRepository.findByName(name).orElseGet(()->new UserStat());
-		if(isNewUserStat(userStat)){
+		if(this.isNewUserStat(userStat)){
 			UserInfo userInfo = this.userInfoRepository.findByName(name)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
 			userStat = this.setUpUserStat(userStat, userInfo);
-			userStatRepository.save(userStat);
+			this.userStatRepository.save(userStat);
 		}
 		userStat.addTotalVisitors();
 		return;
@@ -60,11 +60,11 @@ public class UserStatService{
 	@Transactional
 	public void increaseTotalVisitors(Long id){
 		UserStat userStat = this.userStatRepository.findById(id).orElseGet(()->new UserStat());
-		if(isNewUserStat(userStat)){
+		if(this.isNewUserStat(userStat)){
 			UserInfo userInfo = this.userInfoRepository.findById(id)
 				.orElseThrow(()->new NonExistUserException("존재 하지 않는 유저 입니다.", "유저이름을 확인해 주세요.", "/user/stat/"));
 			userStat = this.setUpUserStat(userStat, userInfo);
-			userStatRepository.save(userStat);
+			this.userStatRepository.save(userStat);
 		}
 		userStat.addTotalVisitors();
 	}

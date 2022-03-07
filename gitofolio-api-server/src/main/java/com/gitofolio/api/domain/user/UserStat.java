@@ -13,7 +13,7 @@ public class UserStat{
 	@Column(name="TOTAL_VISITORS", nullable=false)
 	private Integer totalVisitors = 0;
 
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="USER_INFO_ID")
 	private UserInfo userInfo;
 	

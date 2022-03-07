@@ -15,7 +15,7 @@ import java.lang.reflect.Field;
 public class UserInfoService{
 	
 	private UserInfoRepository userInfoRepository;
-	private UserStatRepository userStatRepository;
+	private UserStatService userStatService;
 	private UserStatisticsService userStatisticsService;
 	private PortfolioCardRepository portfolioCardRepository;
 	private EncodedProfileImageRepository encodedProfileImageRepository;
@@ -28,7 +28,7 @@ public class UserInfoService{
 	
 	public UserInfo save(UserInfo user){
 		UserInfo exist = this.userInfoRepository.findByName(user.getName()).orElseGet(()->new UserInfo());
-		if(isNewUser(exist)) userInfoRepository.save(user);
+		if(isNewUser(exist)) initialUser(user);
 		else {
 			user.setId(exist.getId());
 			return this.edit(user);
@@ -37,11 +37,17 @@ public class UserInfoService{
 		return this.get(user.getName());
 	}
 	
+	private void initialUser(UserInfo user){
+		this.userInfoRepository.save(user);
+		this.userStatService.get(user.getName());
+		this.userStatisticsService.get(user.getName());
+	}
+	
 	public void delete(String name){
 		UserInfo user = this.userInfoRepository.findByName(name)
 			.orElseThrow(() -> new NonExistUserException("존재하지 않는 유저에 대한 삭제 요청입니다.", "유저 이름을 확인해주세요", "/user/"+name));
 		this.portfolioCardRepository.deleteByName(name);
-		this.userStatRepository.deleteByName(name);
+		this.userStatService.delete(name);
 		this.encodedProfileImageRepository.deleteByName(name);
 		this.userStatisticsService.delete(name);
 		this.personalAccessTokenRepository.deleteByName(name);
@@ -94,13 +100,13 @@ public class UserInfoService{
 	
 	@Autowired
 	public UserInfoService(UserInfoRepository userInfoRepository,
-						  UserStatRepository userStatRepository,
+						  UserStatService userStatService,
 						  UserStatisticsService userStatisticsService,
 						  PortfolioCardRepository portfolioCardRepository,
 						  EncodedProfileImageRepository encodedProfileImageRepository,
 						  PersonalAccessTokenRepository personalAccessTokenRepository){
 		this.userInfoRepository = userInfoRepository;
-		this.userStatRepository = userStatRepository;
+		this.userStatService = userStatService;
 		this.userStatisticsService = userStatisticsService;
 		this.portfolioCardRepository = portfolioCardRepository;
 		this.encodedProfileImageRepository = encodedProfileImageRepository;

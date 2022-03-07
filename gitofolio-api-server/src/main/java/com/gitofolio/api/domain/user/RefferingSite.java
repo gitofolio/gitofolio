@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name="REFFERING_SITE")
-public class RefferingSite implements Comparable<RefferingSite>{
+public class RefferingSite{
 	
 	@Id
 	@GeneratedValue
@@ -22,14 +22,6 @@ public class RefferingSite implements Comparable<RefferingSite>{
 	@ManyToOne
 	@JoinColumn(name="USER_STATISTICS_ID")
 	private UserStatistics userStatistics;
-	
-	@Override
-	public int compareTo(RefferingSite rs){
-		boolean result = this.refferingDate.isAfter(rs.getRefferingDate());
-		if(result) return 1;
-		if(!result) return -1;
-		return 0;
-	}
 	
 	public boolean isSameRefferingSiteName(String refferingSiteName){
 		return this.refferingSiteName.equals(refferingSiteName);

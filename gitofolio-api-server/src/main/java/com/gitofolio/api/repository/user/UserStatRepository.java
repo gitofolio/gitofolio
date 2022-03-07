@@ -14,10 +14,10 @@ import com.gitofolio.api.domain.user.UserStat;
 @Repository
 public interface UserStatRepository extends JpaRepository<UserStat, Long>{
 	
-	@Query("select u from UserStat u inner join u.userInfo i where i.name = :name")
+	@Query("select u from UserStat u inner join fetch u.userInfo i where i.name = :name")
 	Optional<UserStat> findByName(@Param("name") String name);
 	
-	@Query("select u from UserStat u inner join u.userInfo i where i.id = :id")
+	@Query("select u from UserStat u inner join fetch u.userInfo i where i.id = :id")
 	Optional<UserStat> findById(@Param("id") Long id);
 	
 	@Modifying

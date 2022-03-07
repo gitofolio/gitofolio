@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name="VISITOR_STATISTICS")
-public class VisitorStatistics implements Comparable<VisitorStatistics>{
+public class VisitorStatistics{
 	
 	@Id
 	@GeneratedValue
@@ -22,14 +22,6 @@ public class VisitorStatistics implements Comparable<VisitorStatistics>{
 	@ManyToOne
 	@JoinColumn(name="USER_STATISTICS_ID")
 	private UserStatistics userStatistics;
-	
-	@Override
-	public int compareTo(VisitorStatistics vs){
-		boolean result = this.visitDate.isAfter(vs.getVisitDate());
-		if(result) return 1;
-		if(!result) return -1;
-		return 0;
-	}
 	
 	public VisitorStatistics(){}
 	

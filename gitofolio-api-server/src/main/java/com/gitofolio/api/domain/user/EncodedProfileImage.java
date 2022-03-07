@@ -18,7 +18,7 @@ public class EncodedProfileImage{
 	@Column(name="ENCODED_PROFILE_URL")
 	private String encodedProfileUrl;
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="USER_INFO_ID")
 	private UserInfo userInfo;
 	

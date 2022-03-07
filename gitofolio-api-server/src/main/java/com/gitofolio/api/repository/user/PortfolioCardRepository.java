@@ -12,7 +12,7 @@ import java.util.*;
 
 public interface PortfolioCardRepository extends JpaRepository<PortfolioCard, Long>{
 	
-	@Query("select p from PortfolioCard as p inner join p.userInfo as u where u.name = :name")
+	@Query("select p from PortfolioCard as p inner join fetch p.userInfo as u where u.name = :name")
 	List<PortfolioCard> findByName(@Param("name") String name);
 	
 	@Modifying
