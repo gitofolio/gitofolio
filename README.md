@@ -5,10 +5,11 @@
 
 <h2></h2>
 <div align="center">
+	<br/>
         <p>
-			⭐스타를 눌러주세요. 서비스 개선에 동기가 됩니다.<br/>
-			⭐Press the star. It motivates us to improve our services.
-		</p><br/>
+			⭐ 스타를 눌러주세요. 개발에 큰 도움이 됩니다. <br/>
+			⭐ Press the star. It motivates us to improve our services.
+		</p><
 		<p>
         <h3> 마크업 문서에 올리는 이력 카드</h3>
 		<img src="https://api.gitofolio.com/portfoliocard/svg/4?color=white" align="center"/><br/><br/>
