@@ -10,7 +10,7 @@ public class Black extends Color{
 		this.mainColor = "#2D2D2D";
 		this.textColor = "#FFFFFF";
 		this.subColor = "#C4C4C4";
-		this.pointColor = "#FFE381";
+		this.pointColor = "#FFFFFF";
 	}
 	
 }

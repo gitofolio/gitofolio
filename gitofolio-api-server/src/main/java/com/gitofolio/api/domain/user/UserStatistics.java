@@ -44,12 +44,25 @@ public class UserStatistics{
 	}
 	
 	
-	public void setRefferingSite(String refferingSite){
-		while(refferingSites.size() > 30) refferingSites.remove(0);
-		for(RefferingSite rfs : refferingSites){
-			if(rfs.getRefferingSiteName().equals(refferingSite)) return;
+	public void setRefferingSite(String refferingSiteName){
+		Collections.sort(this.refferingSites);
+		if(this.isRefferingSiteAlreadyExist(refferingSiteName)) return;
+		if(this.isRefferingSiteTableFull()){
+			RefferingSite refferingSite = this.refferingSites.get(0);
+			refferingSite.updateRefferingSite(refferingSiteName, LocalDate.now(), this);
+			return;
 		}
-		this.refferingSites.add(new RefferingSite(refferingSite, this));
+		this.refferingSites.add(new RefferingSite(refferingSiteName, this));
+	}
+	
+	private boolean isRefferingSiteAlreadyExist(String refferingSiteName){
+		for(RefferingSite rfs : this.refferingSites) 
+			if(rfs.isSameRefferingSiteName(refferingSiteName)) return true;
+		return false;
+	}
+	
+	private boolean isRefferingSiteTableFull(){
+		return this.refferingSites.size() >= 30;
 	}
 	
 	public void addVisitorStatistics(){
@@ -60,7 +73,7 @@ public class UserStatistics{
 	
 	private VisitorStatistics getTodayVisitorStatistics(){
 		if(this.visitorStatistics.isEmpty()) return this.createVisitorStatistics();
-		if(this.visitorStatistics.size()==7){
+		if(this.visitorStatistics.size()>=7){
 			if(this.isVisitorStatisticsUpdated()) return this.visitorStatistics.get(this.getLastIndexOfVisitorStatistics());
 			this.updateOldestVisitorStatistics();
 			Collections.sort(this.visitorStatistics);

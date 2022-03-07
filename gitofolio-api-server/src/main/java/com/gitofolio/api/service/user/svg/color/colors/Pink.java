@@ -10,7 +10,7 @@ public class Pink extends Color{
 		this.mainColor = "#FFB5B5";
 		this.textColor = "#2D2D2D";
 		this.subColor = "#FFFFFF";
-		this.pointColor = "#FF498E";
+		this.pointColor = "#2D2D2D";
 	}
 	
 }

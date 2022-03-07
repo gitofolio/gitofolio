@@ -1,0 +1,1 @@
+[2022-03-07 08:04:42:29865][Test worker] WARN  o.s.b.f.s.DisposableBeanAdapter - Invocation of close method failed on bean with name 'dataSource': java.lang.OutOfMemoryError: unable to create native thread: possibly out of memory or process/resource limits reached

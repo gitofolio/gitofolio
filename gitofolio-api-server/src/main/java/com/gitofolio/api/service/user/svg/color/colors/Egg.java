@@ -10,7 +10,7 @@ public class Egg extends Color{
 		this.mainColor = "rgba(255,255,255,0.01)";
 		this.textColor = "#2D2D2D";
 		this.subColor = "#FFD233";
-		this.pointColor = "#FFE381";
+		this.pointColor = "#2D2D2D";
 		this.backgroundImage = "egg";
 	}
 	

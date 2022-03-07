@@ -62,7 +62,7 @@ public class UserStatGeneratorAop{
 	
 	private void setReffererSite(Long id){
 		String refferingSiteName = this.httpServletRequest.getHeader("Referer");
-		if(refferingSiteName == null) return;
+		if(refferingSiteName == null) refferingSiteName = "Direct traffic";
 		this.userStatisticsService.setRefferingSite(id, refferingSiteName);
 	}
 	
@@ -73,7 +73,7 @@ public class UserStatGeneratorAop{
 	
 	private void setReffererSite(String name){
 		String refferingSiteName = this.httpServletRequest.getHeader("Referer");
-		if(refferingSiteName == null) return;
+		if(refferingSiteName == null) refferingSiteName = "Direct traffic";
 		this.userStatisticsService.setRefferingSite(name, refferingSiteName);
 	}
 	

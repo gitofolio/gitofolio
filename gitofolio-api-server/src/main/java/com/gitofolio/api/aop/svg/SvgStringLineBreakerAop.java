@@ -109,7 +109,7 @@ public class SvgStringLineBreakerAop{
 	}
 	
 	/*
-		문자열을 단어, 개행문자기준으로 자름 
+		문자열을 단어, 개행문자, .기준으로 자름 
 		이때, 하나의 문자열이 width값을 넘어간다면 강제로 자름
 	*/
 	private List<String> splitWords(int width, String word){

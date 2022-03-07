@@ -10,7 +10,7 @@ public class Yellow extends Color{
 		this.mainColor = "#FFE381";
 		this.textColor = "#2D2D2D";
 		this.subColor = "#FFFFFF";
-		this.pointColor = "#FFA800";
+		this.pointColor = "#2D2D2D";
 	}
 	
 }

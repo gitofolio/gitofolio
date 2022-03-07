@@ -10,7 +10,7 @@ public class White extends Color{
 		this.mainColor = "#FFFFFF";
 		this.textColor = "#2D2D2D";
 		this.subColor = "#C4C4C4";
-		this.pointColor = "#FFE381";
+		this.pointColor = "#2D2D2D";
 	}
 	
 }
