@@ -63,6 +63,6 @@
 <h2></h2>
 
 <div align="center">
-        라이센스 : <a><i>MIT</i></a> / 문의 : <i>develxb@gmail.com</i> / <a href="https://gitofolio.com"><i>홈페이지</i></a> / <a href="https://api.gitofolio.com/restdocs"><i>API Docs</i></a> / <a>Update log</a>
+        <a href="https://github.com/gitofolio/gitofolio/blob/main/LICENSE">LICENSE</a> / 문의 : <i>develxb@gmail.com</i> / <a href="https://gitofolio.com"><i>홈페이지</i></a> / <a href="https://api.gitofolio.com/restdocs"><i>API Docs</i></a> / <a>Update log</a>
 		<br/><div align="right"> <i>This is api server repository</i> <br/> @author : <a href="https://github.com/devxb"><i>devxb</i></a></div>
 </div>
