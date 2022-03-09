@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.*;
 import com.gitofolio.api.aop.hateoas.annotation.*;
 import com.gitofolio.api.service.common.*;
 import com.gitofolio.api.aop.log.datacollector.annotation.RequestDataCollector;
+import com.gitofolio.api.service.common.TodayInteractionService;
 
 import java.util.*;
 
 @Controller
 public class EndPointController{
 	
-	private final TodayInteraction todayInteraction;
+	private final TodayInteractionService todayInteractionService;
 	
 	@RequestDataCollector(path="/restdocs")
 	@RequestMapping(path = "/restdocs", method = RequestMethod.GET)
@@ -27,10 +28,10 @@ public class EndPointController{
 	@RequestMapping(path = "/todayinteraction", method = RequestMethod.GET)
 	public HateoasDTO todayInteraction(){
 		Map<String, Object> todayInteractionMap = new HashMap<String, Object>();
-		todayInteractionMap.put("interact", this.todayInteraction.getInteractCount());
+		todayInteractionMap.put("interact", this.todayInteractionService.getTodayInteraction());
 		return new HateoasDTO(todayInteractionMap);
 	}
-
+	
 	@ResponseBody
 	@RequestDataCollector(path="")
 	@HateoasSetter(hateoasType = HateoasType.ENDPOINTHATEOAS)
@@ -40,8 +41,8 @@ public class EndPointController{
 	}
 	
 	@Autowired
-	public EndPointController(TodayInteraction todayInteraction){
-		this.todayInteraction = todayInteraction;
+	public EndPointController(TodayInteractionService todayInteractionService){
+		this.todayInteractionService = todayInteractionService;
 	}
 	
 }

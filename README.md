@@ -56,8 +56,6 @@
 <img src="https://user-images.githubusercontent.com/62425964/154962384-c9e424b5-447c-4465-8d52-db03423c2386.png"/>
 <br/><br/>
 		<img src="https://api.gitofolio.com/portfoliocard/svg/4?color=black"/>
-		<img src="https://api.gitofolio.com/portfoliocard/svg/628?color=white"/>
-		<img src="https://api.gitofolio.com/portfoliocard/svg/792?color=neonpurple"/>
 </div>
 
 <h2></h2>

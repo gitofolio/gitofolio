@@ -1,17 +1,30 @@
-package com.gitofolio.api.service.common;
+package com.gitofolio.api.domain.common;
 
-import org.springframework.stereotype.Service;
+import javax.persistence.*;
 
 import java.math.*;
 import java.time.*;
 
-@Service
+@Entity
+@Cacheable(true)
 public class TodayInteraction{
 
+	@Id
+	private String id;
+	
+	@Column(name="interactCount")
 	private BigInteger interactCount;
+	
+	@Column(name="date")
 	private LocalDate date;
+	
+	@Transient
 	private BigInteger one;
+	
+	@Transient
 	private Object lockForIncrease;
+	
+	@Transient
 	private Object lockForInitDate;
 	
 	public void increaseInteractCount(){
@@ -46,6 +59,7 @@ public class TodayInteraction{
 	}
 
 	public TodayInteraction(){
+		this.id = "t";
 		this.interactCount = new BigInteger("0");
 		this.one = new BigInteger("1");
 		this.date = LocalDate.now();
