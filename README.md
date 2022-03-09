@@ -12,7 +12,7 @@
 		</p>
 		<p>
         <h3> 마크업 문서에 올리는 이력 카드</h3>
-		<img src="https://api.gitofolio.com/portfoliocard/svg/4?color=white" align="center"/><br/><br/>
+		<img src="https://user-images.githubusercontent.com/62425964/157416981-9d783d5b-7d6f-4a77-bf71-fcbb7fbe391d.png" align="center"/><br/><br/>
         자신만의 이력 카드를 만들고 사용하세요 <br/>
         카드는 <b>내용</b>과 <b>테마</b>를 자유롭게 꾸밀수 있으며, 자신의 이력서 (혹은 기술 사이트 등)와 <b>연동</b>시킬수 있어요 <br/>
         현재 인기있는 사용처 에요😊 <i>Notion</i>, <i>Github</i>, <i> Blog</i> ...<br/><br/>
@@ -22,6 +22,7 @@
         <h3> 이력서 유입경로와 날짜별 유입인원 통계 제공</h3>
                 이력서 카드를 통해 자신의 이력서로 들어오는 유저의 <b>유입경로</b>와 <b>인원수</b>를 체크하고 통계내요 👀 <br/>
                 링크 한 줄 추가로 모든 경로에 대한 통계를 얻을수도 있어요 :) <br/>
+				<img src="https://user-images.githubusercontent.com/62425964/157416975-6d9231c4-bf66-4b92-b598-2bc17836a3f7.png" align="center"/> <br/>
                 자세한 내용은 <a href="https://api.gitofolio.com/restdocs">📓 API 문서</a> 를 참고해주세요
         </p>
 		<a href="https://api.gitofolio.com/restdocs"><img src="https://user-images.githubusercontent.com/62425964/154962375-0a928b90-ea4c-402c-9551-af39181f7b8d.png"/></a>
@@ -55,7 +56,7 @@
 <h3>카드 구조와 예시</h3>
 <img src="https://user-images.githubusercontent.com/62425964/154962384-c9e424b5-447c-4465-8d52-db03423c2386.png"/>
 <br/><br/>
-		<img src="https://api.gitofolio.com/portfoliocard/svg/4?color=black"/>
+		<img src="https://api.gitofolio.com/portfoliocard/svg/4?color=white"/>
 </div>
 
 <h2></h2>
