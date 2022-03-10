@@ -11,11 +11,11 @@
 			⭐ Press the star. 😎 It motivates us to improve our services. ⭐
 		</p>
 		<p>
-        <h3> 마크업 문서에 올리는 이력 카드</h3>
-		<img src="https://user-images.githubusercontent.com/62425964/157416981-9d783d5b-7d6f-4a77-bf71-fcbb7fbe391d.png" align="center"/><br/><br/>
+        <h3> 깃허브, 노션, 블로그에 올리는 이력 카드</h3>
         자신만의 이력 카드를 만들고 사용하세요 <br/>
-        카드는 <b>내용</b>과 <b>테마</b>를 자유롭게 꾸밀수 있으며, 자신의 이력서 (혹은 기술 사이트 등)와 <b>연동</b>시킬수 있어요 <br/>
+        카드는 이미지를 링크로 삽입하는 문서에 적용할 수 있으며, 내용과 테마를 자유롭게 꾸밀 수 있어요. <br/>
         현재 인기있는 사용처 에요😊 <i>Notion</i>, <i>Github</i>, <i> Blog</i> ...<br/><br/>
+		<img src="https://user-images.githubusercontent.com/62425964/157416981-9d783d5b-7d6f-4a77-bf71-fcbb7fbe391d.png" align="center"/><br/><br/>
 		<a href="#카드-구조와-예시">카드 구조와 예시</a>
 		<br/><br/>
         <i>*타인에게 불쾌감을 주는 카드는 무통보 삭제될 수 있으며, 정도에 따라 계정이 정지 될 수 있습니다.*</i>
