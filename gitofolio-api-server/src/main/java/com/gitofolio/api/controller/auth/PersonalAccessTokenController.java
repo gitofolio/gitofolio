@@ -9,7 +9,7 @@ import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.domain.auth.PersonalAccessToken;
 import com.gitofolio.api.domain.user.*;
-import com.gitofolio.api.service.auth.oauth.authenticate.Authenticator;
+import com.gitofolio.api.service.auth.oauth.Authenticator;
 import com.gitofolio.api.service.auth.oauth.applications.OauthApplicationFactory;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
 import com.gitofolio.api.service.user.dtos.*;

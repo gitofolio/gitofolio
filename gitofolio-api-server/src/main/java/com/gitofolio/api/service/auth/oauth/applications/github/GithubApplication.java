@@ -1,11 +1,10 @@
 package com.gitofolio.api.service.auth.oauth.applications.github;
 
 import com.gitofolio.api.service.auth.oauth.applications.OauthApplication;
-import com.gitofolio.api.service.auth.oauth.authenticate.Authenticator;
+import com.gitofolio.api.service.auth.oauth.Authenticator;
 import com.gitofolio.api.service.user.dtos.UserDTO;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +12,7 @@ public class GithubApplication implements OauthApplication{
 	
 	private final String name;
 	private final String url;
+	private final String testUrl;
 	private final Authenticator<UserDTO, String> githubAuthenticator;
 	
 	@Override
@@ -27,11 +27,11 @@ public class GithubApplication implements OauthApplication{
 	}
 	
 	private String getRealUrl(){
-		return this.url+"&redirect_uri=https://api.gitofolio.com/oauth/github";
+		return this.url;
 	}
 	
 	private String getTestUrl(){
-		return this.url+"&redirect_uri=https://api-server-gitofolio-qfnxv.run.goorm.io/oauth/github";
+		return this.testUrl;
 	}
 	
 	@Override
@@ -48,7 +48,8 @@ public class GithubApplication implements OauthApplication{
 	public GithubApplication(@Qualifier("githubAuthenticator") Authenticator<UserDTO, String> githubAuthenticator){
 		this.githubAuthenticator = githubAuthenticator;
 		this.name = "github";
-		this.url = "https://github.com/login/oauth/authorize?client_id=b86796ef36e991c00490";
+		this.url = "https://github.com/login/oauth/authorize?client_id=b86796ef36e991c00490&redirect_uri=https://api.gitofolio.com/oauth/github";
+		this.testUrl = "https://github.com/login/oauth/authorize?client_id=b86796ef36e991c00490&redirect_uri=https://api-server-gitofolio-qfnxv.run.goorm.io/oauth/github";
 	}
 	
 }

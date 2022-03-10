@@ -1,6 +1,6 @@
 package com.gitofolio.api.service.auth.oauth.applications;
 
-import com.gitofolio.api.service.auth.oauth.authenticate.Authenticator;
+import com.gitofolio.api.service.auth.oauth.Authenticator;
 
 public interface OauthApplication{
 	
