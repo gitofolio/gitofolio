@@ -5,7 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 src/main/resources/application.properties
-src/main/java/com/gitofolio/api/service/auth/oauth/GithubClientSecret.java
+src/main/java/com/gitofolio/api/service/auth/oauth/applications/github/GithubClientSecret.java
+src/main/java/com/gitofolio/api/service/auth/oauth/applications/kakao/KakaoClientSecret.java
 src/main/java/com/gitofolio/api/service/auth/token/jwt/JwtSecret.java
 src/main/resources/html/docs/index.html
 src/main/resources/html/docs/restdocs.html

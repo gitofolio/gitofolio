@@ -1,6 +1,6 @@
 # Gitofolio update log
 
-> Current version : 0.5.5
+> Current version : 0.5.7
 
 <h1> </h1>
 

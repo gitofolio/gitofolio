@@ -25,7 +25,7 @@ public class GithubTokenReceiver implements OauthTokenReceiver<String, String>{
 		try{
 			result = this.restTemplate.postForObject(this.url, getHttpEntity(code), GithubTokenDTO.class, mockObject);
 		}catch(Exception e){
-			throw new AuthenticateException("깃허브 인증 오류","깃허브에서 유저 토큰을 가져올 수 없습니다. 올바른 유저인지 확인해주세요");
+			throw new AuthenticateException("깃허브 인증 오류", "깃허브에서 유저 토큰을 가져올 수 없습니다. 올바른 유저인지 확인해주세요");
 		}
 		return result.getToken();
 	}
