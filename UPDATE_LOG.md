@@ -1,14 +1,14 @@
 # Gitofolio update log
 
-> Current version : 0.5.7
+> Current version : 0.6.0
 
 <h1> </h1>
 
-> Will be available soon
->	> 포트폴리오카드 글자별 색 지정 기능
->	> 통계 카드
+> 0.6.0
+>	> OAuth application 인증 과정 리팩토링
 
 <h1> </h1>
+
 > 0.5.6, 0.5.7
 >	> Broken Pipe 이슈 해결 : net.SocketException - retryHandler 등록, io.IOException - ignore (0.5.6)
 > 	> TodayInteraction JVM메모리 -> DB에 저장하도록 변경 및 TodayInteraction 엔티티에 한해서 2차 캐시 적용

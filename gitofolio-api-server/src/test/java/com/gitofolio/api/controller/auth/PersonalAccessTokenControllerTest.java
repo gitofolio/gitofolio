@@ -31,9 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.gitofolio.api.service.proxy.CrudProxy;
 import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.domain.auth.PersonalAccessToken;
-import com.gitofolio.api.service.auth.oauth.Authenticator;
+import com.gitofolio.api.service.auth.oauth.*;
 import com.gitofolio.api.service.auth.oauth.applications.*;
-import com.gitofolio.api.service.auth.oauth.OauthTokenPool;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
 import com.gitofolio.api.service.user.dtos.*;
 import com.gitofolio.api.service.auth.*;
@@ -53,6 +52,9 @@ public class PersonalAccessTokenControllerTest{
 	@Qualifier("userInfoCrudFactory")
 	private CrudFactory<UserDTO> userInfoCrudFactory;
 	
+	@Autowired
+	private OauthApplicationCapsule oauthApplicationCapsule;
+	
 	@MockBean
 	private OauthApplicationFactory oauthApplicationFactory;
 	
@@ -64,8 +66,7 @@ public class PersonalAccessTokenControllerTest{
 	private OauthApplication oauthApplication; 
 	
 	@MockBean
-	@Qualifier("githubAuthenticator")
-	private Authenticator<UserDTO, String> authenticator;
+	private Authenticator authenticator;
 	
 	@Test
 	public void personal_access_token_get_Test() throws Exception{
@@ -105,11 +106,11 @@ public class PersonalAccessTokenControllerTest{
 	private void setUpAuthenticator(){
 		given(this.oauthApplicationFactory.get(any(String.class))).willReturn(this.oauthApplication);
 		setUpOauthApplication();
-		given(this.authenticator.authenticate(any(String.class))).willReturn(this.getUserDTO());
+		given(this.authenticator.authenticate(any(String.class), any(OauthApplicationCapsule.class))).willReturn(this.getUserDTO());
 	}
 	
 	private void setUpOauthApplication(){
-		given(this.oauthApplication.getAuthenticator()).willReturn(this.authenticator);
+		given(this.oauthApplication.getOauthApplicationCapsule()).willReturn(this.oauthApplicationCapsule);
 		given(this.oauthApplication.getUrl()).willReturn("redirecturl");
 	}
 	

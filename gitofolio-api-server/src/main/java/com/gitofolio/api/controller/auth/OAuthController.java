@@ -11,7 +11,7 @@ import com.gitofolio.api.service.factory.CrudFactory;
 import com.gitofolio.api.domain.user.EncodedProfileImage;
 import com.gitofolio.api.domain.auth.PersonalAccessToken;
 import com.gitofolio.api.service.auth.token.*;
-import com.gitofolio.api.service.auth.oauth.applications.OauthApplicationFactory;
+import com.gitofolio.api.service.auth.oauth.applications.*;
 import com.gitofolio.api.service.auth.oauth.*;
 import com.gitofolio.api.service.user.exception.IllegalParameterException;
 import com.gitofolio.api.service.common.random.RandomKeyGenerator;
@@ -30,16 +30,16 @@ public class OAuthController{
 	private final CrudProxy<PersonalAccessToken> personalAccessTokenCrudProxy;
 	private final TokenGenerator tokenGenerator;
 	private final OauthApplicationFactory oauthApplicationFactory;
+	private final Authenticator oauthApplicationAuthenticator;
 	private final OauthTokenPool oauthTokenPool;
 	
-	@RequestDataCollector(path="/oauth")
 	@RequestMapping(path="/oauth", method = RequestMethod.GET)
 	public String redirectToOauthApplication(@RequestParam(value = "application", defaultValue = "github", required=true) String application,
 					    					@RequestParam(value = "redirect", required = false) String redirect,
 											@RequestParam(value = "accesskey", required = false) String personalAccessKey){
 		
-		if(isInvalidRedirectUrl(redirect)) throw new IllegalParameterException("redirect url 오류", "redirect 파라미터값이 비어있습니다.");
-		if(isInvalidPersonalAccessKey(personalAccessKey)) throw new IllegalParameterException("accesskey 오류", "accesskey 파라미터값이 비어있습니다.");
+		if(this.isInvalidRedirectUrl(redirect)) throw new IllegalParameterException("redirect url 오류", "redirect 파라미터값이 비어있습니다.");
+		if(this.isInvalidPersonalAccessKey(personalAccessKey)) throw new IllegalParameterException("accesskey 오류", "accesskey 파라미터값이 비어있습니다.");
 		
 		String applicationUrl = this.oauthApplicationFactory.get(application).getUrlWithQueryString("?redirect=" + redirect + "+" + personalAccessKey);
 		return "redirect:" + applicationUrl;
@@ -54,7 +54,6 @@ public class OAuthController{
 		return personalAccessKey == null;
 	}
 	
-	@RequestDataCollector(path="/oauth/{application}")
 	@RequestMapping(path="/oauth/{application}", method = RequestMethod.GET)
 	public ResponseEntity<Object> redirectWithCert(@PathVariable(value = "application") String application,
 													@RequestParam(value = "redirect", required = false) String redirect,
@@ -66,7 +65,7 @@ public class OAuthController{
 		Long personalAccessKey = Long.valueOf(queryStrings[1]);
 		UserDTO userDTO = this.getUserDTO(application, code);
 		String cert = RandomKeyGenerator.generateKey(2);
-		saveTokenInPool(userDTO, cert, personalAccessKey);
+		this.saveTokenInPool(userDTO, cert, personalAccessKey);
 		
 		
 		redirect = queryStrings[0]; 
@@ -84,8 +83,8 @@ public class OAuthController{
 	}
 	
 	private UserDTO getUserDTO(String application, String code){
-		Authenticator<UserDTO, String> authenticator = this.oauthApplicationFactory.get(application).getAuthenticator();
-		UserDTO userDTO = authenticator.authenticate(code);
+		OauthApplicationCapsule oauthApplicationCapsule= this.oauthApplicationFactory.get(application).getOauthApplicationCapsule();
+		UserDTO userDTO = this.oauthApplicationAuthenticator.authenticate(code, oauthApplicationCapsule);
 		return this.userInfoCrudProxy.create(userDTO);
 	}
 	
@@ -116,13 +115,15 @@ public class OAuthController{
 						   @Qualifier("personalAccessTokenCrudFactory") CrudFactory<PersonalAccessToken> personalAccessTokenCrudFactory,
 						   @Qualifier("jwtTokenGenerator") TokenGenerator tokenGenerator,
 						   OauthApplicationFactory oauthApplicationFactory,
-						   OauthTokenPool oauthTokenPool){
+						   OauthTokenPool oauthTokenPool,
+						   Authenticator oauthApplicationAuthenticator){
 		this.userInfoCrudProxy = userInfoCrudFactory.get();
 		this.encodedProfileImageCrudProxy = encodedProfileImageCrudFactory.get();
 		this.personalAccessTokenCrudProxy = personalAccessTokenCrudFactory.get();
 		this.tokenGenerator = tokenGenerator;
 		this.oauthApplicationFactory = oauthApplicationFactory;
 		this.oauthTokenPool = oauthTokenPool;
+		this.oauthApplicationAuthenticator = oauthApplicationAuthenticator;
 	}
 	
 }
