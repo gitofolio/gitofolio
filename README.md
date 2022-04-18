@@ -31,6 +31,11 @@
 		누구나 깃허브 계정만 있다면 쉽고 빠르게 <a href="https://gitofolio.com">시작</a>할 수 있어요 😎
 		</p>
 			<a href="https://gitofolio.com"> <img src="https://user-images.githubusercontent.com/62425964/154962396-cbc852af-d5a6-4721-a14d-6604a2126203.jpg"/> </a>
+		<h2></h2>
+		<h3> 사용법 </h3>	
+		1. 홈페이지에 들어가서 자신의 이력카드를 만들고, 이력카드를 클릭시 이동될 사이트를 연동하세요.<br/>
+		2. 만들어진 이력 카드를 복사 하고, 복사된 링크를 올릴 문서편집기에 붙여넣으세요 (올리는 방법은 github-readme-stats와 동일합니다)<br/>
+			
 </div>
 
 <h2></h2>
