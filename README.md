@@ -1,3 +1,11 @@
+<div align = "center">
+<br/>
+ec2 free-tier 만기로 서비스를 종료하게 되었습니다.
+</div>
+
+
+
+
 <div align="center">
 <br/>
 	<img src="https://user-images.githubusercontent.com/62425964/155997576-1171511b-1fa7-41bc-949a-5b2f5c0f4024.png"/>
