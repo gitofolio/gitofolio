@@ -1,7 +1,5 @@
 <div align = "center">
-<br/>
-ec2 free-tier 만기로 서비스를 종료하게 되었습니다.
-</div>
+
 
 
 
